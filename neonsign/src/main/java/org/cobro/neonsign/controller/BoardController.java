@@ -10,7 +10,7 @@ import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.ReportVO;
 import org.cobro.neonsign.vo.ReporterVO;
 import org.cobro.neonsign.vo.SubArticleVO;
-import org.cobro.neonsign.vo.TagAndArticleVO;
+import org.cobro.neonsign.vo.TagBoardVO;
 import org.cobro.neonsign.vo.TagVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,11 +36,16 @@ public class BoardController {
 	 * @author JeSeongLee
 	 */
 	@RequestMapping("getMainList.neon")
-	public ModelAndView getMainList(List<MainArticleVO> mainArticleVOList, List<TagVO> tagVOList){
-		tagVOList = boardService.selectTagList();
+	public ModelAndView getMainList(List<MainArticleVO> mainArticleVOList, List<TagBoardVO> tagBoardVOList){
+		System.out.println("넘어왔다");
+		tagBoardVOList = boardService.selectTagList();
 		mainArticleVOList = boardService.selectListNotCompleteMainArticleOrderByDate();
-		System.out.println(mainArticleVOList);
-		return null;
+		System.out.println(tagBoardVOList + ", " + mainArticleVOList);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("tagBoardVOList", tagBoardVOList);
+		mav.addObject("mainArticleVOList", mainArticleVOList);
+		mav.setViewName("main");
+		return mav;
 	}
 	
 	//main article 관련 메서드
@@ -51,7 +56,7 @@ public class BoardController {
 	 * @param tagAndArticleVO
 	 * @return
 	 */
-	public ModelAndView insertMainArticle(MainArticleVO mainArticleVO,TagAndArticleVO tagAndArticleVO){
+	public ModelAndView insertMainArticle(MainArticleVO mainArticleVO,TagBoardVO tagAndArticleVO){
 		return null;
 	}
 	/**Controller2
@@ -60,7 +65,7 @@ public class BoardController {
 	 * @param tagAndArticleVO
 	 * @return
 	 */
-	public ModelAndView updateMainArticle(MainArticleVO mainArticleVO,TagAndArticleVO tagAndArticleVO){
+	public ModelAndView updateMainArticle(MainArticleVO mainArticleVO,TagBoardVO tagAndArticleVO){
 		return null;
 	}
 	

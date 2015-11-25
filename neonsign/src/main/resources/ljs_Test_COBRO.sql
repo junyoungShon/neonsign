@@ -62,11 +62,16 @@ MAIN_ARTICLE_COMPLETE_DATE date,
 constraint fk_brain_member foreign key(MAIN_ARTICLE_EMAIL) references brain_member(MEMBER_EMAIL)
 )
 -- 주제글 조회 잇자수 10개 미만--
-select tb.TAG_NAME, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
+select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_EMAIL, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
 ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'yyyy/MM/DD HH24:MI:SS') as ma_date, ma.MAIN_ARTICLE_COMPLETE_DATE
 from main_article ma, tag_board tb
 where ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO and ma.MAIN_ARTICLE_TOTAL_LIKE<10 order by ma_date desc; 
 -- YYYY-MM-DD HH24:MI:SS
+-- tag 받아오기
+select tb.TAG_NAME
+from main_article ma, tag_board tb
+where ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO and ma.MAIN_ARTICLE_TOTAL_LIKE<10;
+
 
 /* 글번호 : 현재 시퀀스 넘버 ,
  * ygoyo@naver.com 회원이 글작성

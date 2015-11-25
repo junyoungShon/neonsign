@@ -12,7 +12,7 @@ public class MainArticleVO {
 	private int mainArticleTotalLike;
 	private String mainArticleDate;
 	private String mainArticleCompleteDate;
-	//MainArticleVO는 MemberVO와 SubArticleVO를 가진다.
+	// MainArticleVO는 MemberVO와 SubArticleVO를 가진다.
 	private MemberVO memberVO;
 	private List<SubArticleVO> subArticleList;
 	public MainArticleVO() {

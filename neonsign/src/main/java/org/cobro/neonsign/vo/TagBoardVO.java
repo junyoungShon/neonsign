@@ -1,12 +1,12 @@
 package org.cobro.neonsign.vo;
 
-public class TagAndArticleVO {
+public class TagBoardVO {
 	private String tagName;
 	private int mainArticleNo;
-	public TagAndArticleVO() {
+	public TagBoardVO() {
 		super();
 	}
-	public TagAndArticleVO(String tagName, int mainArticleNo) {
+	public TagBoardVO(String tagName, int mainArticleNo) {
 		super();
 		this.tagName = tagName;
 		this.mainArticleNo = mainArticleNo;
@@ -25,7 +25,7 @@ public class TagAndArticleVO {
 	}
 	@Override
 	public String toString() {
-		return "TagAndArticleVO [tagName=" + tagName + ", mainArticleNo="
+		return "TagBoardVO [tagName=" + tagName + ", mainArticleNo="
 				+ mainArticleNo + "]";
 	}
 	

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-  <!-- Main jumbotron for a primary marketing message or call to action -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="itjaSlide">
       <h2 class="itjaMainTitle">베스트 잇자!</h2>
       <div class="container-fluid">
@@ -57,14 +58,11 @@
      
     <!-- 끝!! el 문 및 ajax로 베스트글이 표시되는 슬라이드 지역 --> 
 	<!-- 태그 소트 버튼 부분 -->
+	
 	<div class="container tags-container">
-		<span>#소설</span>
-		<span>#로맨스</span>
-		<span>#19</span>
-		<span>#스릴러</span>
-		<span>#반전</span>
-		<span>#호러</span>
-		<span>#SF</span>
+	<c:forEach var="tagboard" items="${requestScope.tagBoardVOList}">
+		<span>${tagboard.tagName}</span>
+	</c:forEach>
 	</div>
 	
 	
