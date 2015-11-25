@@ -30,9 +30,19 @@ MEMBER_CATEGORY varchar2(30) not null
  * 가입 날짜 : 현재 날짜 , 포인트 : 0 , 신고수 : 0 , 회원 등급 : 돌
  */
 insert into brain_member(MEMBER_EMAIL,MEMBER_NICKNAME,MEMBER_PASSWORD,MEMBER_JOIN_DATE,MEMBER_CATEGORY) 
-values('ygoyo@naver.com','갓파','1234',sysdate,'돌')
+values('a631258@gmail.com','코브라','aaaa',sysdate,'관리자');
 insert into brain_member(MEMBER_EMAIL,MEMBER_NICKNAME,MEMBER_PASSWORD,MEMBER_JOIN_DATE,MEMBER_CATEGORY) 
-values('rpd0127@naver.com','탑파','1234',sysdate,'돌')
+values('a@naver.com','세익스피어','aaaa',sysdate,'일반회원');
+insert into brain_member(MEMBER_EMAIL,MEMBER_NICKNAME,MEMBER_PASSWORD,MEMBER_JOIN_DATE,MEMBER_CATEGORY) 
+values('b@naver.com','세익스피어','aaaa',sysdate,'일반회원');
+insert into brain_member(MEMBER_EMAIL,MEMBER_NICKNAME,MEMBER_PASSWORD,MEMBER_JOIN_DATE,MEMBER_CATEGORY) 
+values('c@naver.com','세익스피어','aaaa',sysdate,'일반회원');
+insert into brain_member(MEMBER_EMAIL,MEMBER_NICKNAME,MEMBER_PASSWORD,MEMBER_JOIN_DATE,MEMBER_CATEGORY) 
+values('d@naver.com','세익스피어','aaaa',sysdate,'일반회원');
+insert into brain_member(MEMBER_EMAIL,MEMBER_NICKNAME,MEMBER_PASSWORD,MEMBER_JOIN_DATE,MEMBER_CATEGORY) 
+values('e@naver.com','세익스피어','aaaa',sysdate,'일반회원');
+insert into brain_member(MEMBER_EMAIL,MEMBER_NICKNAME,MEMBER_PASSWORD,MEMBER_JOIN_DATE,MEMBER_CATEGORY) 
+values('f@naver.com','세익스피어','aaaa',sysdate,'불량회원');
 -- ygoyo@naver.com 회원의 가입 정보 출격
 select * from BRAIN_MEMBER where MEMBER_EMAIL='ygoyo@naver.com'
 
@@ -61,21 +71,43 @@ constraint fk_brain_member foreign key(MAIN_ARTICLE_EMAIL) references brain_memb
  * 글제목 : 똥이 마렵지만  , 내용 : 똥이 마렵지만 나는 지금 참고있다 , 조회수 : 0
  * 잇자 수 : 0 , 총 잇자 수 : 0 ,작성일 : 현재 날짜 , 완결일 : null
  */
+--신규 게시물 insert
 insert into main_article(MAIN_ARTICLE_NO,MAIN_ARTICLE_EMAIL,MAIN_ARTICLE_TITLE,MAIN_ARTICLE_CONTENT,MAIN_ARTICLE_DATE) 
-values(main_article_seq.nextval,'ygoyo@naver.com','제성이형의 Barin','도대체 무슨 생각을 하는지 모르겠다',sysdate)
+values(main_article_seq.nextval,'a@naver.com','제성이형의 Barin','도대체 무슨 생각을 하는지 모르겠다',sysdate);
 
 insert into main_article(MAIN_ARTICLE_NO,MAIN_ARTICLE_EMAIL,MAIN_ARTICLE_TITLE,MAIN_ARTICLE_CONTENT,MAIN_ARTICLE_DATE) 
-values(main_article_seq.nextval,'rpd0127@naver.com','똥이 마렵지만','똥이 마렵지만 나는 지금 참고있다',sysdate)
+values(main_article_seq.nextval,'b@naver.com','똥이 마렵지만','똥이 마렵지만 나는 지금 참고있다',sysdate)
+--베스트 게시물 insert
+insert into main_article(MAIN_ARTICLE_NO,MAIN_ARTICLE_EMAIL,MAIN_ARTICLE_TITLE,MAIN_ARTICLE_CONTENT,MAIN_ARTICLE_HIT, MAIN_ARTICLE_LIKE, MAIN_ARTICLE_TOTAL_LIKE, MAIN_ARTICLE_DATE) 
+values(main_article_seq.nextval,'c@naver.com','똥이 마렵지만','똥이 마렵지만 나는 지금 참고있다',50, 15, 25, sysdate)
+
+insert into main_article(MAIN_ARTICLE_NO,MAIN_ARTICLE_EMAIL,MAIN_ARTICLE_TITLE,MAIN_ARTICLE_CONTENT,MAIN_ARTICLE_HIT, MAIN_ARTICLE_LIKE, MAIN_ARTICLE_TOTAL_LIKE, MAIN_ARTICLE_DATE) 
+values(main_article_seq.nextval,'d@naver.com','그와의 은밀한 만남','그런 만남은 없었다',20, 10, 15, sysdate);
+
+insert into main_article(MAIN_ARTICLE_NO,MAIN_ARTICLE_EMAIL,MAIN_ARTICLE_TITLE,MAIN_ARTICLE_CONTENT,MAIN_ARTICLE_HIT, MAIN_ARTICLE_LIKE, MAIN_ARTICLE_TOTAL_LIKE, MAIN_ARTICLE_DATE) 
+values(main_article_seq.nextval,'a@naver.com','흙을 먹었다','다먹고 나니 나는 돌이 되었다',45, 23, 49, sysdate);
+
+insert into main_article(MAIN_ARTICLE_NO,MAIN_ARTICLE_EMAIL,MAIN_ARTICLE_TITLE,MAIN_ARTICLE_CONTENT,MAIN_ARTICLE_HIT, MAIN_ARTICLE_LIKE, MAIN_ARTICLE_TOTAL_LIKE, MAIN_ARTICLE_DATE) 
+values(main_article_seq.nextval,'e@naver.com','화장실에서 벌어진 일','손을 씻지 않고 나왔다',84, 15, 55, sysdate);
+
+-- 완결된 게시물 insert
+insert into main_article(MAIN_ARTICLE_NO,MAIN_ARTICLE_EMAIL,MAIN_ARTICLE_TITLE,MAIN_ARTICLE_CONTENT,MAIN_ARTICLE_HIT, MAIN_ARTICLE_LIKE, MAIN_ARTICLE_TOTAL_LIKE, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE_DATE) 
+values(main_article_seq.nextval,'e@naver.com','화장실에서 벌어진 일','손을 씻지 않고 나왔다',84, 15, 55, sysdate, to_date('2015/11/20 13:51:40',  'yyyy/mm/dd hh24:mi:ss'));
+
+insert into main_article(MAIN_ARTICLE_NO,MAIN_ARTICLE_EMAIL,MAIN_ARTICLE_TITLE,MAIN_ARTICLE_CONTENT,MAIN_ARTICLE_HIT, MAIN_ARTICLE_LIKE, MAIN_ARTICLE_TOTAL_LIKE, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE_DATE) 
+values(main_article_seq.nextval,'c@naver.com','부엉이와 까마귀의 대결','부엉부엉 까악까악 끼룩끼룩',84, 145, 310, sysdate, to_date('2015/10/15 17:51:40',  'yyyy/mm/dd hh24:mi:ss'));
+
 
 --ygoyo@naver.com 회원의 작성글을 검색
-select * from main_article where MAIN_ARTICLE_EMAIL='ygoyo@naver.com'
+select * from main_article where MAIN_ARTICLE_EMAIL='a@naver.com'
 
 
 
---**잇는글 데이터베이스**
+--**잇는글 데이터베이스** 잇는글 데이터베이스 프라이머리키 문제있음
+drop table sub_article
 create table sub_article(
-MAIN_ARTICLE_NO number primary key,
-SUB_ARTICLE_NO number not null,
+SUB_ARTICLE_NO number primary key,
+MAIN_ARTICLE_NO number not null,
 MEMBER_EMAIL varchar2(50) not null, 
 SUB_ARTICLE_GRADE number default 0,
 SUB_ARTICLE_CONTENT varchar2(600) not null,
@@ -91,12 +123,29 @@ constraint fk_sub_article foreign key(MEMBER_EMAIL) references brain_member(MEMB
  * 잇자글 번호 : 현재 시퀀스 넘버 ,
  * 스토리 단계 0 , 잇자 글 내용 :  그 머리는 똥이었지 , 잇자여부 : 0 , 잇자 수 : 0 , 스토리 여부 : 0 , 작성일 : 현재 날짜
  */
+insert into sub_article (MAIN_ARTICLE_NO, SUB_ARTICLE_NO, MEMBER_EMAIL,SUB_ARTICLE_CONTENT,IS_CONNECT,SUB_ARTICLE_DATE) 
+values(3,sub_article_seq.nextval,'a@naver.com','그 머리는 똥이었지', 0 , sysdate);
+
 insert into sub_article (MAIN_ARTICLE_NO,SUB_ARTICLE_NO,MEMBER_EMAIL,SUB_ARTICLE_CONTENT,IS_CONNECT,SUB_ARTICLE_DATE) 
-values(1,sub_article_seq.nextval,'ygoyo@naver.com','그 머리는 똥이었지', 0 , sysdate)
+values(3,sub_article_seq.nextval,'a@naver.com','머리로 하는 일', 0 , sysdate);
+
+-- 잇자 진행 중 잇는글
+insert into sub_article (MAIN_ARTICLE_NO, SUB_ARTICLE_NO, MEMBER_EMAIL, SUB_ARTICLE_CONTENT, SUBARTICLE_LIKE, IS_CONNECT,SUB_ARTICLE_DATE) 
+values(3, sub_article_seq.nextval, 'a@naver.com', '하이호', 8, 0 , sysdate);
+
+insert into sub_article (MAIN_ARTICLE_NO, SUB_ARTICLE_NO, MEMBER_EMAIL, SUB_ARTICLE_CONTENT, SUBARTICLE_LIKE, IS_CONNECT,SUB_ARTICLE_DATE) 
+values(3,sub_article_seq.nextval,'a@naver.com','하이호', 12, 0 , sysdate);
+
+insert into sub_article (MAIN_ARTICLE_NO, SUB_ARTICLE_NO, MEMBER_EMAIL, SUB_ARTICLE_CONTENT, SUBARTICLE_LIKE, IS_CONNECT,SUB_ARTICLE_DATE) 
+values(3,sub_article_seq.nextval,'a@naver.com','머리속에 도청장치가 있습니다 여러분', 22, 0 , sysdate);
+
+-- 끊자 진행 중 잇는글
+insert into sub_article (MAIN_ARTICLE_NO, SUB_ARTICLE_NO, MEMBER_EMAIL, SUB_ARTICLE_CONTENT, IS_END, SUBARTICLE_LIKE, IS_CONNECT,SUB_ARTICLE_DATE) 
+values(3,sub_article_seq.nextval,'a@naver.com','머리속에 도청장치가 있습니다 여러분', 1, 22, 0 , sysdate);
 
 --ygoyo@naver.com 회원의 주제글 정보과 잇는글 정보를 검색
 select * from main_article m, sub_article s where m.MAIN_ARTICLE_EMAIL=s.MEMBER_EMAIL
-
+select * from sub_article
 
 --**찜한 게시글 데이터 베이스**
 drop table picked_article
@@ -151,7 +200,7 @@ KEYWORD varchar2(30) primary key,
 SEARCH_COUNT number not null,
 )
 
---**신고 데이터 베이스**
+-- 하지마 **신고 데이터 베이스**
 create table report(
 REPORT_NO varchar2(30) primary key,
 REPORT_DATE date not null,
