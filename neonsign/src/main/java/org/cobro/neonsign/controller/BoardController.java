@@ -1,6 +1,8 @@
 package org.cobro.neonsign.controller;
 
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.cobro.neonsign.model.BoardService;
@@ -29,7 +31,17 @@ public class BoardController {
 	public String goAnyWhere(@PathVariable String viewId){
 		return viewId;
 	}
-	
+	/**
+	 * main.jsp에 주제글 리스트, Tag리스트 출력
+	 * @author JeSeongLee
+	 */
+	@RequestMapping("getMainList.neon")
+	public ModelAndView getMainList(List<MainArticleVO> mainArticleVOList, List<TagVO> tagVOList){
+		tagVOList = boardService.selectTagList();
+		mainArticleVOList = boardService.selectListNotCompleteMainArticleOrderByDate();
+		System.out.println(mainArticleVOList);
+		return null;
+	}
 	
 	//main article 관련 메서드
 	/**Controller1

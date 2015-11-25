@@ -47,8 +47,7 @@ public class BoardDAOImpl implements BoardDAO{
 
 	@Override
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate() {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSessionTemplate.selectList("board.selectListNotCompleteMainArticleOrderByDate");
 	}
 
 	@Override

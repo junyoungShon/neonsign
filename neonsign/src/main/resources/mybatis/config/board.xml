@@ -3,7 +3,14 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="board"> 
-
+	<select id="selectListNotCompleteMainArticleOrderByDate" resultType="mainArticleVO">
+	select tb.TAG_NAME, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
+	ma.MAIN_ARTICLE_TOTAL_LIKE, 
+	to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_date,	
+	ma.MAIN_ARTICLE_COMPLETE_DATE 
+	from main_article ma, tag_board tb 
+	<![CDATA[where ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO and ma.MAIN_ARTICLE_TOTAL_LIKE<10 order by ma_date desc]]>
+	</select>
  </mapper> 		
  
  

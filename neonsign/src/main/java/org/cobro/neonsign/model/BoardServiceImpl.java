@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.ReportVO;
 import org.cobro.neonsign.vo.SubArticleVO;
+import org.cobro.neonsign.vo.TagVO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -45,8 +46,7 @@ public class BoardServiceImpl implements BoardService{
 	}
 	@Override
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate() {
-		// TODO Auto-generated method stub
-		return null;
+		return boardDAO.selectListNotCompleteMainArticleOrderByDate();
 	}
 	@Override
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByTotalLike() {
@@ -135,5 +135,14 @@ public class BoardServiceImpl implements BoardService{
 		if(nvo.getNotifyCount()>=10){
 			boardDAO.ArticleDelete(mavo);
 		}
+	}
+	
+	/**
+	 * Tag를 불러오는 메서드 
+	 */
+	@Override
+	public List<TagVO> selectTagList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
