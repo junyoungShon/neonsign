@@ -2,10 +2,13 @@ package org.cobro.neonsign.controller;
 
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.cobro.neonsign.model.MemberService;
 import org.cobro.neonsign.vo.MemberVO;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -30,20 +33,33 @@ public class MemberController {
 		return 0;
 	}
 	
-	public ModelAndView memberLogin(MemberVO mvo){
-		memberService.memberLogin(mvo);
+	@RequestMapping("memberLogin.neon")
+	public ModelAndView memberLogin(HttpServletRequest request, MemberVO memberVO){
+		System.out.println(memberVO);
+		memberVO=memberService.memberLogin(memberVO);
+		System.out.println(memberVO);
+		if(memberVO!=null){
+			request.getSession().setAttribute("memberVO",memberVO);		
+		}
 		/**
-		 * 		회원 인증 메소드
+		 *  로그인 메서드 로그인성공시 세션적용(적용중)
 		 */
-		return null;
+		return new ModelAndView("home");
+	}
+	@RequestMapping("logout.do")
+	public ModelAndView memberlogout(HttpServletRequest request){
+		HttpSession session=request.getSession(false);
+		if (session != null)
+			session.invalidate();
+		return new ModelAndView("home");
 	}
 	
-	public ModelAndView memberRegister(MemberVO mvo){
-		memberService.memberRegister(mvo);
-		/**
-		 * 		회원가입 메소드
-		 */
-		return null;
+	/*회원가입 메소드*/
+	@RequestMapping("memberJoinByEmail.neon")
+	public ModelAndView memberRegister(MemberVO memberVO){
+		memberService.memberRegister(memberVO);
+		//회원 가입 성공시 index말고 로그인 된채로 main으로 보낸다.
+		return new ModelAndView("index");
 	}
 	
 	public ModelAndView memberUpdate(MemberVO mvo){

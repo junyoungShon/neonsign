@@ -25,9 +25,8 @@ public class MemberDAOImpl implements MemberDAO{
 	}
 
 	@Override
-	public int memberRegister(MemberVO mvo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int memberRegister(MemberVO memberVO) {
+		return sqlSessionTemplate.insert("member.memberRegister",memberVO);
 	}
 
 	@Override
@@ -37,10 +36,10 @@ public class MemberDAOImpl implements MemberDAO{
 	}
 
 	@Override
-	public MemberVO memberLogin(MemberVO mvo) {
-		// TODO Auto-generated method stub
-		return null;
+	public MemberVO memberLogin(MemberVO memberVO) {
+		return sqlSessionTemplate.selectOne("member.memberLogin",memberVO);
 	}
+
 
 	@Override
 	public MemberVO memberDelete(MemberVO mvo) {

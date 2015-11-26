@@ -51,7 +51,6 @@ window.setInterval(function(){
 	//투표 마감 시간
 	var close_timestamp = complete_timestamp+600;
 	//
-
 	var remind_timestamp = close_timestamp-currunt_timestamp
 	var remind_minutes = Math.floor(remind_timestamp/60);
 	var remind_seconds = remind_timestamp%60;

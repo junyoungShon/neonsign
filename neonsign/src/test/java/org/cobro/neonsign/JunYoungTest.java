@@ -1,6 +1,5 @@
 package org.cobro.neonsign;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -31,7 +30,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"file:src/main/webapp/WEB-INF/spring/root-context.xml"})
-public class TestJUnitJunyoung {
+public class JunYoungTest {
 	@Resource
 	private MemberService memberService;
 	@Resource
@@ -39,26 +38,7 @@ public class TestJUnitJunyoung {
 	@Resource
 	private BoardDAO boardDAO;
 	
-	/*@Test
-	public void findCustomerById(){
-		MemberVO mvo = memberService.loginMember(new MemberVO("jaaa", "aaaa", null));
-		System.out.println(mvo);
-		// Assert.assertNotNull(cvo);
-	}*/
-	
-	/*@Test
-	public void getBoardList(){
-		ListVO lvo = new ListVO();
-		int currentPage=1;
-	    int totalContents = boardDAO.getTotalPostingCount();
-	    System.out.println(totalContents);
-	    PagingBean pagingBean = new PagingBean(totalContents, currentPage);
-	    System.out.println(pagingBean);
-	    System.out.println((ArrayList<BoardVO>) boardDAO.getBoardList(currentPage));
-	    lvo.setList((ArrayList<BoardVO>) boardDAO.getBoardList(currentPage));
-	    lvo.setPagingBean(pagingBean);
-		System.out.println(lvo.getList() + "희이");
-	}*/
+
 	@Test
 	public void test(){
 		// List<MainArticleVO> mainArticleVOList, List<TagVO> tagVOList)

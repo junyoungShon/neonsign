@@ -6,7 +6,10 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
-	<context:component-scan base-package="org.cobro.neonsign" />
+		<context:component-scan base-package="org.cobro.neonsign">
+	<context:exclude-filter type="annotation" 
+		expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
 	<!-- model 계층 빈 설정 , dbcp , MyBatis 관련 설정 , AOP 설정 , Transaction 설정 -->
 	
 	

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.ReportVO;
 import org.cobro.neonsign.vo.SubArticleVO;
+import org.cobro.neonsign.vo.TagBoardVO;
 import org.cobro.neonsign.vo.TagVO;
 
 public interface BoardService {
@@ -35,5 +36,5 @@ public interface BoardService {
 	public Map<String, Object> boardStatistics();
 	public List<MainArticleVO> articleSort(String sort);
 	public void articleNotify(MainArticleVO mainArticleVO);
-	public List<TagVO> selectTagList();
+	public List<TagBoardVO> selectTagList();
 }

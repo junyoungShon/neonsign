@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
      	<typeAlias type="org.cobro.neonsign.vo.ReporterVO" alias="reporterVO"/>
      	<typeAlias type="org.cobro.neonsign.vo.SearchVO" alias="searchVO"/>
      	<typeAlias type="org.cobro.neonsign.vo.SubArticleVO" alias="subArticleVO"/>
-     	<typeAlias type="org.cobro.neonsign.vo.TagAndArticleVO" alias="tagAndArticleVO"/>
+     	<typeAlias type="org.cobro.neonsign.vo.TagBoardVO" alias="tagBoardVO"/>
      	<typeAlias type="org.cobro.neonsign.vo.TagVO" alias="tagVO"/>
 	</typeAliases>	
     <!-- mybatis sql 정의 xml을 mapping  -->
