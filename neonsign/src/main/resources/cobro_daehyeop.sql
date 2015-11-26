@@ -82,39 +82,50 @@ insert into main_article(MAIN_ARTICLE_NO,MAIN_ARTICLE_EMAIL,MAIN_ARTICLE_TITLE,M
 values(main_article_seq.nextval,'eoguq4384@gmail.com','제성이형의 희맨','희이이이이ㅣ!!!!',sysdate);
 
 insert into sub_article (MAIN_ARTICLE_NO,SUB_ARTICLE_NO,MEMBER_EMAIL,SUB_ARTICLE_CONTENT,IS_CONNECT,SUB_ARTICLE_DATE, IS_END) 
-values(21,sub_article_seq.nextval,'rpd0127@naver.com','키햐학!!', 0 , sysdate, 1);
+values(6,sub_article_seq.nextval,'rpd0127@naver.com','키햐학!!', 0 , sysdate, 1);
 insert into sub_article (MAIN_ARTICLE_NO,SUB_ARTICLE_NO,MEMBER_EMAIL,SUB_ARTICLE_CONTENT,IS_CONNECT,SUB_ARTICLE_DATE, IS_END) 
-values(22,sub_article_seq.nextval,'rpd0127@naver.com','글쓴이 죽어라!', 0 , sysdate, 1);
+values(7,sub_article_seq.nextval,'rpd0127@naver.com','글쓴이 죽어라!', 0 , sysdate, 1);
 insert into sub_article (MAIN_ARTICLE_NO,SUB_ARTICLE_NO,MEMBER_EMAIL,SUB_ARTICLE_CONTENT,IS_CONNECT,SUB_ARTICLE_DATE, IS_END) 
-values(23,sub_article_seq.nextval,'rpd0127@naver.com','키햐학!!', 0 , sysdate, 1);
+values(8,sub_article_seq.nextval,'rpd0127@naver.com','키햐학!!', 0 , sysdate, 1);
 insert into sub_article (MAIN_ARTICLE_NO,SUB_ARTICLE_NO,MEMBER_EMAIL,SUB_ARTICLE_CONTENT,IS_CONNECT,SUB_ARTICLE_DATE, IS_END) 
-values(24,sub_article_seq.nextval,'rpd0127@naver.com','글쓴이 죽어라!', 0 , sysdate, 1);
+values(9,sub_article_seq.nextval,'rpd0127@naver.com','글쓴이 죽어라!', 0 , sysdate, 1);
 insert into sub_article (MAIN_ARTICLE_NO,SUB_ARTICLE_NO,MEMBER_EMAIL,SUB_ARTICLE_CONTENT,IS_CONNECT,SUB_ARTICLE_DATE, IS_END) 
-values(25,sub_article_seq.nextval,'rpd0127@naver.com','키햐학!!', 0 , sysdate, 1);
+values(10,sub_article_seq.nextval,'rpd0127@naver.com','키햐학!!', 0 , sysdate, 1);
 insert into sub_article (MAIN_ARTICLE_NO,SUB_ARTICLE_NO,MEMBER_EMAIL,SUB_ARTICLE_CONTENT,IS_CONNECT,SUB_ARTICLE_DATE, IS_END) 
-values(26,sub_article_seq.nextval,'rpd0127@naver.com','글쓴이 죽어라!', 0 , sysdate, 1);
+values(11,sub_article_seq.nextval,'rpd0127@naver.com','글쓴이 죽어라!', 0 , sysdate, 1);
 insert into sub_article (MAIN_ARTICLE_NO,SUB_ARTICLE_NO,MEMBER_EMAIL,SUB_ARTICLE_CONTENT,IS_CONNECT,SUB_ARTICLE_DATE, IS_END) 
-values(27,sub_article_seq.nextval,'rpd0127@naver.com','키햐학!!', 0 , sysdate, 1);
+values(12,sub_article_seq.nextval,'rpd0127@naver.com','키햐학!!', 0 , sysdate, 1);
 insert into sub_article (MAIN_ARTICLE_NO,SUB_ARTICLE_NO,MEMBER_EMAIL,SUB_ARTICLE_CONTENT,IS_CONNECT,SUB_ARTICLE_DATE, IS_END) 
-values(28,sub_article_seq.nextval,'rpd0127@naver.com','글쓴이 죽어라!', 0 , sysdate, 1);
+values(13,sub_article_seq.nextval,'rpd0127@naver.com','글쓴이 죽어라!', 0 , sysdate, 1);
 insert into sub_article (MAIN_ARTICLE_NO,SUB_ARTICLE_NO,MEMBER_EMAIL,SUB_ARTICLE_CONTENT,IS_CONNECT,SUB_ARTICLE_DATE, IS_END) 
-values(29,sub_article_seq.nextval,'rpd0127@naver.com','글쓴이 죽어라!', 0 , sysdate, 1);
+values(14,sub_article_seq.nextval,'rpd0127@naver.com','글쓴이 죽어라!', 0 , sysdate, 1);
 
-select * from SUB_ARTICLE where MAIN_ARTICLE_NO=22;
+select * from SUB_ARTICLE;
 
-update SUB_ARTICLE set IS_CONNECT = 1, SUBARTICLE_LIKE = 980 where SUB_ARTICLE_NO=21 and MAIN_ARTICLE_NO=21;
-update SUB_ARTICLE set IS_CONNECT = 1, SUBARTICLE_LIKE = 10 where SUB_ARTICLE_NO=22 and MAIN_ARTICLE_NO=22;
-update SUB_ARTICLE set IS_CONNECT = 1, SUBARTICLE_LIKE = 980 where SUB_ARTICLE_NO=23 and MAIN_ARTICLE_NO=23;
-update SUB_ARTICLE set IS_CONNECT = 1, SUBARTICLE_LIKE = 10 where SUB_ARTICLE_NO=24 and MAIN_ARTICLE_NO=24;
-update SUB_ARTICLE set IS_CONNECT = 1, SUBARTICLE_LIKE = 980 where SUB_ARTICLE_NO=25 and MAIN_ARTICLE_NO=25;
-update SUB_ARTICLE set IS_CONNECT = 1, SUBARTICLE_LIKE = 10 where SUB_ARTICLE_NO=26 and MAIN_ARTICLE_NO=26;
-update SUB_ARTICLE set IS_CONNECT = 1, SUBARTICLE_LIKE = 980 where SUB_ARTICLE_NO=27 and MAIN_ARTICLE_NO=27;
-update SUB_ARTICLE set IS_CONNECT = 1, SUBARTICLE_LIKE = 10 where SUB_ARTICLE_NO=28 and MAIN_ARTICLE_NO=28;
-update SUB_ARTICLE set IS_CONNECT = 1, SUBARTICLE_LIKE = 10 where SUB_ARTICLE_NO=29 and MAIN_ARTICLE_NO=29;
+update SUB_ARTICLE set IS_CONNECT = 1, SUBARTICLE_LIKE = 980 where SUB_ARTICLE_NO=21 and MAIN_ARTICLE_NO=11;
+update SUB_ARTICLE set IS_CONNECT = 1, SUBARTICLE_LIKE = 10 where SUB_ARTICLE_NO=22 and MAIN_ARTICLE_NO=12;
+update SUB_ARTICLE set IS_CONNECT = 1, SUBARTICLE_LIKE = 980 where SUB_ARTICLE_NO=23 and MAIN_ARTICLE_NO=13;
+update SUB_ARTICLE set IS_CONNECT = 1, SUBARTICLE_LIKE = 10 where SUB_ARTICLE_NO=24 and MAIN_ARTICLE_NO=14;
+update SUB_ARTICLE set IS_CONNECT = 1, SUBARTICLE_LIKE = 980 where SUB_ARTICLE_NO=25 and MAIN_ARTICLE_NO=15;
+update SUB_ARTICLE set IS_CONNECT = 1, SUBARTICLE_LIKE = 10 where SUB_ARTICLE_NO=26 and MAIN_ARTICLE_NO=16;
+update SUB_ARTICLE set IS_CONNECT = 1, SUBARTICLE_LIKE = 980 where SUB_ARTICLE_NO=27 and MAIN_ARTICLE_NO=17;
+update SUB_ARTICLE set IS_CONNECT = 1, SUBARTICLE_LIKE = 10 where SUB_ARTICLE_NO=28 and MAIN_ARTICLE_NO=18;
+update SUB_ARTICLE set IS_CONNECT = 1, SUBARTICLE_LIKE = 10 where SUB_ARTICLE_NO=29 and MAIN_ARTICLE_NO=19;
 =======
 
 
-
+select m.MAIN_ARTICLE_NO, m.MAIN_ARTICLE_EMAIL,
+		MAIN_ARTICLE_TITLE,
+		MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_HIT,
+		MAIN_ARTICLE_LIKE,
+		MAIN_ARTICLE_TOTAL_LIKE, MAIN_ARTICLE_DATE,
+		MAIN_ARTICLE_COMPLETE_DATE
+		from MAIN_ARTICLE m, SUB_ARTICLE s
+		where
+		m.MAIN_ARTICLE_NO =
+		s.MAIN_ARTICLE_NO and s.IS_CONNECT=1 and s.IS_END=1
+		order by
+		m.MAIN_ARTICLE_TOTAL_LIKE desc
 
 
 >>>>>>> branch 'master' of https://github.com/junyoungShon/neonsign.git

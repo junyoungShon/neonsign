@@ -87,36 +87,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<select id="completeMainArticleOrderByTotalLike" resultType="mainArticleVO"
 		resultMap="mainArticleResultMap">
-		select m.MAIN_ARTICLE_NO, m.MAIN_ARTICLE_EMAIL,
+		select MAIN_ARTICLE_NO, MAIN_ARTICLE_EMAIL,
 		MAIN_ARTICLE_TITLE,
 		MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_HIT,
 		MAIN_ARTICLE_LIKE,
 		MAIN_ARTICLE_TOTAL_LIKE, MAIN_ARTICLE_DATE,
-		MAIN_ARTICLE_COMPLETE_DATE
-		from MAIN_ARTICLE m, SUB_ARTICLE s
-		where
-		m.MAIN_ARTICLE_NO =
-		s.MAIN_ARTICLE_NO and s.IS_CONNECT=1 and s.IS_END=1
-		order by
-		m.MAIN_ARTICLE_TOTAL_LIKE desc
+		MAIN_ARTICLE_UPDATE_DATE
+		from MAIN_ARTICLE where MAIN_ARTICLE_COMPLETE = 1 order by MAIN_ARTICLE_UPDATE_DATE
 	</select>
 	<!-- 제성 -->
-	<select id="selectListNotCompleteMainArticleOrderByDate"
-		resultMap="mainArticleResultMap">
-		select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_EMAIL,
-		ma.MAIN_ARTICLE_TITLE,
-		ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE,
-		to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_date,
-		ma.MAIN_ARTICLE_COMPLETE_DATE
-		from main_article ma, tag_board tb 
-	<![CDATA[where ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO and ma.MAIN_ARTICLE_TOTAL_LIKE<10 order by ma_date desc]]>
-	</select>
-
-	<select id="selectTagList" resultMap="tagBoardResultMap">
-		select tb.TAG_NAME
-		from main_article ma, tag_board tb
-	<![CDATA[where ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO and ma.MAIN_ARTICLE_TOTAL_LIKE<10]]>
-	</select>
+	
 </mapper> 		
  
  

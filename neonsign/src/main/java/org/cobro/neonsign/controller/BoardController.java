@@ -40,14 +40,7 @@ public class BoardController {
 	 */
 	@RequestMapping("getMainList.neon")
 	public ModelAndView getMainList(){
-		List<TagBoardVO> tagBoardVOList = boardService.selectTagList();
-		List<MainArticleVO> mainArticleVOList = boardService.selectListNotCompleteMainArticleOrderByDate();
-		System.out.println(tagBoardVOList + ", " + mainArticleVOList);
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("tagBoardVOList", tagBoardVOList);
-		mav.addObject("mainArticleVOList", mainArticleVOList);
-		mav.setViewName("home");
-		return mav;
+		return new ModelAndView("home");
 	}
 	//main article 관련 메서드
 	/**Controller1
@@ -140,9 +133,7 @@ public class BoardController {
 	public ModelAndView selectListCompleteMainArticleOrderByTotalLike() {
 		List<MainArticleVO> completeMainArticleList = boardService
 				.selectListCompleteMainArticleOrderByTotalLike();
-		System.out.println(completeMainArticleList.get(0));
 		ArrayList<MainArticleVO> mainArticleList = (ArrayList<MainArticleVO>) completeMainArticleList;
-		System.out.println(mainArticleList.get(0));
 		return new ModelAndView("completeMainArticleView", "mainArticleList",
 				mainArticleList);
 	}
