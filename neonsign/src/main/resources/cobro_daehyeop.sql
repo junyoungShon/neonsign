@@ -60,6 +60,7 @@ select m.*
 from MAIN_ARTICLE m, SUB_ARTICLE s
 where m.MAIN_ARTICLE_NO = s.MAIN_ARTICLE_NO and s.IS_CONNECT=1 and IS_END=1 order by m.MAIN_ARTICLE_DATE desc;
 
+<<<<<<< HEAD
 --완결게시물 추천수순 정렬
 select m.MAIN_ARTICLE_NO, m.MAIN_ARTICLE_EMAIL, MAIN_ARTICLE_TITLE,
 		MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_HIT, MAIN_ARTICLE_LIKE,
@@ -110,6 +111,13 @@ update SUB_ARTICLE set IS_CONNECT = 1, SUBARTICLE_LIKE = 10 where SUB_ARTICLE_NO
 update SUB_ARTICLE set IS_CONNECT = 1, SUBARTICLE_LIKE = 980 where SUB_ARTICLE_NO=27 and MAIN_ARTICLE_NO=27;
 update SUB_ARTICLE set IS_CONNECT = 1, SUBARTICLE_LIKE = 10 where SUB_ARTICLE_NO=28 and MAIN_ARTICLE_NO=28;
 update SUB_ARTICLE set IS_CONNECT = 1, SUBARTICLE_LIKE = 10 where SUB_ARTICLE_NO=29 and MAIN_ARTICLE_NO=29;
+=======
+
+
+
+
+
+>>>>>>> branch 'master' of https://github.com/junyoungShon/neonsign.git
 
 
 

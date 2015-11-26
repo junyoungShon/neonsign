@@ -31,7 +31,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 <select id="findMemberByEmail" resultMap="memberResultMap" parameterType="string">
 	 	select MEMBER_EMAIL from brain_member where MEMBER_EMAIL=#{value}
 	 </select>
-
 </mapper> 		
  
  

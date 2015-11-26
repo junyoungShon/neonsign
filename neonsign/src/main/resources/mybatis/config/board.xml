@@ -53,6 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		m.MAIN_ARTICLE_NO=1 and b.MEMBER_EMAIL=m.MAIN_ARTICLE_EMAIL
 	</select>
 	<!-- 대협 -->
+
 	<select id="completeMainArticleByMainArticleNo" resultType="mainArticleVO"
 		resultMap="mainArticleResultMap">
 		select m.MAIN_ARTICLE_NO, m.MAIN_ARTICLE_EMAIL,

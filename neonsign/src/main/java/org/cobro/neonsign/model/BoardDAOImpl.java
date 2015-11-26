@@ -35,7 +35,10 @@ public class BoardDAOImpl implements BoardDAO{
 
 	/**
 	 * 주제글을 번호로 검색해서 찾는메소드
+<<<<<<< HEAD
 	 * 
+=======
+>>>>>>> branch 'master' of https://github.com/junyoungShon/neonsign.git
 	 * @author daehyeop
 	 */
 	@Override
@@ -58,18 +61,17 @@ public class BoardDAOImpl implements BoardDAO{
 				.selectList("completeMainArticleOrderByDate");
 		return completeMainArticleList;
 	}
-
 	/**
-	 * 완결된 주제글을 총잇자수순 리스트로 받는 메소드
-	 * 
-	 * @author daehyeop
+	 * @author jeseongLee
 	 */
 	@Override
 	public List<MainArticleVO> selectListCompleteMainArticleOrderByTotalLike() {
+
 		List<MainArticleVO> completeMainArticleList = sqlSessionTemplate
 				.selectList("completeMainArticleOrderByTotalLike");
 		System.out.println("dao " + completeMainArticleList);
 		return completeMainArticleList;
+
 	}
 	/**
 	 * @author jeseongLee
