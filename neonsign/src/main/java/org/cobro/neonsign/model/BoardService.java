@@ -6,6 +6,8 @@ import java.util.Map;
 import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.ReportVO;
 import org.cobro.neonsign.vo.SubArticleVO;
+import org.cobro.neonsign.vo.TagBoardVO;
+import org.cobro.neonsign.vo.TagVO;
 
 public interface BoardService {
 	//main article 관련 메서드
@@ -17,6 +19,7 @@ public interface BoardService {
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate();
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByTotalLike();
 	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO);
+	public List<MainArticleVO> selectListCompleteMainArticleOrderByDate();
 	
 	//sub article 관련 메서드
 	public int insertSubArticle(SubArticleVO subArticleVO);
@@ -34,4 +37,5 @@ public interface BoardService {
 	public Map<String, Object> boardStatistics();
 	public List<MainArticleVO> articleSort(String sort);
 	public void articleNotify(MainArticleVO mainArticleVO);
+	public List<TagBoardVO> selectTagList();
 }

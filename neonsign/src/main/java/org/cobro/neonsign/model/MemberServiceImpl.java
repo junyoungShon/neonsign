@@ -13,20 +13,20 @@ public class MemberServiceImpl implements MemberService{
 	private MemberDAO memberDAO;
 	@Resource
 	private UtilService utilService;
+	
 	@Override
-	public MemberVO findMemberByEmail(MemberVO mvo) {
+	public MemberVO findMemberByEmail(String emailComp) {
 		// TODO Auto-generated method stub
-		return null;
+		return memberDAO.findMemberByEmail(emailComp);
 	}
 	@Override
-	public MemberVO findMemberByNickName(MemberVO mvo) {
+	public MemberVO findMemberByNickName(String nameComp) {
 		// TODO Auto-generated method stub
-		return null;
+		return memberDAO.findMemberByNickName(nameComp);
 	}
 	@Override
-	public int memberRegister(MemberVO mvo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int memberRegister(MemberVO memberVO) {
+		return memberDAO.memberRegister(memberVO);
 	}
 	@Override
 	public int memberUpdate(MemberVO mvo) {
@@ -34,9 +34,8 @@ public class MemberServiceImpl implements MemberService{
 		return 0;
 	}
 	@Override
-	public MemberVO memberLogin(MemberVO mvo) {
-		// TODO Auto-generated method stub
-		return null;
+	public MemberVO memberLogin(MemberVO memberVO) {
+		return memberDAO.memberLogin(memberVO);
 	}
 	@Override
 	public MemberVO memberDelete(MemberVO mvo) {
@@ -53,4 +52,6 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
 }

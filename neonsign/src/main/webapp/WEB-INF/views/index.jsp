@@ -48,7 +48,7 @@
             <p class="lead indexInstruction"><strong><span class="blliInst">뇌온사인</span>은 공동창작 플랫폼으로서 <br>같은 이야기를 함께 만들고 나누는 공간입니다.</strong></p>
             <p class="indexLogin">이미 회원이시라면? <a href="loginPage.jsp" >로그인</a></p>
             <p class="lead">
-              <a href="${initParam.root}home.neon" class="btn btn-lg btn-warning">비회원으로 둘러보기</a><br>
+              <a href="${initParam.root}getMainList.neon" class="btn btn-lg btn-warning">비회원으로 둘러보기</a><br>
               <button type="button" class="btn btn-primary btn-lg memberJoinByEmailBtn" >
               		이메일로 가입하기
               </button>
@@ -63,7 +63,7 @@
 			        <h4 class="modal-title" id="myModalLabel">뇌온사인 회원가입</h4>
 			      </div>
 			      <div class="modal-body">
-			        <form id="memberJoinByEmail">
+			        <form id="memberJoinByEmail" action="memberJoinByEmail.neon">
 			        	<!-- 개인정보 입력 부분 -->
 			        	<div class="personInfoForJoin">
 			        	<!-- 
@@ -74,19 +74,19 @@
 			        	-->
 			        	<div class="form-group has-feedback emailInput">
 						  	<label class="control-label" for="inputSuccess2">이메일</label>
-							<input type="email" class="form-control" id="memberJoinInputEmail" 
+							<input type="email" class="form-control" id="memberJoinInputEmail" name="memberEmail"
 							  		placeholder="아이디로 사용할 이메일을 입력해주세요">
 							<span class="glyphicon form-control-feedback" aria-hidden="ture"></span>
 							  	<!-- 이름 입력 양식 /nameInputSuccess,nameInputFail 클래스 성공 실패의 경우를 나눠준다 -->
 						</div>
 			        	<div class="form-group has-feedback nameInput">
 						  	<label class="control-label" for="inputSuccess2">닉네임</label>
-					    	<input type="text" class="form-control" id="memberJoinInputName" placeholder="회원님의 닉네임을 입력해주세요">
+					    	<input type="text" class="form-control" id="memberJoinInputName" placeholder="회원님의 닉네임을 입력해주세요" name="memberNickName">
 					    	<span class="glyphicon form-control-feedback" aria-hidden="ture"></span>
 						</div>
 					   		<div class="form-group has-feedback passInput">	
 						    	<label class="control-label" for="inputSuccess2">암호</label>
-						    	<input type="password" class="form-control" id="memberJoinInputpassword" placeholder="암호">
+						    	<input type="password" class="form-control" id="memberJoinInputpassword" placeholder="암호" name="memberPassword">
 						    	<span class="glyphicon form-control-feedback" aria-hidden="ture"></span>
 						    	
 					    	</div>

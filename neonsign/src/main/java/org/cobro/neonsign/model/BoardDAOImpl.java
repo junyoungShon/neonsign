@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.SubArticleVO;
+import org.cobro.neonsign.vo.TagBoardVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 @Repository
@@ -32,23 +33,56 @@ public class BoardDAOImpl implements BoardDAO{
 		
 	}
 
+	/**
+	 * 주제글을 번호로 검색해서 찾는메소드
+	 * 
+	 * @author daehyeop
+	 */
 	@Override
 	public MainArticleVO selectOneCompleteMainArticleByMainArticleNo(
 			MainArticleVO mainArticleVO) {
-		// TODO Auto-generated method stub
-		return null;
+		int mainArticleNo = mainArticleVO.getMainArticleNo();
+		MainArticleVO resultMainArticleVO = sqlSessionTemplate.selectOne(
+				"completeMainArticleByMainArticleNo", mainArticleNo);
+		return resultMainArticleVO;
 	}
 
+	/**
+	 * 완결된 주제글을 게시일순 리스트로 받는 메소드
+	 * 
+	 * @author daehyeop
+	 */
+	@Override
+	public List<MainArticleVO> selectListCompleteMainArticleOrderByDate() {
+		List<MainArticleVO> completeMainArticleList = sqlSessionTemplate
+				.selectList("completeMainArticleOrderByDate");
+		return completeMainArticleList;
+	}
+
+	/**
+	 * 완결된 주제글을 총잇자수순 리스트로 받는 메소드
+	 * 
+	 * @author daehyeop
+	 */
 	@Override
 	public List<MainArticleVO> selectListCompleteMainArticleOrderByTotalLike() {
-		// TODO Auto-generated method stub
-		return null;
+		List<MainArticleVO> completeMainArticleList = sqlSessionTemplate
+				.selectList("completeMainArticleOrderByTotalLike");
+		System.out.println("dao " + completeMainArticleList);
+		return completeMainArticleList;
+	}
+	/**
+	 * @author jeseongLee
+	 */
+	@Override
+	public List<TagBoardVO> selectTagList() {
+		return sqlSessionTemplate.selectList("board.selectTagList");
 	}
 
 	@Override
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate() {
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println("희");
+		return sqlSessionTemplate.selectList("board.selectListNotCompleteMainArticleOrderByDate");
 	}
 
 	@Override
@@ -61,7 +95,14 @@ public class BoardDAOImpl implements BoardDAO{
 	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleNo(
 			MainArticleVO mainArticleVO) {
 		// TODO Auto-generated method stub
-		return null;
+		System.out.println(mainArticleVO.getMainArticleNo());
+		MainArticleVO main=null;
+		try{
+		main=sqlSessionTemplate.selectOne("board.selectOneCompleteMainArticleByMainArticleNo",mainArticleVO);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return main;
 	}
 
 	@Override

@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.ReportVO;
 import org.cobro.neonsign.vo.SubArticleVO;
+import org.cobro.neonsign.vo.TagBoardVO;
+import org.cobro.neonsign.vo.TagVO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,21 +34,46 @@ public class BoardServiceImpl implements BoardService{
 		// TODO Auto-generated method stub
 		
 	}
+	/**
+	 * 주제글을 번호로 검색해서 찾는메소드
+	 * 
+	 * @author daehyeop
+	 */
 	@Override
 	public MainArticleVO selectOneCompleteMainArticleByMainArticleNo(
 			MainArticleVO mainArticleVO) {
-		// TODO Auto-generated method stub
-		return null;
+		MainArticleVO resultMainArticleVO = boardDAO
+				.selectOneCompleteMainArticleByMainArticleNo(mainArticleVO);
+		return resultMainArticleVO;
 	}
+
+	/**
+	 * 완결된 주제글을 게시일순 리스트로 받는 메소드
+	 * 
+	 * @author daehyeop
+	 */
+	@Override
+	public List<MainArticleVO> selectListCompleteMainArticleOrderByDate() {
+		List<MainArticleVO> completeMainArticleList = boardDAO
+				.selectListCompleteMainArticleOrderByDate();
+		return completeMainArticleList;
+	}
+
+	/**
+	 * 완결된 주제글을 총잇자수순 리스트로 받는 메소드
+	 * 
+	 * @author daehyeop
+	 */
 	@Override
 	public List<MainArticleVO> selectListCompleteMainArticleOrderByTotalLike() {
-		// TODO Auto-generated method stub
-		return null;
+		List<MainArticleVO> completeMainArticleList = boardDAO
+				.selectListCompleteMainArticleOrderByTotalLike();
+		System.out.println("service " + completeMainArticleList);
+		return completeMainArticleList;
 	}
 	@Override
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate() {
-		// TODO Auto-generated method stub
-		return null;
+		return boardDAO.selectListNotCompleteMainArticleOrderByDate();
 	}
 	@Override
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByTotalLike() {
@@ -56,8 +83,7 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleNo(
 			MainArticleVO mainArticleVO) {
-		// TODO Auto-generated method stub
-		return null;
+		return boardDAO.selectOneNotCompleteMainArticleByMainArticleNo(mainArticleVO);
 	}
 	@Override
 	public int insertSubArticle(SubArticleVO subArticleVO) {
@@ -135,5 +161,13 @@ public class BoardServiceImpl implements BoardService{
 		if(nvo.getNotifyCount()>=10){
 			boardDAO.ArticleDelete(mavo);
 		}
+	}
+	
+	/**
+	 * Tag를 불러오는 메서드 
+	 */
+	@Override
+	public List<TagBoardVO> selectTagList() {
+		return boardDAO.selectTagList();
 	}
 }
