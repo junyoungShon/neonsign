@@ -50,6 +50,13 @@
 
   	 	 	</c:otherwise>
   	 	 </c:choose>
+    		</c:when>
+  	 	 	<c:otherwise>
+
+  	 	 		<li><a href="#" id="logout">로그아웃</a></li>
+
+  	 	 	</c:otherwise>
+  	 	 </c:choose>
     			  <!-- 완결글 보기를 누르면 추천순으로 정렬된다. -대협 -->
     			  <li><a href="${initParam.root}selectListCompleteMainArticleOrderByTotalLike.neon">완결 글 보기</a></li>
     			  <li><a href="#" class="writeMainArticle">글쓰기</a></li>
