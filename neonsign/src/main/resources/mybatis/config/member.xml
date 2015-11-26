@@ -2,9 +2,35 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="member"> 
-
- </mapper> 		
+<mapper namespace="member">
+	<resultMap type="memberVO" id="memberResultMap">
+		<result property="memberEmail" column="MEMBER_EMAIL" />
+		<result property="memberNickName" column="MEMBER_NICKNAME" />
+		<result property="memberPassword" column="MEMBER_PASSWORD" />
+		<result property="memberJoinDate" column="MEMBER_JOIN_DATE" />
+		<result property="memberPoint" column="MEMBER_POINT" />
+		<result property="memberNotifiedAmount" column="MEMBER_NOTIFIED_AMOUNT" />
+	</resultMap>
+	<!-- 한솔 회원가입 -->
+	<insert id="memberRegister" parameterType="memberVO">
+		insert into
+		brain_member(MEMBER_EMAIL,MEMBER_NICKNAME,MEMBER_PASSWORD,MEMBER_JOIN_DATE,MEMBER_CATEGORY)
+		values(#{memberEmail},#{memberNickName},#{memberPassword},sysdate,'일반회원')
+	</insert>
+	<!-- 재영 로그인 -->
+		<select id="memberLogin" resultMap="memberResultMap" parameterType="memberVO">
+			select * from BRAIN_MEMBER
+			where MEMBER_EMAIL=#{memberEmail} and MEMBER_PASSWORD=#{memberPassword}
+		</select>
+	<!-- 한솔 닉네임 중복체크 -->
+	 <select id="findMemberByNickName" resultMap="memberResultMap" parameterType="string">
+	 	select MEMBER_NICKNAME from brain_member where MEMBER_NICKNAME=#{value}
+	 </select>
+	 <!-- 한솔 이메일 중복체크 -->
+	 <select id="findMemberByEmail" resultMap="memberResultMap" parameterType="string">
+	 	select MEMBER_EMAIL from brain_member where MEMBER_EMAIL=#{value}
+	 </select>
+</mapper> 		
  
  
  

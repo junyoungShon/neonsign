@@ -139,7 +139,9 @@ $(document).ready(function(){ //DOM이 준비되고
 			//공랑체크 시작
 			//이메일 공란 및 정규식을 통한 형태 검사  
 			$('#memberJoinInputEmail').keyup(function(){
-					
+					/** 이메일 중복체크 
+					 * @author 한솔
+					 */
 					var regEmail=/^[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[@]{1}[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[.]{1}[A-Za-z]{2,5}$/;
 					var emailComp = $(this).val();
 					if(emailComp==""){
@@ -153,33 +155,70 @@ $(document).ready(function(){ //DOM이 준비되고
 						$('.emailInput > .control-label').html('올바른 이메일을 입력해주세요');
 						$('.emailInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
 					}else{
-						userMailFlag = true;
+						$.ajax({
+							type:"post",
+							url:"findMemberByEmail.neon",				
+							data:"emailComp="+emailComp,	
+							success:function(result){
+						if(result==false){
+							userMailFlag = false;
+						$('.emailInput').attr('class','form-group has-feedback emailInput has-error');
+						$('.emailInput > .control-label').html('사용할 수 없는 이메일 입니다');
+						$('.emailInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+						}else{
+							userMailFlag = true;
 						$('.emailInput').attr('class','form-group has-feedback emailInput has-success');
-						$('.emailInput > .control-label').html('이메일이 입력되었습니다.');
+						$('.emailInput > .control-label').html('사용가능한 이메일 입니다');
 						$('.emailInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
-					};
-			});
+						}//else2
+						}//success
+					});//ajax
+				}//else
+			});//keyup
 			//이름 공란 및 길이 체크
 			
 			$('#memberJoinInputName').keyup(function(){
+				/**  닉네임 중복체크 
+				 * @author 한솔
+				 */
+
 				var nameComp = $(this).val();
 				if(nameComp==""){
 					userNameFlag = false;
 					$('.nameInput').attr('class','form-group has-feedback nameInput has-error');
-					$('.nameInput > .control-label').html('이름을 입력해주세요');
+					$('.nameInput > .control-label').html('닉네임을 입력해주세요');
 					$('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
 				}else if(nameComp.length<1 || nameComp.length>8){
 					userNameFlag = false;
 					$('.nameInput').attr('class','form-group has-feedback nameInput has-error');
-					$('.nameInput > .control-label').html('이름은 1글자 이상 ~7글자 이하로 입력해주세요');
+					$('.nameInput > .control-label').html('닉네임은 1글자 이상 ~7글자 이하로 입력해주세요');
 					$('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-				}else{
-					userNameFlag = true;
-					$('.nameInput').attr('class','form-group has-feedback nameInput has-success');
-					$('.nameInput > .control-label').html('이름이 입력되었습니다.');
-					$('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
-				};
-			});
+				}else{					
+					$.ajax({
+						type:"post",
+						url:"findMemberByNickName.neon",				
+						data:"nameComp="+nameComp,	
+						success:function(result){
+							//	alert(result);
+							if(result==false){
+								 userNameFlag = false;
+								$('.nameInput').attr('class','form-group has-feedback nameInput has-error');
+								$('.nameInput > .control-label').html(nameComp+"사용할수 없는 닉네임 입니다.");
+								$('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+								  
+							}else{
+								 userNameFlag = true;
+								$('.nameInput').attr('class','form-group has-feedback nameInput has-success');
+								$('.nameInput > .control-label').html(nameComp+"사용 가능한 닉네임 입니다");	
+								$('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
+								   
+							}//else2			
+						}//success			
+					});//ajax
+				
+				}//else1
+			
+			});//keyup
 			//암호 공란 검사 및 암호 길이 검사
 			$('#memberJoinInputpassword').keyup(function(){
 				var passwordComp = $(this).val();

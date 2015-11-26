@@ -1,6 +1,8 @@
 package org.cobro.neonsign.controller;
 
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.cobro.neonsign.model.BoardService;
@@ -8,7 +10,7 @@ import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.ReportVO;
 import org.cobro.neonsign.vo.ReporterVO;
 import org.cobro.neonsign.vo.SubArticleVO;
-import org.cobro.neonsign.vo.TagAndArticleVO;
+import org.cobro.neonsign.vo.TagBoardVO;
 import org.cobro.neonsign.vo.TagVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,8 +31,21 @@ public class BoardController {
 	public String goAnyWhere(@PathVariable String viewId){
 		return viewId;
 	}
-	
-	
+	/**
+	 * main.jsp에 주제글 리스트, Tag리스트 출력
+	 * @author JeSeongLee
+	 */
+	@RequestMapping("getMainList.neon")
+	public ModelAndView getMainList(){
+		List<TagBoardVO> tagBoardVOList = boardService.selectTagList();
+		List<MainArticleVO> mainArticleVOList = boardService.selectListNotCompleteMainArticleOrderByDate();
+		System.out.println(tagBoardVOList + ", " + mainArticleVOList);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("tagBoardVOList", tagBoardVOList);
+		mav.addObject("mainArticleVOList", mainArticleVOList);
+		mav.setViewName("home");
+		return mav;
+	}
 	//main article 관련 메서드
 	/**Controller1
 	 * 사용자가 주제글을 작성할 때 사용한다.
@@ -39,7 +54,7 @@ public class BoardController {
 	 * @param tagAndArticleVO
 	 * @return
 	 */
-	public ModelAndView insertMainArticle(MainArticleVO mainArticleVO,TagAndArticleVO tagAndArticleVO){
+	public ModelAndView insertMainArticle(MainArticleVO mainArticleVO,TagBoardVO tagAndArticleVO){
 		return null;
 	}
 	/**Controller2
@@ -48,7 +63,7 @@ public class BoardController {
 	 * @param tagAndArticleVO
 	 * @return
 	 */
-	public ModelAndView updateMainArticle(MainArticleVO mainArticleVO,TagAndArticleVO tagAndArticleVO){
+	public ModelAndView updateMainArticle(MainArticleVO mainArticleVO,TagBoardVO tagAndArticleVO){
 		return null;
 	}
 	
@@ -102,7 +117,8 @@ public class BoardController {
 	 * @return
 	 */
 	public ModelAndView selectOneNotCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO){
-		return null;
+		MainArticleVO mainArticle=boardService.selectOneNotCompleteMainArticleByMainArticleNo(mainArticleVO);
+		return new ModelAndView("footer","",mainArticle);
 	}
 	/**Controller7
 	 * 미완결 주제글 잇자 추천버튼 눌렀을 때
