@@ -2,73 +2,108 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="board"> 
- 	<!-- mainArticleResultMap -->
-  <resultMap type="mainArticleVO" id="mainArticleResultMap">
-     <result property="mainArticleNo" column="MAIN_ARTICLE_NO"/>
-     <result property="mainArticleTltle" column="MAIN_ARTICLE_TITLE"/>
-     <result property="mainArticleContent" column="MAIN_ARTICLE_CONTENT"/>
-     <result property="mainArticleHIt" column="MAIN_ARTICLE_HIT"/>
-     <result property="mainArticleLike" column="MAIN_ARTICLE_LIKE"/>
-     <result property="mainArticleTotalLike" column="MAIN_ARTICLE_TOTAL_LIKE"/>
-     <result property="mainArticleDate" column="MAIN_ARTICLE_DATE"/>
-     <result property="mainArticleCompleteDate" column="MAIN_ARTICLE_COMPLETE_DATE"/>
-     <collection property="memberVO" column="MEMBER_EMAIL" ofType="memberVO"
-            javaType="memberVO" resultMap="memberResultMap"/>
-  	 <collection property="subArticleList" column="MAIN_ARTICLE_NO" ofType="subArticleVO"
-            javaType="ArrayList" resultMap="subArticleResultMap"/>
-  </resultMap>
-  
-  <!-- subArticleResultMap -->
-  <resultMap type="subArticleVO" id="subArticleResultMap">
-     <result property="subArticleNo" column="SUB_ARTICLE_NO"/>
-     <result property="mainArticle" column="MAIN_ARTICLE_NO"/>
-     <result property="memberEmail" column="MEMBER_EMAIL"/>
-     <result property="subAtricleGrade" column="SUB_ARTICLE_GRADE"/>
-     <result property="subArticleContent" column="SUB_ARTICLE_CONTENT"/>
-     <result property="isEnd" column="IS_END"/>
-     <result property="subArticleLike" column="SUBARTICLE_LIKE"/>
-     <result property="isConnect" column="IS_CONNECT"/>
-     <result property="subArticleDate" column="SUB_ARTICLE_DATE"/>
-     <collection property="memberVO" column="MEMBER_EMAIL" ofType="memberVO"
-            javaType="memberVO" resultMap="memberResultMap"/>
-  </resultMap>
-  
-  <!-- memberResultMap -->
-  <resultMap type="memberVO" id="memberResultMap">
-     <result property="memberEmail" column="MEMBER_EMAIL"/>
-     <result property="memberNickName" column="MEMBER_NICKNAME"/>
-     <result property="memberPassword" column="MEMBER_PASSWORD"/>
-     <result property="memberJoinDate" column="MEMBER_JOIN_DATE"/>
-     <result property="memberPoint" column="MEMBER_POINT"/>
-     <result property="memberNotifiedAmount" column="MEMBER_NOTIFIED_AMOUNT"/>
-  </resultMap>
-  
-  <!-- tag_board ResultMap 
-  			private String tagName;
-	private int mainArticleNo;
-  -->
-  <resultMap type="tagBoardVO" id="tagBoardResultMap">
-  	<result property="tagName" column="TAG_NAME"/>
-  	<result property="mainArticleNo" column="MAIN_ARTICLE_NO"/>
-  </resultMap>
-  
-  
-	<select id="selectListNotCompleteMainArticleOrderByDate" resultMap="mainArticleResultMap" >
-	select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_EMAIL, ma.MAIN_ARTICLE_TITLE, 
-	ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
-	to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_date,	
-	ma.MAIN_ARTICLE_COMPLETE_DATE 
-	from main_article ma, tag_board tb 
+<mapper namespace="board">
+	<resultMap type="mainArticleVO" id="mainArticleResultMap">
+		<result property="mainArticleNo" column="MAIN_ARTICLE_NO" />
+		<result property="mainArticleTltle" column="MAIN_ARTICLE_TITLE" />
+		<result property="mainArticleContent" column="MAIN_ARTICLE_CONTENT" />
+		<result property="mainArticleHIt" column="MAIN_ARTICLE_HIT" />
+		<result property="mainArticleLike" column="MAIN_ARTICLE_LIKE" />
+		<result property="mainArticleTotalLike" column="MAIN_ARTICLE_TOTAL_LIKE" />
+		<result property="mainArticleDate" column="MAIN_ARTICLE_DATE" />
+		<result property="mainArticleCompleteDate" column="MAIN_ARTICLE_COMPLETE_DATE" />
+		<collection property="memberVO" column="MEMBER_EMAIL"
+			ofType="memberVO" javaType="memberVO" resultMap="memberResultMap" />
+		<collection property="subArticleList" column="MAIN_ARTICLE_NO"
+			ofType="subArticleVO" javaType="list" resultMap="subArticleResultMap" />
+		<collection property="tagBoardVOList" column="MAIN_ARTICLE_NO"
+			ofType="tagBoardVO" javaType="list" resultMap="tagBoardResultMap"/>
+	</resultMap>
+
+	<resultMap type="subArticleVO" id="subArticleResultMap">
+		<result property="subArticleNo" column="SUB_ARTICLE_NO" />
+		<result property="mainArticle" column="MAIN_ARTICLE_NO" />
+		<result property="memberEmail" column="MEMBER_EMAIL" />
+		<result property="subAtricleGrade" column="SUB_ARTICLE_GRADE" />
+		<result property="subArticleContent" column="SUB_ARTICLE_CONTENT" />
+		<result property="isEnd" column="IS_END" />
+		<result property="subArticleLike" column="SUBARTICLE_LIKE" />
+		<result property="isConnect" column="IS_CONNECT" />
+		<result property="subArticleDate" column="SUB_ARTICLE_DATE" />
+		<collection property="memberVO" column="MEMBER_EMAIL"
+			ofType="memberVO" javaType="memberVO" resultMap="memberResultMap" />
+	</resultMap>
+
+	<resultMap type="memberVO" id="memberResultMap">
+		<result property="memberEmail" column="MEMBER_EMAIL" />
+		<result property="memberNickName" column="MEMBER_NICKNAME" />
+		<result property="memberPassword" column="MEMBER_PASSWORD" />
+		<result property="memberJoinDate" column="MEMBER_JOIN_DATE" />
+		<result property="memberPoint" column="MEMBER_POINT" />
+		<result property="memberNotifiedAmount" column="MEMBER_NOTIFIED_AMOUNT" />
+	</resultMap>
+	<!-- tag_board ResultMap private String tagName; private int mainArticleNo; -->
+	<resultMap type="tagBoardVO" id="tagBoardResultMap">
+		<result property="tagName" column="TAG_NAME" />
+		<result property="mainArticleNo" column="MAIN_ARTICLE_NO" />
+	</resultMap>
+
+	<!-- 윤택 -->
+	<select id="selectOneCompleteMainArticleByMainArticleNo"
+		parameterType="mainArticleVO" resultType="mainArticleVO" resultMap="mainArticleResultMap">
+		select * from main_article m,sub_article s , brain_member b where
+		m.MAIN_ARTICLE_NO=1 and b.MEMBER_EMAIL=m.MAIN_ARTICLE_EMAIL
+	</select>
+	<!-- 대협 -->
+	<select id="completeMainArticleByMainArticleNo" resultType="mainArticleVO">
+		select m.MAIN_ARTICLE_NO, m.MAIN_ARTICLE_EMAIL, MAIN_ARTICLE_TITLE,
+		MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_HIT, MAIN_ARTICLE_LIKE,
+		MAIN_ARTICLE_TOTAL_LIKE, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE_DATE
+		from MAIN_ARTICLE m, SUB_ARTICLE s
+		where m.MAIN_ARTICLE_NO =
+		s.MAIN_ARTICLE_NO and s.IS_CONNECT=1 and IS_END=1
+		and
+		m.MAIN_ARTICLE_NO=#{value}
+	</select>
+	<select id="completeMainArticleOrderByDate" resultType="mainArticleVO">
+		select
+		m.MAIN_ARTICLE_NO, m.MAIN_ARTICLE_EMAIL, MAIN_ARTICLE_TITLE,
+		MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_HIT, MAIN_ARTICLE_LIKE,
+		MAIN_ARTICLE_TOTAL_LIKE, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE_DATE
+		from MAIN_ARTICLE m, SUB_ARTICLE s
+		where m.MAIN_ARTICLE_NO =
+		s.MAIN_ARTICLE_NO and s.IS_CONNECT=1 and IS_END=1
+		order by
+		m.MAIN_ARTICLE_DATE desc
+	</select>
+	<select id="completeMainArticleOrderByTotalLike" resultType="mainArticleVO">
+		select m.MAIN_ARTICLE_NO, m.MAIN_ARTICLE_EMAIL, MAIN_ARTICLE_TITLE,
+		MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_HIT, MAIN_ARTICLE_LIKE,
+		MAIN_ARTICLE_TOTAL_LIKE, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE_DATE
+		from MAIN_ARTICLE m, SUB_ARTICLE s
+		where m.MAIN_ARTICLE_NO =
+		s.MAIN_ARTICLE_NO and s.IS_CONNECT=1 and IS_END=1
+		order by
+		m.MAIN_ARTICLE_TOTAL_LIKE desc
+	</select>
+	<!-- 제성 -->
+	<select id="selectListNotCompleteMainArticleOrderByDate"
+		resultMap="mainArticleResultMap">
+		select tb.TAG_NAME, ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_EMAIL,
+		ma.MAIN_ARTICLE_TITLE,
+		ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE,
+		to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_date,
+		ma.MAIN_ARTICLE_COMPLETE_DATE
+		from main_article ma, tag_board tb 
 	<![CDATA[where ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO and ma.MAIN_ARTICLE_TOTAL_LIKE<10 order by ma_date desc]]>
 	</select>
-	
+
 	<select id="selectTagList" resultMap="tagBoardResultMap">
-	select tb.TAG_NAME
-	from main_article ma, tag_board tb
+		select tb.TAG_NAME
+		from main_article ma, tag_board tb
 	<![CDATA[where ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO and ma.MAIN_ARTICLE_TOTAL_LIKE<10]]>
 	</select>
- </mapper> 		
+</mapper> 		
  
  
  

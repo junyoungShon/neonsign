@@ -25,7 +25,7 @@ public class TagBoardVO {
 	}
 	@Override
 	public String toString() {
-		return "TagBoardVO [tagName=" + tagName + ", mainArticleNo="
+		return "TagAndArticleVO [tagName=" + tagName + ", mainArticleNo="
 				+ mainArticleNo + "]";
 	}
 	

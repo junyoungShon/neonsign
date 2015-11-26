@@ -57,8 +57,7 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleNo(
 			MainArticleVO mainArticleVO) {
-		// TODO Auto-generated method stub
-		return null;
+		return boardDAO.selectOneNotCompleteMainArticleByMainArticleNo(mainArticleVO);
 	}
 	@Override
 	public int insertSubArticle(SubArticleVO subArticleVO) {

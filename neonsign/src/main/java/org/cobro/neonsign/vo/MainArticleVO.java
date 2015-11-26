@@ -12,9 +12,10 @@ public class MainArticleVO {
 	private int mainArticleTotalLike;
 	private String mainArticleDate;
 	private String mainArticleCompleteDate;
-	// MainArticleVO는 MemberVO와 SubArticleVO를 가진다.
+	//MainArticleVO는 MemberVO와 SubArticleVO를 가진다.
 	private MemberVO memberVO;
 	private List<SubArticleVO> subArticleList;
+	private List<TagBoardVO> tagBoardVOListList;
 	public MainArticleVO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -23,7 +24,8 @@ public class MainArticleVO {
 			String mainArticleTltle, String mainArticleContent,
 			int mainArticleHIt, int mainArticleLike, int mainArticleTotalLike,
 			String mainArticleDate, String mainArticleCompleteDate,
-			MemberVO memberVO, List<SubArticleVO> subArticleList) {
+			MemberVO memberVO, List<SubArticleVO> subArticleList,
+			List<TagBoardVO> tagBoardVOListList) {
 		super();
 		this.mainArticleNo = mainArticleNo;
 		this.memberEmail = memberEmail;
@@ -36,6 +38,7 @@ public class MainArticleVO {
 		this.mainArticleCompleteDate = mainArticleCompleteDate;
 		this.memberVO = memberVO;
 		this.subArticleList = subArticleList;
+		this.tagBoardVOListList = tagBoardVOListList;
 	}
 	public int getMainArticleNo() {
 		return mainArticleNo;
@@ -103,6 +106,12 @@ public class MainArticleVO {
 	public void setSubArticleList(List<SubArticleVO> subArticleList) {
 		this.subArticleList = subArticleList;
 	}
+	public List<TagBoardVO> getTagBoardVOListList() {
+		return tagBoardVOListList;
+	}
+	public void setTagBoardVOListList(List<TagBoardVO> tagBoardVOListList) {
+		this.tagBoardVOListList = tagBoardVOListList;
+	}
 	@Override
 	public String toString() {
 		return "MainArticleVO [mainArticleNo=" + mainArticleNo
@@ -114,7 +123,7 @@ public class MainArticleVO {
 				+ ", mainArticleDate=" + mainArticleDate
 				+ ", mainArticleCompleteDate=" + mainArticleCompleteDate
 				+ ", memberVO=" + memberVO + ", subArticleList="
-				+ subArticleList + "]";
+				+ subArticleList + ", tagBoardVOListList=" + tagBoardVOListList
+				+ "]";
 	}
-	
 }

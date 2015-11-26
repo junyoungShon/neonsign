@@ -36,18 +36,16 @@ public class BoardController {
 	 * @author JeSeongLee
 	 */
 	@RequestMapping("getMainList.neon")
-	public ModelAndView getMainList(List<MainArticleVO> mainArticleVOList, List<TagBoardVO> tagBoardVOList){
-		System.out.println("넘어왔다");
-		tagBoardVOList = boardService.selectTagList();
-		mainArticleVOList = boardService.selectListNotCompleteMainArticleOrderByDate();
+	public ModelAndView getMainList(){
+		List<TagBoardVO> tagBoardVOList = boardService.selectTagList();
+		List<MainArticleVO> mainArticleVOList = boardService.selectListNotCompleteMainArticleOrderByDate();
 		System.out.println(tagBoardVOList + ", " + mainArticleVOList);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("tagBoardVOList", tagBoardVOList);
 		mav.addObject("mainArticleVOList", mainArticleVOList);
-		mav.setViewName("main");
+		mav.setViewName("home");
 		return mav;
 	}
-	
 	//main article 관련 메서드
 	/**Controller1
 	 * 사용자가 주제글을 작성할 때 사용한다.
@@ -119,7 +117,8 @@ public class BoardController {
 	 * @return
 	 */
 	public ModelAndView selectOneNotCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO){
-		return null;
+		MainArticleVO mainArticle=boardService.selectOneNotCompleteMainArticleByMainArticleNo(mainArticleVO);
+		return new ModelAndView("footer","",mainArticle);
 	}
 	/**Controller7
 	 * 미완결 주제글 잇자 추천버튼 눌렀을 때

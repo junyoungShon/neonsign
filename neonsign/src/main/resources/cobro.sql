@@ -229,5 +229,5 @@ MAX_POINT number not null
 )
 
 
-
+select * from BRAIN_MEMBER
 

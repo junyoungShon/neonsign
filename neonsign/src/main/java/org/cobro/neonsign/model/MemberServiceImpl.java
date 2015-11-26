@@ -24,9 +24,8 @@ public class MemberServiceImpl implements MemberService{
 		return null;
 	}
 	@Override
-	public int memberRegister(MemberVO mvo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int memberRegister(MemberVO memberVO) {
+		return memberDAO.memberRegister(memberVO);
 	}
 	@Override
 	public int memberUpdate(MemberVO mvo) {
@@ -34,9 +33,8 @@ public class MemberServiceImpl implements MemberService{
 		return 0;
 	}
 	@Override
-	public MemberVO memberLogin(MemberVO mvo) {
-		// TODO Auto-generated method stub
-		return null;
+	public MemberVO memberLogin(MemberVO memberVO) {
+		return memberDAO.memberLogin(memberVO);
 	}
 	@Override
 	public MemberVO memberDelete(MemberVO mvo) {
