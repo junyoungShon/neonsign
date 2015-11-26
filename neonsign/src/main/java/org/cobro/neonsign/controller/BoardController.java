@@ -3,10 +3,10 @@ package org.cobro.neonsign.controller;
 
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.cobro.neonsign.model.BoardService;
 import org.cobro.neonsign.vo.MainArticleVO;
@@ -18,6 +18,7 @@ import org.cobro.neonsign.vo.TagVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -35,12 +36,27 @@ public class BoardController {
 		return viewId;
 	}
 	/**
-	 * main.jsp에 주제글 리스트, Tag리스트 출력
+	 * main.jsp에 베스트, 새로운주제글, Tag리스트 출력
 	 * @author JeSeongLee
 	 */
 	@RequestMapping("getMainList.neon")
 	public ModelAndView getMainList(){
-		return new ModelAndView("home");
+		ModelAndView mav = new ModelAndView();
+		// 새로운 주제글 날짜순 + Tag
+		List<MainArticleVO> newMainArticleVOListOrderByDate
+			= boardService.selectListNotCompleteMainArticleOrderByDate();
+		System.out.println("con잇자수 10개이하 주제글 : " + newMainArticleVOListOrderByDate);
+		mav.addObject("newMainArticleVOListOrderByDate", newMainArticleVOListOrderByDate);
+		// 베스트 주제글 날짜순 + Tag
+		List<MainArticleVO> bestMainArticleVOListOrderByDate = boardService.getBestMainArticleVOListOrderByDate();
+		System.out.println("con잇자수 10개 이상 주제글 : " + bestMainArticleVOListOrderByDate);
+		mav.addObject("bestMainArticleVOListOrderByDate", bestMainArticleVOListOrderByDate);
+		// 전체 태그
+		List<TagVO> tagVOList = boardService.getTagVOList();
+		System.out.println("conmain 전체 Tag : " + tagVOList);
+		mav.addObject("tagVOList", tagVOList);
+		mav.setViewName("home");
+		return mav;
 	}
 	//main article 관련 메서드
 	/**Controller1
@@ -50,8 +66,26 @@ public class BoardController {
 	 * @param tagAndArticleVO
 	 * @return
 	 */
-	public ModelAndView insertMainArticle(MainArticleVO mainArticleVO,TagBoardVO tagAndArticleVO){
-		return null;
+	@RequestMapping("auth_insertNewMainArticle.neon")
+	public ModelAndView insertMainArticle(MainArticleVO mainArticleVO,HttpServletRequest request,TagBoardVO tagBoardVO){
+		String[] tagNameList = request.getParameterValues("tagName") ;
+		ArrayList<String> list = new ArrayList<String>();
+		System.out.println(tagBoardVO);
+		System.out.println(tagNameList.toString());
+		for(int i=0;i<tagNameList.length;i++){
+			list.add(tagNameList[i]);
+		}
+		boardService.insertMainArticle(mainArticleVO,list,tagBoardVO);
+		return new ModelAndView("redirect:getMainList.neon");
+	}
+	/**
+	 * 사용자가 주제글 작성을 위해 모달창을 열 때 태그들을 불러오는 메서드
+	 */
+	@RequestMapping("auth_openMainArticleModal.neon")
+	@ResponseBody
+	public List<TagVO> selectListTagNameOrderBySearchCount(){
+		List<TagVO> list = boardService.selectListTagNameOrderBySearchCount();
+		return list;
 	}
 	/**Controller2
 	 * 사용자가 주제글을 수정하고자 할때 사용한다.

@@ -5,13 +5,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="board">
 	<resultMap type="mainArticleVO" id="mainArticleResultMap">
 		<result property="mainArticleNo" column="MAIN_ARTICLE_NO" />
-		<result property="mainArticleTltle" column="MAIN_ARTICLE_TITLE" />
+		<result property="mainArticleTitle" column="MAIN_ARTICLE_TITLE" />
 		<result property="mainArticleContent" column="MAIN_ARTICLE_CONTENT" />
 		<result property="mainArticleHIt" column="MAIN_ARTICLE_HIT" />
 		<result property="mainArticleLike" column="MAIN_ARTICLE_LIKE" />
 		<result property="mainArticleTotalLike" column="MAIN_ARTICLE_TOTAL_LIKE" />
 		<result property="mainArticleDate" column="MAIN_ARTICLE_DATE" />
 		<result property="mainArticleCompleteDate" column="MAIN_ARTICLE_COMPLETE_DATE" />
+		<result property="memberEmail" column="MEMBER_EMAIL"/>
 		<collection property="memberVO" column="MEMBER_EMAIL"
 			ofType="memberVO" javaType="memberVO" resultMap="memberResultMap" />
 		<collection property="subArticleList" column="MAIN_ARTICLE_NO"
@@ -45,7 +46,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="tagName" column="TAG_NAME" />
 		<result property="mainArticleNo" column="MAIN_ARTICLE_NO" />
 	</resultMap>
-
+	<!-- tagVO resultMap -->
+	<resultMap type="tagVO" id="tagResultMap">
+		<result property="tagName" column="TAG_NAME"/>
+		<result property="searchCount" column="SEARCH_COUNT"/>
+	</resultMap>
+	<!-- 준영 -->
+   <insert id="insertMainArticle" parameterType="mainArticleVO">
+		<selectKey keyProperty="mainArticleNo" resultType="int" order="BEFORE">
+			select main_article_seq.nextval from dual
+		</selectKey>
+		insert into main_article(MAIN_ARTICLE_NO,MAIN_ARTICLE_EMAIL,MAIN_ARTICLE_TITLE,MAIN_ARTICLE_CONTENT,MAIN_ARTICLE_DATE)
+		values(#{mainArticleNo},#{memberEmail},#{mainArticleTitle},#{mainArticleContent},sysdate)
+	</insert>
+	<insert id="insertTagBoardVO" parameterType="tagBoardVO">
+		insert into tag_board (tag_name,main_article_no) values (#{tagName},#{mainArticleNo})
+	</insert>
+   <!-- 글 작성 시 선택하는 태그가 인기 순으로 적용되기 위한 SQL -->
+	<select id="selectListTagNameOrderBySearchCount" resultMap="tagResultMap">
+		select tag_name,search_count from TAG order by search_count
+	</select>
 	<!-- 운택 -->
 	<select id="selectOneCompleteMainArticleByMainArticleNo"
 		parameterType="mainArticleVO" resultType="mainArticleVO" resultMap="mainArticleResultMap">
@@ -96,6 +116,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from MAIN_ARTICLE where MAIN_ARTICLE_COMPLETE = 1 order by MAIN_ARTICLE_UPDATE_DATE
 	</select>
 	<!-- 제성 -->
+	<!-- 메인 새로운 주제글 최신순 List-->
+	<select id="selectListNotCompleteMainArticleOrderByDate"
+		resultMap="mainArticleResultMap">
+	select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
+	ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_date, 
+	ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME
+	from main_article ma, brain_member bm
+	<![CDATA[where bm.MEMBER_EMAIL = ma.MAIN_ARTICLE_EMAIL and ma.MAIN_ARTICLE_COMPLETE=0 and 
+	MAIN_ARTICLE_TOTAL_LIKE<10 order by ma_date desc]]> 
+	</select>
+	<!-- 메인 주제글 해당 tag list -->
+	<select id="getMainArticleTagList" resultMap="tagBoardResultMap">
+		select ma.MAIN_ARTICLE_NO, tb.TAG_NAME
+		from main_article ma, tag_board tb
+		where ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO and ma.MAIN_ARTICLE_NO=#{value}
+	</select>
+	<!-- 메인 베스트 주제글 최신순 List-->	
+	<select id="getBestMainArticleVOListOrderByDate"
+		resultMap="mainArticleResultMap">
+	select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
+	ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_date, 
+	ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME
+	from main_article ma, brain_member bm
+	<![CDATA[where bm.MEMBER_EMAIL = ma.MAIN_ARTICLE_EMAIL and ma.MAIN_ARTICLE_COMPLETE=0 and 
+	MAIN_ARTICLE_TOTAL_LIKE>9 order by ma_date desc]]> 
+	</select>
+	<!-- 전체 태그 불러오기 -->
+	<select id="getTagVOList" resultMap="tagResultMap">
+		select TAG_NAME from tag
+	</select>
 	
 </mapper> 		
  

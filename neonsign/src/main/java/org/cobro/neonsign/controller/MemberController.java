@@ -67,7 +67,7 @@ public class MemberController {
 			request.getSession().setAttribute("memberVO",memberVO);		
 		}
 		
-		return new ModelAndView("home");
+		return new ModelAndView("redirect:getMainList.neon");
 	}
 	@RequestMapping("logout.do")
 	public ModelAndView memberlogout(HttpServletRequest request){

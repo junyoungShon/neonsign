@@ -16,7 +16,7 @@
 					<div class="content">
 						<h6 class="category">#</h6>
 						<br>
-						<h4 class="title">[완결]${list.mainArticleTltle}</h4>
+						<h4 class="title">[완결]${list.mainArticleTitle}</h4>
 						<p class="description">${list.mainArticleContent}</p>
 						<div class="actions">
 							<button class="btn btn-round btn-fill btn-neutral btn-modern"

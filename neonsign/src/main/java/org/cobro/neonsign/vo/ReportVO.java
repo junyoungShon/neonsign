@@ -1,37 +1,37 @@
 package org.cobro.neonsign.vo;
 
 public class ReportVO {
-	private String notifyNo;
-	private String notifyDate;
+	private String reportNo;
+	private String reportDate;
 	private int mainArticleNo;
 	private int subArticleNo;
-	private int notifiedAmount;
+	private int reportAmount;
 	private String stagesOfProcess;
-	public ReportVO(String notifyNo, String notifyDate, int mainArticleNo,
-			int subArticleNo, int notifiedAmount, String stagesOfProcess) {
+	public ReportVO(String reportNo, String reportDate, int mainArticleNo,
+			int subArticleNo, int reportAmount, String stagesOfProcess) {
 		super();
-		this.notifyNo = notifyNo;
-		this.notifyDate = notifyDate;
+		this.reportNo = reportNo;
+		this.reportDate = reportDate;
 		this.mainArticleNo = mainArticleNo;
 		this.subArticleNo = subArticleNo;
-		this.notifiedAmount = notifiedAmount;
+		this.reportAmount = reportAmount;
 		this.stagesOfProcess = stagesOfProcess;
 	}
 	public ReportVO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public String getNotifyNo() {
-		return notifyNo;
+	public String getReportNo() {
+		return reportNo;
 	}
-	public void setNotifyNo(String notifyNo) {
-		this.notifyNo = notifyNo;
+	public void setReportNo(String reportNo) {
+		this.reportNo = reportNo;
 	}
-	public String getNotifyDate() {
-		return notifyDate;
+	public String getReportDate() {
+		return reportDate;
 	}
-	public void setNotifyDate(String notifyDate) {
-		this.notifyDate = notifyDate;
+	public void setReportDate(String reportDate) {
+		this.reportDate = reportDate;
 	}
 	public int getMainArticleNo() {
 		return mainArticleNo;
@@ -45,11 +45,11 @@ public class ReportVO {
 	public void setSubArticleNo(int subArticleNo) {
 		this.subArticleNo = subArticleNo;
 	}
-	public int getNotifiedAmount() {
-		return notifiedAmount;
+	public int getReportAmount() {
+		return reportAmount;
 	}
-	public void setNotifiedAmount(int notifiedAmount) {
-		this.notifiedAmount = notifiedAmount;
+	public void setReportAmount(int reportAmount) {
+		this.reportAmount = reportAmount;
 	}
 	public String getStagesOfProcess() {
 		return stagesOfProcess;
@@ -59,14 +59,11 @@ public class ReportVO {
 	}
 	@Override
 	public String toString() {
-		return "NotifyVO [notifyNo=" + notifyNo + ", notifyDate=" + notifyDate
+		return "ReportVO [reportNo=" + reportNo + ", reportDate=" + reportDate
 				+ ", mainArticleNo=" + mainArticleNo + ", subArticleNo="
-				+ subArticleNo + ", notifiedAmount=" + notifiedAmount
+				+ subArticleNo + ", reportAmount=" + reportAmount
 				+ ", stagesOfProcess=" + stagesOfProcess + "]";
 	}
-	public int getNotifyCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 	
 }

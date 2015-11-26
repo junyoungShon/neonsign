@@ -1,5 +1,6 @@
 package org.cobro.neonsign.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,8 @@ import org.cobro.neonsign.vo.TagVO;
 
 public interface BoardService {
 	//main article 관련 메서드
-	public int insertMainArticle(MainArticleVO mainArticleVO);
+	public int insertMainArticle(MainArticleVO mainArticleVO, ArrayList<String> list,
+			TagBoardVO tagBoardVO);
 	public int updateMainArticle(MainArticleVO mainArticleVO);
 	public void deleteMainArticle(MainArticleVO mainArticleVO);
 	public MainArticleVO selectOneCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO);
@@ -20,6 +22,9 @@ public interface BoardService {
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByTotalLike();
 	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO);
 	public List<MainArticleVO> selectListCompleteMainArticleOrderByDate();
+	public List<MainArticleVO> getBestMainArticleVOListOrderByDate();
+	public List<TagVO> getTagVOList();
+	public List<TagVO> selectListTagNameOrderBySearchCount();
 	
 	//sub article 관련 메서드
 	public int insertSubArticle(SubArticleVO subArticleVO);
@@ -38,4 +43,5 @@ public interface BoardService {
 	public List<MainArticleVO> articleSort(String sort);
 	public void articleNotify(MainArticleVO mainArticleVO);
 	public List<TagBoardVO> selectTagList();
+	
 }

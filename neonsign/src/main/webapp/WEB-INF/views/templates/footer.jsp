@@ -148,6 +148,8 @@
 		</div>
 	</div>
 	<!--글 내용 출력 모달창 끝 -->
+	
+	
 	<!-- 메인 아티클을 작성하는 부분 -->
 	<!-- Modal -->
 	<div class="modal fade" id="writeMainArticle" tabindex="-1" role="dialog"
@@ -162,45 +164,41 @@
 					<h4 class="modal-title" id="writeMainArticleLabel">뇌 On Sign 주제글 작성하기</h4>
 				</div>
 				<div class="modal-body">
+				<form action="auth_insertNewMainArticle.neon" method="post">
+					<input type="hidden" name="memberEmail" value="${sessionScope.memberVO.memberEmail}">
 					<table class="table">
 						<tr>
 							<td>
-							태그 선택
-								<div class="checkbox">
-									<label class="checkbox-inline">
-									  <input type="checkbox" id="inlineCheckbox1" value="option1"> #스릴러
-									</label>
-									<label class="checkbox-inline">
-									  <input type="checkbox" id="inlineCheckbox2" value="option2"> #SF
-									</label>
-									<label class="checkbox-inline">
-									  <input type="checkbox" id="inlineCheckbox3" value="option3"> #로맨스
-									</label>
+							태그 선택(태그는 2개까지 선택가능합니다!)
+								<div class="checkbox" id="tagCheck">
+									<!-- ajax로 인기 태그순으로 불러온다. -->
 								</div>
 							</td>
 						</tr>
 						<tr>
 							<td>
-							<input type="text" class="form-control" placeholder="주제글의 제목을 입력해주세요!">
+							<input type="text" class="form-control" placeholder="주제글의 제목을 입력해주세요!" 
+							name="mainArticleTitle">
 							</td>
 						</tr>
 						<tr>
 							<td>
-							<textarea class="form-control" rows="10" placeholder="주제글 입력해주세요 ! (200자로 제한됩니다.)"></textarea>
-							<div class="limitLength">작성 후 잇자 10개시 베스트로 이동되며,타임체크가 발동됩니다! 0kb/600kb</div>
+							<textarea class="form-control" rows="10" placeholder="주제글 입력해주세요 ! (200자로 제한됩니다.)" name="mainArticleContent"></textarea>
+							<div class="limitLength">작성 후 잇자 10개시 베스트로 이동되며,타임체크가 발동됩니다!<span class="userLength"></span>Byte/400Byte</div>
 							</td>
 						</tr>
 					</table>
+				</form>
 				</div>
 				
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">글 남기기</button>
+					<button type="button" class="btn btn-primary" name="newMainArticleSubmit">글 남기기</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!--글 내용 출력 모달창 끝 -->
+	<!--글쓰기 모달창 끝 -->
 	<!-- 로그인 폼 출력되는 모달 창 -->
 	<!-- Modal -->
 	<div class="modal fade" id="loginModal" tabindex="-1" role="dialog"

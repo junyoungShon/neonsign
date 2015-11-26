@@ -82,14 +82,97 @@ $(document).ready(function(){ //DOM이 준비되고
 		});
 		//다시 모달창을 열었을 대 첫 화면 띄움
 	});
-	$('.writeMainArticle').click(function(){
-		$('#writeMainArticle').modal({
-			//취소버튼으로만 창을 끌 수 있도록 지정
-			backdrop: 'static',
-			keyboard: false
+	/*
+	 * 회원이 글쓰기 폼을 열었을 때 인기 태그를 불러오는 에이잭스를 시작으로
+	 * 글자수 제한을 위한 keyup이벤트 및 공란체크 그리고 서밋을 담고 잇다.
+	 * */
+	
+	$('.openModalInsertArticleForm').click(function(){
+		$.ajax({
+			type:"post",
+			url:"auth_openMainArticleModal.neon",
+			dataType:"json",
+			success:function(data){
+				tagList = '';
+				for(var i=0;i<data.length;i++){
+					tagList += 
+						'<label><input type="checkbox" name="tagName" value="'+data[i].tagName+'">#'+data[i].tagName+'</label>'+'&nbsp&nbsp&nbsp'
+					if(i!=0){
+						if(i%6==0){
+							tagList +='<br>'
+						}
+					}
+				}
+				$('#writeMainArticle').modal({
+					//취소버튼으로만 창을 끌 수 있도록 지정
+					backdrop: 'static',
+					keyboard: false
+				});
+				
+				$('#writeMainArticle').on('shown.bs.modal', function () {
+					$('#tagCheck').html(tagList);
+					//태그는 2개까지 선택이 가능하도록 강제함
+					$('input[name="tagName"]').on('click',function(){
+						if($('input[name="tagName"]:checked').length>2){
+							alert('태그는 2개 까지만 선택이 가능합니다.');
+							$(this).attr("checked", false);
+						}
+					});
+					//태그 공란 체크
+					$('button[name="newMainArticleSubmit"]').click(function(){
+						if($('input[name="tagName"]:checked').length<1){
+							alert('태그는 1개 이상 선택해주세요.');
+							return false;
+						}
+						//제목 공란체크
+						if($('input[name="mainArticleTltle"]').val()==''){
+							alert('글 제목을 입력해주세요');
+							$('input[name="mainArticleTltle"]').focus();
+							return false;
+						}
+						//글 내용 공란 체크
+						if($('textarea[name="mainArticleContent"]').val()==''){
+							alert('글 내용을 입력해주세요');
+							 $('textarea[name="mainArticleContent"]').focus();
+							 return false;
+						}
+						$('form[action="auth_insertNewMainArticle.neon"]').submit();
+					});
+					//주제글 작성 제한을 위한 keyUp 이벤트 - 글자수를 제한해준다.
+					$('textarea[name="mainArticleContent"]').keyup(function(){
+						function korTextCheck($str){
+				            var str = $str;
+				            var check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+				            var result = str.match(check);
+				            if(result) return true; //한글일 경우
+				            return false; //한글이 아닐경우
+				        }	
+						var userWriting = $(this).val();
+						var wrtingByte = 0;
+						for(var i=0;i<userWriting.length;i++){
+							//한글일 경우 2byte
+							if(korTextCheck(userWriting.charAt(i))){
+								wrtingByte += 2; 
+							//영어일 경우 1byte
+							}else{
+								wrtingByte += 1; 
+							}
+							if(wrtingByte>400){
+								$('textarea[name="mainArticleContent"]').val(userWriting.substring(0,400));
+							}
+						}
+						$('.userLength').text(wrtingByte);
+					});
+					
+				});
+					
+				
+			}
 		});
-		//다시 모달창을 열었을 대 첫 화면 띄움
+		
 	});
+	// 글쓰기 폼 끝
+	
 
 	
 	//매인 끝
