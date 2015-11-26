@@ -87,14 +87,9 @@ public class MemberController {
 		request.getSession().setAttribute("memberVO",memberVO);
 		return new ModelAndView("home");
 	}
+/*	
+	public ModelAndView memberUpdate(HttpServletRequest request){
 	
-	/*public ModelAndView memberUpdate(HttpServletRequest request){
-		
-		memberService.memberUpdate(mvo);
-		*//**
-		 * 		회원수정 메소드
-		 *//*
-		return null;
 	}*/
 	
 	public ModelAndView memberDelete(MemberVO mvo){
