@@ -69,7 +69,73 @@ $(document).ready(function(){ //DOM이 준비되고
 		var tagLists = $(this).parent().siblings().eq(0).text() ;
 		var title = $(this).parent().siblings().eq(2).text();
 		var content = $(this).parent().siblings().eq(3).text() ;
-		var writersId =  $(this).parent().siblings().eq(4).text()
+		var writersId =  $(this).parent().siblings().eq(4).text();
+		var mainArticleNO =  $(this).parent().siblings().eq(5).val();
+		/*var mainArticleTitleNO=$(":input[name=mainArticleNo1234]").val();*/
+		/*alert(mainArticleTitleNO);*/
+		$.ajax({
+			type:"post",
+			url:"selectOneNotCompleteMainArticleByMainArticleNo.neon",
+			data:"mainArticleNo="+mainArticleNO,
+			dataType:"json",
+			success:function(data){
+				var subAtricleGrade=0;
+				var mainArticle="";
+				/*alert($(".table").children().html()+"희");*/
+				$('.mainCardDetailViewContentNo').text(0);
+				$('.mainCardDetailViewContent').text(data.mainArticleContent);
+				$('.mainWritersNickNameAtDetail').text(data.memberVO.memberNickName);
+				$('.mainLikeIt').html("잇자! <br>"+data.mainArticleTotalLike);
+				//작성자가 쓴 주제글이 맨위로 넘어 온다
+				
+				
+				for(var j=0; j<data.subArticleList.length;j++){
+					if(data.subArticleList[j].subAtricleGrade>subAtricleGrade){
+						subAtricleGrade=data.subArticleList[j].subAtricleGrade;
+					}
+				}//현재 주제글의 잇는글들의 subAtricleGrade의 Max값을 찾는 for문 
+					/*
+					 *주제글에 잇는글이 들어갈때의 조건
+					 *최대 subAtricleGrade은 주제글에 X
+					 *똑같은 subAtricleGrade는 주제글에 넣지 않고 하나만 넣는다
+					 */
+				var check=-1;//
+				for(var s=0; s<data.subArticleList.length;s++){
+					if(check!=data.subArticleList[s]){
+					if(data.subArticleList[s].subAtricleGrade<subAtricleGrade){
+						mainArticle=mainArticle+"<tr><td width='5%'>"+(s+1)+"</td><td width='75%'>" +
+						data.subArticleList[s].subArticleContent+"</td><td width='10%'>"+
+						data.subArticleList[s].memberVO.memberNickName+"</td><td width='5%'>잇자!<br>"+
+						data.subArticleList[s].subArticleLike+"</td>"+
+						"<td width='5%'>신고</td></tr>";
+						check=data.subArticleList[s].subAtricleGrade;
+						}else{}
+					}else{}
+				}
+
+				$("#mainSubArticle").html(mainArticle);
+			//------------------------------------------------------------------
+			
+/*				$(".table").children().html(mainArticle);	*/
+			//alert(data.subArticleList[1].subArticleNo);
+
+			var subAtricleOrder="<tr class='warning'><td colspan='5'>잇는글</td></tr>";
+			for(var i=0; i<data.subArticleList.length; i++){
+				if(data.subArticleList[i].subAtricleGrade==subAtricleGrade){
+					subAtricleOrder=subAtricleOrder+
+							"<tr><td class=' subCardDetailViewContentNo' width=' 5%' >"+(i+1)+"</td>"+
+							"<td class=' subCardDetailViewContent'  width=' 80%' >"+data.subArticleList[i].subArticleContent+"</td>"+
+							"<td class=' subWritersNickNameAtDetail'  width=' 10%' >"+data.subArticleList[i].memberVO.memberNickName+"</td>"+
+							"<td class=' subLikeIt'  width=' 5%' >잇자!<br>"+data.subArticleList[i].subArticleLike+"</td>"+
+							"<td class=' reportIt'  width=' 5%' >신고</td>"+
+						"</tr>";		
+	
+				}
+			}
+			$('.subTable').html(subAtricleOrder);
+			}
+
+		});
 		$('#cardDetailView .modal-title').text(title);
 		$('.cardDetailViewContent').text(content);
 		
@@ -374,5 +440,11 @@ $(document).ready(function(){ //DOM이 준비되고
 			});
 			
 		});//모달 유효성 체크
+	//로그아웃 confirm
+	$("#memberLogout").click(function(){
+		if(confirm("로그아웃하시겠습니까?")){
+			location.href="memberLogout.neon";
+		}
+	});
 });//document.ready
 	

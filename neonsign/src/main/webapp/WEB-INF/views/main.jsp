@@ -13,9 +13,7 @@
                 <div class="card card-with-border" data-background="image" data-src="${initParam.root}resources/img/snow.jpg">    
                     <div class="content">
                         <h6 class="category">
-                        	<c:forEach var="tagBoard" items="${bestMainArticle.tagName}">
-                        		${tagBoard}
-                        	</c:forEach>
+                        	${bestMainArticle.tagName}
                         </h6>
                         <br>
                         <h4 class="title">${bestMainArticle.mainArticleTitle}</h4>
@@ -23,6 +21,7 @@
 		                    ${bestMainArticle.mainArticleContent}
                   		</p>
                      <span class="writersNickName">- ${bestMainArticle.memberVO.memberNickName} -</span>
+                     <input type="hidden" class="mainArticleTitleNO" value="${bestMainArticle.mainArticleNo}">
                         <div class="actions">
                             <button class="btn btn-round btn-fill btn-neutral btn-modern" data-toggle="modal" data-target="#cardDetailView">
                                 Read Article
@@ -88,6 +87,7 @@
 		             		${newMainArticle.mainArticleContent}
 		                </p>
 		                <span class="writersNickName">- ${newMainArticle.memberVO.memberNickName} -</span>
+		                <input type="hidden" class="mainArticleTitleNO" value="${bestMainArticle.mainArticleNo}">
                         <div class="actions">
                           <button class="btn btn-round btn-fill btn-neutral btn-modern" data-toggle="modal" data-target="#cardDetailView">
                                 Read Article

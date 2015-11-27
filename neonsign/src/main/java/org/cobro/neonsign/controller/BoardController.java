@@ -143,12 +143,20 @@ public class BoardController {
 	}
 	/**Controller6
 	 * 미완결 글보기를 클릭하면 해당 메서드가 실행된다.
+	 * 	미완결 글의 디테일을 리턴해준다
 	 * @param mainArticleVO
-	 * @return
+	 * @author 전윤택
 	 */
-	public ModelAndView selectOneNotCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO){
-		MainArticleVO mainArticle=boardService.selectOneNotCompleteMainArticleByMainArticleNo(mainArticleVO);
-		return new ModelAndView("footer","",mainArticle);
+	@RequestMapping("selectOneNotCompleteMainArticleByMainArticleNo.neon")
+	@ResponseBody
+	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO){
+		System.out.println("희 "+mainArticleVO);
+		MainArticleVO mainArticle=null;
+		if (mainArticleVO!=null) {
+			 mainArticle=boardService.selectOneNotCompleteMainArticleByMainArticleNo(mainArticleVO);
+			 System.out.println(mainArticle);
+		}
+		return mainArticle;
 	}
 	/**Controller7
 	 * 미완결 주제글 잇자 추천버튼 눌렀을 때

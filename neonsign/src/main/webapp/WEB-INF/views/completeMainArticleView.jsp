@@ -18,6 +18,8 @@
 						<br>
 						<h4 class="title">[완결]${list.mainArticleTitle}</h4>
 						<p class="description">${list.mainArticleContent}</p>
+						<input type="hidden" name="">
+						<input type="hidden" class="mainArticleTitleNO" value="${list.mainArticleNo}">
 						<div class="actions">
 							<button class="btn btn-round btn-fill btn-neutral btn-modern"
 								data-toggle="modal" data-target="#cardDetailView">Read

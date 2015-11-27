@@ -66,11 +66,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectListTagNameOrderBySearchCount" resultMap="tagResultMap">
 		select tag_name,search_count from TAG order by search_count
 	</select>
-	<!-- 운택 -->
-	<select id="selectOneCompleteMainArticleByMainArticleNo"
-		parameterType="mainArticleVO" resultType="mainArticleVO" resultMap="mainArticleResultMap">
-		select * from main_article m,sub_article s , brain_member b where
-		m.MAIN_ARTICLE_NO=1 and b.MEMBER_EMAIL=m.MAIN_ARTICLE_EMAIL
+	<!-- 윤택 -->
+	<select id="selectOneCompleteMainArticleByMainArticleNo" resultMap="mainArticleResultMap" 
+	parameterType="mainArticleVO" resultType="mainArticleVO">
+		select * from main_article m,  brain_member b,sub_article s  where
+		m.MAIN_ARTICLE_NO=s.MAIN_ARTICLE_NO and m.MAIN_ARTICLE_NO=#{mainArticleNo} 
+		and b.MEMBER_EMAIL=m.MAIN_ARTICLE_EMAIL order by s.SUB_ARTICLE_GRADE asc
 	</select>
 	<!-- 대협 -->
 
@@ -115,6 +116,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		MAIN_ARTICLE_UPDATE_DATE
 		from MAIN_ARTICLE where MAIN_ARTICLE_COMPLETE = 1 order by MAIN_ARTICLE_UPDATE_DATE
 	</select>
+
 	<!-- 제성 -->
 	<!-- 메인 새로운 주제글 최신순 List-->
 	<select id="selectListNotCompleteMainArticleOrderByDate"
@@ -146,7 +148,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getTagVOList" resultMap="tagResultMap">
 		select TAG_NAME from tag
 	</select>
-	
 </mapper> 		
  
  

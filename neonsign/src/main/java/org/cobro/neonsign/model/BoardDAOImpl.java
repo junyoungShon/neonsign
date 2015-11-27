@@ -108,10 +108,17 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 
 	@Override
+	/**
+	 * 해당 MainArticle 정보를 가져 오는 메서드
+	 * 	해당 MainArticle 정보 안에는 해당 MainArticle의 SubArticle의 정보 ,
+	 * 작성자의 정보가 담겨져 있고 SubArticle 정보 안에는 SubArticle의 작성자
+	 * 정보가 있음
+	 * @author 윤택
+	 */
 	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleNo(
 			MainArticleVO mainArticleVO) {
 		// TODO Auto-generated method stub
-		System.out.println(mainArticleVO.getMainArticleNo());
+		System.out.println("selectOneNotCompleteMainArticleByMainArticleNo 실행됨");
 		MainArticleVO main=null;
 		try{
 		main=sqlSessionTemplate.selectOne("board.selectOneCompleteMainArticleByMainArticleNo",mainArticleVO);
@@ -120,7 +127,6 @@ public class BoardDAOImpl implements BoardDAO{
 		}
 		return main;
 	}
-
 	@Override
 	public void insertSubArticle(SubArticleVO subArticleVO) {
 		// TODO Auto-generated method stub
@@ -173,6 +179,7 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 	@Override
 	public List<MainArticleVO> getBestMainArticleVOListOrderByDate() {
+		System.out.println("DAOIMPL 희의");
 		List<MainArticleVO> list=null;
 		try{
 			list=sqlSessionTemplate.selectList("board.getBestMainArticleVOListOrderByDate");
