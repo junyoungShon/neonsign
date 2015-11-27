@@ -440,5 +440,11 @@ $(document).ready(function(){ //DOM이 준비되고
 			});
 			
 		});//모달 유효성 체크
+	//로그아웃 confirm
+	$("#memberLogout").click(function(){
+		if(confirm("로그아웃하시겠습니까?")){
+			location.href="memberLogout.neon";
+		}
+	});
 });//document.ready
 	
