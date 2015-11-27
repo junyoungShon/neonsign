@@ -3,36 +3,105 @@ $(document).ready(function(){ //DOM이 준비되고
 	//main 부분
 	//무한 스크롤 (테스트 완료 ajax와 연동 필요)
 	// hipster 카드에서 동적으로 style을 입혀주지 못하는 문제점이 있어서 반드시 소스를 넣을 때 style을 수기로 기록해줘야함
-	function loadingItjaCard(articleType){  
-		if(articleType.val()=='completeArticle'){
-			var infinityScrollTestSource = 
-				'<div class="card-box col-md-4">' 
-				+ '<div class="card card-with-border" data-background="image" data-src="img/snow.jpg" style="background-image: url(img/snow.jpg); background-size: cover; background-position: 50% 50%;">' 
-				+ '<div class="content">' 
-				+ '<h6 class="category">#</h6><br>' 
-				+ '<h4 class="title">[완결]</h4>' 
-				+ ' <p class="description"></p>' 
-				+ '<div class="actions">' 
-				+ '<button class="btn btn-round btn-fill btn-neutral btn-modern" data-toggle="modal" data-target="#cardDetailView">Read Article</button>' 
-				+ '</div>' 
-				+ '<div class="social-line social-line-visible" data-buttons="4">' 
-				+ '<button class="btn btn-social btn-pinterest">완결된<br>잇자!</button>' 
-				+ '<button class="btn btn-social btn-twitter"><br>잇자!</button>' 
-				+ '<button class="btn btn-social btn-google"><i class="fa fa-heart-o"></i><br>찜하자!</button>' 
-				+ '<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button>' 
-				+ '</div>  <!-- end social-line social-line-visible --></div></div> <!-- end card --></div><!-- card-box col-md-4 -->'
-				+ '</c:forEach>';
-			$('.ajaxLoader').fadeOut(300);
-			$('.newItjaList').append(infinityScrollTestSource)
-			$('.newItjaList').append(infinityScrollTestSource)
-			$('.newItjaList').append(infinityScrollTestSource)
-			$('.newItjaList').append(infinityScrollTestSource)
-			$('.newItjaList').append(infinityScrollTestSource)
+	$(window).scroll(function(){
+		//alert($(".card-box").length);
+        if($(window).scrollTop() == $(document).height() - $(window).height()){  
+           setTimeout(function(){loadingItjaCard();}, 800)
+        }  
+	});  
+	function loadingItjaCard(){
+		var infinityScrollTestSource = "";
+		var mainArticleTitle = "";
+		var mainArticleContent = "";
+		if($("#articleType").val()=='completeArticle'){
+			$.ajax({
+				type:"post",
+				url:"getCompleteMainArticle.neon",
+				dataType:"json",
+				success:function(data){
+					for(var i=$(".card-box").length; i<data.length; i++){
+						//타이틀 길이제한 조건문
+						if(data[i].mainArticleTitle.length>12){
+							mainArticleTitle = data[i].mainArticleTitle.substring(0,12) + " ...";
+						}else{
+							mainArticleTitle = data[i].mainArticleTitle;
+						}
+						//내용 길이제한 조건문
+						if(data[i].mainArticleContent.length>18){
+							mainArticleContent = data[i].mainArticleTitle.substring(0,15) + " ...";
+						}else{
+							mainArticleContent = data[i].mainArticleTitle;
+						}
+						//추가될 카드 html문
+						infinityScrollTestSource +=
+							'<div class="card-box col-md-4">' 
+							+ '<div class="card card-with-border" data-background="image" data-src="resources/img/snow.jpg" style="background-image: url(resources/img/snow.jpg); background-size: cover; background-position: 50% 50%;">' 
+							+ '<div class="content">' 
+							+ '<h6 class="category">#</h6><br>' 
+							+ '<h5 class="title">[완결]' + mainArticleTitle + '</h5>' 
+							+ ' <p class="description">' + data[i].mainArticleContent + '</p>' 
+							+ '<div class="actions">' 
+							+ '<button class="btn btn-round btn-fill btn-neutral btn-modern" data-toggle="modal" data-target="#cardDetailView">Read Article</button>' 
+							+ '</div>' 
+							+ '<div class="social-line social-line-visible" data-buttons="4">' 
+							+ '<button class="btn btn-social btn-pinterest">완결된<br>잇자!</button>' 
+							+ '<button class="btn btn-social btn-twitter">' + data[i].mainArticleTotalLike + '<br>잇자!</button>' 
+							+ '<button class="btn btn-social btn-google"><i class="fa fa-heart-o"></i><br>찜하자!</button>' 
+							+ '<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button>' 
+							+ '</div>  <!-- end social-line social-line-visible --></div></div> <!-- end card --></div><!-- card-box col-md-4 -->'
+					}
+					$('.ajaxLoader').fadeOut(300);
+					$('.newItjaList').append(infinityScrollTestSource);
+				}
+			});
 		}else{
-			
+			if($("#articleType").val()=='mainArticle'){
+				$.ajax({
+					type:"post",
+					url:"getCompleteMainArticle.neon",
+					dataType:"json",
+					success:function(data){
+						for(var i=$(".card-box").length; i<data.length; i++){
+							//타이틀 길이제한 조건문
+							if(data[i].mainArticleTitle.length>12){
+								mainArticleTitle = data[i].mainArticleTitle.substring(0,12) + " ...";
+							}else{
+								mainArticleTitle = data[i].mainArticleTitle;
+							}
+							//내용 길이제한 조건문
+							if(data[i].mainArticleContent.length>18){
+								mainArticleContent = data[i].mainArticleTitle.substring(0,15) + " ...";
+							}else{
+								mainArticleContent = data[i].mainArticleTitle;
+							}
+							//추가될 카드 html문
+							infinityScrollTestSource +=
+								'<div class="card-box col-md-4">' 
+								+ '<div class="card card-with-border" data-background="image" data-src="resources/img/snow.jpg" style="background-image: url(resources/img/snow.jpg); background-size: cover; background-position: 50% 50%;">' 
+								+ '<div class="content">' 
+								+ '<h6 class="category">#</h6><br>' 
+								+ '<h5 class="title">[완결]' + mainArticleTitle + '</h5>' 
+								+ ' <p class="description">' + data[i].mainArticleContent + '</p>' 
+								+ '<div class="actions">' 
+								+ '<button class="btn btn-round btn-fill btn-neutral btn-modern" data-toggle="modal" data-target="#cardDetailView">Read Article</button>' 
+								+ '</div>' 
+								+ '<div class="social-line social-line-visible" data-buttons="4">' 
+								+ '<button class="btn btn-social btn-pinterest">완결된<br>잇자!</button>' 
+								+ '<button class="btn btn-social btn-twitter">' + data[i].mainArticleTotalLike + '<br>잇자!</button>' 
+								+ '<button class="btn btn-social btn-google"><i class="fa fa-heart-o"></i><br>찜하자!</button>' 
+								+ '<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button>' 
+								+ '</div>  <!-- end social-line social-line-visible --></div></div> <!-- end card --></div><!-- card-box col-md-4 -->'
+						}
+						$('.ajaxLoader').fadeOut(300);
+						$('.newItjaList').append(infinityScrollTestSource);
+					}
+				});
+		}
 		}
 	};  
+
 	//무한 스크롤 끝
+
 	
 	//tag sort 버튼 활성화
 	

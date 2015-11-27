@@ -72,6 +72,7 @@
          <h2 class="itjaMainTitle">새로운 잇자!</h2>
             
         <!-- *** new Main 카드 1개 -->
+        <input type="hidden" id="articleType" value="mainArticle">
       <c:forEach var="newMainArticle" items="${requestScope.newMainArticleVOListOrderByDate}">
          <div class="card-box col-md-4">  
                 <div class="card card-with-border" data-background="image" data-src="${initParam.root}resources/img/fashion-1.jpg">    

@@ -59,7 +59,17 @@ public class BoardController {
 		mav.setViewName("home");
 		return mav;
 	}
-	
+	/**Controller9
+	 * 무한스크롤을 위한 완결 주제글 메소드
+	 * @author daehyeop
+	 */
+	@RequestMapping("getNewMainArticle.neon")
+	@ResponseBody
+	public ArrayList<MainArticleVO> getNewMainArticle(){
+		List<MainArticleVO> newMainArticleVOListOrderByDate = boardService.selectListNotCompleteMainArticleOrderByDate();
+		ArrayList<MainArticleVO> newMainArticleArrayList = (ArrayList<MainArticleVO>) newMainArticleVOListOrderByDate;
+ 		return newMainArticleArrayList;
+	}
 	//main article 관련 메서드
 	/**Controller1
 	 * 사용자가 주제글을 작성할 때 사용한다.
@@ -175,11 +185,22 @@ public class BoardController {
 	 */
 	@RequestMapping("selectListCompleteMainArticleOrderByTotalLike.neon")
 	public ModelAndView selectListCompleteMainArticleOrderByTotalLike() {
-		List<MainArticleVO> completeMainArticleList = boardService
-				.selectListCompleteMainArticleOrderByTotalLike();
-		ArrayList<MainArticleVO> mainArticleList = (ArrayList<MainArticleVO>) completeMainArticleList;
-		return new ModelAndView("completeMainArticleView", "mainArticleList",
-				mainArticleList);
+			List<MainArticleVO> completeMainArticleList = boardService
+					.selectListCompleteMainArticleOrderByTotalLike();
+			ArrayList<MainArticleVO> mainArticleList = (ArrayList<MainArticleVO>) completeMainArticleList;
+			return new ModelAndView("completeMainArticleView", "mainArticleList",
+					mainArticleList);
+	}
+	/**Controller9
+	 * 무한스크롤을 위한 완결 주제글 메소드
+	 * @author daehyeop
+	 */
+	@RequestMapping("getCompleteMainArticle.neon")
+	@ResponseBody
+	public ArrayList<MainArticleVO> getCompleteMainArticle(){
+		List<MainArticleVO> mainArticleList = boardService.selectListCompleteMainArticleOrderByTotalLike();
+		ArrayList<MainArticleVO> mainArticleArrayList = (ArrayList<MainArticleVO>) mainArticleList;
+ 		return mainArticleArrayList;
 	}
 	/**Cotroller8-2
 	 * 완결 주제글이 게시일순으로 반환된다.

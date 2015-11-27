@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!-- 끝!! el 문 및 ajax로 베스트글이 표시되는 슬라이드 지역 -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <div class="container">
 	<!-- Example row of columns -->
 	<div class="row newItjaList" style="margin-top: 60px;">
@@ -16,9 +16,25 @@
 					<div class="content">
 						<h6 class="category">#</h6>
 						<br>
-						<h4 class="title">[완결]${list.mainArticleTitle}</h4>
-						<p class="description">${list.mainArticleContent}</p>
-						<input type="hidden" name="">
+						<c:set var="mainArticleContentTitle" value="${list.mainArticleTitle}"/>
+						<h5 class="title">[완결]<c:choose>
+							<c:when test="${fn:length(mainArticleContentTitle)>12}">
+								${fn:substring(mainArticleContentTitle, 0, 11)} ...
+							</c:when>
+							<c:otherwise>
+								${list.mainArticleTitle}
+							</c:otherwise>
+						</c:choose></h5>
+						<c:set var="mainArticleContentContent" value="${list.mainArticleContent}"/>
+						<p class="description"><c:choose>
+							<c:when test="${fn:length(mainArticleContentContent)>18}">
+								${fn:substring(mainArticleContentContent, 0, 15)} ...
+							</c:when>
+							<c:otherwise>
+								${list.mainArticleContent}
+							</c:otherwise>
+							</c:choose></p>
+								<input type="hidden" name="">
 						<input type="hidden" class="mainArticleTitleNO" value="${list.mainArticleNo}">
 						<div class="actions">
 							<button class="btn btn-round btn-fill btn-neutral btn-modern"
@@ -52,3 +68,8 @@
 	<hr>
 </div>
 <!-- /container -->
+
+
+
+
+					
