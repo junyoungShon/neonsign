@@ -27,6 +27,7 @@ public class MainArticleVO {
 			String mainArticleDate, String mainArticleCompleteDate,
 			MemberVO memberVO, List<SubArticleVO> subArticleList,
 			ArrayList<ArrayList<TagBoardVO>> tagBoardVOList) {
+		
 		super();
 		this.mainArticleNo = mainArticleNo;
 		this.memberEmail = memberEmail;

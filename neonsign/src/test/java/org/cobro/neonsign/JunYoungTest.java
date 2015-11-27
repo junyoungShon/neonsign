@@ -41,11 +41,9 @@ public class JunYoungTest {
 
 	@Test
 	public void test(){
-		// List<MainArticleVO> mainArticleVOList, List<TagVO> tagVOList)
-		List<TagVO> tagVOList = null;	
-		/*tagVOList = boardService.selectTagList();*/
-		System.out.println(tagVOList);
-		List<MainArticleVO> mainArticleVOList = boardService.selectListNotCompleteMainArticleOrderByDate();
-		System.out.println(mainArticleVOList);
+		MainArticleVO mavo=new MainArticleVO();
+		mavo.setMainArticleNo(4);
+		MainArticleVO vo=boardService.selectOneNotCompleteMainArticleByMainArticleNo(mavo);
+		System.out.println(vo);
 	}
 }

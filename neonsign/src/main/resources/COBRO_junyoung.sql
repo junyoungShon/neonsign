@@ -11,5 +11,9 @@ select MAIN_ARTICLE_NO, MAIN_ARTICLE_EMAIL,
 MAIN_ARTICLE_LIKE, MAIN_ARTICLE_TOTAL_LIKE, MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE) 
 values(main_article_seq.nextval,'e@naver.com','화장실에서 벌어진 일','손을 씻지 않고 나왔다',84, 15, 55, 
 sysdate, to_date('2015/11/20 13:51:40',  'yyyy/mm/dd hh24:mi:ss'),1);
+
+		select * from main_article m,  brain_member b,sub_article s  where
+		m.MAIN_ARTICLE_NO=s.MAIN_ARTICLE_NO and m.MAIN_ARTICLE_NO=2
+		and b.MEMBER_EMAIL=m.MAIN_ARTICLE_EMAIL order by s.SUB_ARTICLE_GRADE asc
 		
 		select * from MAIN_ARTICLE

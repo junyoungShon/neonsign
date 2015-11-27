@@ -131,6 +131,12 @@ public class BoardServiceImpl implements BoardService{
 		return null;
 	}
 	@Override
+	/**
+	 * 해당 MainArticle 정보를 가져 오는 메서드
+	 * 	해당 MainArticle 정보 안에는 해당 MainArticle의 SubArticle의 정보 ,
+	 * 작성자의 정보가 담겨져 있고 SubArticle 정보 안에는 SubArticle의 작성자
+	 * 정보가 있음
+	 */
 	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleNo(
 			MainArticleVO mainArticleVO) {
 		return boardDAO.selectOneNotCompleteMainArticleByMainArticleNo(mainArticleVO);
