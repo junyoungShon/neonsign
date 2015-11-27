@@ -12,13 +12,16 @@
          	<div class="card-box col-lg-2">  
                 <div class="card card-with-border" data-background="image" data-src="${initParam.root}resources/img/snow.jpg">    
                     <div class="content">
-                        <h6 class="category">#Tag,</h6>
+                        <h6 class="category">
+                        	${bestMainArticle.tagName}
+                        </h6>
                         <br>
                         <h4 class="title">${bestMainArticle.mainArticleTitle}</h4>
                         <p class="description">
 		                    ${bestMainArticle.mainArticleContent}
                   		</p>
-                     <span class="writersNickName">${bestMainArticle.memberVO.memberNickName}</span>
+                     <span class="writersNickName">- ${bestMainArticle.memberVO.memberNickName} -</span>
+                     <input type="hidden" class="mainArticleTitleNO" value="${bestMainArticle.mainArticleNo}">
                         <div class="actions">
                             <button class="btn btn-round btn-fill btn-neutral btn-modern" data-toggle="modal" data-target="#cardDetailView">
                                 Read Article
@@ -69,16 +72,14 @@
          <h2 class="itjaMainTitle">새로운 잇자!</h2>
             
         <!-- *** new Main 카드 1개 -->
+        <input type="hidden" id="articleType" value="mainArticle">
       <c:forEach var="newMainArticle" items="${requestScope.newMainArticleVOListOrderByDate}">
          <div class="card-box col-md-4">  
                 <div class="card card-with-border" data-background="image" data-src="${initParam.root}resources/img/fashion-1.jpg">    
                     <div class="content">
                     
                         <h6 class="category">
-                        #Tag, 
-                        <%-- <c:forEach items="${newMainArticle.tagBoardVOList}" var="tagBoard">
-                        	#${tagBoard.tagName}, 
-                       	</c:forEach> --%>
+                        	${newMainArticle.tagName}
                         </h6>
                         
                         <br>
@@ -86,7 +87,8 @@
                         <p class="description">
 		             		${newMainArticle.mainArticleContent}
 		                </p>
-		                <span class="writersNickName">${newMainArticle.memberVO.memberNickName}</span>
+		                <span class="writersNickName">- ${newMainArticle.memberVO.memberNickName} -</span>
+		                <input type="hidden" class="mainArticleTitleNO" value="${bestMainArticle.mainArticleNo}">
                         <div class="actions">
                           <button class="btn btn-round btn-fill btn-neutral btn-modern" data-toggle="modal" data-target="#cardDetailView">
                                 Read Article

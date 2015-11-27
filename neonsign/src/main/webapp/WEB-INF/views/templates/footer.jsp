@@ -81,40 +81,27 @@
 				</div>
 					<div class="modal-body">
 						<table class="table">
+						<thead>
 							<tr class="success">
 								<td colspan="5">주제글</td>
 							</tr>
 							<tr>
-								<td class="cardDetailViewContentNo" width="5%">1</td>
-								<td class="cardDetailViewContent" width="75%%"></td>
-								<td class="writersNickNameAtDetail" width="10%">-고대협 병신</td>
-								<td class="likeIt" width="5%">잇자!<br>100</td>
+								<td class="mainCardDetailViewContentNo" width="5%"></td>
+								<td class="mainCardDetailViewContent" width="75%%"></td>
+								<td class="mainWritersNickNameAtDetail" width="10%"></td>
+								<td class="mainLikeIt" width="5%">잇자!<br>100</td>
 								<td class="reportIt" width="5%">신고</td>
 							</tr>
-							<tr>
-								<td class="cardDetailViewContentNo" width="5%">2</td>
-								<td class="cardDetailViewContent" width="80%"></td>
-								<td class="writersNickNameAtDetail" width="10%">-고대협 병신</td>
-								<td class="likeIt" width="5%">잇자!<br>100</td>
-								<td class="reportIt" width="5%">신고</td>
-							</tr>
-							<tr class="warning">
-								<td colspan="5">잇는글</td>
-							</tr>
-							<tr>
-								<td class="cardDetailViewContentNo" width="5%">1</td>
-								<td class="cardDetailViewContent" width="80%"></td>
-								<td class="writersNickNameAtDetail" width="10%">-고대협 병신</td>
-								<td class="likeIt" width="5%">잇자!<br>100</td>
-								<td class="reportIt" width="5%">신고</td>
-							</tr>
-							<tr>
-								<td class="cardDetailViewContentNo" width="5%">2</td>
-								<td class="cardDetailViewContent" width="80%"></td>
-								<td class="writersNickNameAtDetail" width="10%">-고대협 병신</td>
-								<td class="likeIt" width="5%">잇자!<br>100</td>
-								<td class="reportIt" width="5%">신고</td>
-							</tr>
+							</thead>
+							<tbody id="mainSubArticle" >
+								
+							</tbody>
+					
+							</table>
+
+							<table class='subTable'>
+							
+							
 						</table>
 						<DIV class="itjaWriteForm">
 							<form action="" class="form-horizontal">

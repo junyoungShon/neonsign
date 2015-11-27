@@ -35,6 +35,7 @@ public class BoardController {
 	public String goAnyWhere(@PathVariable String viewId){
 		return viewId;
 	}
+	
 	/**
 	 * main.jsp에 베스트, 새로운주제글, Tag리스트 출력
 	 * @author JeSeongLee
@@ -45,18 +46,29 @@ public class BoardController {
 		// 새로운 주제글 날짜순 + Tag
 		List<MainArticleVO> newMainArticleVOListOrderByDate
 			= boardService.selectListNotCompleteMainArticleOrderByDate();
-		System.out.println("con잇자수 10개이하 주제글 : " + newMainArticleVOListOrderByDate);
+		// System.out.println("con잇자수 10개이하 주제글 : " + newMainArticleVOListOrderByDate);
 		mav.addObject("newMainArticleVOListOrderByDate", newMainArticleVOListOrderByDate);
 		// 베스트 주제글 날짜순 + Tag
 		List<MainArticleVO> bestMainArticleVOListOrderByDate = boardService.getBestMainArticleVOListOrderByDate();
-		System.out.println("con잇자수 10개 이상 주제글 : " + bestMainArticleVOListOrderByDate);
+		// System.out.println("con잇자수 10개 이상 주제글 : " + bestMainArticleVOListOrderByDate);
 		mav.addObject("bestMainArticleVOListOrderByDate", bestMainArticleVOListOrderByDate);
 		// 전체 태그
 		List<TagVO> tagVOList = boardService.getTagVOList();
-		System.out.println("conmain 전체 Tag : " + tagVOList);
+		// System.out.println("conmain 전체 Tag : " + tagVOList);
 		mav.addObject("tagVOList", tagVOList);
 		mav.setViewName("home");
 		return mav;
+	}
+	/**Controller9
+	 * 무한스크롤을 위한 완결 주제글 메소드
+	 * @author daehyeop
+	 */
+	@RequestMapping("getNewMainArticle.neon")
+	@ResponseBody
+	public ArrayList<MainArticleVO> getNewMainArticle(){
+		List<MainArticleVO> newMainArticleVOListOrderByDate = boardService.selectListNotCompleteMainArticleOrderByDate();
+		ArrayList<MainArticleVO> newMainArticleArrayList = (ArrayList<MainArticleVO>) newMainArticleVOListOrderByDate;
+ 		return newMainArticleArrayList;
 	}
 	//main article 관련 메서드
 	/**Controller1
@@ -143,12 +155,20 @@ public class BoardController {
 	}
 	/**Controller6
 	 * 미완결 글보기를 클릭하면 해당 메서드가 실행된다.
+	 * 	미완결 글의 디테일을 리턴해준다
 	 * @param mainArticleVO
-	 * @return
+	 * @author 전윤택
 	 */
-	public ModelAndView selectOneNotCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO){
-		MainArticleVO mainArticle=boardService.selectOneNotCompleteMainArticleByMainArticleNo(mainArticleVO);
-		return new ModelAndView("footer","",mainArticle);
+	@RequestMapping("selectOneNotCompleteMainArticleByMainArticleNo.neon")
+	@ResponseBody
+	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO){
+		System.out.println("희 "+mainArticleVO);
+		MainArticleVO mainArticle=null;
+		if (mainArticleVO!=null) {
+			 mainArticle=boardService.selectOneNotCompleteMainArticleByMainArticleNo(mainArticleVO);
+			 System.out.println(mainArticle);
+		}
+		return mainArticle;
 	}
 	/**Controller7
 	 * 미완결 주제글 잇자 추천버튼 눌렀을 때
@@ -165,11 +185,22 @@ public class BoardController {
 	 */
 	@RequestMapping("selectListCompleteMainArticleOrderByTotalLike.neon")
 	public ModelAndView selectListCompleteMainArticleOrderByTotalLike() {
-		List<MainArticleVO> completeMainArticleList = boardService
-				.selectListCompleteMainArticleOrderByTotalLike();
-		ArrayList<MainArticleVO> mainArticleList = (ArrayList<MainArticleVO>) completeMainArticleList;
-		return new ModelAndView("completeMainArticleView", "mainArticleList",
-				mainArticleList);
+			List<MainArticleVO> completeMainArticleList = boardService
+					.selectListCompleteMainArticleOrderByTotalLike();
+			ArrayList<MainArticleVO> mainArticleList = (ArrayList<MainArticleVO>) completeMainArticleList;
+			return new ModelAndView("completeMainArticleView", "mainArticleList",
+					mainArticleList);
+	}
+	/**Controller9
+	 * 무한스크롤을 위한 완결 주제글 메소드
+	 * @author daehyeop
+	 */
+	@RequestMapping("getCompleteMainArticle.neon")
+	@ResponseBody
+	public ArrayList<MainArticleVO> getCompleteMainArticle(){
+		List<MainArticleVO> mainArticleList = boardService.selectListCompleteMainArticleOrderByTotalLike();
+		ArrayList<MainArticleVO> mainArticleArrayList = (ArrayList<MainArticleVO>) mainArticleList;
+ 		return mainArticleArrayList;
 	}
 	/**Cotroller8-2
 	 * 완결 주제글이 게시일순으로 반환된다.

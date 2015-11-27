@@ -69,12 +69,12 @@ public class MemberController {
 		
 		return new ModelAndView("redirect:getMainList.neon");
 	}
-	@RequestMapping("logout.do")
+	@RequestMapping("memberLogout.neon")
 	public ModelAndView memberlogout(HttpServletRequest request){
 		HttpSession session=request.getSession(false);
 		if (session != null)
 			session.invalidate();
-		return new ModelAndView("home");
+		return new ModelAndView("redirect:getMainList.neon");
 	}
 	
 	/**

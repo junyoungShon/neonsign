@@ -108,7 +108,7 @@ MAIN_ARTICLE_LIKE, MAIN_ARTICLE_TOTAL_LIKE, MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDA
 values(main_article_seq.nextval,'e@naver.com','화장실에서 벌어진 일','손을 씻지 않고 나왔다',84, 15, 55, 
 sysdate, to_date('2015/11/20 13:51:40',  'yyyy/mm/dd hh24:mi:ss'),1);
 
-insert into main_article(MAIN_ARTICLE_NO,MAIN_ARTICLE_EMAIL,MAIN_ARTICLE_TITLE,MAIN_ARTICLE_CONTENT,MAIN_ARTICLE_HIT, MAIN_ARTICLE_LIKE, MAIN_ARTICLE_TOTAL_LIKE, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE_DATE) 
+insert into main_article(MAIN_ARTICLE_NO,MAIN_ARTICLE_EMAIL,MAIN_ARTICLE_TITLE,MAIN_ARTICLE_CONTENT,MAIN_ARTICLE_HIT, MAIN_ARTICLE_LIKE, MAIN_ARTICLE_TOTAL_LIKE, MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE) 
 values(main_article_seq.nextval,'c@naver.com','부엉이와 까마귀의 대결','부엉부엉 까악까악 끼룩끼룩',84, 145, 310, sysdate, to_date('2015/10/15 17:51:40',  'yyyy/mm/dd hh24:mi:ss'));
 
 
@@ -204,9 +204,9 @@ constraint pk_picked primary key(MEMBER_EMAIL,MAIN_ARTICLE_NO)
 )
 
 /*
- * ygoyo@naver.com 회원이 2번 게시물을 찜하였다
+ * ygoyo@naver.com 회원이 3번 게시물을 찜하였다
  */
-insert into picked_article(MEMBER_EMAIL,MAIN_ARTICLE_NO) values('ygoyo@naver.com',2)
+insert into picked_article(MEMBER_EMAIL,MAIN_ARTICLE_NO) values('a@naver.com',3)
 
 select * from PICKED_ARTICLE
 
@@ -282,30 +282,32 @@ insert into tag_board(TAG_NAME, MAIN_ARTICLE_NO)
 values('공포', 7);
 
 --**검색어 데이터 베이스**
+drop table search_board
 create table search_board(
 KEYWORD varchar2(30) primary key,
 SEARCH_COUNT number not null
 )
 
--- 하지마 **신고 데이터 베이스**
+--**신고 데이터 베이스**
+
 create table report(
 REPORT_NO varchar2(30) primary key,
 REPORT_DATE date not null,
 MAIN_ARTICLE_NO number not null,
 SUB_ARTICLE_NO number not null,
 REPORT_AMOUNT number default 0,
-STAGES_OF_PROCESS varchar2(20), --여부 판단
-constraint fk_main_article foreign key(MAIN_ARTICLE_NO) references main_article(MAIN_ARTICLE_NO),
-constraint fk_sub_article foreign key(SUB_ARTICLE_NO) references sub_article(SUB_ARTICLE_NO)
+STAGES_OF_PROCESS varchar2(20), 
+constraint fk_report_main_article_no foreign key(MAIN_ARTICLE_NO) references main_article(MAIN_ARTICLE_NO),
+constraint fk_report_sub_article_no foreign key(SUB_ARTICLE_NO) references sub_article(SUB_ARTICLE_NO)
 )
-drop table report
+
 --**신고자 데이터 베이스( 복합키 적용)**
 create table reporter(
 REPORT_NO varchar2(30) ,
-MEMBER_EMAIL varchar2(50),
+MEMBER_EMAIL varchar2(50) not null,
 constraint fk_report foreign key(REPORT_NO) references report(REPORT_NO),
-constraint fk_main_article foreign key(MEMBER_EMAIL) references main_article(MEMBER_EMAIL),
-constraint pk_reporter primary key(REPORT_NO,MEMBER_EMAIL)
+constraint fk_reporter_main_article foreign key(MEMBER_EMAIL) references brain_member(MEMBER_EMAIL),
+constraint pk_reporter_no primary key(REPORT_NO,MEMBER_EMAIL)
 )
 drop table reporter
 --**랭킹 데이터 베이스**
@@ -314,4 +316,10 @@ MEMBER_GRADE varchar2(30) primary key,
 MIN_POINT number not null,
 MAX_POINT number not null
 )
+insert into ranking (MEMBER_GRADE,MIN_POINT,MAX_POINT) values('언랭',0,49);
+insert into ranking (MEMBER_GRADE,MIN_POINT,MAX_POINT) values('브론즈',50,149);
+insert into ranking (MEMBER_GRADE,MIN_POINT,MAX_POINT) values('실버',150,350);
+insert into ranking (MEMBER_GRADE,MIN_POINT,MAX_POINT) values('골드',350,749);
+insert into ranking (MEMBER_GRADE,MIN_POINT,MAX_POINT) values('다이아',750,1550);
+
 drop table ranking

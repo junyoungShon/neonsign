@@ -17,6 +17,7 @@ public class MainArticleVO {
 	private MemberVO memberVO;
 	private List<SubArticleVO> subArticleList;
 	private ArrayList<ArrayList<TagBoardVO>> tagBoardVOList;
+	private String tagName;
 	public MainArticleVO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -26,7 +27,7 @@ public class MainArticleVO {
 			int mainArticleHIt, int mainArticleLike, int mainArticleTotalLike,
 			String mainArticleDate, String mainArticleCompleteDate,
 			MemberVO memberVO, List<SubArticleVO> subArticleList,
-			ArrayList<ArrayList<TagBoardVO>> tagBoardVOList) {
+			ArrayList<ArrayList<TagBoardVO>> tagBoardVOList, String tagName) {
 		super();
 		this.mainArticleNo = mainArticleNo;
 		this.memberEmail = memberEmail;
@@ -40,6 +41,7 @@ public class MainArticleVO {
 		this.memberVO = memberVO;
 		this.subArticleList = subArticleList;
 		this.tagBoardVOList = tagBoardVOList;
+		this.tagName = tagName;
 	}
 	public int getMainArticleNo() {
 		return mainArticleNo;
@@ -113,6 +115,12 @@ public class MainArticleVO {
 	public void setTagBoardVOList(ArrayList<ArrayList<TagBoardVO>> tagBoardVOList) {
 		this.tagBoardVOList = tagBoardVOList;
 	}
+	public String getTagName() {
+		return tagName;
+	}
+	public void setTagName(String tagName) {
+		this.tagName = tagName;
+	}
 	@Override
 	public String toString() {
 		return "MainArticleVO [mainArticleNo=" + mainArticleNo
@@ -124,7 +132,7 @@ public class MainArticleVO {
 				+ ", mainArticleDate=" + mainArticleDate
 				+ ", mainArticleCompleteDate=" + mainArticleCompleteDate
 				+ ", memberVO=" + memberVO + ", subArticleList="
-				+ subArticleList + ", tagBoardVOList=" + tagBoardVOList + "]";
+				+ subArticleList + ", tagBoardVOList=" + tagBoardVOList
+				+ ", tagName=" + tagName + "]";
 	}
-		
 }

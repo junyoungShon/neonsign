@@ -94,43 +94,69 @@ public class BoardServiceImpl implements BoardService{
 		System.out.println("service " + completeMainArticleList);
 		return completeMainArticleList;
 	}
+	
+	@Override
 	/**
-	 * 새로운 주제글 최신순 List
+	 * 새로운 주제글 최신순 List + Tag
 	 * @author JeSeong Lee
 	 */
-	@Override
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate() {
 		List<MainArticleVO> newMainArticleVOList
 			= boardDAO.selectListNotCompleteMainArticleOrderByDate();
-		ArrayList<ArrayList<TagBoardVO>> list = new ArrayList<ArrayList<TagBoardVO>>();
+		String tagName = "";
+		ArrayList<TagBoardVO> list = new ArrayList<TagBoardVO>();
 		for(int i = 0 ; i<newMainArticleVOList.size() ; i++){
-			list.add(boardDAO.getMainArticleTagList(newMainArticleVOList.get(i).getMainArticleNo()));
-			newMainArticleVOList.get(i).setTagBoardVOList(list);
+			list = boardDAO.getMainArticleTagList(newMainArticleVOList.get(i).getMainArticleNo());
+			for(int j = 0 ; j<list.size() ; j++){
+				if(j == list.size()-1){
+					tagName += "#" + list.get(j).getTagName();
+				}else{
+					tagName += "#" +  list.get(j).getTagName() + ", ";
+				}
+				newMainArticleVOList.get(i).setTagName(tagName);
+			}
+			tagName = "";
 		}
 		return newMainArticleVOList;
 	}
 	
 	@Override
 	/**
-	 * best 주제글 최신순 List 불러오는 메서드
-	 * @author Jeseong Lee 
+	 * best 주제글 최신순 List 불러오는 메서드 + Tag
+	 * @author JeSeong Lee 
 	 */
 	public List<MainArticleVO> getBestMainArticleVOListOrderByDate() {
 		List<MainArticleVO> bestMainArticleVOList
 			= boardDAO.getBestMainArticleVOListOrderByDate();
-		ArrayList<ArrayList<TagBoardVO>> list = new ArrayList<ArrayList<TagBoardVO>>();
+		String tagName = "";
+		ArrayList<TagBoardVO> list = new ArrayList<TagBoardVO>();
 		for(int i = 0 ; i<bestMainArticleVOList.size() ; i++){
-			list.add(boardDAO.getMainArticleTagList(bestMainArticleVOList.get(i).getMainArticleNo()));
-			bestMainArticleVOList.get(i).setTagBoardVOList(list);
+			list = boardDAO.getMainArticleTagList(bestMainArticleVOList.get(i).getMainArticleNo());
+			for(int j = 0 ; j<list.size() ; j++){
+				if(j == list.size()-1){
+					tagName += "#" + list.get(j).getTagName();
+				}else{
+					tagName += "#" + list.get(j).getTagName() + ", ";
+				}
+				bestMainArticleVOList.get(i).setTagName(tagName);
+			}
+			tagName = "";
 		}
 		return bestMainArticleVOList;
 	}
+	
 	@Override
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByTotalLike() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override
+	/**
+	 * 해당 MainArticle 정보를 가져 오는 메서드
+	 * 	해당 MainArticle 정보 안에는 해당 MainArticle의 SubArticle의 정보 ,
+	 * 작성자의 정보가 담겨져 있고 SubArticle 정보 안에는 SubArticle의 작성자
+	 * 정보가 있음
+	 */
 	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleNo(
 			MainArticleVO mainArticleVO) {
 		return boardDAO.selectOneNotCompleteMainArticleByMainArticleNo(mainArticleVO);
