@@ -3,25 +3,35 @@ $(document).ready(function(){ //DOM이 준비되고
 	//main 부분
 	//무한 스크롤 (테스트 완료 ajax와 연동 필요)
 	// hipster 카드에서 동적으로 style을 입혀주지 못하는 문제점이 있어서 반드시 소스를 넣을 때 style을 수기로 기록해줘야함
-	function loadingItjaCard()
-	{  
-		var infinityScrollTestSource = 
-			'<div class="card-box col-md-4"><div class="card card-with-border" data-background="image" data-src="img/snow.jpg" style="background-image: url(img/snow.jpg); background-size: cover; background-position: 50% 50%;"><div class="content"><h6 class="category">#소설,#로맨스,#스릴러,#호갱</h6><br><h4 class="title">[미완]군인인데 눈이 엄청왔다</h4> <p class="description">올해 37살 되는 남자입니다. 아직 군대에 있는데눈이 엄청나게 왔네요 정말 슬퍼요 </p><div class="actions"><button class="btn btn-round btn-fill btn-neutral btn-modern" data-toggle="modal" data-target="#cardDetailView">Read Article</button></div><div class="social-line social-line-visible" data-buttons="4"><button class="btn btn-social btn-pinterest">05:22<br>빨리!</button><button class="btn btn-social btn-twitter">127it<br>잇자!</button><button class="btn btn-social btn-google"><i class="fa fa-heart-o"></i><br>찜하자!</button><button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button></div>  <!-- end social-line social-line-visible --></div></div> <!-- end card --></div><!-- card-box col-md-4 -->'
-				
-		$('.ajaxLoader').fadeOut(300);
-		$('.newItjaList').append(infinityScrollTestSource)
-		$('.newItjaList').append(infinityScrollTestSource)
-		$('.newItjaList').append(infinityScrollTestSource)
-		$('.newItjaList').append(infinityScrollTestSource)
-		$('.newItjaList').append(infinityScrollTestSource)
+	function loadingItjaCard(articleType){  
+		if(articleType.val()=='completeArticle'){
+			var infinityScrollTestSource = 
+				'<div class="card-box col-md-4">' 
+				+ '<div class="card card-with-border" data-background="image" data-src="img/snow.jpg" style="background-image: url(img/snow.jpg); background-size: cover; background-position: 50% 50%;">' 
+				+ '<div class="content">' 
+				+ '<h6 class="category">#</h6><br>' 
+				+ '<h4 class="title">[완결]</h4>' 
+				+ ' <p class="description"></p>' 
+				+ '<div class="actions">' 
+				+ '<button class="btn btn-round btn-fill btn-neutral btn-modern" data-toggle="modal" data-target="#cardDetailView">Read Article</button>' 
+				+ '</div>' 
+				+ '<div class="social-line social-line-visible" data-buttons="4">' 
+				+ '<button class="btn btn-social btn-pinterest">완결된<br>잇자!</button>' 
+				+ '<button class="btn btn-social btn-twitter"><br>잇자!</button>' 
+				+ '<button class="btn btn-social btn-google"><i class="fa fa-heart-o"></i><br>찜하자!</button>' 
+				+ '<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button>' 
+				+ '</div>  <!-- end social-line social-line-visible --></div></div> <!-- end card --></div><!-- card-box col-md-4 -->'
+				+ '</c:forEach>';
+			$('.ajaxLoader').fadeOut(300);
+			$('.newItjaList').append(infinityScrollTestSource)
+			$('.newItjaList').append(infinityScrollTestSource)
+			$('.newItjaList').append(infinityScrollTestSource)
+			$('.newItjaList').append(infinityScrollTestSource)
+			$('.newItjaList').append(infinityScrollTestSource)
+		}else{
+			
+		}
 	};  
-	
-	$(window).scroll(function(){  
-	        if  ($(window).scrollTop() == $(document).height() - $(window).height()){  
-	        	
-	           setTimeout(function(){loadingItjaCard();}, 800)
-	        }  
-	});  
 	//무한 스크롤 끝
 	
 	//tag sort 버튼 활성화
@@ -72,14 +82,97 @@ $(document).ready(function(){ //DOM이 준비되고
 		});
 		//다시 모달창을 열었을 대 첫 화면 띄움
 	});
-	$('.writeMainArticle').click(function(){
-		$('#writeMainArticle').modal({
-			//취소버튼으로만 창을 끌 수 있도록 지정
-			backdrop: 'static',
-			keyboard: false
+	/*
+	 * 회원이 글쓰기 폼을 열었을 때 인기 태그를 불러오는 에이잭스를 시작으로
+	 * 글자수 제한을 위한 keyup이벤트 및 공란체크 그리고 서밋을 담고 잇다.
+	 * */
+	
+	$('.openModalInsertArticleForm').click(function(){
+		$.ajax({
+			type:"post",
+			url:"auth_openMainArticleModal.neon",
+			dataType:"json",
+			success:function(data){
+				tagList = '';
+				for(var i=0;i<data.length;i++){
+					tagList += 
+						'<label><input type="checkbox" name="tagName" value="'+data[i].tagName+'">#'+data[i].tagName+'</label>'+'&nbsp&nbsp&nbsp'
+					if(i!=0){
+						if(i%6==0){
+							tagList +='<br>'
+						}
+					}
+				}
+				$('#writeMainArticle').modal({
+					//취소버튼으로만 창을 끌 수 있도록 지정
+					backdrop: 'static',
+					keyboard: false
+				});
+				
+				$('#writeMainArticle').on('shown.bs.modal', function () {
+					$('#tagCheck').html(tagList);
+					//태그는 2개까지 선택이 가능하도록 강제함
+					$('input[name="tagName"]').on('click',function(){
+						if($('input[name="tagName"]:checked').length>2){
+							alert('태그는 2개 까지만 선택이 가능합니다.');
+							$(this).attr("checked", false);
+						}
+					});
+					//태그 공란 체크
+					$('button[name="newMainArticleSubmit"]').click(function(){
+						if($('input[name="tagName"]:checked').length<1){
+							alert('태그는 1개 이상 선택해주세요.');
+							return false;
+						}
+						//제목 공란체크
+						if($('input[name="mainArticleTltle"]').val()==''){
+							alert('글 제목을 입력해주세요');
+							$('input[name="mainArticleTltle"]').focus();
+							return false;
+						}
+						//글 내용 공란 체크
+						if($('textarea[name="mainArticleContent"]').val()==''){
+							alert('글 내용을 입력해주세요');
+							 $('textarea[name="mainArticleContent"]').focus();
+							 return false;
+						}
+						$('form[action="auth_insertNewMainArticle.neon"]').submit();
+					});
+					//주제글 작성 제한을 위한 keyUp 이벤트 - 글자수를 제한해준다.
+					$('textarea[name="mainArticleContent"]').keyup(function(){
+						function korTextCheck($str){
+				            var str = $str;
+				            var check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+				            var result = str.match(check);
+				            if(result) return true; //한글일 경우
+				            return false; //한글이 아닐경우
+				        }	
+						var userWriting = $(this).val();
+						var wrtingByte = 0;
+						for(var i=0;i<userWriting.length;i++){
+							//한글일 경우 2byte
+							if(korTextCheck(userWriting.charAt(i))){
+								wrtingByte += 2; 
+							//영어일 경우 1byte
+							}else{
+								wrtingByte += 1; 
+							}
+							if(wrtingByte>400){
+								$('textarea[name="mainArticleContent"]').val(userWriting.substring(0,400));
+							}
+						}
+						$('.userLength').text(wrtingByte);
+					});
+					
+				});
+					
+				
+			}
 		});
-		//다시 모달창을 열었을 대 첫 화면 띄움
+		
 	});
+	// 글쓰기 폼 끝
+	
 
 	
 	//매인 끝
@@ -139,7 +232,9 @@ $(document).ready(function(){ //DOM이 준비되고
 			//공랑체크 시작
 			//이메일 공란 및 정규식을 통한 형태 검사  
 			$('#memberJoinInputEmail').keyup(function(){
-					
+					/** 이메일 중복체크 
+					 * @author 한솔
+					 */
 					var regEmail=/^[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[@]{1}[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[.]{1}[A-Za-z]{2,5}$/;
 					var emailComp = $(this).val();
 					if(emailComp==""){
@@ -153,33 +248,70 @@ $(document).ready(function(){ //DOM이 준비되고
 						$('.emailInput > .control-label').html('올바른 이메일을 입력해주세요');
 						$('.emailInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
 					}else{
-						userMailFlag = true;
+						$.ajax({
+							type:"post",
+							url:"findMemberByEmail.neon",				
+							data:"emailComp="+emailComp,	
+							success:function(result){
+						if(result==false){
+							userMailFlag = false;
+						$('.emailInput').attr('class','form-group has-feedback emailInput has-error');
+						$('.emailInput > .control-label').html('사용할 수 없는 이메일 입니다');
+						$('.emailInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+						}else{
+							userMailFlag = true;
 						$('.emailInput').attr('class','form-group has-feedback emailInput has-success');
-						$('.emailInput > .control-label').html('이메일이 입력되었습니다.');
+						$('.emailInput > .control-label').html('사용가능한 이메일 입니다');
 						$('.emailInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
-					};
-			});
+						}//else2
+						}//success
+					});//ajax
+				}//else
+			});//keyup
 			//이름 공란 및 길이 체크
 			
 			$('#memberJoinInputName').keyup(function(){
+				/**  닉네임 중복체크 
+				 * @author 한솔
+				 */
+
 				var nameComp = $(this).val();
 				if(nameComp==""){
 					userNameFlag = false;
 					$('.nameInput').attr('class','form-group has-feedback nameInput has-error');
-					$('.nameInput > .control-label').html('이름을 입력해주세요');
+					$('.nameInput > .control-label').html('닉네임을 입력해주세요');
 					$('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
 				}else if(nameComp.length<1 || nameComp.length>8){
 					userNameFlag = false;
 					$('.nameInput').attr('class','form-group has-feedback nameInput has-error');
-					$('.nameInput > .control-label').html('이름은 1글자 이상 ~7글자 이하로 입력해주세요');
+					$('.nameInput > .control-label').html('닉네임은 1글자 이상 ~7글자 이하로 입력해주세요');
 					$('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-				}else{
-					userNameFlag = true;
-					$('.nameInput').attr('class','form-group has-feedback nameInput has-success');
-					$('.nameInput > .control-label').html('이름이 입력되었습니다.');
-					$('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
-				};
-			});
+				}else{					
+					$.ajax({
+						type:"post",
+						url:"findMemberByNickName.neon",				
+						data:"nameComp="+nameComp,	
+						success:function(result){
+							//	alert(result);
+							if(result==false){
+								 userNameFlag = false;
+								$('.nameInput').attr('class','form-group has-feedback nameInput has-error');
+								$('.nameInput > .control-label').html(nameComp+"사용할수 없는 닉네임 입니다.");
+								$('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+								  
+							}else{
+								 userNameFlag = true;
+								$('.nameInput').attr('class','form-group has-feedback nameInput has-success');
+								$('.nameInput > .control-label').html(nameComp+"사용 가능한 닉네임 입니다");	
+								$('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
+								   
+							}//else2			
+						}//success			
+					});//ajax
+				
+				}//else1
+			
+			});//keyup
 			//암호 공란 검사 및 암호 길이 검사
 			$('#memberJoinInputpassword').keyup(function(){
 				var passwordComp = $(this).val();

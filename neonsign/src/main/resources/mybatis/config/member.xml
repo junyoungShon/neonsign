@@ -22,6 +22,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			select * from BRAIN_MEMBER
 			where MEMBER_EMAIL=#{memberEmail} and MEMBER_PASSWORD=#{memberPassword}
 		</select>
+
+	<!-- 한솔 닉네임 중복체크 -->
+	 <select id="findMemberByNickName" resultMap="memberResultMap" parameterType="string">
+	 	select MEMBER_NICKNAME from brain_member where MEMBER_NICKNAME=#{value}
+	 </select>
+	 <!-- 한솔 이메일 중복체크 -->
+	 <select id="findMemberByEmail" resultMap="memberResultMap" parameterType="string">
+	 	select MEMBER_EMAIL from brain_member where MEMBER_EMAIL=#{value}
+	 </select>
 </mapper> 		
  
  

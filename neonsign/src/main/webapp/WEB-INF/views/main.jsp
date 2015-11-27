@@ -1,28 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-  <!-- Main jumbotron for a primary marketing message or call to action -->
+   <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="itjaSlide">
       <h2 class="itjaMainTitle">베스트 잇자!</h2>
       <div class="container-fluid">
         <div class="gallery js-flickity" data-flickity-options='{ "freeScroll": true, "wrapAround": true ,"pageDots": false}'>
             <!-- el 문 및 ajax로 베스트글이 표시되는 슬라이드 지역 --> 
             <!-- 카드 1개 -->
-         <div class="card-box col-lg-2">  
+ 	<c:forEach var="bestMainArticle" items="${requestScope.bestMainArticleVOListOrderByDate}">
+         	<div class="card-box col-lg-2">  
                 <div class="card card-with-border" data-background="image" data-src="${initParam.root}resources/img/snow.jpg">    
                     <div class="content">
-                        <h6 class="category">#소설,#로맨스,#스릴러,#호갱</h6><br>
-                        <h4 class="title">[미완]군인인데 눈이 엄청왔다</h4>
+                        <h6 class="category">
+                        	<c:forEach var="tagBoard" items="${bestMainArticle.tagName}">
+                        		${tagBoard}
+                        	</c:forEach>
+                        </h6>
+                        <br>
+                        <h4 class="title">${bestMainArticle.mainArticleTitle}</h4>
                         <p class="description">
-			                     올해 37살 되는 남자입니다. 아직 군대에 있는데 눈이 엄청나게 왔네요 정말 슬퍼요
-			                     올해 37살 되는 남자입니다. 아직 군대에 있는데 눈이 엄청나게 왔네요 정말 슬퍼요
-			                     올해 37살 되는 남자입니다. 아직 군대에 있는데 눈이 엄청나게 왔네요 정말 슬퍼요
-			                     올해 37살 되는 남자입니다. 아직 군대에 있는데 눈이 엄청나게 왔네요 정말 슬퍼요
-			                     올해 37살 되는 남자입니다. 아직 군대에 있는데 눈이 엄청나게 왔네요 정말 슬퍼요
-			                     올해 37살 되는 남자입니다. 아직 군대에 있는데 눈이 엄청나게 왔네요 정말 슬퍼요
-                        
-                  </p>
-                     <span class="writersNickName">-고대협병신</span>
+		                    ${bestMainArticle.mainArticleContent}
+                  		</p>
+                     <span class="writersNickName">- ${bestMainArticle.memberVO.memberNickName} -</span>
                         <div class="actions">
                             <button class="btn btn-round btn-fill btn-neutral btn-modern" data-toggle="modal" data-target="#cardDetailView">
                                 Read Article
@@ -35,7 +35,8 @@
                                  빨리!
                             </button>
                             <button class="btn btn-social btn-twitter">
-                                   127it<br>
+                                  ${bestMainArticle.mainArticleTotalLike}
+                                  <br>
                                   잇자!
                             </button>
                             <button class="btn btn-social btn-google">
@@ -50,38 +51,43 @@
                   <div class="filter"></div>
                 </div> <!-- end card -->
             </div><!-- card-box col-md-4 -->
+            </c:forEach>
             <!--끝!! 카드 1개 -->
       </div><!--  end gallery js-flickity -->
       </div><!-- end container -->
     </div><!-- end jumbotron itjaSlide -->
    
-     
     <!-- 끝!! el 문 및 ajax로 베스트글이 표시되는 슬라이드 지역 --> 
+    
    <!-- 태그 소트 버튼 부분 -->
    <div class="container tags-container">
-   <c:forEach items="${requestScope.tagBoardVOList}" var="tagboard">
-      <span>${tagboard.tagName}</span>
+   <c:forEach items="${requestScope.tagVOList}" var="tagList">
+      <span><a href="arrayNewMainArticle.do?tagName=${tagList.tagName}">#${tagList.tagName}</a></span>
    </c:forEach>
    </div>
-   
-   
    <!--  태그 소트 버튼 끝 -->   
+   
     <div class="container">
       <!-- Example row of columns -->
       <div class="row newItjaList">
          <h2 class="itjaMainTitle">새로운 잇자!</h2>
             
-             <!-- 카드 1개 -->
+        <!-- *** new Main 카드 1개 -->
+      <c:forEach var="newMainArticle" items="${requestScope.newMainArticleVOListOrderByDate}">
          <div class="card-box col-md-4">  
                 <div class="card card-with-border" data-background="image" data-src="${initParam.root}resources/img/fashion-1.jpg">    
                     <div class="content">
-                        <h6 class="category">#소설,#로맨스,#스릴러,#호갱</h6><br>
-                        <h4 class="title">[미완]과외 선생님이 비키니를 입고왔다.</h4>
+                    
+                        <h6 class="category">
+                        	${newMainArticle.tagName}
+                        </h6>
+                        
+                        <br>
+                        <h4 class="title">${newMainArticle.mainArticleTitle}</h4>
                         <p class="description">
-                  올해 37살 되는 남자입니다. 17수 중이고
-                  과외를 받고있는데 과외선생이
-                  오늘 비키니를 입고왔다. 엄마가 문을 열어둔 상황
-                  </p>
+		             		${newMainArticle.mainArticleContent}
+		                </p>
+		                <span class="writersNickName">- ${newMainArticle.memberVO.memberNickName} -</span>
                         <div class="actions">
                           <button class="btn btn-round btn-fill btn-neutral btn-modern" data-toggle="modal" data-target="#cardDetailView">
                                 Read Article
@@ -94,7 +100,8 @@
                                  빨리!
                             </button>
                             <button class="btn btn-social btn-twitter">
-                                   127it<br>
+                                   ${newMainArticle.mainArticleTotalLike}
+                                   <br>
                                   잇자!
                             </button>
                             <button class="btn btn-social btn-google">
@@ -109,7 +116,8 @@
                   <div class="filter"></div>
                 </div> <!-- end card -->
             </div><!-- card-box col-md-4 -->
+            </c:forEach>
             <!--끝!! 카드 1개 -->
-   </div>   
+  		 </div>
       <hr>
     </div> <!-- /container -->
