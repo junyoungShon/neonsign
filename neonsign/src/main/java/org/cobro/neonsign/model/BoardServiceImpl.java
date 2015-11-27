@@ -94,11 +94,12 @@ public class BoardServiceImpl implements BoardService{
 		System.out.println("service " + completeMainArticleList);
 		return completeMainArticleList;
 	}
+	
+	@Override
 	/**
 	 * 새로운 주제글 최신순 List + Tag
 	 * @author JeSeong Lee
 	 */
-	@Override
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate() {
 		List<MainArticleVO> newMainArticleVOList
 			= boardDAO.selectListNotCompleteMainArticleOrderByDate();

@@ -35,6 +35,7 @@ public class BoardController {
 	public String goAnyWhere(@PathVariable String viewId){
 		return viewId;
 	}
+	
 	/**
 	 * main.jsp에 베스트, 새로운주제글, Tag리스트 출력
 	 * @author JeSeongLee
@@ -58,6 +59,7 @@ public class BoardController {
 		mav.setViewName("home");
 		return mav;
 	}
+	
 	//main article 관련 메서드
 	/**Controller1
 	 * 사용자가 주제글을 작성할 때 사용한다.
