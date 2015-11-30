@@ -1,9 +1,11 @@
 package org.cobro.neonsign.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.cobro.neonsign.vo.ItjaMemberVO;
 import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.ReportVO;
 import org.cobro.neonsign.vo.SubArticleVO;
@@ -43,5 +45,10 @@ public interface BoardService {
 	public List<MainArticleVO> articleSort(String sort);
 	public void articleNotify(MainArticleVO mainArticleVO);
 	public List<TagBoardVO> selectTagList();
+	
+	//잇자 관련 메서드
+	public HashMap<String, Integer> selectItjaState(ItjaMemberVO itjaMemberVO);
+	
+	
 	
 }

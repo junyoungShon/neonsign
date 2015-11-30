@@ -3,6 +3,7 @@ package org.cobro.neonsign.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.cobro.neonsign.vo.ItjaMemberVO;
 import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.SubArticleVO;
 import org.cobro.neonsign.vo.TagBoardVO;
@@ -35,7 +36,19 @@ public interface BoardDAO {
 	public List<SubArticleVO> selectListSubArticleBySubArticleGrade(SubArticleVO subArticleVO);
 	public void ArticleDelete(MainArticleVO mavo);
 	public Object boardCount();
-
 	
-	
+	//잇자 클릭 관련 메서드
+	public void insertMainItjaMember(ItjaMemberVO itjaMemberVO);
+	public int checkItja(ItjaMemberVO itjaMemberVO);
+	public void insertSubItjaMember(ItjaMemberVO itjaMemberVO);
+	public void deleteItja(ItjaMemberVO itjaMemberVO);
+	public void updateMainMinusItjaHit(ItjaMemberVO itjaMemberVO);
+	public void updateMainPlusItjaHit(ItjaMemberVO itjaMemberVO);
+	public void updateSubPlusItjaHit(ItjaMemberVO itjaMemberVO);
+	public void updateSubMinusItjaHit(ItjaMemberVO itjaMemberVO);
+	public void updateMainMinusTotalItjaHit(ItjaMemberVO itjaMemberVO);
+	public int selectMainItjaCount(ItjaMemberVO itjaMemberVO);
+	public int selectSubItjaCount(ItjaMemberVO itjaMemberVO);
+	public void updateMainPlusTotalItjaHit(ItjaMemberVO itjaMemberVO);
+	public List<ItjaMemberVO> getItjaListByMemberEmail(String memberEmail);
 }

@@ -3,12 +3,14 @@ package org.cobro.neonsign.controller;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.cobro.neonsign.model.BoardService;
+import org.cobro.neonsign.vo.ItjaMemberVO;
 import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.ReportVO;
 import org.cobro.neonsign.vo.ReporterVO;
@@ -60,6 +62,7 @@ public class BoardController {
 		mav.setViewName("home");
 		return mav;
 	}
+	
 	/**Controller9
 	 * 무한스크롤을 위한 완결 주제글 메소드
 	 * @author daehyeop
@@ -99,6 +102,17 @@ public class BoardController {
 	public List<TagVO> selectListTagNameOrderBySearchCount(){
 		List<TagVO> list = boardService.selectListTagNameOrderBySearchCount();
 		return list;
+	}
+	/**
+	 * 해당 글의 itja 수와, 요청한 아이디가 itja를 눌렀는지 여부를 판단해준다.
+	 * 이미 itjaClick했다면 false
+	 * 새로 itjaClick한것이라면 true를 반환한다.
+	 * @author junyoung
+	 */
+	@RequestMapping("auth_itjaClick.neon")
+	@ResponseBody
+	public HashMap<String,Integer> itjaClick(ItjaMemberVO itjaMemberVO){
+		return boardService.selectItjaState(itjaMemberVO);
 	}
 	/**Controller2
 	 * 사용자가 주제글을 수정하고자 할때 사용한다.

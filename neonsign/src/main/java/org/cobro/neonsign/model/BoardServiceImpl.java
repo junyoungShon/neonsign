@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.cobro.neonsign.vo.ItjaMemberVO;
 import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.ReportVO;
 import org.cobro.neonsign.vo.SubArticleVO;
@@ -20,6 +21,8 @@ public class BoardServiceImpl implements BoardService{
 	private BoardDAO boardDAO;
 	@Resource
 	private UtilService utilService;
+	@Resource
+	private ItjaMemberBean itjaMemberBean;
 	/**
 	 * 메인아티클을 삽입하면서 mainArticle의 글번호를 받아온다
 	 * 이후에 글번호와 태그를 Tag_Board table에 삽입한다.
@@ -265,5 +268,18 @@ public class BoardServiceImpl implements BoardService{
 	public List<TagBoardVO> selectTagList() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	/**
+	 * 해당 글의 itja 수와, 요청한 아이디가 itja를 눌렀는지 여부를 판단해준다.
+	 * 1. itjaMemberBean에 잇자 체크를 요청하고
+	 * 2. Map을 통해 itja수 와 잇자를 한 것인지 취소한 것인지를 리턴한다.
+	 * @author junyoung
+	 */
+	@Override
+	public HashMap<String, Integer> selectItjaState(ItjaMemberVO itjaMemberVO) {
+		HashMap<String,Integer> map = new HashMap<String, Integer>();
+		map.put("itjaSuccess",itjaMemberBean.checkItja(itjaMemberVO));
+		map.put("itjaCount",itjaMemberBean.itjaCount(itjaMemberVO));
+		return map;
 	}
 }

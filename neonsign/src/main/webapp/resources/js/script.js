@@ -203,11 +203,6 @@ $(document).ready(function(){ //DOM이 준비되고
 				}
 
 				$("#mainSubArticle").html(mainArticle);
-			//------------------------------------------------------------------
-			
-/*				$(".table").children().html(mainArticle);	*/
-			//alert(data.subArticleList[1].subArticleNo);
-
 			var subAtricleOrder="<tr class='warning'><td colspan='5'>잇는글</td></tr>";
 			for(var i=0; i<data.subArticleList.length; i++){
 				if(data.subArticleList[i].subAtricleGrade==subAtricleGrade){
@@ -327,6 +322,25 @@ $(document).ready(function(){ //DOM이 준비되고
 		
 	});
 	// 글쓰기 폼 끝
+	
+	//잇자 버튼 클릭 시
+	$('.itja').click(function(){
+		var formData = $($(this).next()).serialize();
+		var itjaCountSpan = $(this).children('.itjaCount');
+		$.ajax({
+			type : "POST",
+			url : "auth_itjaClick.neon",
+			data : formData,
+			success : function(data){
+				alert(data.itjaCount+'잇자성공?'+data.itjaSuccess);
+				if(data.itjaSuccess==1){
+					itjaCountSpan.html('<i class="fa fa-chain-broken"></i><br>'+data.itjaCount);
+				}else{
+					itjaCountSpan.html('<i class="fa fa-link"></i><br>'+data.itjaCount);
+				}
+			}
+		});
+	});
 	
 
 	

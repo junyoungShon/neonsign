@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.cobro.neonsign.vo.ItjaMemberVO;
 import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.SubArticleVO;
 import org.cobro.neonsign.vo.TagBoardVO;
@@ -204,5 +205,111 @@ public class BoardDAOImpl implements BoardDAO{
 		}
 		return (ArrayList<TagBoardVO>) list;
 	}
-
+	/**
+	 * 주제글에대한 잇자 클릭과 회원의 관계 정보를 가진 테이블에 정보를  삽입한다. 
+	 * @author junyoung
+	 */
+	@Override
+	public void insertMainItjaMember(ItjaMemberVO itjaMemberVO) {
+		sqlSessionTemplate.insert("board.insertMainItjaMember", itjaMemberVO);
+	}
+	/**
+	 * 잇자 여부를 확인하여 반환해준다. 이미 잇자햇다면 1 아니라면 0
+	 * @author junyoung
+	 */
+	@Override
+	public int checkItja(ItjaMemberVO itjaMemberVO) {
+		return sqlSessionTemplate.selectOne("board.checkItja", itjaMemberVO);
+	}
+	/**
+	 * 잇는글에 대한 잇자 클릭과 회원의 관계정보를 테이블에  저장하다.
+	 * @author junyoung
+	 */
+	@Override
+	public void insertSubItjaMember(ItjaMemberVO itjaMemberVO) {
+		sqlSessionTemplate.insert("board.insertSubItjaMember", itjaMemberVO);
+	}
+	/**
+	 * 주제게시물의 잇자수를 올려준다.
+	 * @author junyoung
+	 */
+	@Override
+	public void updateMainPlusItjaHit(ItjaMemberVO itjaMemberVO) {
+		sqlSessionTemplate.update("board.updateMainPlusItjaHit", itjaMemberVO);
+		
+	}
+	/**
+	 * 잇는글의 잇자수를 올려준다.
+	 * @author junyoung
+	 */
+	@Override
+	public void updateSubPlusItjaHit(ItjaMemberVO itjaMemberVO) {
+		sqlSessionTemplate.update("board.updateMainPlusItjaHit", itjaMemberVO);
+		
+	}
+	/**
+	 * 잇는글에 대한 잇자 클릭과 회원의 관계정보를 테이블에서 삭제한다.
+	 * @author junyoung
+	 */
+	@Override
+	public void deleteItja(ItjaMemberVO itjaMemberVO) {
+		sqlSessionTemplate.delete("board.deleteItja",itjaMemberVO);
+		
+	}
+	/**
+	 * 주제게시물의 잇자수를 줄여준다.
+	 * @author junyoung
+	 */
+	@Override
+	public void updateMainMinusItjaHit(ItjaMemberVO itjaMemberVO) {
+		sqlSessionTemplate.update("board.updateMainMinusItjaHit", itjaMemberVO);
+		
+	}
+	/**
+	 * 잇는글의 잇자수를 줄여준다.
+	 * @author junyoung
+	 */
+	@Override
+	public void updateSubMinusItjaHit(ItjaMemberVO itjaMemberVO) {
+		sqlSessionTemplate.update("board.updateSubMinusItjaHit", itjaMemberVO);
+		
+	}
+	/**
+	 * 주제글의 총 잇자수를 줄여줍니다.
+	 * @author junyoung
+	 */
+	@Override
+	public void updateMainMinusTotalItjaHit(ItjaMemberVO itjaMemberVO) {
+		sqlSessionTemplate.update("board.updateMainMinusTotalItjaHit", itjaMemberVO);
+	}
+	/**
+	 * 주제글의 총 잇자수를 늘려줍니다.
+	 * @author junyoung
+	 */
+	@Override
+	public void updateMainPlusTotalItjaHit(ItjaMemberVO itjaMemberVO) {
+		sqlSessionTemplate.update("board.updateMainPlusTotalItjaHit", itjaMemberVO);
+	}
+	/**
+	 * 메인 주제글 단독의 잇자수를 반환한다.
+	 * @author junyoung
+	 */
+	@Override
+	public int selectMainItjaCount(ItjaMemberVO itjaMemberVO) {
+		return sqlSessionTemplate.selectOne("board.selectMainItjaCount", itjaMemberVO);
+	}
+	/**
+	 * 잇는 주제글의 잇자수를 반환한다.
+	 */
+	@Override
+	public int selectSubItjaCount(ItjaMemberVO itjaMemberVO) {
+		return sqlSessionTemplate.selectOne("board.selectSubItjaCount", itjaMemberVO);
+	}
+	/**
+	 * 이메일에 해당하는 회원이 잇자를 누른 게시물을 모두 반환한다.
+	 */
+	@Override
+	public List<ItjaMemberVO> getItjaListByMemberEmail(String memberEmail) {
+		return sqlSessionTemplate.selectList("board.getItjaListByMemberEmail",memberEmail);
+	}
 }

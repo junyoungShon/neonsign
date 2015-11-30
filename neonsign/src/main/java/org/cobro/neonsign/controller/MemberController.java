@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.cobro.neonsign.model.ItjaMemberBean;
 import org.cobro.neonsign.model.MemberService;
 import org.cobro.neonsign.vo.MemberVO;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class MemberController {
 	@Resource
 	private MemberService memberService;
+	@Resource
+	private ItjaMemberBean itjaMemberBean;
 	
 	/**
 	 *  ajax 이메일 중복확인 
@@ -61,23 +64,19 @@ public class MemberController {
 	@RequestMapping("memberLogin.neon")
 	public ModelAndView memberLogin(HttpServletRequest request, MemberVO memberVO){
 		memberVO=memberService.memberLogin(memberVO);
+		memberVO.setItjaMemberList(itjaMemberBean.getItjaListByMemberEmail(memberVO));
 		if(memberVO!=null){
-			request.getSession().setAttribute("memberVO",memberVO);	
-			return new ModelAndView("home");
-		}else{
-			return new ModelAndView("memberLogin");
+			request.getSession().setAttribute("memberVO",memberVO);		
 		}
-		/**
-		 *  로그인 메서드 로그인성공시 세션적용(적용중)
-		 */
-		
+		System.out.println(memberVO);
+		return new ModelAndView("redirect:getMainList.neon");
 	}
 	@RequestMapping("memberLogout.neon")
 	public ModelAndView memberlogout(HttpServletRequest request){
 		HttpSession session=request.getSession(false);
 		if (session != null)
 			session.invalidate();
-		return new ModelAndView("home");
+		return new ModelAndView("redirect:getMainList.neon");
 	}
 	
 	/**

@@ -1,5 +1,7 @@
 package org.cobro.neonsign.vo;
 
+import java.util.List;
+
 public class MemberVO {
 	private String memberEmail;
 	private String memberNickName;
@@ -9,23 +11,7 @@ public class MemberVO {
 	private int memberNotifiedAmount;
 	private String memberCategory;
 	private RankingVO rankingVO;
-	public MemberVO() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	public MemberVO(String memberEmail, String memberNickName,
-			String memberPassword, String memberJoinDate, int memberPoint,
-			int memberNotifiedAmount, String memberCategory, RankingVO rankingVO) {
-		super();
-		this.memberEmail = memberEmail;
-		this.memberNickName = memberNickName;
-		this.memberPassword = memberPassword;
-		this.memberJoinDate = memberJoinDate;
-		this.memberPoint = memberPoint;
-		this.memberNotifiedAmount = memberNotifiedAmount;
-		this.memberCategory = memberCategory;
-		this.rankingVO = rankingVO;
-	}
+	private List<ItjaMemberVO> itjaMemberList;
 	public String getMemberEmail() {
 		return memberEmail;
 	}
@@ -74,6 +60,31 @@ public class MemberVO {
 	public void setRankingVO(RankingVO rankingVO) {
 		this.rankingVO = rankingVO;
 	}
+	public List<ItjaMemberVO> getItjaMemberList() {
+		return itjaMemberList;
+	}
+	public void setItjaMemberList(List<ItjaMemberVO> list) {
+		this.itjaMemberList = list;
+	}
+	public MemberVO(String memberEmail, String memberNickName,
+			String memberPassword, String memberJoinDate, int memberPoint,
+			int memberNotifiedAmount, String memberCategory,
+			RankingVO rankingVO, List<ItjaMemberVO> itjaMemberList) {
+		super();
+		this.memberEmail = memberEmail;
+		this.memberNickName = memberNickName;
+		this.memberPassword = memberPassword;
+		this.memberJoinDate = memberJoinDate;
+		this.memberPoint = memberPoint;
+		this.memberNotifiedAmount = memberNotifiedAmount;
+		this.memberCategory = memberCategory;
+		this.rankingVO = rankingVO;
+		this.itjaMemberList = itjaMemberList;
+	}
+	public MemberVO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	@Override
 	public String toString() {
 		return "MemberVO [memberEmail=" + memberEmail + ", memberNickName="
@@ -81,7 +92,9 @@ public class MemberVO {
 				+ ", memberJoinDate=" + memberJoinDate + ", memberPoint="
 				+ memberPoint + ", memberNotifiedAmount="
 				+ memberNotifiedAmount + ", memberCategory=" + memberCategory
-				+ ", rankingVO=" + rankingVO + "]";
+				+ ", rankingVO=" + rankingVO + ", itjaMemberList="
+				+ itjaMemberList + "]";
 	}
 	
+
 }
