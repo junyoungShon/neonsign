@@ -167,15 +167,17 @@ $(document).ready(function(){ //DOM이 준비되고
 		var mainArticleNO =  $(this).parent().siblings().eq(5).val();
 		/*var mainArticleTitleNO=$(":input[name=mainArticleNo1234]").val();*/
 		/*alert(mainArticleTitleNO);*/
+		alert(tagLists+" "+title+" "+content+" "+writersId+" "+mainArticleNO);
+		alert(mainArticleNO);
 		$.ajax({
 			type:"post",
 			url:"selectOneNotCompleteMainArticleByMainArticleNo.neon",
 			data:"mainArticleNo="+mainArticleNO,
 			dataType:"json",
 			success:function(data){
+				alert(data);
 				var subAtricleGrade=0;
 				var mainArticle="";
-				/*alert($(".table").children().html()+"희");*/
 				$('.mainCardDetailViewContentNo').text(0);
 				$('.mainCardDetailViewContent').text(data.mainArticleContent);
 				$('.mainWritersNickNameAtDetail').text(data.memberVO.memberNickName);

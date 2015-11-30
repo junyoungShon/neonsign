@@ -118,15 +118,21 @@ public class BoardDAOImpl implements BoardDAO{
 	 */
 	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleNo(
 			MainArticleVO mainArticleVO) {
-		// TODO Auto-generated method stub
-		System.out.println("selectOneNotCompleteMainArticleByMainArticleNo 실행됨");
-		MainArticleVO main=null;
-		try{
-		main=sqlSessionTemplate.selectOne("board.selectOneCompleteMainArticleByMainArticleNo",mainArticleVO);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+		MainArticleVO main=sqlSessionTemplate.selectOne("board.selectOneNotCompleteMainArticleByMainArticleNo",mainArticleVO);
 		return main;
+	}
+	@Override
+	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleAndSubArticleNo(
+			MainArticleVO mainArticleVO) {
+		// TODO Auto-generated method stub
+				MainArticleVO main=null;
+				try{
+				main=sqlSessionTemplate.selectOne("board.selectOneNotCompleteMainArticleByMainArticleAndSubArticleNo",mainArticleVO);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+		return main;
+		
 	}
 	@Override
 	public void insertSubArticle(SubArticleVO subArticleVO) {
@@ -312,4 +318,5 @@ public class BoardDAOImpl implements BoardDAO{
 	public List<ItjaMemberVO> getItjaListByMemberEmail(String memberEmail) {
 		return sqlSessionTemplate.selectList("board.getItjaListByMemberEmail",memberEmail);
 	}
+	
 }

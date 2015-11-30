@@ -176,7 +176,12 @@ public class BoardServiceImpl implements BoardService{
 	 */
 	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleNo(
 			MainArticleVO mainArticleVO) {
-		return boardDAO.selectOneNotCompleteMainArticleByMainArticleNo(mainArticleVO);
+		System.out.println("Service selectOneNotCompleteMainArticleByMainArticleNo 실행됨");
+		MainArticleVO mainVO=boardDAO.selectOneNotCompleteMainArticleByMainArticleAndSubArticleNo(mainArticleVO);
+		if(mainVO==null){
+			mainVO= boardDAO.selectOneNotCompleteMainArticleByMainArticleNo(mainArticleVO);
+		}
+		return mainVO;
 	}
 	@Override
 	public int insertSubArticle(SubArticleVO subArticleVO) {

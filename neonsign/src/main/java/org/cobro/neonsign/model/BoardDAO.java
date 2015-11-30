@@ -51,4 +51,6 @@ public interface BoardDAO {
 	public int selectSubItjaCount(ItjaMemberVO itjaMemberVO);
 	public void updateMainPlusTotalItjaHit(ItjaMemberVO itjaMemberVO);
 	public List<ItjaMemberVO> getItjaListByMemberEmail(String memberEmail);
+	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleAndSubArticleNo(
+			MainArticleVO mainArticleVO);
 }

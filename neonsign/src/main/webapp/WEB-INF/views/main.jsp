@@ -145,7 +145,7 @@
 						<span class="writersNickName">-
 							${newMainArticle.memberVO.memberNickName} -</span> <input type="hidden"
 							class="mainArticleTitleNO"
-							value="${bestMainArticle.mainArticleNo}">
+							value="${newMainArticle.mainArticleNo}">
 						<div class="actions">
 							<button class="btn btn-round btn-fill btn-neutral btn-modern"
 								data-toggle="modal" data-target="#cardDetailView">Read

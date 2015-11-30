@@ -67,7 +67,7 @@
           </div>
           <!-- 회원가입 모달 끝 -->
 			
-	<!-- 글 내용이 출력되는 모달 창 -->
+<!-- 글 내용이 출력되는 모달 창 -->
 	<!-- Modal -->
 	<div class="modal fade" id="cardDetailView" tabindex="-1" role="dialog"
 		aria-labelledby="cardDetailViewLabel" aria-hidden="true">

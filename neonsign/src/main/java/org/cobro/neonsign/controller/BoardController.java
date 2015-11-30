@@ -178,12 +178,13 @@ public class BoardController {
 	@RequestMapping("selectOneNotCompleteMainArticleByMainArticleNo.neon")
 	@ResponseBody
 	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO){
-		System.out.println("희 "+mainArticleVO);
+		System.out.println("number : "+mainArticleVO.getMainArticleNo());
+		System.out.println("mainArticleVO : "+mainArticleVO);
 		MainArticleVO mainArticle=null;
 		if (mainArticleVO!=null) {
 			 mainArticle=boardService.selectOneNotCompleteMainArticleByMainArticleNo(mainArticleVO);
-			 System.out.println(mainArticle);
 		}
+		System.out.println("mainArticle : "+mainArticle);
 		return mainArticle;
 	}
 	/**Controller7
