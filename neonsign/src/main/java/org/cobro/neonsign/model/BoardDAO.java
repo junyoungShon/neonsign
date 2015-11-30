@@ -14,8 +14,8 @@ public interface BoardDAO {
 	public void updateMainArticle(MainArticleVO mainArticleVO);
 	public void deleteMainArticle(MainArticleVO mainArticleVO);
 	public MainArticleVO selectOneCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO);
-	public List<MainArticleVO> selectListCompleteMainArticleOrderByTotalLike();
-	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate();
+	public List<MainArticleVO> selectListCompleteMainArticleOrderByTotalLike(int pageNo);
+	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate(int pageNo);
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByTotalLike();
 	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO);
 	public List<MainArticleVO> selectListCompleteMainArticleOrderByDate();

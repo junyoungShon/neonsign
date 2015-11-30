@@ -38,7 +38,7 @@
   	 	 	<c:otherwise>
   	 	 		<li><a href="#" class="">${sessionScope.memberVO.memberNickName} 님</a></li>
   	 	 		<li><a href="#" class="memberupdate"> 회원정보수정</a></li>
-  	 	 		<li><a href="${initParam.root}logout.neon" id="logout">로그아웃</a></li>
+  	 	 		<li><a href="${initParam.root}memberLogout.neon" id="logout">로그아웃</a></li>
     			  <li><a href="#" class="writeMainArticle">글쓰기</a></li>
   	 	 	</c:otherwise>
   	 	 </c:choose>

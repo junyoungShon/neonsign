@@ -44,8 +44,9 @@ public class BoardController {
 	public ModelAndView getMainList(){
 		ModelAndView mav = new ModelAndView();
 		// 새로운 주제글 날짜순 + Tag
+		int pageNo = 1;
 		List<MainArticleVO> newMainArticleVOListOrderByDate
-			= boardService.selectListNotCompleteMainArticleOrderByDate();
+			= boardService.selectListNotCompleteMainArticleOrderByDate(pageNo);
 		// System.out.println("con잇자수 10개이하 주제글 : " + newMainArticleVOListOrderByDate);
 		mav.addObject("newMainArticleVOListOrderByDate", newMainArticleVOListOrderByDate);
 		// 베스트 주제글 날짜순 + Tag
@@ -65,8 +66,8 @@ public class BoardController {
 	 */
 	@RequestMapping("getNewMainArticle.neon")
 	@ResponseBody
-	public ArrayList<MainArticleVO> getNewMainArticle(){
-		List<MainArticleVO> newMainArticleVOListOrderByDate = boardService.selectListNotCompleteMainArticleOrderByDate();
+	public ArrayList<MainArticleVO> getNewMainArticle(int pageNo){
+		List<MainArticleVO> newMainArticleVOListOrderByDate = boardService.selectListNotCompleteMainArticleOrderByDate(pageNo);
 		ArrayList<MainArticleVO> newMainArticleArrayList = (ArrayList<MainArticleVO>) newMainArticleVOListOrderByDate;
  		return newMainArticleArrayList;
 	}
@@ -185,11 +186,12 @@ public class BoardController {
 	 */
 	@RequestMapping("selectListCompleteMainArticleOrderByTotalLike.neon")
 	public ModelAndView selectListCompleteMainArticleOrderByTotalLike() {
-			List<MainArticleVO> completeMainArticleList = boardService
-					.selectListCompleteMainArticleOrderByTotalLike();
-			ArrayList<MainArticleVO> mainArticleList = (ArrayList<MainArticleVO>) completeMainArticleList;
-			return new ModelAndView("completeMainArticleView", "mainArticleList",
-					mainArticleList);
+		int pageNo=1;
+		List<MainArticleVO> completeMainArticleList = boardService
+				.selectListCompleteMainArticleOrderByTotalLike(pageNo);
+		ArrayList<MainArticleVO> mainArticleList = (ArrayList<MainArticleVO>) completeMainArticleList;
+		return new ModelAndView("completeMainArticleView", "mainArticleList",
+				mainArticleList);
 	}
 	/**Controller9
 	 * 무한스크롤을 위한 완결 주제글 메소드
@@ -197,8 +199,8 @@ public class BoardController {
 	 */
 	@RequestMapping("getCompleteMainArticle.neon")
 	@ResponseBody
-	public ArrayList<MainArticleVO> getCompleteMainArticle(){
-		List<MainArticleVO> mainArticleList = boardService.selectListCompleteMainArticleOrderByTotalLike();
+	public ArrayList<MainArticleVO> getCompleteMainArticle(int pageNo){
+		List<MainArticleVO> mainArticleList = boardService.selectListCompleteMainArticleOrderByTotalLike(pageNo);
 		ArrayList<MainArticleVO> mainArticleArrayList = (ArrayList<MainArticleVO>) mainArticleList;
  		return mainArticleArrayList;
 	}

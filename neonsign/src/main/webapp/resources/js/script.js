@@ -14,12 +14,16 @@ $(document).ready(function(){ //DOM이 준비되고
 		var mainArticleTitle = "";
 		var mainArticleContent = "";
 		if($("#articleType").val()=='completeArticle'){
+			var cardBox=$(".card-box[name=completeCardBox]").length;
+			var pageNo=Math.ceil((cardBox/9)+1);
+			//alert("pageNo : " + pageNo);
 			$.ajax({
 				type:"post",
-				url:"getCompleteMainArticle.neon",
+				url:"getCompleteMainArticle.neon?pageNo="+pageNo,
 				dataType:"json",
 				success:function(data){
-					for(var i=$(".card-box").length; i<data.length; i++){
+					if(data.length!=0){
+					for(var i=0; i<data.length; i++){
 						//타이틀 길이제한 조건문
 						if(data[i].mainArticleTitle.length>12){
 							mainArticleTitle = data[i].mainArticleTitle.substring(0,12) + " ...";
@@ -28,18 +32,18 @@ $(document).ready(function(){ //DOM이 준비되고
 						}
 						//내용 길이제한 조건문
 						if(data[i].mainArticleContent.length>18){
-							mainArticleContent = data[i].mainArticleTitle.substring(0,15) + " ...";
+							mainArticleContent = data[i].mainArticleContent.substring(0,15) + " ...";
 						}else{
-							mainArticleContent = data[i].mainArticleTitle;
+							mainArticleContent = data[i].mainArticleContent;
 						}
 						//추가될 카드 html문
 						infinityScrollTestSource +=
-							'<div class="card-box col-md-4">' 
+							'<div class="card-box col-md-4" name="completeCardBox">' 
 							+ '<div class="card card-with-border" data-background="image" data-src="resources/img/snow.jpg" style="background-image: url(resources/img/snow.jpg); background-size: cover; background-position: 50% 50%;">' 
 							+ '<div class="content">' 
-							+ '<h6 class="category">#</h6><br>' 
+							+ '<h6 class="category">' + data[i].tagName + '</h6><br>' 
 							+ '<h5 class="title">[완결]' + mainArticleTitle + '</h5>' 
-							+ ' <p class="description">' + data[i].mainArticleContent + '</p>' 
+							+ ' <p class="description">' + mainArticleContent + '</p>' 
 							+ '<div class="actions">' 
 							+ '<button class="btn btn-round btn-fill btn-neutral btn-modern" data-toggle="modal" data-target="#cardDetailView">Read Article</button>' 
 							+ '</div>' 
@@ -50,18 +54,28 @@ $(document).ready(function(){ //DOM이 준비되고
 							+ '<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button>' 
 							+ '</div>  <!-- end social-line social-line-visible --></div></div> <!-- end card --></div><!-- card-box col-md-4 -->'
 					}
+					}else{
+						infinityScrollTestSource +=
+							'<div class="card-box col-md-4" name="completeCardBox">' 
+							+ '<div class="card card-with-border" data-background="image" data-src="resources/img/snow.jpg" style="background-image: url(resources/img/snow.jpg); background-size: cover; background-position: 50% 50%;">'
+							+ '<h3>마지막 게시물입니다!</h3>'
+							+ '</div> <!-- end card --></div><!-- card-box col-md-4 -->'
+					}
 					$('.ajaxLoader').fadeOut(300);
 					$('.newItjaList').append(infinityScrollTestSource);
 				}
 			});
-		}else{
-			if($("#articleType").val()=='mainArticle'){
+		}else if($("#articleType").val()=='mainArticle'){ 
+			var cardBox=$(".card-box[name=newCardBox]").length;
+			var pageNo=Math.ceil((cardBox/9)+1);
+			//alert(pageNo);
 				$.ajax({
 					type:"post",
-					url:"getCompleteMainArticle.neon",
+					url:"getNewMainArticle.neon?pageNo="+pageNo,
 					dataType:"json",
 					success:function(data){
-						for(var i=$(".card-box").length; i<data.length; i++){
+						if(data.length!=0){
+						for(var i=0; i<data.length; i++){
 							//타이틀 길이제한 조건문
 							if(data[i].mainArticleTitle.length>12){
 								mainArticleTitle = data[i].mainArticleTitle.substring(0,12) + " ...";
@@ -70,18 +84,18 @@ $(document).ready(function(){ //DOM이 준비되고
 							}
 							//내용 길이제한 조건문
 							if(data[i].mainArticleContent.length>18){
-								mainArticleContent = data[i].mainArticleTitle.substring(0,15) + " ...";
+								mainArticleContent = data[i].mainArticleContent.substring(0,15) + " ...";
 							}else{
-								mainArticleContent = data[i].mainArticleTitle;
+								mainArticleContent = data[i].mainArticleContent;
 							}
 							//추가될 카드 html문
 							infinityScrollTestSource +=
-								'<div class="card-box col-md-4">' 
+								'<div class="card-box col-md-4" name="newCardBox">' 
 								+ '<div class="card card-with-border" data-background="image" data-src="resources/img/snow.jpg" style="background-image: url(resources/img/snow.jpg); background-size: cover; background-position: 50% 50%;">' 
 								+ '<div class="content">' 
-								+ '<h6 class="category">#</h6><br>' 
-								+ '<h5 class="title">[완결]' + mainArticleTitle + '</h5>' 
-								+ ' <p class="description">' + data[i].mainArticleContent + '</p>' 
+								+ '<h6 class="category">' + data[i].tagName + '</h6><br>' 
+								+ '<h5 class="title">[미완]' + mainArticleTitle + '</h5>' 
+								+ ' <p class="description">' + mainArticleContent + '</p>' 
 								+ '<div class="actions">' 
 								+ '<button class="btn btn-round btn-fill btn-neutral btn-modern" data-toggle="modal" data-target="#cardDetailView">Read Article</button>' 
 								+ '</div>' 
@@ -92,13 +106,19 @@ $(document).ready(function(){ //DOM이 준비되고
 								+ '<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button>' 
 								+ '</div>  <!-- end social-line social-line-visible --></div></div> <!-- end card --></div><!-- card-box col-md-4 -->'
 						}
+						}else{
+							infinityScrollTestSource +=
+								'<div class="card-box col-md-4" name="completeCardBox">' 
+								+ '<div class="card card-with-border" data-background="image" data-src="resources/img/snow.jpg" style="background-image: url(resources/img/snow.jpg); background-size: cover; background-position: 50% 50%;">'
+								+ '<h3>마지막 게시물입니다!</h3>'
+								+ '</div> <!-- end card --></div><!-- card-box col-md-4 -->'
+						}
 						$('.ajaxLoader').fadeOut(300);
 						$('.newItjaList').append(infinityScrollTestSource);
 					}
 				});
 		}
-		}
-	};  
+	};
 
 	//무한 스크롤 끝
 

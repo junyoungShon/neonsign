@@ -88,10 +88,24 @@ public class BoardServiceImpl implements BoardService{
 	 * @author daehyeop
 	 */
 	@Override
-	public List<MainArticleVO> selectListCompleteMainArticleOrderByTotalLike() {
+	public List<MainArticleVO> selectListCompleteMainArticleOrderByTotalLike(int pageNo) {
 		List<MainArticleVO> completeMainArticleList = boardDAO
-				.selectListCompleteMainArticleOrderByTotalLike();
+				.selectListCompleteMainArticleOrderByTotalLike(pageNo);
 		System.out.println("service " + completeMainArticleList);
+		String tagName = "";
+		ArrayList<TagBoardVO> list = new ArrayList<TagBoardVO>();
+		for(int i = 0 ; i<completeMainArticleList.size() ; i++){
+			list = boardDAO.getMainArticleTagList(completeMainArticleList.get(i).getMainArticleNo());
+			for(int j = 0 ; j<list.size() ; j++){
+				if(j == list.size()-1){
+					tagName += "#" + list.get(j).getTagName();
+				}else{
+					tagName += "#" +  list.get(j).getTagName() + ", ";
+				}
+				completeMainArticleList.get(i).setTagName(tagName);
+			}
+			tagName = "";
+		}
 		return completeMainArticleList;
 	}
 	
@@ -100,9 +114,9 @@ public class BoardServiceImpl implements BoardService{
 	 * 새로운 주제글 최신순 List + Tag
 	 * @author JeSeong Lee
 	 */
-	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate() {
+	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate(int pageNo) {
 		List<MainArticleVO> newMainArticleVOList
-			= boardDAO.selectListNotCompleteMainArticleOrderByDate();
+			= boardDAO.selectListNotCompleteMainArticleOrderByDate(pageNo);
 		String tagName = "";
 		ArrayList<TagBoardVO> list = new ArrayList<TagBoardVO>();
 		for(int i = 0 ; i<newMainArticleVOList.size() ; i++){

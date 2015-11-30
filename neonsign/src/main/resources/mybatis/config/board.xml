@@ -77,56 +77,60 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="completeMainArticleByMainArticleNo" resultType="mainArticleVO"
 		resultMap="mainArticleResultMap">
-		select m.MAIN_ARTICLE_NO, m.MAIN_ARTICLE_EMAIL,
-		MAIN_ARTICLE_TITLE,
-		MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_HIT,
-		MAIN_ARTICLE_LIKE,
-		MAIN_ARTICLE_TOTAL_LIKE, MAIN_ARTICLE_DATE,
-		MAIN_ARTICLE_COMPLETE_DATE
-		from MAIN_ARTICLE m, SUB_ARTICLE s
-		where
-		m.MAIN_ARTICLE_NO =
-		s.MAIN_ARTICLE_NO and s.IS_CONNECT=1 and s.IS_END=1
-		and
-		m.MAIN_ARTICLE_NO=#{value}
 	</select>
 	<select id="completeMainArticleOrderByDate" resultType="mainArticleVO"
 		resultMap="mainArticleResultMap">
-		select
-		m.MAIN_ARTICLE_NO, m.MAIN_ARTICLE_EMAIL,
-		MAIN_ARTICLE_TITLE,
-		MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_HIT,
-		MAIN_ARTICLE_LIKE,
-		MAIN_ARTICLE_TOTAL_LIKE, MAIN_ARTICLE_DATE,
-		MAIN_ARTICLE_COMPLETE_DATE
-		from MAIN_ARTICLE m, SUB_ARTICLE s
-		where
-		m.MAIN_ARTICLE_NO =
-		s.MAIN_ARTICLE_NO and s.IS_CONNECT=1 and s.IS_END=1
-		order by
-		m.MAIN_ARTICLE_DATE desc
 	</select>
-	<select id="completeMainArticleOrderByTotalLike" resultType="mainArticleVO"
+	<select id="completeMainArticleOrderByTotalLike"
 		resultMap="mainArticleResultMap">
-		select MAIN_ARTICLE_NO, MAIN_ARTICLE_EMAIL,
-		MAIN_ARTICLE_TITLE,
-		MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_HIT,
-		MAIN_ARTICLE_LIKE,
-		MAIN_ARTICLE_TOTAL_LIKE, MAIN_ARTICLE_DATE,
-		MAIN_ARTICLE_UPDATE_DATE
-		from MAIN_ARTICLE where MAIN_ARTICLE_COMPLETE = 1 order by MAIN_ARTICLE_UPDATE_DATE
+		select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_HIT, 
+		MAIN_ARTICLE_LIKE, MAIN_ARTICLE_TOTAL_LIKE, MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE 
+		from(
+			select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE,
+			MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_HIT,
+			MAIN_ARTICLE_LIKE, MAIN_ARTICLE_TOTAL_LIKE, 
+			MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE, 
+			MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME, 
+			ceil(rownum/9) as page 
+				from(
+					select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
+					ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_HIT,
+					ma.MAIN_ARTICLE_LIKE, ma.MAIN_ARTICLE_TOTAL_LIKE, 
+					to_char(ma.MAIN_ARTICLE_DATE,'YYYY.MM.DD') as MAIN_ARTICLE_DATE, 
+					to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY.MM.DD') as MAIN_ARTICLE_UPDATE_DATE, 
+					ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME 
+					from main_article ma, brain_member bm 
+					where ma.MAIN_ARTICLE_EMAIL = bm.MEMBER_EMAIL 
+					order by ma.MAIN_ARTICLE_TOTAL_LIKE desc
+				) where MAIN_ARTICLE_COMPLETE = 1
+		)where page=#{value}
 	</select>
 
 	<!-- 제성 -->
 	<!-- 메인 새로운 주제글 최신순 List-->
 	<select id="selectListNotCompleteMainArticleOrderByDate"
 		resultMap="mainArticleResultMap">
-	select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
-	ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_date, 
-	ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME
-	from main_article ma, brain_member bm
-	<![CDATA[where bm.MEMBER_EMAIL = ma.MAIN_ARTICLE_EMAIL and ma.MAIN_ARTICLE_COMPLETE=0 and 
-	MAIN_ARTICLE_TOTAL_LIKE<10 order by ma_date desc]]> 
+		select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_HIT, 
+		MAIN_ARTICLE_LIKE, MAIN_ARTICLE_TOTAL_LIKE, MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE 
+		from(
+			select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE,
+			MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_HIT,
+			MAIN_ARTICLE_LIKE, MAIN_ARTICLE_TOTAL_LIKE, 
+			MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE, 
+			MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME, 
+			ceil(rownum/9) as page 
+				from(
+					select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
+					ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_HIT,
+					ma.MAIN_ARTICLE_LIKE, ma.MAIN_ARTICLE_TOTAL_LIKE, 
+					to_char(ma.MAIN_ARTICLE_DATE,'YYYY.MM.DD') as MAIN_ARTICLE_DATE, 
+					to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY.MM.DD') as MAIN_ARTICLE_UPDATE_DATE, 
+					ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME 
+					from main_article ma, brain_member bm 
+					where ma.MAIN_ARTICLE_EMAIL = bm.MEMBER_EMAIL and <![CDATA[ma.MAIN_ARTICLE_TOTAL_LIKE<10]]>
+					order by ma.MAIN_ARTICLE_TOTAL_LIKE desc
+				) where MAIN_ARTICLE_COMPLETE = 0
+		)where page=#{value}
 	</select>
 	<!-- 메인 주제글 해당 tag list -->
 	<select id="getMainArticleTagList" resultMap="tagBoardResultMap">

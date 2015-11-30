@@ -40,12 +40,12 @@ public class HanSolTest {
 	
 
 	@Test
-	public void test(){
+	public void test(int pageNo){
 		// List<MainArticleVO> mainArticleVOList, List<TagVO> tagVOList)
 		List<TagVO> tagVOList = null;	
 		/*tagVOList = boardService.selectTagList();*/
 		System.out.println(tagVOList);
-		List<MainArticleVO> mainArticleVOList = boardService.selectListNotCompleteMainArticleOrderByDate();
+		List<MainArticleVO> mainArticleVOList = boardService.selectListNotCompleteMainArticleOrderByDate(pageNo);
 		System.out.println(mainArticleVOList);
 	}
 }

@@ -83,9 +83,9 @@ public class BoardDAOImpl implements BoardDAO{
 	 * @author jeseongLee
 	 */
 	@Override
-	public List<MainArticleVO> selectListCompleteMainArticleOrderByTotalLike() {
+	public List<MainArticleVO> selectListCompleteMainArticleOrderByTotalLike(int pageNo) {
 		List<MainArticleVO> mainArticleList = sqlSessionTemplate
-				.selectList("completeMainArticleOrderByTotalLike");
+				.selectList("completeMainArticleOrderByTotalLike", pageNo);
 		return mainArticleList;
 	}
 	/**
@@ -97,8 +97,8 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 
 	@Override
-	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate() {
-		return sqlSessionTemplate.selectList("board.selectListNotCompleteMainArticleOrderByDate");
+	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate(int pageNo) {
+		return sqlSessionTemplate.selectList("board.selectListNotCompleteMainArticleOrderByDate", pageNo);
 	}
 
 	@Override
