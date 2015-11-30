@@ -339,9 +339,9 @@ $(document).ready(function(){ //DOM이 준비되고
 			success : function(data){
 				alert(data.itjaCount+'잇자성공?'+data.itjaSuccess);
 				if(data.itjaSuccess==1){
-					itjaCountSpan.html('<i class="fa fa-chain-broken"></i><br>'+data.itjaCount);
+					itjaCountSpan.html('<i class="fa fa-chain-broken"></i><br>'+data.itjaCount+'it');
 				}else{
-					itjaCountSpan.html('<i class="fa fa-link"></i><br>'+data.itjaCount);
+					itjaCountSpan.html('<i class="fa fa-link"></i><br>'+data.itjaCount+'it');
 				}
 			}
 		});

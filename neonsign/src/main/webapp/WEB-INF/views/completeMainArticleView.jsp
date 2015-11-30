@@ -55,9 +55,31 @@
 						<button class="btn btn-social btn-pinterest">
 							완결된<br>잇자!
 						</button>
-						<button class="btn btn-social btn-twitter">
-							${list.mainArticleTotalLike}<br> 잇자!
-						</button>
+						 <button class="btn btn-social btn-twitter itja">
+                                  <c:set var="count" value="false" />
+								<c:forEach var="itjaList" items="${sessionScope.memberVO.itjaMemberList}">
+									<c:choose>
+										<c:when test="${itjaList.mainArticleNo== list.mainArticleNo}">
+											<c:set var="count" value="true" />
+										</c:when>
+										<c:otherwise>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+								<c:choose>
+									<c:when test="${count==true}">
+										<span class="itjaCount"><i class="fa fa-link"></i><br>${list.mainArticleTotalLike }it</span>
+									</c:when>
+									<c:otherwise>
+										<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>${list.mainArticleTotalLike }it</span>
+									</c:otherwise>
+								</c:choose>
+                            </button>
+                            <form name="itJaInfo">
+                            	<input type="hidden" name="memberEmail" value="${sessionScope.memberVO.memberEmail}">
+                            	<input type="hidden" name="mainArticleNo" value="${list.mainArticleNo}">
+                            	<input type="hidden" name="subArticleNo" value=0>
+                            </form>
 						<button class="btn btn-social btn-google">
 							<i class="fa fa-heart-o"></i><br> 찜하자!
 						</button>
