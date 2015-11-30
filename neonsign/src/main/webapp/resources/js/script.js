@@ -504,7 +504,6 @@ $(document).ready(function(){ //DOM이 준비되고
 							}
 						}
 					}
-					
 				}	
 			});
 			
@@ -513,7 +512,13 @@ $(document).ready(function(){ //DOM이 준비되고
 	$("#memberLogout").click(function(){
 		if(confirm("로그아웃하시겠습니까?")){
 			location.href="memberLogout.neon";
+		}else{
+			return false;
 		}
 	});
+ 	if($("#logout").val()=="0"){
+		alert("이메일과 비밀번호가 맞지 않습니다.");
+		
+	} 
 });//document.ready
 	

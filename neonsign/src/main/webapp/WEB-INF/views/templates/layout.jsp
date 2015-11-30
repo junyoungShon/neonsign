@@ -63,5 +63,8 @@
 <!-- 부트 스트랩 사용을 위한 하단 설정 완료 -->
 <!-- 힙스터 카드 js 파일 -->
 <script src="${initParam.root}resources/js/hipster-cards.js"></script>
+<script type="text/javascript">
+</script>
+
 </body>
 </html>

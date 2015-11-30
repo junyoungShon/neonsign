@@ -194,7 +194,7 @@
 			<div class="modal-content">
 				<div class="modal-header"></div>
 				<div class="modal-body">
-				<form name="memberLogin" action="memberLogin.neon" > <!--  -->
+				<form name="memberLogin" action="memberLogin.neon" method="post"> <!--  -->
 						<div class="form-group">
 					    	<label for="InputEmail1">이메일 주소</label>
 					    	<input type="email" class="form-control" id="InputEmail1" name="memberEmail"placeholder="이메일을 입력하세요">
@@ -208,6 +208,8 @@
 				      <input type="checkbox"> 입력을 기억합니다
 				    </label>
 				  </div>
+				    비밀번호를 잊어버렸습니까?<input type="submit" value="비밀번호찾기" class="memberPasswordfind">
+	
 				  <button type="submit" class="btn btn-primary">제출</button>
 				</form>
 				</div>

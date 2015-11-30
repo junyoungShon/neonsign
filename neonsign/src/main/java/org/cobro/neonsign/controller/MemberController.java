@@ -60,21 +60,24 @@ public class MemberController {
 
 	@RequestMapping("memberLogin.neon")
 	public ModelAndView memberLogin(HttpServletRequest request, MemberVO memberVO){
-		System.out.println(memberVO);
 		memberVO=memberService.memberLogin(memberVO);
-		System.out.println(memberVO);
 		if(memberVO!=null){
-			request.getSession().setAttribute("memberVO",memberVO);		
+			request.getSession().setAttribute("memberVO",memberVO);	
+			return new ModelAndView("home");
+		}else{
+			return new ModelAndView("memberLogin");
 		}
+		/**
+		 *  로그인 메서드 로그인성공시 세션적용(적용중)
+		 */
 		
-		return new ModelAndView("redirect:getMainList.neon");
 	}
 	@RequestMapping("memberLogout.neon")
 	public ModelAndView memberlogout(HttpServletRequest request){
 		HttpSession session=request.getSession(false);
 		if (session != null)
 			session.invalidate();
-		return new ModelAndView("redirect:getMainList.neon");
+		return new ModelAndView("home");
 	}
 	
 	/**
