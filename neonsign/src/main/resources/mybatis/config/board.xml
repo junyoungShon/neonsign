@@ -193,7 +193,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME 
 					from main_article ma, brain_member bm 
 					where ma.MAIN_ARTICLE_EMAIL = bm.MEMBER_EMAIL and <![CDATA[ma.MAIN_ARTICLE_TOTAL_LIKE<10]]>
-					order by ma.MAIN_ARTICLE_TOTAL_LIKE desc
+					order by ma.MAIN_ARTICLE_DATE desc
 				) where MAIN_ARTICLE_COMPLETE = 0
 		)where page=#{value}
 	</select>

@@ -70,6 +70,7 @@ public class BoardController {
 	@RequestMapping("getNewMainArticle.neon")
 	@ResponseBody
 	public ArrayList<MainArticleVO> getNewMainArticle(int pageNo){
+		System.out.println("controller : " + pageNo);
 		List<MainArticleVO> newMainArticleVOListOrderByDate = boardService.selectListNotCompleteMainArticleOrderByDate(pageNo);
 		ArrayList<MainArticleVO> newMainArticleArrayList = (ArrayList<MainArticleVO>) newMainArticleVOListOrderByDate;
  		return newMainArticleArrayList;
@@ -214,6 +215,7 @@ public class BoardController {
 	@RequestMapping("getCompleteMainArticle.neon")
 	@ResponseBody
 	public ArrayList<MainArticleVO> getCompleteMainArticle(int pageNo){
+		System.out.println("controller : " + pageNo);
 		List<MainArticleVO> mainArticleList = boardService.selectListCompleteMainArticleOrderByTotalLike(pageNo);
 		ArrayList<MainArticleVO> mainArticleArrayList = (ArrayList<MainArticleVO>) mainArticleList;
  		return mainArticleArrayList;

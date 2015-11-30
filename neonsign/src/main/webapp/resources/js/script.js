@@ -13,8 +13,10 @@ $(document).ready(function(){ //DOM이 준비되고
 		var infinityScrollTestSource = "";
 		var mainArticleTitle = "";
 		var mainArticleContent = "";
+		if($("#articleEnd").val()!='end'){
 		if($("#articleType").val()=='completeArticle'){
 			var cardBox=$(".card-box[name=completeCardBox]").length;
+			//alert(cardBox);
 			var pageNo=Math.ceil((cardBox/9)+1);
 			//alert("pageNo : " + pageNo);
 			$.ajax({
@@ -56,7 +58,8 @@ $(document).ready(function(){ //DOM이 준비되고
 					}
 					}else{
 						infinityScrollTestSource +=
-							'<div class="card-box col-md-4" name="completeCardBox">' 
+							'<div class="card-box col-md-4" name="completeCardBox">'
+							+ '<input type="hidden" id="articleEnd" value="end">'
 							+ '<div class="card card-with-border" data-background="image" data-src="resources/img/snow.jpg" style="background-image: url(resources/img/snow.jpg); background-size: cover; background-position: 50% 50%;">'
 							+ '<h3>마지막 게시물입니다!</h3>'
 							+ '</div> <!-- end card --></div><!-- card-box col-md-4 -->'
@@ -109,6 +112,7 @@ $(document).ready(function(){ //DOM이 준비되고
 						}else{
 							infinityScrollTestSource +=
 								'<div class="card-box col-md-4" name="completeCardBox">' 
+								+ '<input type="hidden" id="articleEnd" value="end">'
 								+ '<div class="card card-with-border" data-background="image" data-src="resources/img/snow.jpg" style="background-image: url(resources/img/snow.jpg); background-size: cover; background-position: 50% 50%;">'
 								+ '<h3>마지막 게시물입니다!</h3>'
 								+ '</div> <!-- end card --></div><!-- card-box col-md-4 -->'
@@ -117,6 +121,7 @@ $(document).ready(function(){ //DOM이 준비되고
 						$('.newItjaList').append(infinityScrollTestSource);
 					}
 				});
+		}
 		}
 	};
 
