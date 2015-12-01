@@ -173,6 +173,7 @@ public class BoardServiceImpl implements BoardService{
 	 * 	해당 MainArticle 정보 안에는 해당 MainArticle의 SubArticle의 정보 ,
 	 * 작성자의 정보가 담겨져 있고 SubArticle 정보 안에는 SubArticle의 작성자
 	 * 정보가 있음
+	 * @author 윤택
 	 */
 	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleNo(
 			MainArticleVO mainArticleVO) {
@@ -180,6 +181,9 @@ public class BoardServiceImpl implements BoardService{
 		MainArticleVO mainVO=boardDAO.selectOneNotCompleteMainArticleByMainArticleAndSubArticleNo(mainArticleVO);
 		if(mainVO==null){
 			mainVO= boardDAO.selectOneNotCompleteMainArticleByMainArticleNo(mainArticleVO);
+		}
+		if(mainVO.getSubArticleList().get(0).getSubArticleNo()==0){
+			mainVO.setSubArticleList(null);
 		}
 		return mainVO;
 	}
@@ -221,10 +225,23 @@ public class BoardServiceImpl implements BoardService{
 	public List<MainArticleVO> searchByKeyWord(String keyword) {
 		return utilService.searchByKeyword(keyword);
 	}
+	/**
+	 * 주제글의 신고리스트를 받아오는 메서드
+	 * @author 윤택
+	 */
 	@Override
-	public List<ReportVO> notifyList() {
+	public List<ReportVO> mainArticleReportList() {
 		// TODO Auto-generated method stub
-		return utilService.notifyList();
+		return utilService.mainArticleReportList();
+	}
+	@Override
+	/**
+	 * 잇는글의 신고리스트를 받아오는 메서드
+	 * @author 윤택
+	 */
+	public List<ReportVO> subArticleReportList() {
+		// TODO Auto-generated method stub
+		return utilService.subArticleReportList();
 	}
 	@Override
 	/**
@@ -286,5 +303,15 @@ public class BoardServiceImpl implements BoardService{
 		map.put("itjaSuccess",itjaMemberBean.checkItja(itjaMemberVO));
 		map.put("itjaCount",itjaMemberBean.itjaCount(itjaMemberVO));
 		return map;
+	}
+	@Override
+	public List<MainArticleVO> selectListCompleteMainArticleOrderByTotalLike() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

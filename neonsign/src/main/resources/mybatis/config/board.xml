@@ -132,10 +132,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select tag_name,search_count from TAG order by search_count
 	</select>
 	<!-- 윤택 -->
+	
+	<!-- 주제글에 잇자글이 없을때  실행되는 쿼리문-->
 	<select id="selectOneNotCompleteMainArticleByMainArticleNo" parameterType="mainArticleVO" resultType="mainArticleVO"
 	resultMap="mainArticleResultMap" >
-	select * from MAIN_ARTICLE where MAIN_ARTICLE_NO=#{mainArticleNo} 
+	select * from MAIN_ARTICLE ma, BRAIN_MEMBER bm 
+	where MAIN_ARTICLE_NO=#{mainArticleNo} and  ma.MAIN_ARTICLE_EMAIL=bm.MEMBER_EMAIL
 	</select>
+	
+	<!-- 주제글에 잇자글-->
 	<select id="selectOneNotCompleteMainArticleByMainArticleAndSubArticleNo" resultMap="mainArticleResultMap" 
 	parameterType="mainArticleVO" resultType="mainArticleVO">
 		select * from main_article m,  brain_member b,sub_article s  where

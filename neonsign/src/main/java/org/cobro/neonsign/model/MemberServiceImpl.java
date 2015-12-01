@@ -50,7 +50,17 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public ArrayList<MemberVO> getMemberList() {
 		// TODO Auto-generated method stub
-		return null;
+		ArrayList<MemberVO> list=(ArrayList<MemberVO>)memberDAO.getMemberList();
+		return list;
+	}
+	@Override
+	/**
+	 * 회원 이메일을 받아 그 회원을 블락 시키는 메서드
+	 * @author 윤택
+	 */
+	public void memberBlock(String memberEmail) {
+		// TODO Auto-generated method stub
+		memberDAO.memberBlock(memberEmail);
 	}
 	
 	

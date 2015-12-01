@@ -11,6 +11,15 @@ drop sequence sub_article_seq
 -- report의 REPORT_NO를 자동 생성해주기 위한 시퀀스
 create sequence report_seq
 
+create table ITJA_MEMBER(
+MAIN_ARTICLE_NO number not null,
+SUB_ARTICLE_NO number default 0,
+MEMBER_EMAIL varchar(50) not null,
+constraint fk_itJa_Main_Article_NO foreign key(MAIN_ARTICLE_NO) references main_article(MAIN_ARTICLE_NO),
+constraint fk_itJa_MEMBER_EMAIL foreign key(MEMBER_EMAIL) references brain_member(MEMBER_EMAIL),
+constraint pk_tag_ITJA_MEMBER primary key(MAIN_ARTICLE_NO,SUB_ARTICLE_NO,MEMBER_EMAIL)
+)
+
 --**회원 데이터 베이스**
 create table brain_member(
 MEMBER_EMAIL varchar2(50) primary key,
@@ -50,7 +59,7 @@ values('h@naver.com','f맨','aaaa',sysdate,'일반회원');
 -- ygoyo@naver.com 회원의 가입 정보 출격
 select * from BRAIN_MEMBER;
 
-
+selec
 drop table main_article
 --**주제글 데이터베이스**
 create table main_article(
@@ -300,7 +309,7 @@ STAGES_OF_PROCESS varchar2(20),
 constraint fk_report_main_article_no foreign key(MAIN_ARTICLE_NO) references main_article(MAIN_ARTICLE_NO),
 constraint fk_report_sub_article_no foreign key(SUB_ARTICLE_NO) references sub_article(SUB_ARTICLE_NO)
 )
-
+select * from report
 --**신고자 데이터 베이스( 복합키 적용)**
 create table reporter(
 REPORT_NO varchar2(30) ,
@@ -309,6 +318,22 @@ constraint fk_report foreign key(REPORT_NO) references report(REPORT_NO),
 constraint fk_reporter_main_article foreign key(MEMBER_EMAIL) references brain_member(MEMBER_EMAIL),
 constraint pk_reporter_no primary key(REPORT_NO,MEMBER_EMAIL)
 )
+
+--신고한 회원 목록
+select MEMBER_EMAIL from reporter where REPORT_NO=6
+
+--신고한 회원에게 10 포인트 지급
+update BRAIN_MEMBER SET MEMBER_POINT=MEMBER_POINT+10 
+WHERE MEMBER_EMAIL='a@naver.com' 
+
+select * from brain_member WHERE MEMBER_EMAIL='a@naver.com' 
+insert into reporter(REPORT_NO,MEMBER_EMAIL) values(6,'a@naver.com');
+insert into reporter(REPORT_NO,MEMBER_EMAIL) values(6,'b@naver.com');
+insert into reporter(REPORT_NO,MEMBER_EMAIL) values(6,'c@naver.com');
+insert into  reporter(REPORT_NO,MEMBER_EMAIL) values(7,'a@naver.com');
+insert into  reporter(REPORT_NO,MEMBER_EMAIL) values(7,'c@naver.com');
+insert into  reporter(REPORT_NO,MEMBER_EMAIL) values(8,'a@naver.com');
+insert into  reporter(REPORT_NO,MEMBER_EMAIL) values(8,'b@naver.com');
 drop table reporter
 --**랭킹 데이터 베이스**
 create table ranking(

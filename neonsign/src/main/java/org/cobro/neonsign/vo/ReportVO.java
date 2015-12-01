@@ -1,5 +1,7 @@
 package org.cobro.neonsign.vo;
 
+import java.util.List;
+
 public class ReportVO {
 	private String reportNo;
 	private String reportDate;
@@ -7,8 +9,14 @@ public class ReportVO {
 	private int subArticleNo;
 	private int reportAmount;
 	private String stagesOfProcess;
+	private List<MainArticleVO> mainArticleVO;
+	public ReportVO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public ReportVO(String reportNo, String reportDate, int mainArticleNo,
-			int subArticleNo, int reportAmount, String stagesOfProcess) {
+			int subArticleNo, int reportAmount, String stagesOfProcess,
+			List<MainArticleVO> mainArticleVO) {
 		super();
 		this.reportNo = reportNo;
 		this.reportDate = reportDate;
@@ -16,10 +24,7 @@ public class ReportVO {
 		this.subArticleNo = subArticleNo;
 		this.reportAmount = reportAmount;
 		this.stagesOfProcess = stagesOfProcess;
-	}
-	public ReportVO() {
-		super();
-		// TODO Auto-generated constructor stub
+		this.mainArticleVO = mainArticleVO;
 	}
 	public String getReportNo() {
 		return reportNo;
@@ -57,12 +62,19 @@ public class ReportVO {
 	public void setStagesOfProcess(String stagesOfProcess) {
 		this.stagesOfProcess = stagesOfProcess;
 	}
+	public List<MainArticleVO> getMainArticleVO() {
+		return mainArticleVO;
+	}
+	public void setMainArticleVO(List<MainArticleVO> mainArticleVO) {
+		this.mainArticleVO = mainArticleVO;
+	}
 	@Override
 	public String toString() {
 		return "ReportVO [reportNo=" + reportNo + ", reportDate=" + reportDate
 				+ ", mainArticleNo=" + mainArticleNo + ", subArticleNo="
 				+ subArticleNo + ", reportAmount=" + reportAmount
-				+ ", stagesOfProcess=" + stagesOfProcess + "]";
+				+ ", stagesOfProcess=" + stagesOfProcess + ", mainArticleVO="
+				+ mainArticleVO + "]";
 	}
 	
 	

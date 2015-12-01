@@ -13,17 +13,13 @@ public class UtilServiceImpl implements UtilService{
 	@Resource
 	private SearchDAO searchDAO;
 	@Resource
-	private ReportDAO notifyDAO;
+	private ReportDAO reportDAO;
 	@Override
 	public List<MainArticleVO> searchByKeyword(String tag) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	@Override
-	public List<ReportVO> notifyList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 	@Override
 	public void deleteByNotify(ReportVO notifyVO) {
 		// TODO Auto-generated method stub
@@ -43,6 +39,17 @@ public class UtilServiceImpl implements UtilService{
 	public ReportVO articleNotify(MainArticleVO mainArticleVO) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public List<ReportVO> mainArticleReportList() {
+		// TODO Auto-generated method stub
+		return reportDAO.mainArticleReportList();
+	}
+
+	@Override
+	public List<ReportVO> subArticleReportList() {
+		// TODO Auto-generated method stub
+		return reportDAO.subArticleReportList();
 	}
 
 }

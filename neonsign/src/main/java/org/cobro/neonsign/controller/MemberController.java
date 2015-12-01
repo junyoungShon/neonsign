@@ -1,6 +1,8 @@
 package org.cobro.neonsign.controller;
 
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -102,14 +104,27 @@ public class MemberController {
 		return null;
 	}
 	
-	/*public ModelAndView getMemberList(MemberVO mvo){
-		memberService.findMemberByEmail(mvo);
-		memberService.getMemberList();
-		*//** 	
-		 * 		관리자인지를 email로 찾아 확인 후 리스트를 받아온다.
-		 * 		관리자가 아닐경우 뻐큐 메세지를 날려준다.
-		 * 		각각 분류별로 정렬할때 추가로 DAO를 구현한다.
-		 *//*
-		return null;
-	}*/
+	/**
+	 * 관리자 페이지에서 회원가입멤버들 리스트를 출력
+	 * @author 한솔
+	 */
+	@RequestMapping("getMemberList.neon")
+	public ModelAndView getMemberList(HttpServletRequest request,MemberVO mvo){
+		System.out.println("getMemberList.neon");
+		ModelAndView mv = new ModelAndView();
+		List<MemberVO> list=memberService.getMemberList();
+		mv.addObject("list", list);
+		mv.setViewName("forward:adminPageView.neon");
+		return mv;
+	}
+	/**
+	 * 회원 이메일을 받아 그 회원을 블락 시키는 메서드
+	 * @author 윤택
+	 */
+	@RequestMapping("memberBlock.neon")
+	public ModelAndView memberBlock(HttpServletRequest request){
+		String memberEmail=request.getParameter("memberEmail");
+		memberService.memberBlock(memberEmail);
+		return new ModelAndView("redirect:getMemberList.neon");
+	}
 }

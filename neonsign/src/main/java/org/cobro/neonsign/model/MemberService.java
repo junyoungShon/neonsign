@@ -13,4 +13,5 @@ public interface MemberService {
 	public MemberVO memberDelete(MemberVO mvo);
 	public ArrayList<MemberVO> getNotifyMemberList(MemberVO mvo);
 	public ArrayList<MemberVO> getMemberList();
+	public void memberBlock(String memberEmail);
 }

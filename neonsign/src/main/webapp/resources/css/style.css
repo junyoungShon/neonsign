@@ -221,4 +221,12 @@ body {
   .cover-container {
     width: 700px;
   }
+  .leftList{
+  width: 100%;
+  }
+  .mainList{
+  color:black;
+  width:100%; 
+ text-align:center;   
+  }
 }

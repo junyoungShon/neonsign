@@ -6,7 +6,6 @@ import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.ReportVO;
 
 public interface ReportDAO {
-	public List<ReportVO> notifyList();
 
 	public void deleteByNotify(ReportVO notifyVO);
 
@@ -15,4 +14,8 @@ public interface ReportDAO {
 	public void articleNotifyCount(MainArticleVO mainArticleVO);
 
 	public ReportVO notifyByNo(MainArticleVO mainArticleVO);
+
+	List<ReportVO> mainArticleReportList();
+
+	List<ReportVO> subArticleReportList();
 }

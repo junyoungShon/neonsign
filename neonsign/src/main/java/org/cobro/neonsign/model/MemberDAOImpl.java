@@ -1,6 +1,7 @@
 package org.cobro.neonsign.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -55,10 +56,26 @@ public class MemberDAOImpl implements MemberDAO{
 	}
 
 	@Override
-	public ArrayList<MemberVO> getMemberList() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<MemberVO> getMemberList() {
+		System.out.println("getMemberList 실행");
+		List<MemberVO> list=null;
+		try{
+		list=sqlSessionTemplate.selectList("member.RegisterMemberList");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return list;
 	}
 
+	@Override
+	public void memberBlock(String memberEmail) {
+		// TODO Auto-generated method stub
+		try{
+			sqlSessionTemplate.update("member.memberBlock",memberEmail);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
 	
 }

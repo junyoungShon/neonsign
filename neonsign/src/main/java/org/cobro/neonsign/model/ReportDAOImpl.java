@@ -14,9 +14,22 @@ public class ReportDAOImpl implements ReportDAO{
 	private SqlSessionTemplate sqlSessionTemplate;
 
 	@Override
-	public List<ReportVO> notifyList() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ReportVO> mainArticleReportList() {
+		List<ReportVO> list=null;
+		try{
+		 list=sqlSessionTemplate.selectList("report.mainArticleReportList");
+		 System.out.println(list.toString());
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<ReportVO> subArticleReportList() {
+		List<ReportVO> list=sqlSessionTemplate.selectList("report.subArticleReportList");
+		System.out.println(list);
+		return list;
 	}
 
 	@Override

@@ -8,7 +8,6 @@ import org.cobro.neonsign.vo.ReportVO;
 public interface UtilService {
 	public List<MainArticleVO> searchByKeyword(String tag);
 
-	public List<ReportVO> notifyList();
 
 	public void deleteByNotify(ReportVO notifyVO);
 
@@ -17,4 +16,8 @@ public interface UtilService {
 	public List<MainArticleVO> articleSort(String sort);
 
 	public ReportVO articleNotify(MainArticleVO mainArticleVO);
+
+	public List<ReportVO> mainArticleReportList();
+
+	public List<ReportVO> subArticleReportList();
 }

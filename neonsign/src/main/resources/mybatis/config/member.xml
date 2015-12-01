@@ -31,6 +31,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 <select id="findMemberByEmail" resultMap="memberResultMap" parameterType="string">
 	 	select MEMBER_EMAIL from brain_member where MEMBER_EMAIL=#{value}
 	 </select>
+	 <!-- 가입회원목록 -->
+    <select id="RegisterMemberList" resultMap="memberResultMap" resultType="memberVO">
+    select MEMBER_EMAIL,MEMBER_NICKNAME,MEMBER_PASSWORD,MEMBER_JOIN_DATE,MEMBER_CATEGORY
+    from brain_member
+    where MEMBER_CATEGORY ='일반회원'
+    order by MEMBER_JOIN_DATE desc 
+    </select>
+    <update id="memberBlock" parameterType="string">
+    	update brain_member set MEMBER_CATEGORY='불량회원' where MEMBER_EMAIL=#{value}
+    </update>
 </mapper> 		
  
  

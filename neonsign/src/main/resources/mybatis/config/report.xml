@@ -3,6 +3,67 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="report"> 
+ <!-- mainArticle ResultMap -->
+ <resultMap type="mainArticleVO" id="mainArticleResultMap">
+		<result property="mainArticleNo" column="MAIN_ARTICLE_NO" />
+		<result property="mainArticleTitle" column="MAIN_ARTICLE_TITLE" />
+		<result property="mainArticleContent" column="MAIN_ARTICLE_CONTENT" />
+		<result property="mainArticleHIt" column="MAIN_ARTICLE_HIT" />
+		<result property="mainArticleLike" column="MAIN_ARTICLE_LIKE" />
+		<result property="mainArticleTotalLike" column="MAIN_ARTICLE_TOTAL_LIKE" />
+		<result property="mainArticleDate" column="MAIN_ARTICLE_DATE" />
+		<result property="mainArticleCompleteDate" column="MAIN_ARTICLE_COMPLETE_DATE" />
+		<result property="memberEmail" column="MEMBER_EMAIL"/>
+		<collection property="memberVO" column="MEMBER_EMAIL"
+			ofType="memberVO" javaType="memberVO" resultMap="memberResultMap" />
+		<collection property="subArticleList" column="MAIN_ARTICLE_NO"
+			ofType="subArticleVO" javaType="ArrayList" resultMap="subArticleResultMap" />
+	</resultMap>
+<!-- SubArticle ResultMap -->
+	<resultMap type="subArticleVO" id="subArticleResultMap">
+		<result property="subArticleNo" column="SUB_ARTICLE_NO" />
+		<result property="mainArticle" column="MAIN_ARTICLE_NO" />
+		<result property="memberEmail" column="MEMBER_EMAIL" />
+		<result property="subAtricleGrade" column="SUB_ARTICLE_GRADE" />
+		<result property="subArticleContent" column="SUB_ARTICLE_CONTENT" />
+		<result property="isEnd" column="IS_END" />
+		<result property="subArticleLike" column="SUBARTICLE_LIKE" />
+		<result property="isConnect" column="IS_CONNECT" />
+		<result property="subArticleDate" column="SUB_ARTICLE_DATE" />
+		<collection property="memberVO" column="MEMBER_EMAIL"
+			ofType="memberVO" javaType="memberVO" resultMap="memberResultMap" />
+	</resultMap>
+<!-- Member ResultMap -->
+	<resultMap type="memberVO" id="memberResultMap">
+		<result property="memberEmail" column="MEMBER_EMAIL" />
+		<result property="memberNickName" column="MEMBER_NICKNAME" />
+		<result property="memberPassword" column="MEMBER_PASSWORD" />
+		<result property="memberJoinDate" column="MEMBER_JOIN_DATE" />
+		<result property="memberPoint" column="MEMBER_POINT" />
+		<result property="memberNotifiedAmount" column="MEMBER_NOTIFIED_AMOUNT" />
+	</resultMap>
+ <!-- 9.reportVO resultMap  -->
+   <resultMap type="reportVO" id="reportResultMap">
+      <result property="reportNo" column="REPORT_NO" />
+      <result property="reportDate" column="REPORT_DATE" />
+      <result property="mainArticleNo" column="MAIN_ARTICLE_NO" />
+      <result property="subArticleNo" column="SUB_ARTICLE_NO" />
+      <result property="reportAmount" column="REPORT_AMOUNT" />
+      <result property="stagesOfProcess" column="STAGES_OF_PROCESS" />
+      <collection property="mainArticleVO" column="MAIN_ARTICLE_NO"
+			ofType="mainArticleVO" javaType="arrayList" resultMap="mainArticleResultMap" />
+   </resultMap>
+ 	<select id="mainArticleReportList" resultType="reportVO" resultMap="reportResultMap">
+ 	select * from REPORT r , MAIN_ARTICLE ma, brain_member bm where
+	r.MAIN_ARTICLE_NO=ma.MAIN_ARTICLE_NO and ma.MAIN_ARTICLE_EMAIL=bm.MEMBER_EMAIL and 
+ 	r.SUB_ARTICLE_NO is null order by REPORT_NO desc
+ 	</select>
+ 	<select id="subArticleReportList" resultType="reportVO" resultMap="reportResultMap">
+	select * from REPORT r , MAIN_ARTICLE ma, SUB_ARTICLE sa, brain_member bm where
+	r.MAIN_ARTICLE_NO=ma.MAIN_ARTICLE_NO and ma.MAIN_ARTICLE_NO=sa.MAIN_ARTICLE_NO and
+ 	ma.MAIN_ARTICLE_EMAIL=bm.MEMBER_EMAIL and sa.SUB_ARTICLE_NO=r.SUB_ARTICLE_NO and
+ 	r.SUB_ARTICLE_NO is not null order by REPORT_NO desc
+ 	</select>
  </mapper> 		
  
  

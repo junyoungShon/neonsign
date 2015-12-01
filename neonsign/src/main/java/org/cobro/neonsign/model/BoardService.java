@@ -19,8 +19,8 @@ public interface BoardService {
 	public int updateMainArticle(MainArticleVO mainArticleVO);
 	public void deleteMainArticle(MainArticleVO mainArticleVO);
 	public MainArticleVO selectOneCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO);
-	public List<MainArticleVO> selectListCompleteMainArticleOrderByTotalLike(int pageNo);
-	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate(int pageNo);
+	public List<MainArticleVO> selectListCompleteMainArticleOrderByTotalLike();
+	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate();
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByTotalLike();
 	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO);
 	public List<MainArticleVO> selectListCompleteMainArticleOrderByDate();
@@ -40,15 +40,14 @@ public interface BoardService {
 	public void ArticleDelete(MainArticleVO mainArticleVO);
 	public void deleteByNotify(ReportVO notifyVO);
 	public List<MainArticleVO> searchByKeyWord(String keyword);
-	public List<ReportVO> notifyList();
 	public Map<String, Object> boardStatistics();
 	public List<MainArticleVO> articleSort(String sort);
 	public void articleNotify(MainArticleVO mainArticleVO);
 	public List<TagBoardVO> selectTagList();
-	
-	//잇자 관련 메서드
-	public HashMap<String, Integer> selectItjaState(ItjaMemberVO itjaMemberVO);
-	
-	
+	List<ReportVO> mainArticleReportList();
+	List<ReportVO> subArticleReportList();
+	List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate(int pageNo);
+	List<MainArticleVO> selectListCompleteMainArticleOrderByTotalLike(int pageNo);
+	HashMap<String, Integer> selectItjaState(ItjaMemberVO itjaMemberVO);
 	
 }

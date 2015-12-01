@@ -43,7 +43,7 @@
 						</p>
 						<span class="writersNickName">-
 							${list.memberVO.memberNickName} -</span>
-						<input type="hidden" name=""> <input type="hidden"
+						<input type="hidden"
 							class="mainArticleTitleNO" value="${list.mainArticleNo}">
 						<div class="actions">
 							<button class="btn btn-round btn-fill btn-neutral btn-modern"

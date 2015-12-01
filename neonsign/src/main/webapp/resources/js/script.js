@@ -167,15 +167,22 @@ $(document).ready(function(){ //DOM이 준비되고
 		var mainArticleNO =  $(this).parent().siblings().eq(5).val();
 		/*var mainArticleTitleNO=$(":input[name=mainArticleNo1234]").val();*/
 		/*alert(mainArticleTitleNO);*/
-		alert(tagLists+" "+title+" "+content+" "+writersId+" "+mainArticleNO);
-		alert(mainArticleNO);
+		var subAtricleOrder="<tr class='warning'><td colspan='5'>잇는글</td></tr>";
 		$.ajax({
 			type:"post",
 			url:"selectOneNotCompleteMainArticleByMainArticleNo.neon",
 			data:"mainArticleNo="+mainArticleNO,
 			dataType:"json",
 			success:function(data){
-				alert(data);
+				$('.subTable').html("");
+				if(data.subArticleList==null){
+					var subAtricleGrade=0;
+					var mainArticle="";
+					$('.mainCardDetailViewContentNo').text(0);
+					$('.mainCardDetailViewContent').text(data.mainArticleContent);
+					$('.mainWritersNickNameAtDetail').text(data.memberVO.memberNickName);
+					$('.mainLikeIt').html("잇자! <br>"+data.mainArticleTotalLike);
+				}else{
 				var subAtricleGrade=0;
 				var mainArticle="";
 				$('.mainCardDetailViewContentNo').text(0);
@@ -210,7 +217,7 @@ $(document).ready(function(){ //DOM이 준비되고
 				}
 
 				$("#mainSubArticle").html(mainArticle);
-			var subAtricleOrder="<tr class='warning'><td colspan='5'>잇는글</td></tr>";
+				}
 			for(var i=0; i<data.subArticleList.length; i++){
 				if(data.subArticleList[i].subAtricleGrade==subAtricleGrade){
 					subAtricleOrder=subAtricleOrder+
@@ -551,6 +558,7 @@ $(document).ready(function(){ //DOM이 준비되고
 		});//모달 유효성 체크
 	//로그아웃 confirm
 	$("#memberLogout").click(function(){
+
 		if(confirm("로그아웃하시겠습니까?")){
 			location.href="memberLogout.neon";
 		}else{
@@ -561,5 +569,32 @@ $(document).ready(function(){ //DOM이 준비되고
 		alert("이메일과 비밀번호가 맞지 않습니다.");
 		
 	} 
+ 	/**
+	 * 관리자 페이지의 토글 탭
+	 */
+	$('#myTab a').click(function (e) {
+		  e.preventDefault()
+		  $(this).tab('show')
+		})
+	/**
+	 * 고정 스크롤
+	 */
+		var jbOffset = $( '.rimocon' ).offset();
+    $( window ).scroll( function() {
+      if ( $( document ).scrollTop() > jbOffset.top ) {
+        $( '.rimocon' ).addClass( 'jbFixed' );
+      }
+      else {
+        $( '.rimocon' ).removeClass( 'jbFixed' );
+      }
+    });
+    $('.memberBlock').click(function () {
+    	var memberEmail=$(this).parent().parent().children().eq(0).text();
+    	var falg=confirm("해당 회원을 Block 하시겠습니까?");
+    	if(falg){
+    		document.location.href = "memberBlock.neon?memberEmail="+memberEmail;
+    	}
+		return false;
+	})
 });//document.ready
 	

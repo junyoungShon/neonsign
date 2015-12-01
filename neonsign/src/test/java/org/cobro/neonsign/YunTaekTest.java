@@ -7,8 +7,9 @@ import javax.annotation.Resource;
 import org.cobro.neonsign.model.BoardDAO;
 import org.cobro.neonsign.model.BoardService;
 import org.cobro.neonsign.model.MemberService;
-import org.cobro.neonsign.vo.MainArticleVO;
-import org.cobro.neonsign.vo.TagVO;
+import org.cobro.neonsign.model.ReportDAO;
+import org.cobro.neonsign.model.UtilService;
+import org.cobro.neonsign.vo.ReportVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -37,15 +38,13 @@ public class YunTaekTest {
 	private BoardService boardService;
 	@Resource
 	private BoardDAO boardDAO;
-	
+	@Resource
+	private UtilService utilService;
+	@Resource
+	private ReportDAO reportDAO;
 
 	@Test
-	public void test(int pageNo){
-		// List<MainArticleVO> mainArticleVOList, List<TagVO> tagVOList)
-		List<TagVO> tagVOList = null;	
-		/*tagVOList = boardService.selectTagList();*/
-		System.out.println(tagVOList);
-		List<MainArticleVO> mainArticleVOList = boardService.selectListNotCompleteMainArticleOrderByDate(pageNo);
-		System.out.println(mainArticleVOList);
+	public void test(){
+			memberService.memberBlock("a@naver.com");
 	}
 }

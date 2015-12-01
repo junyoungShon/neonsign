@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.cobro.neonsign.model.BoardService;
 import org.cobro.neonsign.vo.ItjaMemberVO;
 import org.cobro.neonsign.vo.MainArticleVO;
+import org.cobro.neonsign.vo.MemberVO;
 import org.cobro.neonsign.vo.ReportVO;
 import org.cobro.neonsign.vo.ReporterVO;
 import org.cobro.neonsign.vo.SubArticleVO;
@@ -133,14 +134,21 @@ public class BoardController {
 		return null;
 	}
 	/**controller4
-	 * 관리자 페이지 진입시 신고글 내용 및 장성자의 정보 출력,신고자 정보 출력을 위한 컨트롤러
+	 * 관리자 페이지 진입시 신고글 내용 및 작성자의 정보 출력,신고자 정보 출력을 위한 컨트롤러
 	 * @param mainArticleVO
-	 * @param SubArticleVO
-	 * @param notifyVO
+	 * @param subArticleVO
+	 * @param reportVO
 	 * @return
 	 */
-	public ModelAndView adminPageNotifyArticleList(MainArticleVO mainArticleVO,SubArticleVO subArticleVO,ReportVO notifyVO){
-		return null;
+	@RequestMapping("adminPageView.neon")
+	public ModelAndView adminPageNotifyArticleList(HttpServletRequest request){
+		ArrayList<MemberVO>list=(ArrayList<MemberVO>)request.getAttribute("list");
+		System.out.println(list);
+		List<ReportVO> mainReportList=boardService.mainArticleReportList();
+		List<ReportVO> subReportList=boardService.subArticleReportList();
+		HashMap<String,Object> map=new HashMap<String, Object>();//회원관리 리스트, 게시물 신고 리스트 를 map에 put 해준다
+		map.put("mainReportList", mainReportList); map.put("subReportList", subReportList); map.put("list",list);
+		return new ModelAndView("adminPageView","adminList",map);
 	}
 	/**Controller5
 	 * 관리자 페이지에서 신고글을 블락하거나 블락을 반력하는 메서드로서 신고 성공이므로 신고자들에게 포인트를 적립해준다.
@@ -184,7 +192,7 @@ public class BoardController {
 		if (mainArticleVO!=null) {
 			 mainArticle=boardService.selectOneNotCompleteMainArticleByMainArticleNo(mainArticleVO);
 		}
-		System.out.println("mainArticle : "+mainArticle);
+		System.out.println(mainArticle.getSubArticleList());
 		return mainArticle;
 	}
 	/**Controller7
