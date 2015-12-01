@@ -1,0 +1,89 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <br><br><br>
+
+
+
+
+<!-- main -->
+
+  <div class="tab-content" class="mainList"> 
+  <!-- 관리자 홈 --> 
+  <div role="tabpanel" class="tab-pane active mainList" id="adminPageHome" >
+</div>
+
+<!-- 회원 관리--> 
+
+ <div role="tabpanel" class="tab-pane mainList" id="memberSecession" align="center" >
+ 	<h3>회원가입리스트</h3>   
+<table border=2  class="table table-hover" id="memberAllList" align="center" >
+<thead align="center" >
+<tr class="success">
+<td>메일</td><td>닉네임</td><td>가입일</td><td>포인트</td><td>신고누적</td><td>Bolck</td>
+</tr>
+</thead>
+<tbody align="center" >
+<c:forEach items="${requestScope.list}" var="list" >
+<tr>
+
+<td>${list.memberEmail}</td><td>${list.memberNickName}</td><td>${list.memberJoinDate}</td>
+<td>${list.memberPoint }</td><td>${list.memberNotifiedAmount}</td>
+
+
+<td><input type="submit" value="Block" class="memberBlock"></td>
+</tr>
+</c:forEach>
+</tbody>
+</table>
+</div>
+
+<!-- 게시물 신고 리스트 --> 
+    <div role="tabpanel" class="tab-pane mainList"  id="boardReport" >
+     	<h3>주제글 신고리스트</h3>   
+    <table border="1" class="table table-hover" >
+    <thead align="center" >
+    	<tr class="success"><td>신고순서</td><td>주제글 번호</td><td>주제글 제목</td><td>주제글 작성자</td><td>신고일</td><td>신고횟수</td><td>처리현황</td></tr>
+    </thead>    
+    <tbody align="center">
+		<c:forEach items="${requestScope.adminList.mainReportList }" var="mainReportList" varStatus="i">
+				<tr><td>${i.index+1 }</td><td>${mainReportList.mainArticleNo}</td>
+			<c:forEach items="${mainReportList.mainArticleVO}"  var="mainArticleVO">
+				<td>${mainArticleVO.mainArticleTitle }</td><td>${mainArticleVO.memberVO.memberNickName }</td>
+			</c:forEach>	
+		<td >${mainReportList.reportDate}</td><td >${mainReportList.reportAmount}</td><td >${mainReportList.stagesOfProcess}</td>
+		</tr>
+		</c:forEach>
+		</tbody>
+    </table>
+</div>
+
+
+<!-- 잇자글 신고 리스트 --> 
+<div role="tabpanel" class="tab-pane mainList" id="repleReport" >
+     	<h3>잇자글 신고리스트</h3>  
+<table border="1" class="table table-hover" >
+    <thead align="center" >
+    	<tr class="success"><td>신고순서</td><td>주제글 번호</td><td>주제글 제목</td><td>잇자글 내용</td><td>잇자 작성자</td><td>신고일</td><td>신고횟수</td><td>처리현황</td></tr>
+    </thead>    
+    <tbody align="center">
+		<c:forEach items="${requestScope.adminList.subReportList }" var="subReportList" varStatus="i">
+				<tr><td>${i.index+1 }</td><td>${subReportList.mainArticleNo}</td>
+			<c:forEach items="${subReportList.mainArticleVO}"  var="mainArticleVO">
+				<td>${mainArticleVO.mainArticleTitle }</td>
+				<c:forEach items="${mainArticleVO.subArticleList}" var="subArticleList">
+					<td>${subArticleList.subArticleContent }</td><td>${subArticleList.memberVO.memberNickName }</td>
+				</c:forEach>
+			</c:forEach>	
+				<td>${subReportList.reportDate}</td><td>${subReportList.reportAmount}</td><td>${subReportList.stagesOfProcess}</td></tr>
+		</c:forEach>
+		</tbody>
+    </table>
+</div>
+
+<!-- 문의사항 -->
+<div role="tabpanel" class="tab-pane mainList" id="Questions">
+
+</div>
+  </div>
+<!-- 끝 -->
