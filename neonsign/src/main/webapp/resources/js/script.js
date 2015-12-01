@@ -183,15 +183,13 @@ $(document).ready(function(){ //DOM이 준비되고
 					$('.mainWritersNickNameAtDetail').text(data.memberVO.memberNickName);
 					$('.mainLikeIt').html("잇자! <br>"+data.mainArticleTotalLike);
 				}else{
-				var subAtricleGrade=0;
-				var mainArticle="";
-				$('.mainCardDetailViewContentNo').text(0);
-				$('.mainCardDetailViewContent').text(data.mainArticleContent);
-				$('.mainWritersNickNameAtDetail').text(data.memberVO.memberNickName);
-				$('.mainLikeIt').html("잇자! <br>"+data.mainArticleTotalLike);
-				//작성자가 쓴 주제글이 맨위로 넘어 온다
-				
-				
+					var subAtricleGrade=0;
+					var mainArticle="";
+					$('.mainCardDetailViewContentNo').text(0);
+					$('.mainCardDetailViewContent').text(data.mainArticleContent);
+					$('.mainWritersNickNameAtDetail').text(data.memberVO.memberNickName);
+					$('.mainLikeIt').html("잇자! <br>"+data.mainArticleTotalLike);
+					//작성자가 쓴 주제글이 맨위로 넘어 온다
 				for(var j=0; j<data.subArticleList.length;j++){
 					if(data.subArticleList[j].subAtricleGrade>subAtricleGrade){
 						subAtricleGrade=data.subArticleList[j].subAtricleGrade;
@@ -346,7 +344,6 @@ $(document).ready(function(){ //DOM이 준비되고
 			url : "auth_itjaClick.neon",
 			data : formData,
 			success : function(data){
-				alert(data.itjaCount+'잇자성공?'+data.itjaSuccess);
 				if(data.itjaSuccess==1){
 					itjaCountSpan.html('<i class="fa fa-chain-broken"></i><br>'+data.itjaCount+'it');
 				}else{
