@@ -167,15 +167,12 @@ $(document).ready(function(){ //DOM이 준비되고
 		var mainArticleNO =  $(this).parent().siblings().eq(5).val();
 		/*var mainArticleTitleNO=$(":input[name=mainArticleNo1234]").val();*/
 		/*alert(mainArticleTitleNO);*/
-		alert(tagLists+" "+title+" "+content+" "+writersId+" "+mainArticleNO);
-		alert(mainArticleNO);
 		$.ajax({
 			type:"post",
 			url:"selectOneNotCompleteMainArticleByMainArticleNo.neon",
 			data:"mainArticleNo="+mainArticleNO,
 			dataType:"json",
 			success:function(data){
-				alert(data);
 				var subAtricleGrade=0;
 				var mainArticle="";
 				$('.mainCardDetailViewContentNo').text(0);
@@ -339,7 +336,6 @@ $(document).ready(function(){ //DOM이 준비되고
 			url : "auth_itjaClick.neon",
 			data : formData,
 			success : function(data){
-				alert(data.itjaCount+'잇자성공?'+data.itjaSuccess);
 				if(data.itjaSuccess==1){
 					itjaCountSpan.html('<i class="fa fa-chain-broken"></i><br>'+data.itjaCount+'it');
 				}else{
