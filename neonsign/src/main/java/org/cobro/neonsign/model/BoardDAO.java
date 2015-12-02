@@ -55,4 +55,5 @@ public interface BoardDAO {
 			MainArticleVO mainArticleVO);
 	public void articleBlock(MainArticleVO mavo);
 	public void subArticleBlock(int subArticleNumber);
+	public int selectItjaTotalCount(ItjaMemberVO itjaMemberVO);
 }

@@ -35,13 +35,11 @@ public class ReportDAOImpl implements ReportDAO{
 	@Override
 	public void deleteByNotify(ReportVO notifyVO) {
 		// TODO Auto-generated method stub
-		System.out.println("희");
 		try{
 		sqlSessionTemplate.delete("report.deleteByReport",notifyVO);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		System.out.println("삭제완료");
 	}
 
 	@Override
@@ -85,7 +83,7 @@ public class ReportDAOImpl implements ReportDAO{
 
 	@Override
 	/**
-	 * 신고 리스트의 신자들을 삭제
+	 * 신고 리스트의 신고자들을 삭제
 	 * @author 윤택
 	 */
 	public void deleteByReporter(ReportVO notifyVO) {

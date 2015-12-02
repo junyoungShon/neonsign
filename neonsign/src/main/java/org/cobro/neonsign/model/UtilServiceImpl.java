@@ -70,6 +70,11 @@ public class UtilServiceImpl implements UtilService{
 		}
 	}
 	@Override
+	/**
+	 * 신고처리현황을 신고처리로
+	 * update해주는 메서드
+	 * @author 윤택
+	 */
 	public void stagesOfProcess (int reportNumber) {
 		// TODO Auto-generated method stub
 		reportDAO.stagesOfProcess(reportNumber);

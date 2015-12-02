@@ -36,7 +36,7 @@
 								05:22<br> 빨리!
 							</button>
 							<button class="btn btn-social btn-twitter itja">
-                              <c:set var="count" value="false" />
+                                <c:set var="count" value="false" />
 								<c:forEach var="itjaList" items="${sessionScope.memberVO.itjaMemberList}">
 									<c:choose>
 										<c:when test="${itjaList.mainArticleNo== bestMainArticle.mainArticleNo}">
@@ -157,7 +157,7 @@
 							05:22<br> 빨리!
 						</button>
 						 <button class="btn btn-social btn-twitter itja">
-                                  <c:set var="count" value="false" />
+                                    <c:set var="count" value="false" />
 								<c:forEach var="itjaList" items="${sessionScope.memberVO.itjaMemberList}">
 									<c:choose>
 										<c:when test="${itjaList.mainArticleNo== newMainArticle.mainArticleNo}">
