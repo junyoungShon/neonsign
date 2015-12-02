@@ -77,18 +77,32 @@ public class BoardDAOImpl implements BoardDAO{
 	 * @author daehyeop
 	 */
 	@Override
-	public List<MainArticleVO> selectListCompleteMainArticleOrderByDate() {
-		List<MainArticleVO> completeMainArticleList = sqlSessionTemplate
-				.selectList("completeMainArticleOrderByDate");
-		return completeMainArticleList;
+	public List<MainArticleVO> selectListCompleteMainArticleOrderByDate(int pageNo) {
+		List<MainArticleVO> mainArticleList = sqlSessionTemplate
+				.selectList("board.completeMainArticleOrderByDate", pageNo);
+		return mainArticleList;
 	}
 	/**
-	 * @author jeseongLee
+	 * 완결된 주제글을 총 잇자순 리스트로 받는 메소드
+	 * @author daehyeop
 	 */
 	@Override
 	public List<MainArticleVO> selectListCompleteMainArticleOrderByTotalLike(int pageNo) {
 		List<MainArticleVO> mainArticleList = sqlSessionTemplate
-				.selectList("completeMainArticleOrderByTotalLike", pageNo);
+				.selectList("board.completeMainArticleOrderByTotalLike", pageNo);
+		return mainArticleList;
+	}
+	/**
+	 * 완결된 주제글을 태그순 리스트로 받는 메소드
+	 * @author daehyeop
+	 */
+	@Override
+	public List<MainArticleVO> selectListCompleteMainArticleOrderByTag(int pageNo, String getTagName){
+		HashMap<String, String> map = new HashMap<String, String>();
+		String strPageNo = String.valueOf(pageNo);
+		map.put("pageNo", strPageNo);
+		map.put("tagName", getTagName);
+		List<MainArticleVO> mainArticleList = sqlSessionTemplate.selectList("board.selectListCompleteMainArticleOrderByTag", map);
 		return mainArticleList;
 	}
 	/**
@@ -98,16 +112,30 @@ public class BoardDAOImpl implements BoardDAO{
 	public List<TagBoardVO> selectTagList() {
 		return sqlSessionTemplate.selectList("board.selectTagList");
 	}
-
+	/**
+	 * 새로운주제글 글쓴순
+	 * @author daehyeop
+	 */
 	@Override
-	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate(int pageNo) {
-		return sqlSessionTemplate.selectList("board.selectListNotCompleteMainArticleOrderByDate", pageNo);
+	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate(
+			int pageNo) {
+		System.out.println("DAO selectListNotCompleteMainArticleOrderByDate pageNo : " + pageNo);
+		List<MainArticleVO> list = sqlSessionTemplate.selectList(
+				"board.selectListNotCompleteMainArticleOrderByDate", pageNo);
+		System.out.println("DAO selectListNotCompleteMainArticleOrderByDate size : " + list.size());
+		return list;
 	}
-
+	/**
+	 * 새로운주제글 태그순
+	 * @author daehyeop
+	 */
 	@Override
-	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByTotalLike() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByTag(int pageNo, String getTagName){
+		HashMap<String,String> map = new HashMap<String,String>();
+		String strPageNo = String.valueOf(pageNo);
+		map.put("pageNo", strPageNo);
+		map.put("tagName", getTagName);
+		return sqlSessionTemplate.selectList("board.selectListNotCompleteMainArticleOrderByTag",map);
 	}
 
 	@Override

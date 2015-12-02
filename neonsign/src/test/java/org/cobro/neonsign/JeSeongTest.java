@@ -39,13 +39,13 @@ public class JeSeongTest {
 	private BoardDAO boardDAO;
 	
 
-	@Test
+	/*@Test
 	public void test(int pageNo){
 		// List<MainArticleVO> mainArticleVOList, List<TagVO> tagVOList)
 		List<TagVO> tagVOList = null;	
-		/*tagVOList = boardService.selectTagList();*/
+		tagVOList = boardService.selectTagList();
 		System.out.println(tagVOList);
 		List<MainArticleVO> mainArticleVOList = boardService.selectListNotCompleteMainArticleOrderByDate(pageNo);
 		System.out.println(mainArticleVOList);
-	}
+	}*/
 }

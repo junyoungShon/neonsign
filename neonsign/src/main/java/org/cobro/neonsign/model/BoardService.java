@@ -24,6 +24,8 @@ public interface BoardService {
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByTotalLike();
 	public Map<String, Object> selectOneNotCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO);
 	public List<MainArticleVO> selectListCompleteMainArticleOrderByDate();
+	public List<MainArticleVO> selectListCompleteMainArticle(int pageNo,String orderBy, String getTagName);
+	public List<MainArticleVO> selectListNotCompleteMainArticle(int pageNo,	String orderBy, String getTagName);
 	public List<MainArticleVO> getBestMainArticleVOListOrderByDate();
 	public List<TagVO> getTagVOList();
 	public List<TagVO> selectListTagNameOrderBySearchCount();
@@ -45,8 +47,6 @@ public interface BoardService {
 	public List<TagBoardVO> selectTagList();
 	List<ReportVO> mainArticleReportList();
 	List<ReportVO> subArticleReportList();
-	List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate(int pageNo);
-	List<MainArticleVO> selectListCompleteMainArticleOrderByTotalLike(int pageNo);
 	HashMap<String, Integer> selectItjaState(ItjaMemberVO itjaMemberVO);
 	void articleBlock(MainArticleVO mavo, int reportNumber);
 	void reportListDelete(ReportVO nvo);

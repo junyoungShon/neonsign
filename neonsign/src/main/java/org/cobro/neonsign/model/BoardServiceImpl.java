@@ -74,36 +74,37 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	/**
-	 * 완결된 주제글을 게시일순 리스트로 받는 메소드
-	 * 
-	 * @author daehyeop
-	 */
-	@Override
-	public List<MainArticleVO> selectListCompleteMainArticleOrderByDate() {
-		List<MainArticleVO> completeMainArticleList = boardDAO
-				.selectListCompleteMainArticleOrderByDate();
-		return completeMainArticleList;
-	}
-
-	/**
 	 * 완결된 주제글을 총잇자수순 리스트로 받는 메소드
 	 * 
 	 * @author daehyeop
 	 */
 	@Override
-	public List<MainArticleVO> selectListCompleteMainArticleOrderByTotalLike(int pageNo) {
-		List<MainArticleVO> completeMainArticleList = boardDAO
-				.selectListCompleteMainArticleOrderByTotalLike(pageNo);
-		System.out.println("service " + completeMainArticleList);
+	public List<MainArticleVO> selectListCompleteMainArticle(int pageNo,
+			String orderBy, String getTagName) {
+		List<MainArticleVO> completeMainArticleList = null;
+		//System.out.println("Service orderBy : " + orderBy);
+		//System.out.println("Service PageNo : " + pageNo);
+		if (orderBy.equals("like")) {
+			completeMainArticleList = boardDAO
+					.selectListCompleteMainArticleOrderByTotalLike(pageNo);
+		} else if (orderBy.equals("date")) {
+			completeMainArticleList = boardDAO
+					.selectListCompleteMainArticleOrderByDate(pageNo);
+		} else if (orderBy.equals("tag")) {
+			completeMainArticleList = boardDAO
+					.selectListCompleteMainArticleOrderByTag(pageNo, getTagName);
+		}
+		//System.out.println("service " + completeMainArticleList);
 		String tagName = "";
 		ArrayList<TagBoardVO> list = new ArrayList<TagBoardVO>();
-		for(int i = 0 ; i<completeMainArticleList.size() ; i++){
-			list = boardDAO.getMainArticleTagList(completeMainArticleList.get(i).getMainArticleNo());
-			for(int j = 0 ; j<list.size() ; j++){
-				if(j == list.size()-1){
+		for (int i = 0; i < completeMainArticleList.size(); i++) {
+			list = boardDAO.getMainArticleTagList(completeMainArticleList
+					.get(i).getMainArticleNo());
+			for (int j = 0; j < list.size(); j++) {
+				if (j == list.size() - 1) {
 					tagName += "#" + list.get(j).getTagName();
-				}else{
-					tagName += "#" +  list.get(j).getTagName() + ", ";
+				} else {
+					tagName += "#" + list.get(j).getTagName() + ", ";
 				}
 				completeMainArticleList.get(i).setTagName(tagName);
 			}
@@ -117,18 +118,35 @@ public class BoardServiceImpl implements BoardService{
 	 * 새로운 주제글 최신순 List + Tag
 	 * @author JeSeong Lee
 	 */
-	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate(int pageNo) {
-		List<MainArticleVO> newMainArticleVOList
-			= boardDAO.selectListNotCompleteMainArticleOrderByDate(pageNo);
+	/**
+	 * 무한스크롤 적용위해 수정
+	 * @param pageNo
+	 * @param orderBy
+	 * @param getTagName
+	 * @return
+	 * @author daehyeop
+	 */
+	public List<MainArticleVO> selectListNotCompleteMainArticle(int pageNo,
+			String orderBy, String getTagName) {
+		List<MainArticleVO> newMainArticleVOList = null;
+		if (orderBy.equals("date")) {
+			newMainArticleVOList = boardDAO
+					.selectListNotCompleteMainArticleOrderByDate(pageNo);
+		} else if (orderBy.equals("tag")) {
+			newMainArticleVOList = boardDAO
+					.selectListNotCompleteMainArticleOrderByTag(pageNo,
+							getTagName);
+		}
 		String tagName = "";
 		ArrayList<TagBoardVO> list = new ArrayList<TagBoardVO>();
-		for(int i = 0 ; i<newMainArticleVOList.size() ; i++){
-			list = boardDAO.getMainArticleTagList(newMainArticleVOList.get(i).getMainArticleNo());
-			for(int j = 0 ; j<list.size() ; j++){
-				if(j == list.size()-1){
+		for (int i = 0; i < newMainArticleVOList.size(); i++) {
+			list = boardDAO.getMainArticleTagList(newMainArticleVOList.get(i)
+					.getMainArticleNo());
+			for (int j = 0; j < list.size(); j++) {
+				if (j == list.size() - 1) {
 					tagName += "#" + list.get(j).getTagName();
-				}else{
-					tagName += "#" +  list.get(j).getTagName() + ", ";
+				} else {
+					tagName += "#" + list.get(j).getTagName() + ", ";
 				}
 				newMainArticleVOList.get(i).setTagName(tagName);
 			}
@@ -333,6 +351,16 @@ public class BoardServiceImpl implements BoardService{
 		map.put("itjaTotalCount",itjaMemberBean.itjaTotalCount(itjaMemberVO));
 		return map;
 	}
+	
+	@Override
+	/**
+	 * 신고한 회원들에게 포인트를 지급해주는 메서드
+	 * @author 윤택
+	 */
+	public void memberPointUpdate(int reportNumber) {
+		// TODO Auto-generated method stub
+		utilService.memberPointUpdate(reportNumber);
+	}
 	@Override
 	public List<MainArticleVO> selectListCompleteMainArticleOrderByTotalLike() {
 		// TODO Auto-generated method stub
@@ -344,13 +372,9 @@ public class BoardServiceImpl implements BoardService{
 		return null;
 	}
 	@Override
-	/**
-	 * 신고한 회원들에게 포인트를 지급해주는 메서드
-	 * @author 윤택
-	 */
-	public void memberPointUpdate(int reportNumber) {
+	public List<MainArticleVO> selectListCompleteMainArticleOrderByDate() {
 		// TODO Auto-generated method stub
-		utilService.memberPointUpdate(reportNumber);
+		return null;
 	}
 
 }

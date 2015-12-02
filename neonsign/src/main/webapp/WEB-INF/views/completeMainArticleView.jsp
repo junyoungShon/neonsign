@@ -2,49 +2,61 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<!-- 태그 소트 버튼 부분 -->
+<div class="container tags-container" style="margin-top: 100px;">
+	<c:forEach items="${requestScope.tagVOList}" var="tagList">
+		<span>#${tagList.tagName}</span>
+	</c:forEach>
+</div>
+<!--  태그 소트 버튼 끝 -->
 <div class="container">
+	<!-- script.js에서 게시판 종류를 구분하기위한 hidden -대협- -->
+	<input type="hidden" id="articleType" value="completeArticle">
+	<h2 class="itjaMainTitle">완결된 잇자!</h2>
+	<!-- 태그명을 받아 현재 선택한 태그를 표시한다. -대협 -->
+	<span id="getNowTagName"></span>
 	<!-- Example row of columns -->
-	<div class="row newItjaList" style="margin-top: 60px;">
-		<input type="hidden" id="articleType" value="completeArticle">
-		<h2 class="itjaMainTitle">완결된 잇자!</h2>
-		<c:forEach items="${requestScope.mainArticleList}" var="list"
-			begin="0" end="8">
+	<div class="row completeItjaList">
+		<c:forEach items="${requestScope.mainArticleList}" var="completeMainArticle">
 			<!-- 카드 1개 -->
+			<!-- name은 script.js에서 카드 현재 카드의 수를 구하기 위해 사용 -대협- -->
 			<div class="card-box col-md-4" name="completeCardBox">
 				<div class="card card-with-border" data-background="image"
 					data-src="${initParam.root}resources/img/fashion-1.jpg">
 					<div class="content">
-						<h6 class="category">${list.tagName}</h6>
+						<h6 class="category">${completeMainArticle.tagName}</h6>
 						<br>
 						<c:set var="mainArticleContentTitle"
-							value="${list.mainArticleTitle}" />
+							value="${completeMainArticle.mainArticleTitle}" />
 						<h5 class="title">
 							[완결]
+							<!-- 카드 간격을 맞추기위해 제목을 보여주는 글자수 제한 -대협- -->
 							<c:choose>
 								<c:when test="${fn:length(mainArticleContentTitle)>12}">
-								${fn:substring(mainArticleContentTitle, 0, 11)} ...
-							</c:when>
+									${fn:substring(mainArticleContentTitle, 0, 11)} ...
+								</c:when>
 								<c:otherwise>
-								${list.mainArticleTitle}
-							</c:otherwise>
+									${mainArticleContentTitle}
+								</c:otherwise>
 							</c:choose>
 						</h5>
 						<c:set var="mainArticleContentContent"
-							value="${list.mainArticleContent}" />
+							value="${completeMainArticle.mainArticleContent}" />
 						<p class="description">
+						<!-- 카드 간격을 맞추기위해 내용을 보여주는 글자수 제한 -대협- -->
 							<c:choose>
 								<c:when test="${fn:length(mainArticleContentContent)>18}">
 								${fn:substring(mainArticleContentContent, 0, 15)} ...
 							</c:when>
 								<c:otherwise>
-								${list.mainArticleContent}
+								${mainArticleContentContent}
 							</c:otherwise>
 							</c:choose>
 						</p>
 						<span class="writersNickName">-
-							${list.memberVO.memberNickName} -</span>
-						<input type="hidden"
-							class="mainArticleTitleNO" value="${list.mainArticleNo}">
+							${completeMainArticle.memberVO.memberNickName} -</span>
+						<input type="hidden" name=""> <input type="hidden"
+							class="mainArticleTitleNO" value="${completeMainArticle.mainArticleNo}">
 						<div class="actions">
 							<button class="btn btn-round btn-fill btn-neutral btn-modern"
 								data-toggle="modal" data-target="#cardDetailView">Read
@@ -59,7 +71,7 @@
                                    <c:set var="count" value="false" />
 								<c:forEach var="itjaList" items="${sessionScope.memberVO.itjaMemberList}">
 									<c:choose>
-										<c:when test="${itjaList.mainArticleNo== list.mainArticleNo}">
+										<c:when test="${itjaList.mainArticleNo== completeMainArticle.mainArticleNo}">
 											<c:set var="count" value="true" />
 										</c:when>
 										<c:otherwise>
@@ -68,16 +80,16 @@
 								</c:forEach>
 								<c:choose>
 									<c:when test="${count==true}">
-										<span class="itjaCount"><i class="fa fa-link"></i><br>${list.mainArticleTotalLike }it</span>
+										<span class="itjaCount"><i class="fa fa-link"></i><br>${completeMainArticle.mainArticleTotalLike }it</span>
 									</c:when>
 									<c:otherwise>
-										<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>${list.mainArticleTotalLike }it</span>
+										<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>${completeMainArticle.mainArticleTotalLike }it</span>
 									</c:otherwise>
 								</c:choose>
                             </button>
                             <form name="itJaInfo">
                             	<input type="hidden" name="memberEmail" value="${sessionScope.memberVO.memberEmail}">
-                            	<input type="hidden" name="mainArticleNo" value="${list.mainArticleNo}">
+                            	<input type="hidden" name="mainArticleNo" value="${completeMainArticle.mainArticleNo}">
                             	<input type="hidden" name="subArticleNo" value=0>
                             </form>
 						<button class="btn btn-social btn-google">
