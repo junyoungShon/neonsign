@@ -45,14 +45,17 @@ public class BoardController {
 	 * @author JeSeongLee
 	 */
 	@RequestMapping("getMainList.neon")
-	public ModelAndView getMainList(){
+	public ModelAndView getMainList(String orderBy, String tagName){
 		ModelAndView mav = new ModelAndView();
 		// 새로운 주제글 날짜순 + Tag
 		int pageNo = 1;
-		List<MainArticleVO> newMainArticleVOListOrderByDate
-			= boardService.selectListNotCompleteMainArticleOrderByDate(pageNo);
+		if(orderBy==null){
+			orderBy="date";
+		}
+		List<MainArticleVO> newMainArticleVOList
+			= boardService.selectListNotCompleteMainArticle(pageNo, orderBy, tagName);
 		// System.out.println("con잇자수 10개이하 주제글 : " + newMainArticleVOListOrderByDate);
-		mav.addObject("newMainArticleVOListOrderByDate", newMainArticleVOListOrderByDate);
+		mav.addObject("newMainArticleVOList", newMainArticleVOList);
 		// 베스트 주제글 날짜순 + Tag
 		List<MainArticleVO> bestMainArticleVOListOrderByDate = boardService.getBestMainArticleVOListOrderByDate();
 		// System.out.println("con잇자수 10개 이상 주제글 : " + bestMainArticleVOListOrderByDate);
@@ -71,12 +74,16 @@ public class BoardController {
 	 */
 	@RequestMapping("getNewMainArticle.neon")
 	@ResponseBody
-	public HashMap<String, Object> getNewMainArticle(HttpServletRequest request,int pageNo){
-		HashMap<String, Object> map= memberBoardInfo(request);
-		//List<MainArticleVO> newMainArticleVOListOrderByDate = boardService.selectListNotCompleteMainArticleOrderByDate(pageNo);
-		//ArrayList<MainArticleVO> newMainArticleArrayList = (ArrayList<MainArticleVO>) newMainArticleVOListOrderByDate;
-		map.put("newMainArticleArrayList", boardService.selectListNotCompleteMainArticleOrderByDate(pageNo));
- 		return map;
+	public HashMap<String, Object> getNewMainArticle(HttpServletRequest request, 
+			int pageNo, String orderBy,String tagName) {
+		HashMap<String, Object> map = memberBoardInfo(request);
+		if (orderBy == null||orderBy.equals("")||orderBy.equals("undefined")) {
+			orderBy = "date";
+		}
+		List<MainArticleVO> newMainArticleList = boardService.selectListNotCompleteMainArticle(pageNo, orderBy, tagName);
+		ArrayList<MainArticleVO> newMainArticleArrayList = (ArrayList<MainArticleVO>) newMainArticleList;
+		map.put("newMainArticleArrayList", newMainArticleArrayList);
+		return map;
 	}
 	//main article 관련 메서드
 	/**Controller1
@@ -277,20 +284,30 @@ public class BoardController {
 	public ModelAndView updateLikeOfNotCompleteMainArticle(MainArticleVO mainArticleVO){
 		return null;
 	}
-	/**Cotroller8-1
+	/**Cotroller8
 	 * 완결 주제글이 잇자수순으로 반환된다.
 	 * session 확인 후 null일 경우 오류페이지로 보낸다.(오류페이지 미작성_수정요)
 	 * @return
 	 * @author daehyeop
 	 */
-	@RequestMapping("selectListCompleteMainArticleOrderByTotalLike.neon")
-	public ModelAndView selectListCompleteMainArticleOrderByTotalLike() {
+	@RequestMapping("selectListCompleteMainArticle.neon")
+	public ModelAndView selectListCompleteMainArticle(String orderBy, String tagName) {
+		System.out.println("Controller orderBy : " + orderBy);
+		ModelAndView mav = new ModelAndView();
 		int pageNo=1;
+		if(orderBy==null){
+			orderBy="like";
+		}
 		List<MainArticleVO> completeMainArticleList = boardService
-				.selectListCompleteMainArticleOrderByTotalLike(pageNo);
+				.selectListCompleteMainArticle(pageNo, orderBy, tagName);
 		ArrayList<MainArticleVO> mainArticleList = (ArrayList<MainArticleVO>) completeMainArticleList;
-		return new ModelAndView("completeMainArticleView", "mainArticleList",
-				mainArticleList);
+		mav.addObject("mainArticleList", mainArticleList);
+		mav.setViewName("completeMainArticleView");
+		System.out.println("Controller mov : " + mav);
+		List<TagVO> tagVOList = boardService.getTagVOList();
+		// System.out.println("conmain 전체 Tag : " + tagVOList);
+		mav.addObject("tagVOList", tagVOList);
+		return mav;
 	}
 	/**Controller9
 	 * 무한스크롤을 위한 완결 주제글 메소드
@@ -298,21 +315,21 @@ public class BoardController {
 	 */
 	@RequestMapping("getCompleteMainArticle.neon")
 	@ResponseBody
-	public HashMap<String, Object> getCompleteMainArticle(HttpServletRequest request,int pageNo){
+	public HashMap<String, Object> getCompleteMainArticle(HttpServletRequest request, int pageNo, String tagName, String orderBy){
+		//System.out.println("getCompleteMainArticle.neon orderBy : " + orderBy);
+		//System.out.println("getCompleteMainArticle.neon tagName : " + tagName);
+		if(orderBy==null||orderBy.equals("")||orderBy.equals("undefined")){
+			orderBy="like";
+		}
+		if(tagName==null||tagName.equals("undefined")){
+			tagName="";
+		}
 		HashMap<String, Object> map= memberBoardInfo(request);
-		map.put("mainArticleArrayList", boardService.selectListCompleteMainArticleOrderByTotalLike(pageNo));
-		//List<MainArticleVO> mainArticleList = boardService.selectListCompleteMainArticleOrderByTotalLike(pageNo);
-		//ArrayList<MainArticleVO> mainArticleArrayList = (ArrayList<MainArticleVO>) mainArticleList;
+		List<MainArticleVO> mainArticleList = boardService.selectListCompleteMainArticle(pageNo, orderBy, tagName);
+		System.out.println("getCompleteMainArticle.neon mainArticleList : " + mainArticleList.size());
+		ArrayList<MainArticleVO> completeMainArticleArrayList = (ArrayList<MainArticleVO>) mainArticleList;
+		map.put("completeMainArticleArrayList", completeMainArticleArrayList);
  		return map;
-	}
-	/**Cotroller8-2
-	 * 완결 주제글이 게시일순으로 반환된다.
-	 * @return
-	 * @author daehyeop
-	 */
-	@RequestMapping("")
-	public ModelAndView selectListCompleteMainArticleOrderByDate(){
-		return null;
 	}
 	/**Cotroller9
 	 * 미완결 주제글이날짜순으로 반환된다.

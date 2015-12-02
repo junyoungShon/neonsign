@@ -16,10 +16,11 @@ public interface BoardDAO {
 	public void deleteMainArticle(MainArticleVO mainArticleVO);
 	public MainArticleVO selectOneCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO);
 	public List<MainArticleVO> selectListCompleteMainArticleOrderByTotalLike(int pageNo);
+	public List<MainArticleVO> selectListCompleteMainArticleOrderByDate(int pageNo);
+	public List<MainArticleVO> selectListCompleteMainArticleOrderByTag(int pageNo, String getTagName);
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate(int pageNo);
-	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByTotalLike();
+	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByTag(int pageNo, String getTagName);
 	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO);
-	public List<MainArticleVO> selectListCompleteMainArticleOrderByDate();
 	public List<TagBoardVO> selectTagList();
 	public ArrayList<TagBoardVO> getMainArticleTagList(int mainArticleNo);
 	public List<TagVO> getTagVOList();

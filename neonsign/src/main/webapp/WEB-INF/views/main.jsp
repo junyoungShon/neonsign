@@ -96,23 +96,25 @@
 <!-- 태그 소트 버튼 부분 -->
 <div class="container tags-container">
 	<c:forEach items="${requestScope.tagVOList}" var="tagList">
-		<span><a
-			href="arrayNewMainArticle.do?tagName=${tagList.tagName}">#${tagList.tagName}</a></span>
+		<span>#${tagList.tagName}</span>
 	</c:forEach>
 </div>
 <!--  태그 소트 버튼 끝 -->
 
 <div class="container">
+	<!-- script.js에서 게시판 종류를 구분하기위한 hidden -대협- -->
+	<input type="hidden" id="articleType" value="mainArticle">
+	<h2 class="itjaMainTitle">새로운 잇자!</h2>
+	<!-- 태그명을 받아 현재 선택한 태그를 표시한다. -대협 -->
+	<span id="getNowTagName"></span>
 	<!-- Example row of columns -->
 	<div class="row newItjaList">
-		<h2 class="itjaMainTitle">새로운 잇자!</h2>
-
 		<!-- *** new Main 카드 1개 -->
-		<input type="hidden" id="articleType" value="mainArticle">
 		<c:forEach var="newMainArticle"
-			items="${requestScope.newMainArticleVOListOrderByDate}" begin="0"
-			end="8">
+			items="${requestScope.newMainArticleVOList}">
+			<!-- name은 script.js에서 카드 현재 카드의 수를 구하기 위해 사용 -대협- -->
 			<div class="card-box col-md-4" name="newCardBox">
+				<input type="hidden" id="orderBy" value="date">
 				<div class="card card-with-border" data-background="image"
 					data-src="${initParam.root}resources/img/fashion-1.jpg">
 					<div class="content">
@@ -122,6 +124,7 @@
 							value="${newMainArticle.mainArticleTitle}" />
 						<h5 class="title">
 							[미완]
+							<!-- 카드 간격을 맞추기위해 제목을 보여주는 글자수 제한 -대협- -->
 							<c:choose>
 								<c:when test="${fn:length(mainArticleContentTitle)>12}">
 								${fn:substring(mainArticleContentTitle, 0, 11)} ...

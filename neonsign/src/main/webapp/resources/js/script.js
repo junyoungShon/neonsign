@@ -10,74 +10,81 @@ $(document).ready(function(){ //DOM이 준비되고
         }  
 	});  
 	function loadingItjaCard(){
+		//현재 페이지 아래 붙을 내용물을 담는다 -대협-
 		var infinityScrollTestSource = "";
+		//주제글 제목을 담는다 -대협-
 		var mainArticleTitle = "";
+		//주제글 내용을 담는다 -대협-
 		var mainArticleContent = "";
+		//불러올 주제글이 더이상 없을때 멈추게한다. -대협-
 		if($("#articleEnd").val()!='end'){
+			//불러올 주제글의 종류를 구분한다. -대협-
 		if($("#articleType").val()=='completeArticle'){
+			//카드박스의 갯수로 현재 화면에 있는 주제글 갯수를 파악한다. -대협-
 			var cardBox=$(".card-box[name=completeCardBox]").length;
-			//alert(cardBox);
+			//현재 카드갯수를 9로 나누고 올림을 하여 현재페이지를 파악한다. -대협-
 			var pageNo=Math.ceil((cardBox/9)+1);
-			//alert("pageNo : " + pageNo);
+			//정렬방식을 담는다. -대협-
+			var orderByComp = $("#orderBy").val();
+			var tagName = $("#tagName").val();
 			$.ajax({
 				type:"post",
-				url:"getCompleteMainArticle.neon?pageNo="+pageNo,
+				url:"getCompleteMainArticle.neon?pageNo="+pageNo+"&tagName="+tagName+"&orderBy="+orderByComp,
 				dataType:"json",
 				success:function(data){
-					if(data.mainArticleArrayList.length!=0){
-					for(var i=0; i<data.mainArticleArrayList.length; i++){
+					if(data.completeMainArticleArrayList.length!=0){
+					for(var i=0; i<data.completeMainArticleArrayList.length; i++){
 						//타이틀 길이제한 조건문
-						if(data.mainArticleArrayList[i].mainArticleTitle.length>12){
-							mainArticleTitle = data.mainArticleArrayList[i].mainArticleTitle.substring(0,12) + " ...";
+						if(data.completeMainArticleArrayList[i].mainArticleTitle.length>12){
+							mainArticleTitle = data.completeMainArticleArrayList[i].mainArticleTitle.substring(0,12) + " ...";
 						}else{
-							mainArticleTitle = data.mainArticleArrayList[i].mainArticleTitle;
+							mainArticleTitle = data.completeMainArticleArrayList[i].mainArticleTitle;
 						}
 						//내용 길이제한 조건문
-						if(data.mainArticleArrayList[i].mainArticleContent.length>18){
-							mainArticleContent = data.mainArticleArrayList[i].mainArticleContent.substring(0,15) + " ...";
+						if(data.completeMainArticleArrayList[i].mainArticleContent.length>18){
+							mainArticleContent = data.completeMainArticleArrayList[i].mainArticleContent.substring(0,15) + " ...";
 						}else{
-							mainArticleContent = data.mainArticleArrayList[i].mainArticleContent;
+							mainArticleContent = data.completeMainArticleArrayList[i].mainArticleContent;
 						}
 						//추가될 카드 html문
 						infinityScrollTestSource +=
 							'<div class="card-box col-md-4" name="completeCardBox">' 
 							+ '<div class="card card-with-border" data-background="image" data-src="resources/img/snow.jpg" style="background-image: url(resources/img/snow.jpg); background-size: cover; background-position: 50% 50%;">' 
 							+ '<div class="content">' 
-							+ '<h6 class="category">' + data.mainArticleArrayList[i].tagName + '</h6><br>' 
+							+ '<h6 class="category">' + data.completeMainArticleArrayList[i].tagName + '</h6><br>' 
 							+ '<h5 class="title">[완결]' + mainArticleTitle + '</h5>' 
 							+ ' <p class="description">' + mainArticleContent + '</p>' 
+							+ '<span class="writersNickName">- '+data.completeMainArticleArrayList[i].memberVO.memberNickName+' -</span>'
+							+ '<input type="hidden" name="">'
+							+ '<input type="hidden" class="mainArticleTitleNO" value="'+ data.completeMainArticleArrayList[i].mainArticleNo +'">'
 							+ '<div class="actions">' 
 							+ '<button class="btn btn-round btn-fill btn-neutral btn-modern" data-toggle="modal" data-target="#cardDetailView">Read Article</button>' 
 							+ '</div>' 
-							+ '<span class="writersNickName">-${bestMainArticle.memberVO.memberNickName} -</span>'
-							+ '<input type="hidden" class="mainArticleTitleNO"value="'+data.mainArticleArrayList[i].mainArticleNo+'">'
 							+ '<div class="social-line social-line-visible" data-buttons="4">' 
 							+ '<button class="btn btn-social btn-pinterest">완결된<br>잇자!</button>' 
-							+ '<button class="btn btn-social btn-twitter">' + data.mainArticleArrayList[i].mainArticleTotalLike + '<br>잇자!</button>' 
+							+ '<button class="btn btn-social btn-twitter">' + data.completeMainArticleArrayList[i].mainArticleTotalLike + '<br>잇자!</button>' 
 							+ '<button class="btn btn-social btn-google"><i class="fa fa-heart-o"></i><br>찜하자!</button>' 
 							+ '<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button>' 
 							+ '</div>  <!-- end social-line social-line-visible --></div></div> <!-- end card --></div><!-- card-box col-md-4 -->'
-							
 					}
 					}else{
 						infinityScrollTestSource +=
-							'<div class="card-box col-md-4" name="completeCardBox">'
-							+ '<input type="hidden" id="articleEnd" value="end">'
-							+ '<div class="card card-with-border" data-background="image" data-src="resources/img/snow.jpg" style="background-image: url(resources/img/snow.jpg); background-size: cover; background-position: 50% 50%;">'
-							+ '<h3>마지막 게시물입니다!</h3>'
-							+ '</div> <!-- end card --></div><!-- card-box col-md-4 -->'
+							'<div><hr><h4>마지막 주제글입니다!</h4>'
+							+ '<input type="hidden" id="articleEnd" value="end"><hr></div>'
 					}
 					$('.ajaxLoader').fadeOut(300);
-					$('.newItjaList').append(infinityScrollTestSource);
+					$('.completeItjaList').append(infinityScrollTestSource);
 				}
 			});
 		}else if($("#articleType").val()=='mainArticle'){ 
 			var cardBox=$(".card-box[name=newCardBox]").length;
 			var pageNo=Math.ceil((cardBox/9)+1);
-			//alert(pageNo);
+			//정렬방식을 담는다. -대협-
+			var orderByComp = $("#orderBy").val();
+			var tagName = $("#tagName").val();
 				$.ajax({
 					type:"post",
-					url:"getNewMainArticle.neon?pageNo="+pageNo,
+					url:"getNewMainArticle.neon?pageNo="+pageNo+"&tagName="+tagName+"&orderBy="+orderByComp,
 					dataType:"json",
 					success:function(data){
 						if(data.newMainArticleArrayList.length!=0){
@@ -102,13 +109,13 @@ $(document).ready(function(){ //DOM이 준비되고
 								+ '<h6 class="category">' + data.newMainArticleArrayList[i].tagName + '</h6><br>' 
 								+ '<h5 class="title">[미완]' + mainArticleTitle + '</h5>' 
 								+ ' <p class="description">' + mainArticleContent + '</p>' 
-								+ '<div class="actions">' 
+								+ '<span class="writersNickName">- '+data.newMainArticleArrayList[i].memberVO.memberNickName+' -</span>'
+								+ '<input type="hidden" class="mainArticleTitleNO" value="'+ data.newMainArticleArrayList[i].mainArticleNo +'">'
+								+ '<div class="actions">'
 								+ '<button class="btn btn-round btn-fill btn-neutral btn-modern" data-toggle="modal" data-target="#cardDetailView">Read Article</button>' 
 								+ '</div>' 
-								+ '<span class="writersNickName">-${bestMainArticle.memberVO.memberNickName} -</span>'
-								+ '<input type="hidden" class="mainArticleTitleNO"value="'+data.newMainArticleArrayList[i].mainArticleNo+'">'
 								+ '<div class="social-line social-line-visible" data-buttons="4">' 
-								+ '<button class="btn btn-social btn-pinterest">완결된<br>잇자!</button>' 
+								+ '<button class="btn btn-social btn-pinterest">05:22<br> 빨리!</button>' 
 								+ '<button class="btn btn-social btn-twitter">' + data.newMainArticleArrayList[i].mainArticleTotalLike + '<br>잇자!</button>' 
 								+ '<button class="btn btn-social btn-google"><i class="fa fa-heart-o"></i><br>찜하자!</button>' 
 								+ '<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button>' 
@@ -116,11 +123,8 @@ $(document).ready(function(){ //DOM이 준비되고
 						}
 						}else{
 							infinityScrollTestSource +=
-								'<div class="card-box col-md-4" name="completeCardBox">' 
-								+ '<input type="hidden" id="articleEnd" value="end">'
-								+ '<div class="card card-with-border" data-background="image" data-src="resources/img/snow.jpg" style="background-image: url(resources/img/snow.jpg); background-size: cover; background-position: 50% 50%;">'
-								+ '<h3>마지막 게시물입니다!</h3>'
-								+ '</div> <!-- end card --></div><!-- card-box col-md-4 -->'
+								'<div><hr><h4>마지막 주제글입니다!</h4>'
+								+ '<input type="hidden" id="articleEnd" value="end"><hr></div>'
 						}
 						$('.ajaxLoader').fadeOut(300);
 						$('.newItjaList').append(infinityScrollTestSource);
@@ -136,15 +140,108 @@ $(document).ready(function(){ //DOM이 준비되고
 	//tag sort 버튼 활성화
 	
 	$('.tags-container>span').hover(function(){
-		$(this).attr('style','border="black"');
+		$(this).attr('class','tag-mouseon');
 	},function(){
-		$(this).attr('style','border-color="white"');
+		$(this).attr('class','tag-mouseoff');
 	});
 	
 	$('.tags-container>span').click(function(){
-		$(this).attr('class','tag-active');
-	});
-	
+		var tagName = $(this);
+		var infinityScrollTestSource = "";
+		$("#getNowTagName").html('<h4>'+tagName.text()+' 잇자 검색결과</h4>');
+		tagName.attr('class','tag-active');
+		if($("#articleType").val()=="completeArticle"){
+			$.ajax({
+				type:"post",
+				url:"getCompleteMainArticle.neon?pageNo=1"+"&tagName="+tagName.text().substring(1)+"&orderBy=tag",
+				dataType:"json",
+				success:function(data){
+					infinityScrollTestSource += 
+						'<input type="hidden" id="orderBy" value="tag"><input type="hidden" id="tagName" value="'+tagName.text().substring(1)+'">';
+					for(var i=0; i<data.completeMainArticleArrayList.length; i++){
+						//타이틀 길이제한 조건문
+						if(data.completeMainArticleArrayList[i].mainArticleTitle.length>12){
+							mainArticleTitle = data.completeMainArticleArrayList[i].mainArticleTitle.substring(0,12) + " ...";
+						}else{
+							mainArticleTitle = data.completeMainArticleArrayList[i].mainArticleTitle;
+						}
+						//내용 길이제한 조건문
+						if(data.completeMainArticleArrayList[i].mainArticleContent.length>18){
+							mainArticleContent = data.completeMainArticleArrayList[i].mainArticleContent.substring(0,15) + " ...";
+						}else{
+							mainArticleContent = data.completeMainArticleArrayList[i].mainArticleContent;
+						}
+						//추가될 카드 html문
+						infinityScrollTestSource +=
+							'<div class="card-box col-md-4" name="completeCardBox">'
+							+ '<div class="card card-with-border" data-background="image" data-src="resources/img/snow.jpg" style="background-image: url(resources/img/snow.jpg); background-size: cover; background-position: 50% 50%;">' 
+							+ '<div class="content">' 
+							+ '<h6 class="category">' + data.completeMainArticleArrayList[i].tagName + '</h6><br>' 
+							+ '<h5 class="title">[완결]' + mainArticleTitle + '</h5>' 
+							+ ' <p class="description">' + mainArticleContent + '</p>' 
+							+ '<span class="writersNickName">- '+data.completeMainArticleArrayList[i].memberVO.memberNickName+' -</span>'
+							+ '<input type="hidden" class="mainArticleTitleNO" value="'+ data.completeMainArticleArrayList[i].mainArticleNo +'">'
+							+ '<div class="actions">'
+							+ '<button class="btn btn-round btn-fill btn-neutral btn-modern" data-toggle="modal" data-target="#cardDetailView">Read Article</button>' 
+							+ '</div>' 
+							+ '<div class="social-line social-line-visible" data-buttons="4">' 
+							+ '<button class="btn btn-social btn-pinterest">완결된<br>잇자!</button><input type="hidden" name="">' 
+							+ '<button class="btn btn-social btn-twitter">' + data.completeMainArticleArrayList[i].mainArticleTotalLike + '<br>잇자!</button>' 
+							+ '<button class="btn btn-social btn-google"><i class="fa fa-heart-o"></i><br>찜하자!</button>' 
+							+ '<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button>' 
+							+ '</div>  <!-- end social-line social-line-visible --></div></div> <!-- end card --></div><!-- card-box col-md-4 -->'
+					}
+					$('.ajaxLoader').fadeOut(300);
+					$('.completeItjaList').html(infinityScrollTestSource);
+				}
+			});
+		}else if($("#articleType").val()=="mainArticle"){
+			$.ajax({
+				type:"post",
+				url:"getNewMainArticle.neon?pageNo=1"+"&tagName="+tagName.text().substring(1)+"&orderBy=tag",
+				dataType:"json",
+				success:function(data){
+					infinityScrollTestSource += 
+						'<input type="hidden" id="orderBy" value="tag"><input type="hidden" id="tagName" value="'+tagName.text().substring(1)+'">';
+					for(var i=0; i<data.newMainArticleArrayList.length; i++){
+						//타이틀 길이제한 조건문
+						if(data.newMainArticleArrayList[i].mainArticleTitle.length>12){
+							mainArticleTitle = data.newMainArticleArrayList[i].mainArticleTitle.substring(0,12) + " ...";
+						}else{
+							mainArticleTitle = data.newMainArticleArrayList[i].mainArticleTitle;
+						}
+						//내용 길이제한 조건문
+						if(data.newMainArticleArrayList[i].mainArticleContent.length>18){
+							mainArticleContent = data.newMainArticleArrayList[i].mainArticleContent.substring(0,15) + " ...";
+						}else{
+							mainArticleContent = data.newMainArticleArrayList[i].mainArticleContent;
+						}
+						//추가될 카드 html문
+						infinityScrollTestSource +=
+							'<div class="card-box col-md-4" name="newCardBox">' 
+							+ '<div class="card card-with-border" data-background="image" data-src="resources/img/snow.jpg" style="background-image: url(resources/img/snow.jpg); background-size: cover; background-position: 50% 50%;">' 
+							+ '<div class="content">' 
+							+ '<h6 class="category">' + data.newMainArticleArrayList[i].tagName + '</h6><br>' 
+							+ '<h5 class="title">[미완]' + mainArticleTitle + '</h5>' 
+							+ ' <p class="description">' + mainArticleContent + '</p>' 
+							+ '<span class="writersNickName">- '+data.newMainArticleArrayList[i].memberVO.memberNickName+' -</span>'
+							+ '<input type="hidden" class="mainArticleTitleNO" value="'+ data.newMainArticleArrayList[i].mainArticleNo +'">'
+							+ '<div class="actions">'
+							+ '<button class="btn btn-round btn-fill btn-neutral btn-modern" data-toggle="modal" data-target="#cardDetailView">Read Article</button>' 
+							+ '</div>' 
+							+ '<div class="social-line social-line-visible" data-buttons="4">' 
+							+ '<button class="btn btn-social btn-pinterest">05:22<br> 빨리!</button>' 
+							+ '<button class="btn btn-social btn-twitter">' + data.newMainArticleArrayList[i].mainArticleTotalLike + '<br>잇자!</button>' 
+							+ '<button class="btn btn-social btn-google"><i class="fa fa-heart-o"></i><br>찜하자!</button>' 
+							+ '<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button>' 
+							+ '</div>  <!-- end social-line social-line-visible --></div></div> <!-- end card --></div><!-- card-box col-md-4 -->'
+					}
+					$('.ajaxLoader').fadeOut(300);
+					$('.newItjaList').html(infinityScrollTestSource);
+				}
+			});
+		}
+	});	
 	
 	/**cardDetailView
 	 * 카드 클릭시 상세 페이지 보기위해 모달 창열기
