@@ -302,6 +302,7 @@ public class BoardServiceImpl implements BoardService{
 		HashMap<String,Integer> map = new HashMap<String, Integer>();
 		map.put("itjaSuccess",itjaMemberBean.checkItja(itjaMemberVO));
 		map.put("itjaCount",itjaMemberBean.itjaCount(itjaMemberVO));
+		map.put("itjaTotalCount",itjaMemberBean.itjaTotalCount(itjaMemberVO));
 		return map;
 	}
 	@Override

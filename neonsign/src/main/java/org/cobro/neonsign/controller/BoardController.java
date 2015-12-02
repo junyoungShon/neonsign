@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.cobro.neonsign.model.BoardService;
 import org.cobro.neonsign.vo.ItjaMemberVO;
@@ -70,11 +71,12 @@ public class BoardController {
 	 */
 	@RequestMapping("getNewMainArticle.neon")
 	@ResponseBody
-	public ArrayList<MainArticleVO> getNewMainArticle(int pageNo){
-		System.out.println("controller : " + pageNo);
-		List<MainArticleVO> newMainArticleVOListOrderByDate = boardService.selectListNotCompleteMainArticleOrderByDate(pageNo);
-		ArrayList<MainArticleVO> newMainArticleArrayList = (ArrayList<MainArticleVO>) newMainArticleVOListOrderByDate;
- 		return newMainArticleArrayList;
+	public HashMap<String, Object> getNewMainArticle(HttpServletRequest request,int pageNo){
+		HashMap<String, Object> map= memberBoardInfo(request);
+		//List<MainArticleVO> newMainArticleVOListOrderByDate = boardService.selectListNotCompleteMainArticleOrderByDate(pageNo);
+		//ArrayList<MainArticleVO> newMainArticleArrayList = (ArrayList<MainArticleVO>) newMainArticleVOListOrderByDate;
+		map.put("newMainArticleArrayList", boardService.selectListNotCompleteMainArticleOrderByDate(pageNo));
+ 		return map;
 	}
 	//main article 관련 메서드
 	/**Controller1
@@ -107,13 +109,42 @@ public class BoardController {
 	}
 	/**
 	 * 해당 글의 itja 수와, 요청한 아이디가 itja를 눌렀는지 여부를 판단해준다.
-	 * 이미 itjaClick했다면 false
-	 * 새로 itjaClick한것이라면 true를 반환한다.
+	 * 이미 itjaClick했다면 세션과 DB에서 삭제
+	 * 새로 itjaClick한것이라 세션과 db에 삽입
 	 * @author junyoung
 	 */
 	@RequestMapping("auth_itjaClick.neon")
 	@ResponseBody
-	public HashMap<String,Integer> itjaClick(ItjaMemberVO itjaMemberVO){
+	public HashMap<String,Integer> itjaClick(HttpServletRequest request,ItjaMemberVO itjaMemberVO){
+		HttpSession session = request.getSession(false);
+		System.out.println(itjaMemberVO);
+		if(session!=null){
+			MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+			boolean flag = false;
+			if(memberVO!=null){
+				List <ItjaMemberVO> list = memberVO.getItjaMemberList();
+				if(list.size()==0){
+					list.add(itjaMemberVO);
+				}else{
+					for(int i =0;i<list.size();i++){
+						if(itjaMemberVO.getMainArticleNo()==list.get(i).getMainArticleNo()
+								&&itjaMemberVO.getSubArticleNo()==list.get(i).getSubArticleNo()
+								&&itjaMemberVO.getMemberEmail().equals(list.get(i).getMemberEmail())){
+								list.remove(i);
+								flag = false;
+								break;
+						}else{
+							flag= true;
+						}
+					}
+					if(flag){
+						list.add(itjaMemberVO);
+					}
+					memberVO.setItjaMemberList(list);
+				}
+			}
+			session.setAttribute("memberVO",memberVO);
+		}
 		return boardService.selectItjaState(itjaMemberVO);
 	}
 	/**Controller2
@@ -183,17 +214,22 @@ public class BoardController {
 	 * @param mainArticleVO
 	 * @author 전윤택
 	 */
+	/**Controller6
+	 * 미완결 글보기를 클릭하면 해당 메서드가 실행된다.
+	 * 	미완결 글의 디테일을 리턴해준다
+	 * @param mainArticleVO
+	 * @author 전윤택
+	 */
 	@RequestMapping("selectOneNotCompleteMainArticleByMainArticleNo.neon")
 	@ResponseBody
-	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO){
-		System.out.println("number : "+mainArticleVO.getMainArticleNo());
-		System.out.println("mainArticleVO : "+mainArticleVO);
-		MainArticleVO mainArticle=null;
+	public HashMap<String, Object> selectOneNotCompleteMainArticleByMainArticleNo(HttpServletRequest request,MainArticleVO mainArticleVO){
+		System.out.println(mainArticleVO);
+		HashMap<String, Object> map= memberBoardInfo(request);
 		if (mainArticleVO!=null) {
-			 mainArticle=boardService.selectOneNotCompleteMainArticleByMainArticleNo(mainArticleVO);
+			MainArticleVO mainArticle=boardService.selectOneNotCompleteMainArticleByMainArticleNo(mainArticleVO);
+			map.put("mainArticle", mainArticle);
 		}
-		System.out.println(mainArticle.getSubArticleList());
-		return mainArticle;
+		return map;
 	}
 	/**Controller7
 	 * 미완결 주제글 잇자 추천버튼 눌렀을 때
@@ -223,11 +259,12 @@ public class BoardController {
 	 */
 	@RequestMapping("getCompleteMainArticle.neon")
 	@ResponseBody
-	public ArrayList<MainArticleVO> getCompleteMainArticle(int pageNo){
-		System.out.println("controller : " + pageNo);
-		List<MainArticleVO> mainArticleList = boardService.selectListCompleteMainArticleOrderByTotalLike(pageNo);
-		ArrayList<MainArticleVO> mainArticleArrayList = (ArrayList<MainArticleVO>) mainArticleList;
- 		return mainArticleArrayList;
+	public HashMap<String, Object> getCompleteMainArticle(HttpServletRequest request,int pageNo){
+		HashMap<String, Object> map= memberBoardInfo(request);
+		map.put("mainArticleArrayList", boardService.selectListCompleteMainArticleOrderByTotalLike(pageNo));
+		//List<MainArticleVO> mainArticleList = boardService.selectListCompleteMainArticleOrderByTotalLike(pageNo);
+		//ArrayList<MainArticleVO> mainArticleArrayList = (ArrayList<MainArticleVO>) mainArticleList;
+ 		return map;
 	}
 	/**Cotroller8-2
 	 * 완결 주제글이 게시일순으로 반환된다.
@@ -295,5 +332,20 @@ public class BoardController {
 	 */
 	public ModelAndView updateIsConnectOfSubArticle(MainArticleVO mainArticleVO,SubArticleVO subArticleVO){
 		return null;
+	}
+	/**
+	 * 사용자가 찜한 게시물과, 잇자를 누른 게시물 정보를 담아주는 메서드
+	 * @author junyoung
+	 */
+	public HashMap<String,Object> memberBoardInfo(HttpServletRequest request){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		HttpSession session = request.getSession(false);
+		if(session!=null){
+			MemberVO memberVO =  (MemberVO) session.getAttribute("memberVO");
+			if(memberVO!=null){
+				map.put("itjaMemberList", memberVO.getItjaMemberList());
+			}
+		}
+		return map;
 	}
 }

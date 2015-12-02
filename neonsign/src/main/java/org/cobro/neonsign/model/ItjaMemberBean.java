@@ -74,5 +74,14 @@ public class ItjaMemberBean {
 		}
 		return result;
 	}
+	/**
+	 * 주제글의 토탈잇자를 구한다.
+	 * @author junyoung
+	 * @param itjaMemberVO
+	 * @return
+	 */
+	public int itjaTotalCount(ItjaMemberVO itjaMemberVO) {
+		return boardDAO.selectItjaTotalCount(itjaMemberVO);
+	}
 	
 }

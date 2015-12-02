@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.cobro.neonsign.model.ItjaMemberBean;
 import org.cobro.neonsign.model.MemberService;
+import org.cobro.neonsign.vo.ItjaMemberVO;
 import org.cobro.neonsign.vo.MemberVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,17 +63,21 @@ public class MemberController {
 		}
 		return check;	
 	}
-
 	@RequestMapping("memberLogin.neon")
 	public ModelAndView memberLogin(HttpServletRequest request, MemberVO memberVO){
 		memberVO=memberService.memberLogin(memberVO);
-		memberVO.setItjaMemberList(itjaMemberBean.getItjaListByMemberEmail(memberVO));
 		if(memberVO!=null){
+			List<ItjaMemberVO> list = itjaMemberBean.getItjaListByMemberEmail(memberVO);
+			//0,0번째 글은 존재하지 않는다. 잇자를 누른 글이 하나도 없어도 사용자의 이메일을 얻기 위함이다.
+			list.add(new ItjaMemberVO(0,0,memberVO.getMemberEmail()));
+			if(list!=null){
+				memberVO.setItjaMemberList(list);
+			}
 			request.getSession().setAttribute("memberVO",memberVO);		
 		}
-		System.out.println(memberVO);
 		return new ModelAndView("redirect:getMainList.neon");
 	}
+	
 	@RequestMapping("memberLogout.neon")
 	public ModelAndView memberlogout(HttpServletRequest request){
 		HttpSession session=request.getSession(false);

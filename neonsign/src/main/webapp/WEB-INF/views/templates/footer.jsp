@@ -109,24 +109,8 @@
 							<div class="limitLength">0kb/600kb</div>
 							</form>
 						</DIV>
-						  <div class="social-line social-line-visible" data-buttons="4">
-                            <button class="btn btn-social btn-pinterest">
-                              	05:22<br>
-                              	빨리!
-                            </button>
-                            <button class="btn btn-social btn-twitter">
-                               	 127it<br>
-                              	 잇자!
-                            </button>
-                            <button class="btn btn-social btn-google">
-                               	<i class="fa fa-heart-o"></i><br>
-                               	찜하자!
-                            </button>
-                            <button class="btn btn-social btn-facebook">
-                           		  <i class="fa fa-facebook-official"></i><br>
-                           		    공유하자!
-                            </button>
-                        </div>  <!-- end social-line social-line-visible -->
+						 <div class="utilInDetailModal">
+						</div>
 					</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

@@ -103,10 +103,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from ITJA_MEMBER where MAIN_ARTICLE_NO=#{mainArticleNo} and 
 		SUB_ARTICLE_NO=#{subArticleNo} and MEMBER_EMAIL = #{memberEmail}
 	</delete>
-	
+	<!-- 주제 글의 토탈 잇자수를 반환합니다. -->
+	<select id="selectItjaTotalCount" resultType="Integer">
+		select MAIN_ARTICLE_TOTAL_LIKE from main_article where MAIN_ARTICLE_NO=#{mainArticleNo}
+	</select>	
 	<!-- 주제 글의 잇자수를 반환합니다. -->
 	<select id="selectMainItjaCount" resultType="Integer">
-		select MAIN_ARTICLE_TOTAL_LIKE from main_article where MAIN_ARTICLE_NO=#{mainArticleNo}
+		select MAIN_ARTICLE_LIKE from main_article where MAIN_ARTICLE_NO=#{mainArticleNo}
 	</select>	
 	<!-- 주제 글의 잇자수를 반환합니다. -->
 	<select id="selectSubItjaCount" resultType="Integer">

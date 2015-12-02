@@ -56,7 +56,7 @@
 							완결된<br>잇자!
 						</button>
 						 <button class="btn btn-social btn-twitter itja">
-                                  <c:set var="count" value="false" />
+                                   <c:set var="count" value="false" />
 								<c:forEach var="itjaList" items="${sessionScope.memberVO.itjaMemberList}">
 									<c:choose>
 										<c:when test="${itjaList.mainArticleNo== list.mainArticleNo}">

@@ -318,5 +318,14 @@ public class BoardDAOImpl implements BoardDAO{
 	public List<ItjaMemberVO> getItjaListByMemberEmail(String memberEmail) {
 		return sqlSessionTemplate.selectList("board.getItjaListByMemberEmail",memberEmail);
 	}
+	/**
+	 * 해당 글의 총 잇자수를 받아온다.
+	 * @author junyoung
+	 */
+	@Override
+	public int selectItjaTotalCount(ItjaMemberVO itjaMemberVO) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectOne("board.selectItjaTotalCount", itjaMemberVO);
+	}
 	
 }
