@@ -281,6 +281,23 @@ public class BoardController {
 		}
 		return map;
 	}
+	//sub article 관련 메서드
+		/**Controller12
+		 * 잇자 글 등록
+		 * @author junyoung
+		 * @param subArticleVO
+		 * @return
+		 */
+	@RequestMapping("auth_writeSubArticle.neon")
+	@ResponseBody
+	public HashMap<String, Object> insertSubArticle(HttpServletRequest request,SubArticleVO subArticleVO){
+		HashMap<String, Object> map = new HashMap<String, Object>();	
+		//memberBoardInfo(request);
+		boolean result = boardService.insertSubArticle(subArticleVO);
+		map.put("result",result);
+		map.put("subArticleVO",subArticleVO);
+		return map;
+	}
 	/**Controller7
 	 * 미완결 주제글 잇자 추천버튼 눌렀을 때
 	 * @return
@@ -357,15 +374,7 @@ public class BoardController {
 		return null;
 	}
 	
-	//sub article 관련 메서드
-	/**Controller12
-	 * 잇자 글 등록
-	 * @param subArticleVO
-	 * @return
-	 */
-	public ModelAndView insertSubArticle(MainArticleVO mainArticleVO,SubArticleVO subArticleVO){
-		return null;
-	}
+	
 	/**Controller13
 	 * 잇자글 잇자 버튼 클릭시 실행 메서드
 	 * @param subArticleVO

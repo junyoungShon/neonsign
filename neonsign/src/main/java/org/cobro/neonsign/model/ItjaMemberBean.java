@@ -33,6 +33,7 @@ public class ItjaMemberBean {
 	public int checkItja(ItjaMemberVO itjaMemberVO){
 		int result = boardDAO.checkItja(itjaMemberVO);
 		int isMain = itjaMemberVO.getSubArticleNo();
+		System.out.println("제대로 체크하고 있냐"+result);
 		if(result==1){
 			boardDAO.deleteItja(itjaMemberVO);
 			if(isMain==0){
@@ -72,7 +73,14 @@ public class ItjaMemberBean {
 		}else{
 			result = boardDAO.selectSubItjaCount(itjaMemberVO);
 		}
+		if(result<0){
+			result=itjaCountDefault(itjaMemberVO);
+		}
 		return result;
+	}
+	private int itjaCountDefault(ItjaMemberVO itjaMemberVO) {
+		boardDAO.itjaCountDefault(itjaMemberVO);
+		return 0;
 	}
 	/**
 	 * 주제글의 토탈잇자를 구한다.
@@ -81,7 +89,11 @@ public class ItjaMemberBean {
 	 * @return
 	 */
 	public int itjaTotalCount(ItjaMemberVO itjaMemberVO) {
-		return boardDAO.selectItjaTotalCount(itjaMemberVO);
+		int result = boardDAO.selectItjaTotalCount(itjaMemberVO);
+		if(result<0){
+			result = itjaCountDefault(itjaMemberVO);
+		}
+		return result;
 	}
 	
 }

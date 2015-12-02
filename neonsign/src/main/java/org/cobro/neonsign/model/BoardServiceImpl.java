@@ -213,10 +213,29 @@ public class BoardServiceImpl implements BoardService{
 		map.put("mainArticleVO", mainVO);map.put("likingSubArticle", likingSubArticleList);map.put("subArticleVO", subArticleVOList);
 		return map;
 	}
+	/**
+	 * 가장 최근에 이어진 글의 단계를 얻어와서 1을 더해서 세팅한다.
+	 * 해당 단계에서 요청한 사용자가 이미 글을 작성하였는지 확인 하고, 이미 작성했다면 작성을 거부한다.
+	 * @author junyoung
+	 */
 	@Override
-	public int insertSubArticle(SubArticleVO subArticleVO) {
-		// TODO Auto-generated method stub
-		return 0;
+	public boolean insertSubArticle(SubArticleVO subArticleVO) {
+		boolean flag =false;
+		//현재 진행되는 이야기 단계를 반환
+		System.out.println("aa2"+subArticleVO.getSubAtricleGrade());
+		int subArticleCurruntGrade = boardDAO.selectSubArticleCurruntGrade(subArticleVO);
+		subArticleVO.setSubAtricleGrade(subArticleCurruntGrade);
+		System.out.println("aa4"+subArticleVO.getSubAtricleGrade());
+		//현재 진행되는 이야기에 이미 사용자가 글을 썻는지 반환 썻으면 1 안썼으면 0
+		int alreadyWriteSubArticleInThisGrade = boardDAO.alreadyWriteSubArticleInThisGrade(subArticleVO);
+		System.out.println(alreadyWriteSubArticleInThisGrade);
+		if(alreadyWriteSubArticleInThisGrade==0){
+			flag=true;
+			System.out.println("aa7"+subArticleVO.getSubAtricleGrade());
+			boardDAO.insertSubArticle(subArticleVO);
+		}
+		System.out.println("aa8"+subArticleVO.getSubAtricleGrade());
+		return flag;
 	}
 	@Override
 	public int updateSubArticle(SubArticleVO subArticleVO) {

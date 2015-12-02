@@ -31,7 +31,7 @@ public interface BoardService {
 	public List<TagVO> selectListTagNameOrderBySearchCount();
 	
 	//sub article 관련 메서드
-	public int insertSubArticle(SubArticleVO subArticleVO);
+	public boolean insertSubArticle(SubArticleVO subArticleVO);
 	public int updateSubArticle(SubArticleVO subArticleVO);
 	public void deleteSubArticle(SubArticleVO subArticleVO);
 	public List<SubArticleVO> selectListSubArticleByMainArticleNo(SubArticleVO subArticleVO);

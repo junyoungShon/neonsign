@@ -273,7 +273,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			success:function(data){
 				var mainLikeItHTML = "";
 				var modalFooterLikeHTML = "";
-				
+				var subArticleWriteFormHTML = "";
 				if(data.itjaMemberList!=null){
 					var flag=true;
 					for(var i=0;i<data.itjaMemberList.length;i++){
@@ -294,6 +294,18 @@ $(document).ready(function(){ //DOM이 준비되고
 							+'"><input type="hidden" name="subArticleNo" value=0></form>'
 							+'<button class="btn btn-social btn-google"><i class="fa fa-heart-o"></i><br>찜하자!</button>'
 							+'<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button></div>'
+							
+							subArticleWriteFormHTML
+							='<span class=limitLength>잇자를 누르셨기 때문에 잇는글을 작성하실 수 있습니다! 사용자님의 잇는글 이후로 글을 이어갈지 결말 지을지 정해주세요!</span><br>'
+							+'<input type="radio" id="radio1" name="isEnd" value="0" checked><label for="radio1">ing</label>'
+							+'<input type="radio" id="radio2" name="isEnd" value="1"><label for="radio2">end</label>'
+							+'<input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail+'">'
+							+'<input type="button" value="잇는글 쓰기" class="btn btn-warning subArticleSubmit">'
+							+'<input type="hidden" name="mainArticleNo" value="'+data.mainArticle.mainArticleNo+'">'
+							+'<textarea class="form-control" name="subArticleContent" rows="5" placeholder="잇는글을 입력해주세요 ! (200자로 제한됩니다.)"></textarea>'
+							+'<div class="limitLength">작성 후 잇자 10개시 베스트로 이동되며,타임체크가 발동됩니다!<span class="userLength"></span>Byte/400Byte</div>'
+						
+							
 							flag=false;
 							break;
 						}	
@@ -325,8 +337,17 @@ $(document).ready(function(){ //DOM이 준비되고
 						+'<button class="btn btn-social btn-google"><i class="fa fa-heart-o"></i><br>찜하자!</button>'
 						+'<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button><div>';
 				}
+				
+				
+				
 				//모달 창 하단에 찜하기,타임체크,잇자 , 공유버튼이 있다.
 				$('.utilInDetailModal').html(modalFooterLikeHTML);
+				
+				//해당 글에 잇자를 클릭했을 경우 잇는글 폼이 열려있을 것이다.
+				$('form[action="auth_writeSubArticle.neon"]').html(subArticleWriteFormHTML);
+				$('#cardDetailView .modal-title').text(data.mainArticle.mainArticleTitle);
+				
+				
 				//
 				$('.subTable').html("");
 					var subAtricleGrade=0;
@@ -338,17 +359,74 @@ $(document).ready(function(){ //DOM이 준비되고
 					$('.mainLikeIt').html(mainLikeItHTML);	
 					//이어진 글들은 작성자가 쓴 주제글 밑에 넘어간다
 				for(var i=0; i<data.likingSubArticle.length;i++){
+					if(data.itjaMemberList!=null){
+						var flag=true;
+						for(var j=0;j<data.itjaMemberList.length;j++){
+							if(data.itjaMemberList[j].subAritcleNo == data.likingSubArticle[i].subArticleNo){
+								mainLikeItHTML 
+								='<button class="btn btn-social btn-twitter itja">'
+								+'<span class="itjaCount"><i class="fa fa-link"></i><br>'+data.likingSubArticle[i].subArticleLike+'it</span></button>'
+								+'<form name="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
+								+'"><input type="hidden" name="mainArticleNo" value="'+data.mainArticle.mainArticleNo
+								+'"><input type="hidden" name="subArticleNo" value='+data.likingSubArticle[i].subArticleNo+'></form>'
+								
+								
+								modalFooterLikeHTML 
+								='<div class="social-line social-line-visible" data-buttons="4"><button class="btn btn-social btn-pinterest">05:22<br>빨리!</button>'
+								+'<button class="btn btn-social btn-twitter itja">'
+								+'<span class="itjaCount"><i class="fa fa-link"></i><br>'+data.mainArticle.mainArticleTotalLike+'it</span></button>'
+								+'<form name="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
+								+'"><input type="hidden" name="mainArticleNo" value="'+data.mainArticle.mainArticleNo
+								+'"><input type="hidden" name="subArticleNo" value=0></form>'
+								+'<button class="btn btn-social btn-google"><i class="fa fa-heart-o"></i><br>찜하자!</button>'
+								+'<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button></div>'
+								flag=false;
+								break;
+							}
+							
+						}
+						if(flag){
+							mainLikeItHTML 
+							='<button class="btn btn-social btn-twitter itja">'+
+							'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.likingSubArticle[i].subArticleLike+'it</span></button>'+
+							'<form name="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
+							+'"><input type="hidden" name="mainArticleNo" value="'+data.mainArticle.mainArticleNo
+							+'"><input type="hidden" name="subArticleNo" value='+data.likingSubArticle[i].subArticleNo+'></form>'
+							modalFooterLikeHTML 
+							='<div class="social-line social-line-visible" data-buttons="4"><button class="btn btn-social btn-pinterest">05:22<br>빨리!</button><button class="btn btn-social btn-twitter itja">'+
+							'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.mainArticle.mainArticleTotalLike+'it</span></button>'+
+							'<form name="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
+							+'"><input type="hidden" name="mainArticleNo" value="'+data.mainArticle.mainArticleNo
+							+'"><input type="hidden" name="subArticleNo" value=0></form>'
+							+'<button class="btn btn-social btn-google"><i class="fa fa-heart-o"></i><br>찜하자!</button>'
+							+'<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button></div>'
+						}
+					}
+					if(mainLikeItHTML==""&&modalFooterLikeHTML==""){
+						mainLikeItHTML = 
+							'<button class="btn btn-social btn-twitter itja">'+
+							'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.likingSubArticle[i].subArticleLike+'it</span></button>'
+						modalFooterLikeHTML = 
+							'<div class="social-line social-line-visible" data-buttons="4"><button class="btn btn-social btn-pinterest">05:22<br>빨리!</button><button class="btn btn-social btn-twitter itja">'+
+							'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.mainArticle.mainArticleTotalLike+'it</span></button>'
+							+'<button class="btn btn-social btn-google"><i class="fa fa-heart-o"></i><br>찜하자!</button>'
+							+'<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button><div>';
+					}
+					
 					mainArticle=mainArticle+"<tr><td>"+(i+1)+"</td>"+
 					"<td>"+data.likingSubArticle[i].subArticleContent+"</td>"+
 					"<td>"+data.likingSubArticle[i].memberVO.memberNickName+"</td>"+
 					"<td>"+mainLikeItHTML+"</td><td>신고</td><tr>";
 				}
+				
+				
 				$('#mainSubArticle').html(mainArticle);//이어진 글 할당
 				//잇는글은 주제글 아래에 있는 잇는글 전용 테이블에 할당된다
 				if(data.subArticleVO.length==0){
 					$('.subTable').html("<tr><td colspan='5'>작성한 잇는글이 없습니다</td></tr>");
 				}else{
 					for(var i=0; i<data.subArticleVO.length;i++){
+						
 						subAtricleOrder=subAtricleOrder+"<tr><td>"+(i+1)+"</td><td>"+
 						data.subArticleVO[i].subArticleContent+"</td><td>"+
 						data.subArticleVO[i].memberVO.memberNickName+"</td><td>"+
@@ -362,9 +440,60 @@ $(document).ready(function(){ //DOM이 준비되고
 
 		});
 	}
+	
+	//잇는글 작성 제한을 위한 keyUp 이벤트 - 글자수를 제한해준다.
+	$('form[action="auth_writeSubArticle.neon"]').on('keyup',$('textarea[name="subArticleContent"]'),function(){
+		function korTextCheck($str){
+            var str = $str;
+            var check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+            var result = str.match(check);
+            if(result) return true; //한글일 경우
+            return false; //한글이 아닐경우
+        }	
+		var userWriting = $('textarea[name="subArticleContent"]').val();
+		var wrtingByte = 0;
+		for(var i=0;i<userWriting.length;i++){
+			//한글일 경우 2byte
+			if(korTextCheck(userWriting.charAt(i))){
+				wrtingByte += 2; 
+			//영어일 경우 1byte
+			}else{
+				wrtingByte += 1; 
+			}
+			if(wrtingByte>400){
+				 $('textarea[name="subArticleContent"]').val(userWriting.substring(0,400));
+			}
+		}
+		$('.userLength').text(wrtingByte);
+	});
+	//잇는글 작성 시 공란체크
+	$('form[action="auth_writeSubArticle.neon"]').on('click',function(){
+			if($('textarea[name="subArticleContent"]').val()==''){
+				alert('잇고자하는 내용을 입력해주세요');
+				$('textarea[name="subArticleContent"]').focus();
+				return false;
+			}
+			var formData = $(this).serialize();
+			$.ajax({
+				type:"post",
+				url:"auth_writeSubArticle.neon",
+				data:formData,
+				dataType:"json",
+				success:function(data){
+					if(data.result){
+						 detailItjaView(data.subArticleVO.mainArticleNo);
+					}else{
+						alert('이미 잇는글을 등록하셨습니다. 다음턴에 도전하세요')
+						detailItjaView(data.subArticleVO.mainArticleNo);
+					}
+				}
+			});
+	});
+	
+	
 	//끌
 	// 모달 창 안에서 잇자 버튼 클릭 시
-	$('.mainLikeIt').on('click','.itja',function(){
+	$('.modal-body').on('click','.itja',function(){
 		var formData = $($(this).next()).serialize();
 		var itjaCountSpan = $(this).children('.itjaCount');
 		$.ajax({

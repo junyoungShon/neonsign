@@ -17,3 +17,7 @@ sysdate, to_date('2015/11/20 13:51:40',  'yyyy/mm/dd hh24:mi:ss'),1);
 		and b.MEMBER_EMAIL=m.MAIN_ARTICLE_EMAIL order by s.SUB_ARTICLE_GRADE asc
 		
 		select * from MAIN_ARTICLE
+		select * from ITJA_MEMBER
+		select * from sub_article
+		select max(SUB_ARTICLE_GRADE)+1 as SUB_ARTICLE_GRADE from sub_article where MAIN_ARTICLE_NO=46 and IS_CONNECT=1
+		select count(*) from sub_article where member_email = 'qqqq@qqqq.eee' and SUB_ARTICLE_GRADE =4 and main_article_no = 46

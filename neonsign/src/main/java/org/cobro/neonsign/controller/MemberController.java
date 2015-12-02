@@ -96,8 +96,8 @@ public class MemberController {
 	@RequestMapping("memberJoinByEmail.neon")
 	public ModelAndView memberRegister(HttpServletRequest request,MemberVO memberVO){
 		memberService.memberRegister(memberVO);
-		request.getSession().setAttribute("memberVO",memberVO);
-		return new ModelAndView("home");
+		request.setAttribute("memberVO", memberVO);
+		return new ModelAndView("forward:memberLogin.neon");
 	}
 /*	
 	public ModelAndView memberUpdate(HttpServletRequest request){

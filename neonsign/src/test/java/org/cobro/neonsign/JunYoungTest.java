@@ -8,6 +8,7 @@ import org.cobro.neonsign.model.BoardDAO;
 import org.cobro.neonsign.model.BoardService;
 import org.cobro.neonsign.model.MemberService;
 import org.cobro.neonsign.vo.MainArticleVO;
+import org.cobro.neonsign.vo.SubArticleVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -40,8 +41,11 @@ public class JunYoungTest {
 
 	@Test
 	public void test(){
-		MainArticleVO mavo=new MainArticleVO();
-		mavo.setMainArticleNo(61);
-		Map<String,Object> map=boardService.selectOneNotCompleteMainArticleByMainArticleNo(mavo);
+		SubArticleVO subArticleVO = new SubArticleVO();
+		subArticleVO.setMemberEmail("asdf@asdf.net");
+		subArticleVO.setMainArticleNo(6);
+		subArticleVO.setSubArticleContent("zzzzzzzzz");
+		System.out.println("adsf");
+		System.out.println(boardService.insertSubArticle(subArticleVO));
 	}
 }

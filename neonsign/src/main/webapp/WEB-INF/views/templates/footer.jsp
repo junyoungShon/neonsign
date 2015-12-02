@@ -92,11 +92,17 @@
 								<td class="mainLikeIt" width="5%">잇자!<br>100</td>
 								<td class="reportIt" width="5%">신고</td>
 							</tr>
+							
 							</thead>
+							
+							<DIV class="itjaWriteForm">
+							<form action="auth_writeSubArticle.neon" class="form-horizontal">
+							</form>
+							</DIV>
 							<tbody id="mainSubArticle" >
 								
 							</tbody>
-
+							
 							<thead>
 							<tr class="success">
 								<td colspan="5">잇는글</td>
@@ -107,18 +113,11 @@
 							</tbody>
 						</table>
 						
-						<DIV class="itjaWriteForm">
-							<form action="" class="form-horizontal">
-								<textarea class="form-control" rows="10" placeholder="잇는글을 입력해주세요 ! (200자로 제한됩니다.)"></textarea>
-							<div class="limitLength">0kb/600kb</div>
-							</form>
-						</DIV>
-						 <div class="utilInDetailModal">
-						</div>
-					</div>
+					
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
+			</div>
 			</div>
 		</div>
 	</div>

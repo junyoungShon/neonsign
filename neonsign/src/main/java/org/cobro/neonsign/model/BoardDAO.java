@@ -60,4 +60,6 @@ public interface BoardDAO {
 	int selectSubArticleCurruntGrade(SubArticleVO subArticleVO);
 	public List<SubArticleVO> likingSubArticleFindByMainArticleNo(
 			SubArticleVO subArticleVO);
+	public void itjaCountDefault(ItjaMemberVO itjaMemberVO);
+	public int alreadyWriteSubArticleInThisGrade(SubArticleVO subArticleVO);
 }

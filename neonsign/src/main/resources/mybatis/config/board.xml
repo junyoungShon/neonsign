@@ -62,7 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 준영 -->
 	<!-- 주제글에 잇자 멤버 정보를 삽입 -->
 	<insert id="insertMainItjaMember">
-		insert into ITJA_MEMBER (MAIN_ARTICLE_NO,MEMBER_EMAIL) values(#{mainArticleNo},#{memberEmail})
+		insert into ITJA_MEMBER (MAIN_ARTICLE_NO,MEMBER_EMAIL,sub_Article_no) values(#{mainArticleNo},#{memberEmail},0)
 	</insert>
 	<!-- 잇는글에 잇자 멤버 정보를 삽입 -->
 	<insert id="insertSubItjaMember">
@@ -91,14 +91,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update main_article set MAIN_ARTICLE_LIKE = MAIN_ARTICLE_LIKE-1 where MAIN_ARTICLE_NO=#{mainArticleNo}
 	</update>
 	<!-- 잇는글의 잇자수를 올려준다. -->
-	<update id="updateSubPlusItjaHit">
-		update sub_article set sub_ARTICLE_LIKE = sub_ARTICLE_LIKE+1 where MAIN_ARTICLE_NO=#{mainArticleNo} 
-		and sub_ARTICLE_NO=#{subArticleNo}
+	<update id="updateSubPlusItjaHit" parameterType="itjaMemberVO">
+		update sub_article set subARTICLE_LIKE = subARTICLE_LIKE+1 where sub_ARTICLE_NO=#{subArticleNo}
 	</update>
 	<!-- 잇는글의 잇자수를 줄여준다. -->
-	<update id="updateSubMinusItjaHit">
-		update sub_article set sub_ARTICLE_LIKE = sub_ARTICLE_LIKE-1 where MAIN_ARTICLE_NO=#{mainArticleNo}
-		sub_ARTICLE_NO=#{subArticleNo}
+	<update id="updateSubMinusItjaHit" parameterType="itjaMemberVO">
+		update sub_article set subARTICLE_LIKE = subARTICLE_LIKE-1 where sub_ARTICLE_NO=#{subArticleNo}
 	</update>
 	<!-- 잇자와 회원의 관계정보를 테이블에서 삭제한다. -->
 	<delete id="deleteItja">
@@ -115,8 +113,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>	
 	<!-- 주제 글의 잇자수를 반환합니다. -->
 	<select id="selectSubItjaCount" resultType="Integer">
-		select sub_ARTICLE_LIKE from sub_article where sub_ARTICLE_NO=#{subArticleNo}
+		select subARTICLE_LIKE from sub_article where sub_ARTICLE_NO=#{subArticleNo}
 	</select>	
+	<!-- 잇는글의 잇자수를 초기화 합니다. -->
+	<update id="subArticleItjaCountDefault" parameterType="ItjaMemberVO">
+		update sub_article set subARTICLE_LIKE = 0 where sub_ARTICLE_NO=#{subArticleNo}
+	</update>	
+	<!-- 주제글의 잇자수를 초기화 합니다. -->
+	<update id="mainArticleItjaCountDefault" parameterType="ItjaMemberVO">
+		update main_article set main_ARTICLE_LIKE = 0 where main_ARTICLE_NO=#{mainArticleNo}
+	</update>	
 	<!-- 해당 회원의 모든 잇자 글을 리스트로 반환 -->
 	<select id="getItjaListByMemberEmail" resultMap="itjaMemberResultMap">
 		select MAIN_ARTICLE_NO,SUB_ARTICLE_NO,MEMBER_EMAIL from ITJA_MEMBER where MEMBER_EMAIL = #{value}
@@ -136,6 +142,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectListTagNameOrderBySearchCount" resultMap="tagResultMap">
 		select tag_name,search_count from TAG order by search_count
 	</select>
+	<!-- 현재 진행 중인 글에 사용자가 이미 잇는글을 작성했는지를 파악해준다.. -->
+	<select id="alreadyWriteSubArticleInThisGrade" resultType="Integer" parameterType="subArticleVO">
+		select count(*) from sub_article where member_email = #{memberEmail} and SUB_ARTICLE_GRADE =#{subAtricleGrade} and main_article_no = #{mainArticleNo}
+	</select>
+	<!-- 잇는글을 삽입해준다. -->
+	<insert id="insertSubArticle" parameterType="subArticleVO">
+		insert into sub_article (MAIN_ARTICLE_NO, SUB_ARTICLE_NO, MEMBER_EMAIL,SUB_ARTICLE_CONTENT,IS_CONNECT,SUB_ARTICLE_DATE,SUB_ARTICLE_GRADE) 
+		values(#{mainArticleNo},sub_article_seq.nextval,#{memberEmail},#{subArticleContent}, 0 , sysdate,#{subAtricleGrade})
+	</insert>
 	<!-- 윤택 -->
 
 	<!-- 주제글의 정보-->

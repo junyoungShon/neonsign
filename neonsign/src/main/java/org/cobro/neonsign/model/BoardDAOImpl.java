@@ -165,10 +165,17 @@ public class BoardDAOImpl implements BoardDAO{
 		return main;
 		
 	}
+	/**
+	 * 잇는 글을 삽입한다.
+	 * insertSubArticle
+	 * insert into sub_article (MAIN_ARTICLE_NO, SUB_ARTICLE_NO, MEMBER_EMAIL,SUB_ARTICLE_CONTENT,IS_CONNECT,SUB_ARTICLE_DATE,SUB_ARTICLE_GRADE) 
+	values(#{mainArticleNo},sub_article_seq.nextval,#{memberEmail},#{subArticleContent}, 0 , sysdate,#{subArticleGrade});
+	 * @author junyoung
+	 */
 	@Override
 	public void insertSubArticle(SubArticleVO subArticleVO) {
-		// TODO Auto-generated method stub
-		
+		System.out.println("dao insertSubArticle : "+subArticleVO);
+		sqlSessionTemplate.insert("board.insertSubArticle", subArticleVO);
 	}
 
 	@Override
@@ -275,7 +282,8 @@ public class BoardDAOImpl implements BoardDAO{
 	 */
 	@Override
 	public void updateSubPlusItjaHit(ItjaMemberVO itjaMemberVO) {
-		sqlSessionTemplate.update("board.updateMainPlusItjaHit", itjaMemberVO);
+		System.out.println(itjaMemberVO);
+		sqlSessionTemplate.update("board.updateSubPlusItjaHit", itjaMemberVO);
 		
 	}
 	/**
@@ -293,6 +301,7 @@ public class BoardDAOImpl implements BoardDAO{
 	 */
 	@Override
 	public void updateMainMinusItjaHit(ItjaMemberVO itjaMemberVO) {
+		System.out.println(itjaMemberVO);
 		sqlSessionTemplate.update("board.updateMainMinusItjaHit", itjaMemberVO);
 		
 	}
@@ -392,6 +401,7 @@ public class BoardDAOImpl implements BoardDAO{
 	   public int selectSubArticleCurruntGrade(SubArticleVO subArticleVO) {
 		int grade=0;
 		System.out.println("selectSubArticleCurruntGrade 실행됨");
+		System.out.println("aa3"+subArticleVO.getSubAtricleGrade());
 			SubArticleVO gradeVO=sqlSessionTemplate.selectOne("board.selectSubArticleCurruntGrade",subArticleVO);
 			if(gradeVO!=null){//만약 Grade가 null이라면 0을 할당해준다
 				grade=gradeVO.getSubAtricleGrade();
@@ -399,4 +409,32 @@ public class BoardDAOImpl implements BoardDAO{
 			System.out.println("selectSubArticleCurruntGrade : "+grade);
 	      return grade;
 	   }
+	/**
+	 * itja수가 0보다 작아질 경우 초기화
+	 * @author junyoung
+	 */
+	@Override
+	public void itjaCountDefault(ItjaMemberVO itjaMemberVO) {
+		if(itjaMemberVO.getSubArticleNo()==0){
+			sqlSessionTemplate.update("board.mainArticleItjaCountDefault", itjaMemberVO);
+		}else{
+			sqlSessionTemplate.update("board.subArticleItjaCountDefault", itjaMemberVO);
+		}
+	}
+	/**
+	 * 현재 진행중인 단계에 이미 사용자가 글을 썼는지를 반환한다.
+	 * select count(*) from sub_article where member_email = #{memberEmail} and SUB_ARTICLE_GRADE =#{subArticleGrade}
+	 * alreadyWriteSubArticleInThisGrade
+	 * @author junyoung
+	 */
+	@Override
+	public int alreadyWriteSubArticleInThisGrade(SubArticleVO subArticleVO) {
+		System.out.println("dao alreadyWriteSubArticleInThisGrade : "+subArticleVO);
+		System.out.println("aa5"+subArticleVO.getSubAtricleGrade());
+		int result = sqlSessionTemplate.selectOne("board.alreadyWriteSubArticleInThisGrade",subArticleVO);
+		System.out.println("aa6"+subArticleVO.getSubAtricleGrade());
+		System.out.println("alreadyWriteSubArticleInThisGrade : "+result);
+		return  result;
+	}
+
 }
