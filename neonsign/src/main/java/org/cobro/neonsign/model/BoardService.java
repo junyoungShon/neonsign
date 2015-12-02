@@ -37,8 +37,7 @@ public interface BoardService {
 	public List<SubArticleVO> selectListSubArticleBySubArticleGrade(SubArticleVO subArticleVO);
 	
 	//윤택
-	public void ArticleDelete(MainArticleVO mainArticleVO);
-	public void deleteByNotify(ReportVO notifyVO);
+
 	public List<MainArticleVO> searchByKeyWord(String keyword);
 	public Map<String, Object> boardStatistics();
 	public List<MainArticleVO> articleSort(String sort);
@@ -49,5 +48,9 @@ public interface BoardService {
 	List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate(int pageNo);
 	List<MainArticleVO> selectListCompleteMainArticleOrderByTotalLike(int pageNo);
 	HashMap<String, Integer> selectItjaState(ItjaMemberVO itjaMemberVO);
+	void articleBlock(MainArticleVO mavo, int reportNumber);
+	void reportListDelete(ReportVO nvo);
+	public void subArticleBlock(int subArticleNumber, int articleNumber, int reportNumber);
+	public void memberPointUpdate(int reportNumber);
 	
 }

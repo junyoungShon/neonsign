@@ -143,7 +143,6 @@ public class BoardController {
 	@RequestMapping("adminPageView.neon")
 	public ModelAndView adminPageNotifyArticleList(HttpServletRequest request){
 		ArrayList<MemberVO>list=(ArrayList<MemberVO>)request.getAttribute("list");
-		System.out.println(list);
 		List<ReportVO> mainReportList=boardService.mainArticleReportList();
 		List<ReportVO> subReportList=boardService.subArticleReportList();
 		HashMap<String,Object> map=new HashMap<String, Object>();//회원관리 리스트, 게시물 신고 리스트 를 map에 put 해준다
@@ -159,8 +158,48 @@ public class BoardController {
 	 * @param notifierVO
 	 * @return
 	 */
-	public ModelAndView adminPageDeleteArticle(MainArticleVO mainArticleVO,SubArticleVO subArticleVO,ReportVO notifyVO,ReporterVO notifierVO){
-		return null;
+	@RequestMapping("adminPageDeleteArticle.neon")
+	public ModelAndView adminPageDeleteArticle(String reportNO, String articleNO, String subArticleNO
+			, String command){
+		int articleNumber=Integer.parseInt(articleNO);
+		int reportNumber=Integer.parseInt(reportNO);	
+		try{			
+			/* try문은 subArticleNO이 문자열 상태가 아니라면 catch문으로 넘어가지 않으므로
+			 * 잇는글을 Block하거나 반려한다*/
+			int subArticleNumber=Integer.parseInt(subArticleNO);//만약에 형변환중 Exception이 발생하면 Catch문 수행
+		if(command.equals("report")){
+			System.out.println("서브아티클 신고 접수");
+			boardService.subArticleBlock(subArticleNumber,articleNumber,reportNumber);
+			//report에 성공하면 신고한 회원들에게 포인트 지급
+			boardService.memberPointUpdate(reportNumber);
+		}else{
+			System.out.println("subArticle 신고 목록에서 반려");
+			ReportVO reportVO=new ReportVO();		
+			reportVO.setReportNo(reportNumber);
+			boardService.reportListDelete(reportVO);
+		}
+		 // 만약에 reportNumber을 int로 형변환 할 수 없다면
+		 // catch문에서 mainArticle 을 Block하거나 mainArticle 을 반려처리 한다 	 		
+		}catch(NumberFormatException e){
+			/* * Catch문은 주제글을 Block하거나 주제글의 신고를 반려처리하는데
+			 * 쓰인다*/	 
+			if(command.equals("report")){
+				System.out.println("메인아티클 신고접수");
+				MainArticleVO mainArticleVO= new MainArticleVO();
+				mainArticleVO.setMainArticleNo(articleNumber);
+				boardService.articleBlock(mainArticleVO,reportNumber);
+				//report에 성공하면 신고한 회원들에게 포인트 지급
+				boardService.memberPointUpdate(reportNumber);
+			}else{
+				System.out.println("메인아티클 신고 반려");
+				ReportVO reportVO=new ReportVO();		
+				reportVO=new ReportVO();
+				reportVO.setReportNo(reportNumber);
+				boardService.reportListDelete(reportVO);
+			}
+		}
+		
+		return new ModelAndView("redirect:getMemberList.neon");
 	}
 	/**Controller6
 	 * 완결 글보기를 클릭하면 해당 메서드가 실행된다.

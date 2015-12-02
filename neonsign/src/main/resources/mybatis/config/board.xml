@@ -147,6 +147,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		m.MAIN_ARTICLE_NO=s.MAIN_ARTICLE_NO and m.MAIN_ARTICLE_NO=#{mainArticleNo} 
 		and b.MEMBER_EMAIL=m.MAIN_ARTICLE_EMAIL order by s.SUB_ARTICLE_GRADE asc
 	</select>
+	
+	<!-- mainArticle을 Block처리 하는 메서드 -->
+	<update id="articleBlock" parameterType="mainArticleVO" >
+		update main_article set MAIN_ARTICLE_BLOCK=1 where MAIN_ARTICLE_NO=#{mainArticleNo}
+	</update>
+	
+	<!-- subArticle을 Block처리 하는 메서드 -->
+	<update id="subArticleBlock" parameterType="mainArticleVO" >
+		update sub_article set SUB_ARTICLE_BLOCK=1 where SUB_ARTICLE_NO=#{value}
+	</update>
 	<!-- 대협 -->
 
 	<select id="completeMainArticleByMainArticleNo" resultType="mainArticleVO"

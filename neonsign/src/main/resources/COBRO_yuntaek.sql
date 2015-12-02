@@ -1,3 +1,19 @@
+		
+	select * from REPORT r , MAIN_ARTICLE ma, SUB_ARTICLE sa, brain_member bm where
+	r.MAIN_ARTICLE_NO=ma.MAIN_ARTICLE_NO and ma.MAIN_ARTICLE_NO=sa.MAIN_ARTICLE_NO and
+ 	ma.MAIN_ARTICLE_EMAIL=bm.MEMBER_EMAIL 
+	 and r.SUB_ARTICLE_NO is not null order by REPORT_NO desc
+ 	and sa.SUB_ARTICLE_NO=r.SUB_ARTICLE_NO
+		select * from  SUB_ARTICLE sa
+		where MAIN_ARTICLE_NO= 9 and  
+		--신고리스트에서 해당 신고글 삭제
+		delete tablename where condition
+		--신고한 회원 목록
+		select MEMBER_EMAIL from reporter where REPORT_NO=6
+		
+		--신고한 회원에게 10 포인트 지급
+		update BRAIN_MEMBER SET MEMBER_POINT=MEMBER_POINT+10 
+		WHERE MEMBER_EMAIL='a@naver.com' 
 
 		select * from main_article m,  brain_member b,sub_article s  where
 		m.MAIN_ARTICLE_NO=s.MAIN_ARTICLE_NO and m.MAIN_ARTICLE_NO=3 

@@ -20,4 +20,10 @@ public interface UtilService {
 	public List<ReportVO> mainArticleReportList();
 
 	public List<ReportVO> subArticleReportList();
+
+
+	public void memberPointUpdate(int reportNumber);
+
+
+	public void stagesOfProcess(int reportNumber);
 }

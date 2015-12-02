@@ -174,9 +174,9 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 
 	@Override
-	public void ArticleDelete(MainArticleVO mavo) {
+	public void articleDelete(MainArticleVO mavo) {
 		// TODO Auto-generated method stub
-		
+		sqlSessionTemplate.update("board.articleDelete",mavo);
 	}
 
 	@Override
@@ -317,6 +317,20 @@ public class BoardDAOImpl implements BoardDAO{
 	@Override
 	public List<ItjaMemberVO> getItjaListByMemberEmail(String memberEmail) {
 		return sqlSessionTemplate.selectList("board.getItjaListByMemberEmail",memberEmail);
+	}
+	@Override
+	public void articleBlock(MainArticleVO mavo) {
+		// TODO Auto-generated method stub
+		sqlSessionTemplate.update("board.articleBlock",mavo);
+	}
+	/**
+	 * 잇는글을 Block 처리하는 메서드
+	 * @author 윤택
+	 */
+	@Override
+	public void subArticleBlock(int subArticleNumber) {
+		// TODO Auto-generated method stub
+		sqlSessionTemplate.update("board.subArticleBlock",subArticleNumber);
 	}
 	
 }

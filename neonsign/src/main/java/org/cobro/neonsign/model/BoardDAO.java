@@ -34,7 +34,7 @@ public interface BoardDAO {
 	public List<SubArticleVO> selectListSubArticleByMainArticleNo(SubArticleVO subArticleVO);
 	public List<SubArticleVO> selectListSubArticleByIsConnect(SubArticleVO subArticleVO);
 	public List<SubArticleVO> selectListSubArticleBySubArticleGrade(SubArticleVO subArticleVO);
-	public void ArticleDelete(MainArticleVO mavo);
+	public void articleDelete(MainArticleVO mavo);
 	public Object boardCount();
 	
 	//잇자 클릭 관련 메서드
@@ -53,4 +53,6 @@ public interface BoardDAO {
 	public List<ItjaMemberVO> getItjaListByMemberEmail(String memberEmail);
 	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleAndSubArticleNo(
 			MainArticleVO mainArticleVO);
+	public void articleBlock(MainArticleVO mavo);
+	public void subArticleBlock(int subArticleNumber);
 }

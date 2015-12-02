@@ -601,28 +601,22 @@ $(document).ready(function(){ //DOM이 준비되고
     /**
 	 * 관리자가 신고리스트에서 
 	 * 신고처리를 하는 스크립트
-	 */
+	 *//*
 	$('.boardReport').click(function () {
-		var subArticleNO=$(this).parent().parent().children().eq(4).text();
-		var articleNO=$(this).parent().parent().children().eq(2).text();
-		var reportNO=$(this).parent().parent().children().eq(1).text();
+		var memberEmail=$(this).parent().parent().children().eq(0).text();
 		if(confirm("신고처리 하시겠습니까?")){
-			location.href="adminPageDeleteArticle.neon?reportNO="+reportNO+"&articleNO="+articleNO+"&subArticleNO="+subArticleNO+
-			"&command=report";
+			
 		}
 	});
-	/**
+	*//**
 	 * 관리자가 신고리스트에서 
 	 * 반려처리를 하는 스크립트
-	 */
+	 *//*
 	$('.ReportCancle').click(function () {
-		var subArticleNO=$(this).parent().parent().children().eq(4).text();
-		var articleNO=$(this).parent().parent().children().eq(2).text();
-		var reportNO=$(this).parent().parent().children().eq(1).text();
+		var memberEmail=$(this).parent().parent().children().eq(0).text();
 		if(confirm("반려처리 하시겠습니까?")){
-			location.href="adminPageDeleteArticle.neon?reportNO="+reportNO+"&articleNO="+articleNO+"&subArticleNO="+subArticleNO+
-			"&command=cancle";
+			
 		}
-	});
+	});*/
 });//document.ready
 	

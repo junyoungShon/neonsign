@@ -18,4 +18,12 @@ public interface ReportDAO {
 	List<ReportVO> mainArticleReportList();
 
 	List<ReportVO> subArticleReportList();
+
+	public List<String> reporterNames(int reportNumber);
+
+	public void memberPointUpdate(String email);
+
+	public void deleteByReporter(ReportVO notifyVO);
+
+	public void stagesOfProcess(int reportNumber);
 }

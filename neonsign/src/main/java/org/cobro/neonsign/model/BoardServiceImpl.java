@@ -245,15 +245,34 @@ public class BoardServiceImpl implements BoardService{
 	}
 	@Override
 	/**
-	 * 관리자가 아티클을 삭제하는 메서드
+	 * 관리자가 게시물신고를 신고처리하여
+	 * 해당 게시물을 Block하는 메서드 
+	 * @author 윤택
 	 */
-	public void ArticleDelete(MainArticleVO mavo) {
-		boardDAO.ArticleDelete(mavo);	
+	public void articleBlock(MainArticleVO mavo, int reportNumber) {
+		boardDAO.articleBlock(mavo);
+		utilService.stagesOfProcess(reportNumber);
 	}
+	
+	/**
+	 * 관리자가 잇는글신고를 신고처리하여
+	 * 해당 잇는글을 Block하는 메서드
+	 * @author 윤택
+	 */
 	@Override
-	public void deleteByNotify(ReportVO nvo) {
+	public void subArticleBlock(int subArticleNumber, int articleNumber, int reportNumber) {
+		// TODO Auto-generated method stub
+		boardDAO.subArticleBlock(subArticleNumber);
+		utilService.stagesOfProcess(reportNumber);
+	}
+	/**
+	 * 관리자가 게시물신고를 반려처리하여 
+	 * 신고 리스트에서 없애는 메서드
+	 * @author 윤택
+	 */
+	@Override
+	public void reportListDelete(ReportVO nvo) {
 		utilService.deleteByNotify(nvo);
-		
 	}
 	@Override
 	public Map<String, Object> boardStatistics() {
@@ -274,7 +293,7 @@ public class BoardServiceImpl implements BoardService{
 	public void articleNotify(MainArticleVO mavo) {
 		ReportVO nvo=utilService.articleNotify(mavo);
 		if(nvo.getReportAmount()>=10){
-			boardDAO.ArticleDelete(mavo);
+			boardDAO.articleDelete(mavo);
 		}
 	}
 	
@@ -314,4 +333,14 @@ public class BoardServiceImpl implements BoardService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	/**
+	 * 신고한 회원들에게 포인트를 지급해주는 메서드
+	 * @author 윤택
+	 */
+	public void memberPointUpdate(int reportNumber) {
+		// TODO Auto-generated method stub
+		utilService.memberPointUpdate(reportNumber);
+	}
+
 }

@@ -110,7 +110,6 @@ public class MemberController {
 	 */
 	@RequestMapping("getMemberList.neon")
 	public ModelAndView getMemberList(HttpServletRequest request,MemberVO mvo){
-		System.out.println("getMemberList.neon");
 		ModelAndView mv = new ModelAndView();
 		List<MemberVO> list=memberService.getMemberList();
 		mv.addObject("list", list);

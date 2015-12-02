@@ -3,7 +3,7 @@ package org.cobro.neonsign.vo;
 import java.util.List;
 
 public class ReportVO {
-	private String reportNo;
+	private int reportNo;
 	private String reportDate;
 	private int mainArticleNo;
 	private int subArticleNo;
@@ -14,7 +14,7 @@ public class ReportVO {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public ReportVO(String reportNo, String reportDate, int mainArticleNo,
+	public ReportVO(int reportNo, String reportDate, int mainArticleNo,
 			int subArticleNo, int reportAmount, String stagesOfProcess,
 			List<MainArticleVO> mainArticleVO) {
 		super();
@@ -26,10 +26,10 @@ public class ReportVO {
 		this.stagesOfProcess = stagesOfProcess;
 		this.mainArticleVO = mainArticleVO;
 	}
-	public String getReportNo() {
+	public int getReportNo() {
 		return reportNo;
 	}
-	public void setReportNo(String reportNo) {
+	public void setReportNo(int reportNo) {
 		this.reportNo = reportNo;
 	}
 	public String getReportDate() {

@@ -21,9 +21,14 @@ public class UtilServiceImpl implements UtilService{
 	}
 
 	@Override
+	/**
+	 * 반려한 신고글의 리스트를 삭제
+	 * @author 윤택
+	 */
 	public void deleteByNotify(ReportVO notifyVO) {
 		// TODO Auto-generated method stub
-		
+		reportDAO.deleteByReporter(notifyVO);
+		reportDAO.deleteByNotify(notifyVO);
 	}
 	@Override
 	public int notifyCount() {
@@ -50,6 +55,24 @@ public class UtilServiceImpl implements UtilService{
 	public List<ReportVO> subArticleReportList() {
 		// TODO Auto-generated method stub
 		return reportDAO.subArticleReportList();
+	}
+
+	@Override
+	/**
+	 * 신고한 회원들의 포인트를 지급해주는 메서드
+	 * @author 윤택
+	 */
+	public void memberPointUpdate(int reportNumber) {
+		// TODO Auto-generated method stub
+		List<String> list=reportDAO.reporterNames(reportNumber);
+		for(int i=0; i<list.size();i++){
+			reportDAO.memberPointUpdate(list.get(i));
+		}
+	}
+	@Override
+	public void stagesOfProcess (int reportNumber) {
+		// TODO Auto-generated method stub
+		reportDAO.stagesOfProcess(reportNumber);
 	}
 
 }

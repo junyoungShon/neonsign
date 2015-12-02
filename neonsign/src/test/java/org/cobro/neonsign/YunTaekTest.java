@@ -1,6 +1,6 @@
 package org.cobro.neonsign;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import javax.annotation.Resource;
 
@@ -45,6 +45,12 @@ public class YunTaekTest {
 
 	@Test
 	public void test(){
-			memberService.memberBlock("a@naver.com");
+		ReportVO nvo=new ReportVO();
+		nvo.setReportNo(7);
+		utilService.deleteByNotify(nvo);
+			/*ArrayList<String> list= (ArrayList<String>)reportDAO.reporterNames(7);
+			for(int i=0; i<list.size();i++){
+				System.out.println(list.get(i));
+			}*/
 	}
 }

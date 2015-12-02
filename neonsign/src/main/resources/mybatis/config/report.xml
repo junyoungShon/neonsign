@@ -64,6 +64,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	ma.MAIN_ARTICLE_EMAIL=bm.MEMBER_EMAIL and sa.SUB_ARTICLE_NO=r.SUB_ARTICLE_NO and
  	r.SUB_ARTICLE_NO is not null order by REPORT_NO desc
  	</select>
+ 	<select id="reporterNames" resultType="string">
+ 			select MEMBER_EMAIL from reporter where REPORT_NO=#{value}
+ 	</select>
+ 	<update id="memberPointUpdate">
+ 			update BRAIN_MEMBER SET MEMBER_POINT=MEMBER_POINT+10 
+		WHERE MEMBER_EMAIL=#{reportNo}
+ 	</update>
+ 	<update id="stagesOfProcess" >
+ 	update report set STAGES_OF_PROCESS='신고처리'  where REPORT_NO=#{value}
+ 	</update>
+ 	<delete id="deleteByReport" parameterType="reportVO">
+ 	delete REPORT where REPORT_NO=#{reportNo}
+ 	</delete>
+ 	<delete id="deleteByReporter" parameterType="reportVO">
+ 	delete REPORTER where REPORT_NO=#{reportNo}
+ 	</delete>
  </mapper> 		
  
  
