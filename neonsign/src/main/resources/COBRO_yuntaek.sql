@@ -1,4 +1,17 @@
+		select * from main_article m,  brain_member b   where
+		 m.MAIN_ARTICLE_NO=1
+		and b.MEMBER_EMAIL=m.MAIN_ARTICLE_EMAIL 
 		
+		    select max(SUB_ARTICLE_GRADE)+1 as SUB_ARTICLE_GRADE from sub_article where MAIN_ARTICLE_NO=1 and IS_CONNECT=1
+		--이어진글 쿼리
+		select * from sub_article sa , BRAIN_MEMBER bm 
+		where sa.MEMBER_EMAIL=bm.MEMBER_EMAIL and sa.MAIN_ARTICLE_NO=1 and sa.IS_CONNECT=1 order by sa.SUB_ARTICLE_GRADE asc
+		
+		--잇는글 쿼리
+		select * from sub_article sa, BRAIN_MEMBER bm 
+		where sa.MEMBER_EMAIL=bm.MEMBER_EMAIL and sa.MAIN_ARTICLE_NO=1 and  sa.SUB_ARTICLE_GRADE=1
+		
+		select max(SUB_ARTICLE_GRADE)+1 from sub_article where MAIN_ARTICLE_NO=1 and IS_CONNECT=1;
 	select * from REPORT r , MAIN_ARTICLE ma, SUB_ARTICLE sa, brain_member bm where
 	r.MAIN_ARTICLE_NO=ma.MAIN_ARTICLE_NO and ma.MAIN_ARTICLE_NO=sa.MAIN_ARTICLE_NO and
  	ma.MAIN_ARTICLE_EMAIL=bm.MEMBER_EMAIL 
@@ -34,4 +47,9 @@
 		
 		select * from MAIN_ARTICLE ma, BRAIN_MEMBER bm where 
 		MAIN_ARTICLE_NO=21 and  ma.MAIN_ARTICLE_EMAIL=bm.MEMBER_EMAIL
+		
+		    select *
+    from brain_member
+    where MEMBER_CATEGORY ='일반회원'
+    order by MEMBER_JOIN_DATE desc 
 		

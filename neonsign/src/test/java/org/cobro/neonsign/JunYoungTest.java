@@ -1,6 +1,6 @@
 package org.cobro.neonsign;
 
-import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -8,7 +8,6 @@ import org.cobro.neonsign.model.BoardDAO;
 import org.cobro.neonsign.model.BoardService;
 import org.cobro.neonsign.model.MemberService;
 import org.cobro.neonsign.vo.MainArticleVO;
-import org.cobro.neonsign.vo.TagVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -42,8 +41,7 @@ public class JunYoungTest {
 	@Test
 	public void test(){
 		MainArticleVO mavo=new MainArticleVO();
-		mavo.setMainArticleNo(4);
-		MainArticleVO vo=boardService.selectOneNotCompleteMainArticleByMainArticleNo(mavo);
-		System.out.println(vo);
+		mavo.setMainArticleNo(61);
+		Map<String,Object> map=boardService.selectOneNotCompleteMainArticleByMainArticleNo(mavo);
 	}
 }

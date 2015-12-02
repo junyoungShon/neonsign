@@ -8,7 +8,7 @@ public class MemberVO {
 	private String memberPassword;
 	private String memberJoinDate;
 	private int memberPoint;
-	private int memberNotifiedAmount;
+	private int memberReportAmount;
 	private String memberCategory;
 	private RankingVO rankingVO;
 	private List<ItjaMemberVO> itjaMemberList;
@@ -42,11 +42,11 @@ public class MemberVO {
 	public void setMemberPoint(int memberPoint) {
 		this.memberPoint = memberPoint;
 	}
-	public int getMemberNotifiedAmount() {
-		return memberNotifiedAmount;
+	public int getmemberReportAmount() {
+		return memberReportAmount;
 	}
-	public void setMemberNotifiedAmount(int memberNotifiedAmount) {
-		this.memberNotifiedAmount = memberNotifiedAmount;
+	public void setmemberReportAmount(int memberReportAmount) {
+		this.memberReportAmount = memberReportAmount;
 	}
 	public String getMemberCategory() {
 		return memberCategory;
@@ -68,7 +68,7 @@ public class MemberVO {
 	}
 	public MemberVO(String memberEmail, String memberNickName,
 			String memberPassword, String memberJoinDate, int memberPoint,
-			int memberNotifiedAmount, String memberCategory,
+			int memberReportAmount, String memberCategory,
 			RankingVO rankingVO, List<ItjaMemberVO> itjaMemberList) {
 		super();
 		this.memberEmail = memberEmail;
@@ -76,7 +76,7 @@ public class MemberVO {
 		this.memberPassword = memberPassword;
 		this.memberJoinDate = memberJoinDate;
 		this.memberPoint = memberPoint;
-		this.memberNotifiedAmount = memberNotifiedAmount;
+		this.memberReportAmount = memberReportAmount;
 		this.memberCategory = memberCategory;
 		this.rankingVO = rankingVO;
 		this.itjaMemberList = itjaMemberList;
@@ -90,8 +90,8 @@ public class MemberVO {
 		return "MemberVO [memberEmail=" + memberEmail + ", memberNickName="
 				+ memberNickName + ", memberPassword=" + memberPassword
 				+ ", memberJoinDate=" + memberJoinDate + ", memberPoint="
-				+ memberPoint + ", memberNotifiedAmount="
-				+ memberNotifiedAmount + ", memberCategory=" + memberCategory
+				+ memberPoint + ", memberReportAmount="
+				+ memberReportAmount + ", memberCategory=" + memberCategory
 				+ ", rankingVO=" + rankingVO + ", itjaMemberList="
 				+ itjaMemberList + "]";
 	}

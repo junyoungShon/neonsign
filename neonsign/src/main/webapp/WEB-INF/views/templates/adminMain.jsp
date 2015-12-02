@@ -15,24 +15,62 @@
 
 <!-- 회원 관리--> 
 
- <div role="tabpanel" class="tab-pane mainList" id="memberSecession" align="center" >
- 	<h3>회원가입리스트</h3>   
-<table border=2  class="table table-hover" id="memberAllList" align="center" >
-<thead align="center" >
-<tr class="success">
-<td>메일</td><td>닉네임</td><td>가입일</td><td>포인트</td><td>신고누적</td><td>Bolck</td>
-</tr>
-</thead>
-<tbody align="center" >
-<c:forEach items="${requestScope.list}" var="list" >
-<tr>
-<td>${list.memberEmail}</td><td>${list.memberNickName}</td><td>${list.memberJoinDate}</td>
-<td>${list.memberPoint }</td><td>${list.memberNotifiedAmount}</td>
-<td><input type="submit" value="Block" class="memberBlock"></td>
-</tr>
-</c:forEach>
-</tbody>
-</table>
+ <div role="tabpanel" class="tab-pane mainList" id="memberBlock" align="center" >
+ 	<h3>일반회원 리스트</h3>
+		<table border=2 class="table table-hover" id="memberAllList"
+			align="center">
+			<thead align="center">
+				<tr class="success">
+					<td>메일</td>
+					<td>닉네임</td>
+					<td>가입일</td>
+					<td>포인트</td>
+					<td>신고누적</td>
+					<td>서비스</td>
+				</tr>
+			</thead>
+			<tbody align="center">
+				<c:forEach items="${requestScope.adminList.memberList}" var="list">
+					<tr>
+						<td>${list.memberEmail}</td>
+						<td>${list.memberNickName}</td>
+						<td>${list.memberJoinDate}</td>
+						<td>${list.memberPoint }</td>
+						<td>${list.memberReportAmount}</td>
+						<td><input type="submit" value="서비스정지" class="memberBlock"></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
+
+<div role="tabpanel" class="tab-pane mainList" id="memberBlocked" align="center" >
+ 	<h3>불량회원 리스트</h3>
+<table border=2 class="table table-hover" id="memberAllList"
+			align="center">
+			<thead align="center">
+				<tr class="success">
+					<td>메일</td>
+					<td>닉네임</td>
+					<td>가입일</td>
+					<td>포인트</td>
+					<td>신고누적</td>
+					<td>서비스</td>
+				</tr>
+			</thead>
+			<tbody align="center">
+				<c:forEach items="${requestScope.adminList.blokcMemberList}" var="list">
+					<tr>
+						<td>${list.memberEmail}</td>
+						<td>${list.memberNickName}</td>
+						<td>${list.memberJoinDate}</td>
+						<td>${list.memberPoint }</td>
+						<td>${list.memberReportAmount}</td>
+						<td><input type="submit" value="서비스시작" class="memberService"></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>   
 </div>
 
 <!-- 게시물 신고 리스트 --> 

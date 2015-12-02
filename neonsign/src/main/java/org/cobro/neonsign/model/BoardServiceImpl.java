@@ -167,25 +167,33 @@ public class BoardServiceImpl implements BoardService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	  
 	@Override
 	/**
-	 * 해당 MainArticle 정보를 가져 오는 메서드
-	 * 	해당 MainArticle 정보 안에는 해당 MainArticle의 SubArticle의 정보 ,
-	 * 작성자의 정보가 담겨져 있고 SubArticle 정보 안에는 SubArticle의 작성자
-	 * 정보가 있음
+	 * 해당 MainArticle 의 정보와 
+	 * 이어진 글, 잇는글 목록을  가져 오는 메서드
+	 * 	
 	 * @author 윤택
 	 */
-	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleNo(
+	public Map<String, Object> selectOneNotCompleteMainArticleByMainArticleNo(
 			MainArticleVO mainArticleVO) {
-		System.out.println("Service selectOneNotCompleteMainArticleByMainArticleNo 실행됨");
+		//MainArticle의 정보를 가져온다 (주제글의 정보 , 작성자의 정보)		
 		MainArticleVO mainVO=boardDAO.selectOneNotCompleteMainArticleByMainArticleAndSubArticleNo(mainArticleVO);
-		if(mainVO==null){
-			mainVO= boardDAO.selectOneNotCompleteMainArticleByMainArticleNo(mainArticleVO);
-		}
-		if(mainVO.getSubArticleList().get(0).getSubArticleNo()==0){
-			mainVO.setSubArticleList(null);
-		}
-		return mainVO;
+		//현재의 스토리 단계를 받아 오는 메서드
+		SubArticleVO subArticleVO=new SubArticleVO();
+		subArticleVO.setMainArticleNo(mainArticleVO.getMainArticleNo());
+		int grade=boardDAO.selectSubArticleCurruntGrade(subArticleVO);
+		subArticleVO.setSubAtricleGrade(grade);
+		//MainArticl의 이어진 글을 받아오는 메서드 
+		ArrayList<SubArticleVO> likingSubArticleList=
+				(ArrayList<SubArticleVO>)boardDAO.likingSubArticleFindByMainArticleNo(subArticleVO);
+		//MainArticl의 잇는 글을 받아오는 메서드
+		ArrayList<SubArticleVO> subArticleVOList=(ArrayList<SubArticleVO>)boardDAO.selectListSubArticle(subArticleVO);
+		System.out.println("SubArticle 여부 : "+subArticleVOList);
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("mainArticleVO", mainVO);map.put("likingSubArticle", likingSubArticleList);map.put("subArticleVO", subArticleVOList);
+		return map;
 	}
 	@Override
 	public int insertSubArticle(SubArticleVO subArticleVO) {
@@ -233,6 +241,7 @@ public class BoardServiceImpl implements BoardService{
 	public List<ReportVO> mainArticleReportList() {
 		// TODO Auto-generated method stub
 		return utilService.mainArticleReportList();
+		
 	}
 	@Override
 	/**

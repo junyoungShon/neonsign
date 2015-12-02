@@ -43,15 +43,17 @@
       <!-- Header -->
       <tiles:insertAttribute name="header"/>
     </nav>
-    <span class="left">
- 	<!-- left -->
+     	<!-- left -->
+     <div class="leftList" style="margin-top: 45px;">
  	<br><br><br>
  	<tiles:insertAttribute name="left"/>
-  	</span>
- 	<span class="mainList">
+	</div>
+	
+ 	<div class="mainList">
  	<!-- main -->
  	<tiles:insertAttribute name="main"/>
-  	</span>
+  	</div>
+  	
     <div class="container footer">
     <tiles:insertAttribute name="footer"/>
     <!-- footer -->

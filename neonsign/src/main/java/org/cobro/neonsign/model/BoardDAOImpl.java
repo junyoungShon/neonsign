@@ -1,7 +1,9 @@
 package org.cobro.neonsign.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -125,6 +127,7 @@ public class BoardDAOImpl implements BoardDAO{
 	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleAndSubArticleNo(
 			MainArticleVO mainArticleVO) {
 		// TODO Auto-generated method stub
+		System.out.println("MainArticle받아오기 실행");
 				MainArticleVO main=null;
 				try{
 				main=sqlSessionTemplate.selectOne("board.selectOneNotCompleteMainArticleByMainArticleAndSubArticleNo",mainArticleVO);
@@ -166,12 +169,7 @@ public class BoardDAOImpl implements BoardDAO{
 		return null;
 	}
 
-	@Override
-	public List<SubArticleVO> selectListSubArticleBySubArticleGrade(
-			SubArticleVO subArticleVO) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public void articleDelete(MainArticleVO mavo) {
@@ -186,7 +184,6 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 	@Override
 	public List<MainArticleVO> getBestMainArticleVOListOrderByDate() {
-		System.out.println("DAOIMPL 희의");
 		List<MainArticleVO> list=null;
 		try{
 			list=sqlSessionTemplate.selectList("board.getBestMainArticleVOListOrderByDate");
@@ -341,5 +338,37 @@ public class BoardDAOImpl implements BoardDAO{
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectOne("board.selectItjaTotalCount", itjaMemberVO);
 	}
-	
+	/**
+	 * 해당 MainArticle의 이어진 SubArticle을 받아오는 메서드
+	 */
+	@Override
+	public List<SubArticleVO> likingSubArticleFindByMainArticleNo(SubArticleVO subArticleVO) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList("board.likingSubArticleFindByMainArticleNo",subArticleVO);
+	}
+	@Override
+	/**
+	 * MainArticle의 잇는 글을 받아오는 메서드
+	 * @param subArticleVO
+	 * @return
+	 */
+	public List<SubArticleVO> selectListSubArticle(
+			SubArticleVO subArticleVO) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList("board.selectListSubArticle",subArticleVO);
+	}
+	/**
+	 * 현재 Grade를 받아오는 메서드
+	 */
+	@Override
+	   public int selectSubArticleCurruntGrade(SubArticleVO subArticleVO) {
+		int grade=0;
+		System.out.println("selectSubArticleCurruntGrade 실행됨");
+			SubArticleVO gradeVO=sqlSessionTemplate.selectOne("board.selectSubArticleCurruntGrade",subArticleVO);
+			if(gradeVO!=null){//만약 Grade가 null이라면 0을 할당해준다
+				grade=gradeVO.getSubAtricleGrade();
+			}
+			System.out.println("selectSubArticleCurruntGrade : "+grade);
+	      return grade;
+	   }
 }

@@ -33,16 +33,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<collection property="memberVO" column="MEMBER_EMAIL"
 			ofType="memberVO" javaType="memberVO" resultMap="memberResultMap" />
 	</resultMap>
-<!-- Member ResultMap -->
-	<resultMap type="memberVO" id="memberResultMap">
-		<result property="memberEmail" column="MEMBER_EMAIL" />
-		<result property="memberNickName" column="MEMBER_NICKNAME" />
-		<result property="memberPassword" column="MEMBER_PASSWORD" />
-		<result property="memberJoinDate" column="MEMBER_JOIN_DATE" />
-		<result property="memberPoint" column="MEMBER_POINT" />
-		<result property="memberNotifiedAmount" column="MEMBER_NOTIFIED_AMOUNT" />
-	</resultMap>
- <!-- 9.reportVO resultMap  -->
+<!-- 3.memberVO resultMap -->
+   <resultMap type="memberVO" id="memberResultMap">
+      <result property="memberEmail" column="MEMBER_EMAIL" />
+      <result property="memberNickName" column="MEMBER_NICKNAME" />
+      <result property="memberPassword" column="MEMBER_PASSWORD" />
+      <result property="memberJoinDate" column="MEMBER_JOIN_DATE" />
+      <result property="memberPoint" column="MEMBER_POINT" />
+      <result property="memberReportAmount" column="MEMBER_NOTIFIED_AMOUNT" />
+      <result property="memberCategory" column="MEMBER_CATEGORY" />
+   </resultMap>
+ <!-- 9.reportVO resultMap -->
    <resultMap type="reportVO" id="reportResultMap">
       <result property="reportNo" column="REPORT_NO" />
       <result property="reportDate" column="REPORT_DATE" />

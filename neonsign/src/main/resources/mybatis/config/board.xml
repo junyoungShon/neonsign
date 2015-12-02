@@ -21,7 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<resultMap type="subArticleVO" id="subArticleResultMap">
 		<result property="subArticleNo" column="SUB_ARTICLE_NO" />
-		<result property="mainArticle" column="MAIN_ARTICLE_NO" />
+		<result property="mainArticleNo" column="MAIN_ARTICLE_NO" />
 		<result property="memberEmail" column="MEMBER_EMAIL" />
 		<result property="subAtricleGrade" column="SUB_ARTICLE_GRADE" />
 		<result property="subArticleContent" column="SUB_ARTICLE_CONTENT" />
@@ -33,14 +33,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			ofType="memberVO" javaType="memberVO" resultMap="memberResultMap" />
 	</resultMap>
 
-	<resultMap type="memberVO" id="memberResultMap">
-		<result property="memberEmail" column="MEMBER_EMAIL" />
-		<result property="memberNickName" column="MEMBER_NICKNAME" />
-		<result property="memberPassword" column="MEMBER_PASSWORD" />
-		<result property="memberJoinDate" column="MEMBER_JOIN_DATE" />
-		<result property="memberPoint" column="MEMBER_POINT" />
-		<result property="memberNotifiedAmount" column="MEMBER_NOTIFIED_AMOUNT" />
-	</resultMap>
+<!-- 3.memberVO resultMap -->
+   <resultMap type="memberVO" id="memberResultMap">
+      <result property="memberEmail" column="MEMBER_EMAIL" />
+      <result property="memberNickName" column="MEMBER_NICKNAME" />
+      <result property="memberPassword" column="MEMBER_PASSWORD" />
+      <result property="memberJoinDate" column="MEMBER_JOIN_DATE" />
+      <result property="memberPoint" column="MEMBER_POINT" />
+      <result property="memberReportAmount" column="MEMBER_NOTIFIED_AMOUNT" />
+      <result property="memberCategory" column="MEMBER_CATEGORY" />
+   </resultMap>
 	<!-- tag_board ResultMap private String tagName; private int mainArticleNo; -->
 	<resultMap type="tagBoardVO" id="tagBoardResultMap">
 		<result property="tagName" column="TAG_NAME" />
@@ -135,21 +137,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select tag_name,search_count from TAG order by search_count
 	</select>
 	<!-- 윤택 -->
-	
-	<!-- 주제글에 잇자글이 없을때  실행되는 쿼리문-->
-	<select id="selectOneNotCompleteMainArticleByMainArticleNo" parameterType="mainArticleVO" resultType="mainArticleVO"
-	resultMap="mainArticleResultMap" >
-	select * from MAIN_ARTICLE ma, BRAIN_MEMBER bm 
-	where MAIN_ARTICLE_NO=#{mainArticleNo} and  ma.MAIN_ARTICLE_EMAIL=bm.MEMBER_EMAIL
-	</select>
-	
-	<!-- 주제글에 잇자글-->
+
+	<!-- 주제글의 정보-->
 	<select id="selectOneNotCompleteMainArticleByMainArticleAndSubArticleNo" resultMap="mainArticleResultMap" 
 	parameterType="mainArticleVO" resultType="mainArticleVO">
-		select * from main_article m,  brain_member b,sub_article s  where
-		m.MAIN_ARTICLE_NO=s.MAIN_ARTICLE_NO and m.MAIN_ARTICLE_NO=#{mainArticleNo} 
-		and b.MEMBER_EMAIL=m.MAIN_ARTICLE_EMAIL order by s.SUB_ARTICLE_GRADE asc
+		select * from main_article m,  brain_member b   where
+		 m.MAIN_ARTICLE_NO=#{mainArticleNo} 
+		and b.MEMBER_EMAIL=m.MAIN_ARTICLE_EMAIL
 	</select>
+	<!-- 이어진 SubArticle을 select해줍니다 -->
+	<select id="likingSubArticleFindByMainArticleNo" resultType="subArticleVO" parameterType="subArticleVO" resultMap="subArticleResultMap">
+	select * from sub_article sa , BRAIN_MEMBER bm 
+		where sa.MEMBER_EMAIL=bm.MEMBER_EMAIL and sa.MAIN_ARTICLE_NO=#{mainArticleNo}
+		 and sa.IS_CONNECT=1 order by sa.SUB_ARTICLE_GRADE asc
+	</select>
+	
+	<!-- 잇는 SubArticle을 select해줍니다 -->
+	
+	<select id="selectListSubArticle" resultType="subArticleVO" parameterType="subArticleVO" resultMap="subArticleResultMap">
+		select * from sub_article sa, BRAIN_MEMBER bm 
+		where sa.MEMBER_EMAIL=bm.MEMBER_EMAIL 
+		and sa.MAIN_ARTICLE_NO=#{mainArticleNo} and  sa.SUB_ARTICLE_GRADE=#{subAtricleGrade}
+	</select>
+	
+	<!-- 현재 진행 중인 글의 현재 단계를 말해줍니다. -->
+   <select id="selectSubArticleCurruntGrade" resultMap="subArticleResultMap" resultType="subArticleVO"
+    parameterType="subArticleVO">
+      select max(SUB_ARTICLE_GRADE)+1 as SUB_ARTICLE_GRADE from sub_article where MAIN_ARTICLE_NO=#{mainArticleNo} and IS_CONNECT=1
+   </select>
 	
 	<!-- mainArticle을 Block처리 하는 메서드 -->
 	<update id="articleBlock" parameterType="mainArticleVO" >

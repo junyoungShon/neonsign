@@ -1,7 +1,9 @@
 package org.cobro.neonsign.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -66,6 +68,7 @@ public class MemberController {
 	@RequestMapping("memberLogin.neon")
 	public ModelAndView memberLogin(HttpServletRequest request, MemberVO memberVO){
 		memberVO=memberService.memberLogin(memberVO);
+		System.out.println("회원 정보 : "+ memberVO.getMemberCategory());
 		if(memberVO!=null){
 			List<ItjaMemberVO> list = itjaMemberBean.getItjaListByMemberEmail(memberVO);
 			//0,0번째 글은 존재하지 않는다. 잇자를 누른 글이 하나도 없어도 사용자의 이메일을 얻기 위함이다.
@@ -110,14 +113,14 @@ public class MemberController {
 	}
 	
 	/**
-	 * 관리자 페이지에서 회원가입멤버들 리스트를 출력
+	 * 관리자 페이지에서 일반&블락 회원멤버들 리스트를 출력
 	 * @author 한솔
 	 */
 	@RequestMapping("getMemberList.neon")
 	public ModelAndView getMemberList(HttpServletRequest request,MemberVO mvo){
 		ModelAndView mv = new ModelAndView();
-		List<MemberVO> list=memberService.getMemberList();
-		mv.addObject("list", list);
+		Map<String, ArrayList<MemberVO>> memberMap=memberService.getMemberList();//일반회원 리스트를 받아온다
+		mv.addObject("memberMap", memberMap);
 		mv.setViewName("forward:adminPageView.neon");
 		return mv;
 	}
@@ -129,6 +132,16 @@ public class MemberController {
 	public ModelAndView memberBlock(HttpServletRequest request){
 		String memberEmail=request.getParameter("memberEmail");
 		memberService.memberBlock(memberEmail);
+		return new ModelAndView("redirect:getMemberList.neon");
+	}
+	/**
+	 * 회원 이메일을 받아 그 회원을 블락해제 시키는 메서드
+	 * @author 윤택
+	 */
+	@RequestMapping("memberBlockRelease.neon")
+	public ModelAndView memberBlockRelease(HttpServletRequest request){
+		String memberEmail=request.getParameter("memberEmail");
+		memberService.memberBlockRelease(memberEmail);
 		return new ModelAndView("redirect:getMemberList.neon");
 	}
 }

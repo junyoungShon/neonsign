@@ -15,4 +15,6 @@ public interface MemberDAO {
 	public ArrayList<MemberVO> getNotifyMemberList(MemberVO mvo);
 	public List<MemberVO> getMemberList();
 	public void memberBlock(String memberEmail);
+	public List<MemberVO> getBlockMemberList();
+	public void memberBlockRelease(String memberEmail);
 }

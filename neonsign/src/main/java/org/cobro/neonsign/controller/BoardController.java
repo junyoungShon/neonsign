@@ -5,6 +5,7 @@ package org.cobro.neonsign.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -173,11 +174,12 @@ public class BoardController {
 	 */
 	@RequestMapping("adminPageView.neon")
 	public ModelAndView adminPageNotifyArticleList(HttpServletRequest request){
-		ArrayList<MemberVO>list=(ArrayList<MemberVO>)request.getAttribute("list");
-		List<ReportVO> mainReportList=boardService.mainArticleReportList();
-		List<ReportVO> subReportList=boardService.subArticleReportList();
+		Map<String, ArrayList<MemberVO>> memberMap=(Map<String, ArrayList<MemberVO>>)request.getAttribute("memberMap");
+		List<ReportVO> mainReportList=boardService.mainArticleReportList();//주제글 신고 리스트를 받아온다
+		List<ReportVO> subReportList=boardService.subArticleReportList();//잇는글 신고 리스트를 받아온다
 		HashMap<String,Object> map=new HashMap<String, Object>();//회원관리 리스트, 게시물 신고 리스트 를 map에 put 해준다
-		map.put("mainReportList", mainReportList); map.put("subReportList", subReportList); map.put("list",list);
+		map.put("mainReportList", mainReportList); map.put("subReportList", subReportList);
+		 map.put("memberList",(ArrayList<MemberVO>)memberMap.get("memberList"));  map.put("blokcMemberList",(ArrayList<MemberVO>)memberMap.get("blokcMemberList"));
 		return new ModelAndView("adminPageView","adminList",map);
 	}
 	/**Controller5
@@ -265,8 +267,10 @@ public class BoardController {
 		System.out.println(mainArticleVO);
 		HashMap<String, Object> map= memberBoardInfo(request);
 		if (mainArticleVO!=null) {
-			MainArticleVO mainArticle=boardService.selectOneNotCompleteMainArticleByMainArticleNo(mainArticleVO);
-			map.put("mainArticle", mainArticle);
+			Map<String,Object> mainArticle=boardService.selectOneNotCompleteMainArticleByMainArticleNo(mainArticleVO);
+			map.put("mainArticle", mainArticle.get("mainArticleVO"));
+			map.put("likingSubArticle", mainArticle.get("likingSubArticle"));
+			map.put("subArticleVO", mainArticle.get("subArticleVO"));
 		}
 		return map;
 	}

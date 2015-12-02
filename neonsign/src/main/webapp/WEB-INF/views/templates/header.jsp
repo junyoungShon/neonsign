@@ -9,7 +9,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">뇌  On Sign</a>
+         <a class="navbar-brand" href="#">뇌  On Sign</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
        			 <form class="navbar-form navbar-left" role="search" >
@@ -35,18 +35,27 @@
     			<li><a href="#" class="memberLogin"> 로그인</a></li>
     			<li><a href="#" class="memberJoinByEmailBtn"> 가입</a></li>
     		</c:when>
-  	 	 	<c:otherwise>
-  	 	 		<li><a href="#" class="">${sessionScope.memberVO.memberNickName} 님</a></li>
+  	 	 	<c:otherwise>		
+  	 	 		<c:choose>
+  	 	 		<c:when test="${sessionScope.memberVO.memberCategory eq '관리자'}">
+  	 	 			<li><a href="#" class="">${sessionScope.memberVO.memberNickName} 님</a></li>
+     			  	<li><a href="${initParam.root}getMemberList.neon" >관리자 페이지</a></li>
+     			  	<li><a href="${initParam.root}memberLogout.neon" id="logout">로그아웃</a></li> 	 	 		
+  	 	 		</c:when>
+  	 	 		<c:otherwise>
+  	 	 		<li><a href="#" class="">${sessionScope.memberVO.memberNickName} 님</a></li>	 	 	
   	 	 		<li><a href="#" class="memberupdate"> 회원정보수정</a></li>
   	 	 		<li><a href="${initParam.root}memberLogout.neon" id="logout">로그아웃</a></li>
-    			  <li><a href="#" class="writeMainArticle">글쓰기</a></li>
+    			  <li><a href="#" class="openModalInsertArticleForm">글쓰기</a></li>
+    			  </c:otherwise>		  
+    			  </c:choose>
   	 	 	</c:otherwise>
   	 	 </c:choose>
     		
     			  <!-- 완결글 보기를 누르면 추천순으로 정렬된다. -대협 -->
     			  <li><a href="${initParam.root}selectListCompleteMainArticleOrderByTotalLike.neon">완결 글 보기</a></li>
-    			  <li><a href="#" class="openModalInsertArticleForm">글쓰기</a></li>
-    			  <li><a href="${initParam.root}getMemberList.neon" >관리자 페이지</a></li>
+
+
      		</ul>
         </div><!--/.navbar-collapse -->
       </div>

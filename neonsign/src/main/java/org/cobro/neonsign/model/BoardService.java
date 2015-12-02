@@ -22,7 +22,7 @@ public interface BoardService {
 	public List<MainArticleVO> selectListCompleteMainArticleOrderByTotalLike();
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate();
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByTotalLike();
-	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO);
+	public Map<String, Object> selectOneNotCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO);
 	public List<MainArticleVO> selectListCompleteMainArticleOrderByDate();
 	public List<MainArticleVO> getBestMainArticleVOListOrderByDate();
 	public List<TagVO> getTagVOList();

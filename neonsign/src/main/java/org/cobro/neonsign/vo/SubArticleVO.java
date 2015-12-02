@@ -2,7 +2,7 @@ package org.cobro.neonsign.vo;
 
 public class SubArticleVO {
 	private int subArticleNo;
-	private int mainArticle;
+	private int mainArticleNo;
 	private String memberEmail;
 	private int subAtricleGrade;
 	private String subArticleContent;
@@ -14,13 +14,13 @@ public class SubArticleVO {
 	public SubArticleVO() {
 		super();
 	}
-	public SubArticleVO(int subArticleNo, int mainArticle, String memberEmail,
-			int subAtricleGrade, String subArticleContent, int isEnd,
-			int subArticleLike, int isConnect, String subArticleDate,
-			MemberVO memberVO) {
+	public SubArticleVO(int subArticleNo, int mainArticleNo,
+			String memberEmail, int subAtricleGrade, String subArticleContent,
+			int isEnd, int subArticleLike, int isConnect,
+			String subArticleDate, MemberVO memberVO) {
 		super();
 		this.subArticleNo = subArticleNo;
-		this.mainArticle = mainArticle;
+		this.mainArticleNo = mainArticleNo;
 		this.memberEmail = memberEmail;
 		this.subAtricleGrade = subAtricleGrade;
 		this.subArticleContent = subArticleContent;
@@ -36,11 +36,11 @@ public class SubArticleVO {
 	public void setSubArticleNo(int subArticleNo) {
 		this.subArticleNo = subArticleNo;
 	}
-	public int getMainArticle() {
-		return mainArticle;
+	public int getMainArticleNo() {
+		return mainArticleNo;
 	}
-	public void setMainArticle(int mainArticle) {
-		this.mainArticle = mainArticle;
+	public void setMainArticleNo(int mainArticleNo) {
+		this.mainArticleNo = mainArticleNo;
 	}
 	public String getMemberEmail() {
 		return memberEmail;
@@ -92,13 +92,14 @@ public class SubArticleVO {
 	}
 	@Override
 	public String toString() {
-		return "SubArticleVO [subArticleNo=" + subArticleNo + ", mainArticle="
-				+ mainArticle + ", memberEmail=" + memberEmail
-				+ ", subAtricleGrade=" + subAtricleGrade
+		return "SubArticleVO [subArticleNo=" + subArticleNo
+				+ ", mainArticleNo=" + mainArticleNo + ", memberEmail="
+				+ memberEmail + ", subAtricleGrade=" + subAtricleGrade
 				+ ", subArticleContent=" + subArticleContent + ", isEnd="
 				+ isEnd + ", subArticleLike=" + subArticleLike + ", isConnect="
 				+ isConnect + ", subArticleDate=" + subArticleDate
 				+ ", memberVO=" + memberVO + "]";
 	}
+
 	
 }

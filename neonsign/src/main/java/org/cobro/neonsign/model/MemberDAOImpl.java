@@ -77,5 +77,21 @@ public class MemberDAOImpl implements MemberDAO{
 		}
 		
 	}
+
+	@Override
+	/**
+	 * 불량회원 리스트를 받아오는 메서드
+	 */
+	public List<MemberVO> getBlockMemberList() {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList("member.blockMemberList");
+	}
+
+	@Override
+	public void memberBlockRelease(String memberEmail) {
+		// TODO Auto-generated method stub
+		System.out.println(memberEmail);
+		sqlSessionTemplate.update("member.memberBlockRelease",memberEmail);
+	}
 	
 }

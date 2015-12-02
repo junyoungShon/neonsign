@@ -96,13 +96,17 @@
 							<tbody id="mainSubArticle" >
 								
 							</tbody>
-					
-							</table>
 
-							<table class='subTable'>
+							<thead>
+							<tr class="success">
+								<td colspan="5">잇는글</td>
+							</tr>
+							</thead>
+							<tbody class='subTable'>
 							
-							
+							</tbody>
 						</table>
+						
 						<DIV class="itjaWriteForm">
 							<form action="" class="form-horizontal">
 								<textarea class="form-control" rows="10" placeholder="잇는글을 입력해주세요 ! (200자로 제한됩니다.)"></textarea>

@@ -160,23 +160,14 @@ $(document).ready(function(){ //DOM이 준비되고
 	$('.newItjaList').on('mousemove',$('.actions :button'),function(){
 		$('.actions :button').click(function(){
 			var mainArticleNO =$(this).parent().siblings().eq(5).val();
-			alert(mainArticleNO);
 			detailItjaView(mainArticleNO);
 		});
 	});
 	
 	//디테일 뷰 함수 정의
 	function detailItjaView(mainArticleNO){
-		//태그 목록 출력 : $(this).parent().siblings().eq(0).text() 
-		//타이틀 출력 :  $(this).parent().siblings().eq(1).text() 
-		//내용 출력 :  $(this).parent().siblings().eq(2).text() 
-		/*var tagLists = $(this).parent().siblings().eq(0).text() ;
-		var title = $(this).parent().siblings().eq(2).text();
-		var content = $(this).parent().siblings().eq(3).text() ;
-		var writersId =  $(this).parent().siblings().eq(4).text();
-		var mainArticleNO =  $(this).parent().siblings().eq(5).val();*/
 		var mainArticleTitleNO=$(":input[name=mainArticleNo1234]").val();
-		var subAtricleOrder="<tr class='warning'><td colspan='5'>잇는글</td></tr>";
+		var subAtricleOrder="";
 		$.ajax({
 			type:"post",
 			url:"selectOneNotCompleteMainArticleByMainArticleNo.neon",
@@ -235,65 +226,44 @@ $(document).ready(function(){ //DOM이 준비되고
 						'<div class="social-line social-line-visible" data-buttons="4"><button class="btn btn-social btn-pinterest">05:22<br>빨리!</button><button class="btn btn-social btn-twitter itja">'+
 						'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.mainArticle.mainArticleTotalLike+'it</span></button>'
 						+'<button class="btn btn-social btn-google"><i class="fa fa-heart-o"></i><br>찜하자!</button>'
-						+'<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button><div>'
+						+'<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button><div>';
 				}
 				//모달 창 하단에 찜하기,타임체크,잇자 , 공유버튼이 있다.
 				$('.utilInDetailModal').html(modalFooterLikeHTML);
-				
+				//
 				$('.subTable').html("");
 					var subAtricleGrade=0;
 					var mainArticle="";
+					//작성자가 쓴 주제글이 맨위로 넘어 온다
 					$('.mainCardDetailViewContentNo').text(0);
 					$('.mainCardDetailViewContent').text(data.mainArticle.mainArticleContent);
 					$('.mainWritersNickNameAtDetail').text(data.mainArticle.memberVO.memberNickName);
-					$('.mainLikeIt').html(mainLikeItHTML);
-					
-				if(data.subArticleList==null){
+					$('.mainLikeIt').html(mainLikeItHTML);	
+					//이어진 글들은 작성자가 쓴 주제글 밑에 넘어간다
+				for(var i=0; i<data.likingSubArticle.length;i++){
+					mainArticle=mainArticle+"<tr><td>"+(i+1)+"</td>"+
+					"<td>"+data.likingSubArticle[i].subArticleContent+"</td>"+
+					"<td>"+data.likingSubArticle[i].memberVO.memberNickName+"</td>"+
+					"<td>"+mainLikeItHTML+"</td><td>신고</td><tr>";
+				}
+				$('#mainSubArticle').html(mainArticle);//이어진 글 할당
+				//잇는글은 주제글 아래에 있는 잇는글 전용 테이블에 할당된다
+				if(data.subArticleVO.length==0){
+					$('.subTable').html("<tr><td colspan='5'>작성한 잇는글이 없습니다</td></tr>");
 				}else{
-					//작성자가 쓴 주제글이 맨위로 넘어 온다
-				for(var j=0; j<data.mainArticle.subArticleList.length;j++){
-					if(data.mainArticle.subArticleList[j].subAtricleGrade>subAtricleGrade){
-						subAtricleGrade=data.mainArticle.subArticleList[j].subAtricleGrade;
+					for(var i=0; i<data.subArticleVO.length;i++){
+						subAtricleOrder=subAtricleOrder+"<tr><td>"+(i+1)+"</td><td>"+
+						data.subArticleVO[i].subArticleContent+"</td><td>"+
+						data.subArticleVO[i].memberVO.memberNickName+"</td><td>"+
+						mainLikeItHTML+"<br>"+data.subArticleVO[i].subArticleLike+" it"+
+						"</td><td>신고</td></tr>";
 					}
-				}//현재 주제글의 잇는글들의 subAtricleGrade의 Max값을 찾는 for문 
-					
-					/* *주제글에 잇는글이 들어갈때의 조건
-					 *최대 subAtricleGrade은 주제글에 X
-					 *똑같은 subAtricleGrade는 주제글에 넣지 않고 하나만 넣는다*/
-				var check=-1;
-				for(var s=0; s<data.mainArticle.subArticleList.length;s++){
-					if(check!=data.mainArticle.subArticleList[s]){
-					if(data.mainArticle.subArticleList[s].subAtricleGrade<subAtricleGrade){
-						mainArticle=mainArticle+"<tr><td width='5%'>"+(s+1)+"</td><td width='75%'>" +
-						data.mainArticle.subArticleList[s].subArticleContent+"</td><td width='10%'>"+
-						data.mainArticle.subArticleList[s].memberVO.memberNickName+"</td><td width='5%'>잇자!<br>"+
-						data.mainArticle.subArticleList[s].subArticleLike+"</td>"+
-						"<td width='5%'>신고</td></tr>";
-						check=data.mainArticle.subArticleList[s].subAtricleGrade;
-						}else{}
-					}else{}
+					$('.subTable').html(subAtricleOrder);
 				}
-
-				$("#mainSubArticle").html(mainArticle);
-				}
-			for(var i=0; i<data.mainArticle.subArticleList.length; i++){
-				if(data.mainArticle.subArticleList[i].subAtricleGrade==subAtricleGrade){
-					subAtricleOrder=subAtricleOrder+
-							"<tr><td class=' subCardDetailViewContentNo' width=' 5%' >"+(i+1)+"</td>"+
-							"<td class=' subCardDetailViewContent'  width=' 80%' >"+data.mainArticle.subArticleList[i].subArticleContent+"</td>"+
-							"<td class=' subWritersNickNameAtDetail'  width=' 10%' >"+data.mainArticle.subArticleList[i].memberVO.memberNickName+"</td>"+
-							"<td class=' subLikeIt'  width=' 5%' >잇자!<br>"+data.mainArticle.subArticleList[i].subArticleLike+"</td>"+
-							"<td class=' reportIt'  width=' 5%' >신고</td>"+
-						"</tr>";		
-	
-				}
-			}
-			$('.subTable').html(subAtricleOrder);
+			
 			}
 
 		});
-		$('#cardDetailView .modal-title').text(title);
-		$('.cardDetailViewContent').text(content);
 	}
 	//끌
 	// 모달 창 안에서 잇자 버튼 클릭 시
@@ -515,12 +485,10 @@ $(document).ready(function(){ //DOM이 준비되고
 	 * 미완성 모달 창이 열리는 순간 회원가입 유효성 검증 시작
 	 */
 	$('#memberJoinByEmailModal').on('show.bs.modal', function () {
-			// 모든 입력 폼 마다 플래그를 줄 수 밖에 없는 건 내가 병신이라 그렇다.
 			var userMailFlag = false;
 			var userNameFlag = false;
 			var userPassFlag = false;
 			var userRePassFlag = false;
-			
 			/**
 			 * - Ajax방식의 중복검사 추가해야함
 			 */
@@ -688,18 +656,7 @@ $(document).ready(function(){ //DOM이 준비되고
 		  e.preventDefault()
 		  $(this).tab('show')
 		})
-	/**
-	 * 고정 스크롤
-	 */
-	var jbOffset = $( '.rimocon' ).offset();
-    $( window ).scroll( function() {
-      if ( $( document ).scrollTop() > jbOffset.top ) {
-        $( '.rimocon' ).addClass( 'jbFixed' );
-      }
-      else {
-        $( '.rimocon' ).removeClass( 'jbFixed' );
-      }
-    });
+
     /**
      * 관리자가 회원리스트에서 해당 회원을
      * Block 하는 스크립트
@@ -712,7 +669,18 @@ $(document).ready(function(){ //DOM이 준비되고
     	}
 		return false;
 	});
-
+    /**
+    * 관리자가 회원리스트에서 해당 회원을
+    * Block해제 하는 스크립트
+    */
+   $('.memberService').click(function () {
+   	var memberEmail=$(this).parent().parent().children().eq(0).text();
+   	var falg=confirm("해당 회원을 Block해제 하시겠습니까?");
+   	if(falg){
+   		document.location.href = "memberBlockRelease.neon?memberEmail="+memberEmail;
+   	}
+		return false;
+	});
     /**
 	 * 관리자가 신고리스트에서 
 	 * 신고처리를 하는 스크립트

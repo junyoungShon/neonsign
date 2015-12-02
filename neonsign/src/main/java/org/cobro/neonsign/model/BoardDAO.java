@@ -33,7 +33,7 @@ public interface BoardDAO {
 	public void deleteSubArticle(SubArticleVO subArticleVO);
 	public List<SubArticleVO> selectListSubArticleByMainArticleNo(SubArticleVO subArticleVO);
 	public List<SubArticleVO> selectListSubArticleByIsConnect(SubArticleVO subArticleVO);
-	public List<SubArticleVO> selectListSubArticleBySubArticleGrade(SubArticleVO subArticleVO);
+	public List<SubArticleVO> selectListSubArticle(SubArticleVO subArticleVO);
 	public void articleDelete(MainArticleVO mavo);
 	public Object boardCount();
 	
@@ -56,4 +56,7 @@ public interface BoardDAO {
 	public void articleBlock(MainArticleVO mavo);
 	public void subArticleBlock(int subArticleNumber);
 	public int selectItjaTotalCount(ItjaMemberVO itjaMemberVO);
+	int selectSubArticleCurruntGrade(SubArticleVO subArticleVO);
+	public List<SubArticleVO> likingSubArticleFindByMainArticleNo(
+			SubArticleVO subArticleVO);
 }

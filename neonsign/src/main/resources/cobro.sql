@@ -153,8 +153,8 @@ constraint fk_sub_article foreign key(MEMBER_EMAIL) references brain_member(MEMB
  * 잇자글 번호 : 현재 시퀀스 넘버 ,
  * 스토리 단계 0 , 잇자 글 내용 :  그 머리는 똥이었지 , 잇자여부 : 0 , 잇자 수 : 0 , 스토리 여부 : 0 , 작성일 : 현재 날짜
  */
-insert into sub_article (MAIN_ARTICLE_NO, SUB_ARTICLE_NO, MEMBER_EMAIL,SUB_ARTICLE_CONTENT,IS_CONNECT,SUB_ARTICLE_DATE) 
-values(1,sub_article_seq.nextval,'a@naver.com','그 머리는 똥이었지', 0 , sysdate);
+insert into sub_article (MAIN_ARTICLE_NO, SUB_ARTICLE_NO, MEMBER_EMAIL,SUB_ARTICLE_CONTENT,SUB_ARTICLE_GRADE,IS_CONNECT,SUB_ARTICLE_DATE) 
+values(61,sub_article_seq.nextval,'a@naver.com','얏호 기분좋다', 1,1 , sysdate);
 
 insert into sub_article (MAIN_ARTICLE_NO,SUB_ARTICLE_NO,MEMBER_EMAIL,SUB_ARTICLE_CONTENT,IS_CONNECT,SUB_ARTICLE_DATE) 
 values(1,sub_article_seq.nextval,'a@naver.com','머리로 하는 일', 0 , sysdate);
