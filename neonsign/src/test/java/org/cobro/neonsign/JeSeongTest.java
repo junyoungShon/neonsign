@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.cobro.neonsign.model.BoardDAO;
 import org.cobro.neonsign.model.BoardService;
@@ -12,6 +13,7 @@ import org.cobro.neonsign.model.MemberDAO;
 import org.cobro.neonsign.model.MemberService;
 import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.MemberVO;
+import org.cobro.neonsign.vo.PickedVO;
 import org.cobro.neonsign.vo.RankingVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,12 +48,38 @@ public class JeSeongTest {
 	
 	@Test
 	public void test(){
+		PickedVO pvo = new PickedVO();
 		String memberEmail = "a@naver.com";
+		int mainArticleNo = 3;
+		pvo.setMainArticleNo(mainArticleNo);
+		pvo.setMemberEmail(memberEmail);
+		System.out.println("넘어오는 찜 정보 : " + pvo);
+		System.out.println("2 : " + memberDAO.selectPickedVO(pvo));
+		
+		
+		/*String updateMsg = memberService.updatePickedVO(pvo);
+		System.out.println(updateMsg);*/
+		/*List<PickedVO> pickList = memberService.getPickListByMemberEmail(pvo.getMemberEmail());
+		System.out.println("2. pickList : " + pickList);*/
+		// memberDAO.pickCount(pvo);
+		/*PickedVO
+		String updateMsg = memberService.updatePickedVO(pvo);
+		// System.out.println(updateMsg);
+		HttpSession session = request.getSession();
+		List<PickedVO> pickList = memberService.getPickListByMemberEmail(pvo.getMemberEmail());
+		// System.out.println("cont pickList : " + pickList);
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		memberVO.setPickedVOList(pickList);
+		//System.out.println(memberVO);
+		session.setAttribute("memberVO", memberVO);
+		System.out.println(updateMsg);*/ 
+		
+		/*String memberEmail = "a@naver.com";
 		MemberVO memberVO = new MemberVO();
-		memberVO.setMemberEmail(memberEmail);
+		memberVO.setMemberEmail(memberEmail);*/
 		// List<MainArticleVO> mainArticleVOList = boardDAO.getJoinMainArticleNoByEmail(memberVO);
 		// System.out.println(memberVO);
-
+		
 
 		/*ArrayList<Integer> joinMainArticleNoList = (ArrayList<Integer>) boardDAO.getJoinMainArticleNoByEmail(memberVO);
 		HashSet hs = new HashSet(joinMainArticleNoList);

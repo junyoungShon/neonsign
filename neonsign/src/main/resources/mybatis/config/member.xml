@@ -68,7 +68,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	update brain_member set MEMBER_CATEGORY='일반회원' where MEMBER_EMAIL=#{value}
     </update>
     
-    
+    	<!-- 찜여부 확인 -->
+	<select id="selectPickedVO" resultMap ="pickedResultMap">
+		select MEMBER_EMAIL,MAIN_ARTICLE_NO from PICKED_ARTICLE 
+		where MEMBER_EMAIL = #{memberEmail} and MAIN_ARTICLE_NO=#{mainArticleNo}
+	</select>
+	<!-- 찜추가 -->
+	<insert id="insertPickedVO" parameterType="pickedVO">
+		insert into picked_article(MEMBER_EMAIL,MAIN_ARTICLE_NO) values(#{memberEmail},#{mainArticleNo})
+	</insert>
+	<!-- 찜 삭제 -->
+	<delete id="deletePickedVO" parameterType="pickedVO">
+		delete picked_article where MEMBER_EMAIL = #{memberEmail} and MAIN_ARTICLE_NO = #{mainArticleNo}
+	</delete>
+	<!-- session에 있는 login정보에 pickedVO를 update 해주기 위해 조회 -->
+	<select id="getPickListByMemberEmail" resultMap="pickedResultMap">
+		select MEMBER_EMAIL,MAIN_ARTICLE_NO from PICKED_ARTICLE 
+		where MEMBER_EMAIL = #{memberEmail}
+	</select>
     
     
     
