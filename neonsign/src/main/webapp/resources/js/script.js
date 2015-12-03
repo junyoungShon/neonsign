@@ -1,25 +1,46 @@
 $(document).ready(function(){ //DOM이 준비되고
-	
 	//타이머
 	window.setInterval(function(){
-		//현재 시간	
-		var currunt_date = new Date();
-		var currunt_timestamp = Math.floor(currunt_date.getTime()/1000)
-		//완결 시간(서버에서 ajax로 완결시간을 받아와야함)
-		var update_date = new Date(2015, 11-1, 25, 16, 43, 00);
-		var update_date_timestamp = Math.floor(update_date.getTime()/1000);
-		//투표 마감 시간(10분)
-		var close_timestamp = update_date_timestamp+600;
-		//
-		var remind_timestamp = close_timestamp-currunt_timestamp
-		var remind_minutes = Math.floor(remind_timestamp/60);
-		var remind_seconds = remind_timestamp%60;
-		if(remind_minutes >= 1) {
-			$('#time_area').text(remind_minutes+':'+remind_seconds+'<br>빨리!');
-		} else {
-			$('#time_area').text('00:'+remind_seconds+'<br>빨리!');
-		}
-		if(remind_minutes<0){
+		//날짜 형식
+		// 2015-12-03 13:05:17
+		var updateDates = $('.updateDate');
+		for(var i=0;i<updateDates.length;i++){
+			//현재 시간	
+			var currunt_date = new Date();
+			var currunt_timestamp = Math.floor(currunt_date.getTime()/1000)
+			var updateYear = $(updateDates[i]).val().substring(0,4);
+			var updateMonth = $(updateDates[i]).val().substring(5,7);
+			var updateDay =$(updateDates[i]).val().substring(8,10);
+			var updateHour=$(updateDates[i]).val().substring(11,13);;
+			var updateMinute =$(updateDates[i]).val().substring(14,16);
+			var second= $(updateDates[i]).val().substring(17,19);
+			//완결 시간(서버에서 최종 수정시간을  받아와옴)
+			var update_date = new Date(updateYear, (updateMonth-1), updateDay, updateHour, updateMinute, second);
+			var update_date_timestamp = Math.floor(update_date.getTime()/1000);
+			//투표 마감 시간(10분)
+			var close_timestamp = update_date_timestamp+20;
+			//
+			var remind_timestamp = close_timestamp-currunt_timestamp
+			var remind_minutes = Math.floor(remind_timestamp/60);
+			var remind_seconds = remind_timestamp%60;
+			if(remind_minutes >= 1) {
+				$('.time_area').eq(i).html(remind_minutes+':'+remind_seconds+'<br>빨리!');
+			} else {
+				$('.time_area').eq(i).html('00:'+remind_seconds+'<br>빨리!');
+			}
+			if(remind_minutes<0){
+				$().toasty("I am just a message..");
+				var msg = "You are about to do the Harlem Shake. "+
+		          "Do you want to continue?<br/><br/>"+
+		          "<center><button class='closeToast' "+
+		          "onclick='doTheHarlemShake();'>Ok</button> "+
+		          "<button class='closeToast'>Cancel</button>";
+				$().toasty({
+				    autoHide: 3000,
+				    message: msg,
+				    modal: true
+				});
+			}
 		}
 	}, 1000);
 	
@@ -369,9 +390,7 @@ $(document).ready(function(){ //DOM이 준비되고
 				$('form[action="auth_writeSubArticle.neon"]').html(subArticleWriteFormHTML);
 				$('#cardDetailView .modal-title').text(data.mainArticle.mainArticleTitle);
 				$('.mainLikeIt').html(mainLikeItHTML);	
-				
-				
-				//
+
 				$('.subTable').html("");
 					var subAtricleGrade=0;
 					var mainArticle="";
@@ -405,7 +424,6 @@ $(document).ready(function(){ //DOM이 준비되고
 							+'"><input type="hidden" name="subArticleNo" value='+data.likingSubArticle[i].subArticleNo+'></form>'
 						}
 					}
-					
 					if(mainLikeItHTML==""){
 						mainLikeItHTML = 
 							'<button class="btn btn-social btn-twitter itja">'+
@@ -416,10 +434,8 @@ $(document).ready(function(){ //DOM이 준비되고
 					"<td>"+data.likingSubArticle[i].memberVO.memberNickName+"</td>"+
 					"<td>"+mainLikeItHTML+"</td><td>신고</td><tr>";
 				}
-				
 				$('#mainSubArticle').html(mainArticle);//이어진 글 할당
 				//잇는글은 주제글 아래에 있는 잇는글 전용 테이블에 할당된다
-				
 				var mainLikeItHTML = "";
 				if(data.subArticleVO.length==0){
 					$('#subTable').html("<tr><td colspan='5'>작성한 잇는글이 없습니다</td></tr>");
@@ -447,7 +463,6 @@ $(document).ready(function(){ //DOM이 준비되고
 								+'"><input type="hidden" name="subArticleNo" value='+data.subArticleVO[i].subArticleNo+'></form>'
 							}
 						}
-						
 						if(mainLikeItHTML==""){
 							mainLikeItHTML = 
 								'<button class="btn btn-social btn-twitter itja">'+
@@ -461,9 +476,7 @@ $(document).ready(function(){ //DOM이 준비되고
 					}
 					$('#subTable').html(subAtricleOrder);
 				}
-			
 			}
-
 		});
 	}
 	
@@ -577,7 +590,7 @@ $(document).ready(function(){ //DOM이 준비되고
 	$('#subTable').on('click','.itja',function(){
 		alert('4');
 		alert($(this).html());
-		var formData =  $($(this).next()).serialize();
+		var formData =  $(this).next().serialize();
 		//var formData =  $('form[name="itJaInfo"]').serialize();
 		var itjaCountSpan = $(this).children('.itjaCount');
 		$.ajax({

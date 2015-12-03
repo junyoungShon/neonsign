@@ -31,6 +31,9 @@
  <link href="${initParam.root}resources/css/main.css" rel="stylesheet"/> 
  <!-- 아이콘 만들기 api font-awesome -->
  <link href="${initParam.root}resources/css/font-awesome.min.css" rel="stylesheet" />
+ 
+ <!-- 잇자 또는 공지를 사이트 측면에서 띄워주는 간이모달 CSS -->
+ <link rel="stylesheet" type="text/css" href="${initParam.root}resources/css/toasty.css">
  <style>
         
     </style>
@@ -63,6 +66,8 @@
 <!-- 부트 스트랩 사용을 위한 하단 설정 완료 -->
 <!-- 힙스터 카드 js 파일 -->
 <script src="${initParam.root}resources/js/hipster-cards.js"></script>
+ <!-- 잇자 또는 공지를 사이트 측면에서 띄워주는 간이모달 js -->
+<script src="${initParam.root}resources/js/toasty.js"></script>
 <script type="text/javascript">
 </script>
 
