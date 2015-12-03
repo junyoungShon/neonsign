@@ -125,7 +125,7 @@
 	<!-- 태그 소트 버튼 부분 -->
 	   <div class="container tags-container">
 	   <c:forEach items="${requestScope.tagVOList}" var="tagList">
-	      <span><a href="arrayNewMainArticle.do?tagName=${tagList.tagName}">#${tagList.tagName}</a></span>
+	      <span>#${tagList.tagName}</span>
 	   </c:forEach>
 	   </div>
    <!--  태그 소트 버튼 끝 -->   

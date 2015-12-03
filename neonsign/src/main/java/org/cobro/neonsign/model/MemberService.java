@@ -16,4 +16,5 @@ public interface MemberService {
 	public Map<String, ArrayList<MemberVO>> getMemberList();
 	public void memberBlock(String memberEmail);
 	public void memberBlockRelease(String memberEmail);
+	public MemberVO defaultMemberLogin(MemberVO memberVO);
 }

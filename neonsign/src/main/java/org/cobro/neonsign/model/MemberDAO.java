@@ -17,4 +17,5 @@ public interface MemberDAO {
 	public void memberBlock(String memberEmail);
 	public List<MemberVO> getBlockMemberList();
 	public void memberBlockRelease(String memberEmail);
+	public MemberVO defaultMemberLogin(MemberVO memberVO);
 }

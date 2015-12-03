@@ -67,8 +67,11 @@ public class MemberController {
 	}
 	@RequestMapping("memberLogin.neon")
 	public ModelAndView memberLogin(HttpServletRequest request, MemberVO memberVO){
+		MemberVO memberVO1 = memberVO;
 		memberVO=memberService.memberLogin(memberVO);
-		System.out.println("회원 정보 : "+ memberVO.getMemberCategory());
+		if(memberVO==null){
+			memberVO=memberService.defaultMemberLogin(memberVO1);
+		}
 		if(memberVO!=null){
 			List<ItjaMemberVO> list = itjaMemberBean.getItjaListByMemberEmail(memberVO);
 			//0,0번째 글은 존재하지 않는다. 잇자를 누른 글이 하나도 없어도 사용자의 이메일을 얻기 위함이다.
