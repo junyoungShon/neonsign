@@ -108,11 +108,13 @@
 								<td colspan="5">잇는글</td>
 							</tr>
 							</thead>
-							<tbody class='subTable'>
+							<tbody id='subTable'>
 							
 							</tbody>
 						</table>
+						<div class="utilInDetailModal">
 						
+						</div>
 					
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

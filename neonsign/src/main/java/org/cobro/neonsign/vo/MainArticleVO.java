@@ -12,7 +12,8 @@ public class MainArticleVO {
 	private int mainArticleLike;
 	private int mainArticleTotalLike;
 	private String mainArticleDate;
-	private String mainArticleCompleteDate;
+	private String mainArticleUpdateDate;
+	private String mainArticleComplete;
 	//MainArticleVO는 MemberVO와 SubArticleVO를 가진다.
 	private MemberVO memberVO;
 	private List<SubArticleVO> subArticleList;
@@ -25,8 +26,9 @@ public class MainArticleVO {
 	public MainArticleVO(int mainArticleNo, String memberEmail,
 			String mainArticleTitle, String mainArticleContent,
 			int mainArticleHIt, int mainArticleLike, int mainArticleTotalLike,
-			String mainArticleDate, String mainArticleCompleteDate,
-			MemberVO memberVO, List<SubArticleVO> subArticleList,
+			String mainArticleDate, String mainArticleUpdateDate,
+			String mainArticleComplete, MemberVO memberVO,
+			List<SubArticleVO> subArticleList,
 			ArrayList<ArrayList<TagBoardVO>> tagBoardVOList, String tagName) {
 		super();
 		this.mainArticleNo = mainArticleNo;
@@ -37,7 +39,8 @@ public class MainArticleVO {
 		this.mainArticleLike = mainArticleLike;
 		this.mainArticleTotalLike = mainArticleTotalLike;
 		this.mainArticleDate = mainArticleDate;
-		this.mainArticleCompleteDate = mainArticleCompleteDate;
+		this.mainArticleUpdateDate = mainArticleUpdateDate;
+		this.mainArticleComplete = mainArticleComplete;
 		this.memberVO = memberVO;
 		this.subArticleList = subArticleList;
 		this.tagBoardVOList = tagBoardVOList;
@@ -91,11 +94,17 @@ public class MainArticleVO {
 	public void setMainArticleDate(String mainArticleDate) {
 		this.mainArticleDate = mainArticleDate;
 	}
-	public String getMainArticleCompleteDate() {
-		return mainArticleCompleteDate;
+	public String getMainArticleUpdateDate() {
+		return mainArticleUpdateDate;
 	}
-	public void setMainArticleCompleteDate(String mainArticleCompleteDate) {
-		this.mainArticleCompleteDate = mainArticleCompleteDate;
+	public void setMainArticleUpdateDate(String mainArticleUpdateDate) {
+		this.mainArticleUpdateDate = mainArticleUpdateDate;
+	}
+	public String getMainArticleComplete() {
+		return mainArticleComplete;
+	}
+	public void setMainArticleComplete(String mainArticleComplete) {
+		this.mainArticleComplete = mainArticleComplete;
 	}
 	public MemberVO getMemberVO() {
 		return memberVO;
@@ -130,9 +139,11 @@ public class MainArticleVO {
 				+ ", mainArticleLike=" + mainArticleLike
 				+ ", mainArticleTotalLike=" + mainArticleTotalLike
 				+ ", mainArticleDate=" + mainArticleDate
-				+ ", mainArticleCompleteDate=" + mainArticleCompleteDate
+				+ ", mainArticleUpdateDate=" + mainArticleUpdateDate
+				+ ", mainArticleComplete=" + mainArticleComplete
 				+ ", memberVO=" + memberVO + ", subArticleList="
 				+ subArticleList + ", tagBoardVOList=" + tagBoardVOList
 				+ ", tagName=" + tagName + "]";
 	}
+	
 }

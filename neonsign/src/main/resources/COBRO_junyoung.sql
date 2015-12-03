@@ -21,3 +21,10 @@ sysdate, to_date('2015/11/20 13:51:40',  'yyyy/mm/dd hh24:mi:ss'),1);
 		select * from sub_article
 		select max(SUB_ARTICLE_GRADE)+1 as SUB_ARTICLE_GRADE from sub_article where MAIN_ARTICLE_NO=46 and IS_CONNECT=1
 		select count(*) from sub_article where member_email = 'qqqq@qqqq.eee' and SUB_ARTICLE_GRADE =4 and main_article_no = 46
+		
+		
+		select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
+	ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_date, 
+	to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_MAIN_ARTICLE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME
+	from main_article ma, brain_member bm
+	where bm.MEMBER_EMAIL = ma.MAIN_ARTICLE_EMAIL and ma.MAIN_ARTICLE_COMPLETE=-1 order by ma_date desc

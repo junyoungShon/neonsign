@@ -19,7 +19,8 @@ constraint fk_itJa_Main_Article_NO foreign key(MAIN_ARTICLE_NO) references main_
 constraint fk_itJa_MEMBER_EMAIL foreign key(MEMBER_EMAIL) references brain_member(MEMBER_EMAIL),
 constraint pk_tag_ITJA_MEMBER primary key(MAIN_ARTICLE_NO,SUB_ARTICLE_NO,MEMBER_EMAIL)
 )
-
+drop table itja_member
+drop table brain_member
 --**회원 데이터 베이스**
 create table brain_member(
 MEMBER_EMAIL varchar2(50) primary key,
@@ -31,6 +32,7 @@ MEMBER_NOTIFIED_AMOUNT number default 0,
 MEMBER_CATEGORY varchar2(30) not null
 )
 drop table brain_member;
+select * from brain_member
 /*
  * 이메일 : ygoyo@naver.com , 닉네임 : 갓파 , 패스워드 : 1234 ,
  * 가입 날짜 : 현재 날짜 , 포인트 : 0 , 신고수 : 0 , 회원 등급 : 돌

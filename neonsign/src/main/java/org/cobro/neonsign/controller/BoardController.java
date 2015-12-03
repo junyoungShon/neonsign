@@ -125,7 +125,6 @@ public class BoardController {
 	@ResponseBody
 	public HashMap<String,Integer> itjaClick(HttpServletRequest request,ItjaMemberVO itjaMemberVO){
 		HttpSession session = request.getSession(false);
-		System.out.println(itjaMemberVO);
 		if(session!=null){
 			MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 			boolean flag = false;
@@ -153,7 +152,9 @@ public class BoardController {
 			}
 			session.setAttribute("memberVO",memberVO);
 		}
-		return boardService.selectItjaState(itjaMemberVO);
+		HashMap<String, Integer> map = boardService.selectItjaState(itjaMemberVO);
+		System.out.println(map);
+		return map;
 	}
 	/**Controller2
 	 * 사용자가 주제글을 수정하고자 할때 사용한다.

@@ -51,11 +51,9 @@ public class ItjaMemberBean {
 				boardDAO.updateMainPlusTotalItjaHit(itjaMemberVO);
 			}else{
 				boardDAO.insertSubItjaMember(itjaMemberVO);
-				boardDAO.updateMainPlusItjaHit(itjaMemberVO);
 				boardDAO.updateSubPlusItjaHit(itjaMemberVO);
 				boardDAO.updateMainPlusTotalItjaHit(itjaMemberVO);
 			}
-			
 		}
 		return result;
 	}
