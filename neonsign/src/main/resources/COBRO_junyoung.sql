@@ -23,7 +23,12 @@ select MAIN_ARTICLE_NO, MAIN_ARTICLE_EMAIL,
 		sle
  1970010100:00:00
  
-
+select bm.MEMBER_EMAIL, bm.member_Category,bm.MEMBER_NICKNAME, pa.MAIN_ARTICLE_NO, bm.MEMBER_POINT
+		from BRAIN_MEMBER bm, picked_article pa	
+		where bm.MEMBER_EMAIL=pa.MEMBER_EMAIL and 
+		bm.MEMBER_EMAIL='a@naver.com' and bm.MEMBER_PASSWORD='aaaa'
+ 
+		select * from brain_member
 		select * from main_article m,  brain_member b,sub_article s  where
 		m.MAIN_ARTICLE_NO=s.MAIN_ARTICLE_NO and m.MAIN_ARTICLE_NO=2
 		and b.MEMBER_EMAIL=m.MAIN_ARTICLE_EMAIL order by s.SUB_ARTICLE_GRADE asc

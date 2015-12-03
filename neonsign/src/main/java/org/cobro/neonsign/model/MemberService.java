@@ -20,4 +20,5 @@ public interface MemberService {
 	public void memberBlockRelease(String memberEmail);
 	public String updatePickedVO(PickedVO pvo);
 	public List<PickedVO> getPickListByMemberEmail(String memberEmail);
+	public MemberVO defaultMemberLogin(MemberVO memberVO);
 }

@@ -97,6 +97,16 @@ public class MemberDAOImpl implements MemberDAO{
 
 
 	/**
+	 * pickedVO가 없는 초기 회원의 로그인을 위한 디폴트 로그인
+	 * @author junyoung
+	 */
+	@Override
+	public MemberVO defaultMemberLogin(MemberVO memberVO) {
+		System.out.println(memberVO);
+		return sqlSessionTemplate.selectOne("member.defaultMemberLogin", memberVO);
+	}
+	
+	/**
 	 * 찜 여부 확인
 	 * @author JeSeong Lee
 	 */

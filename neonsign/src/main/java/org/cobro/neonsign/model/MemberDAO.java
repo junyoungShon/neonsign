@@ -22,4 +22,5 @@ public interface MemberDAO {
 	public int insertPickedVO(PickedVO pvo);
 	public int deletePickedVO(PickedVO pvo);
 	public List<PickedVO> getPickListByMemberEmail(String memberEmail);
+	public MemberVO defaultMemberLogin(MemberVO memberVO);
 }

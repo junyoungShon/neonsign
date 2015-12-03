@@ -20,7 +20,6 @@ $(document).ready(function(){ //DOM이 준비되고
 			$('#time_area').text('00:'+remind_seconds+'<br>빨리!');
 		}
 		if(remind_minutes<0){
-			// alert('투표 마감되었습니다.');
 		}
 	}, 1000);
 	
