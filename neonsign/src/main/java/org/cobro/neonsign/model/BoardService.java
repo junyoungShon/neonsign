@@ -60,5 +60,7 @@ public interface BoardService {
 			MemberVO memberVO);
 	public List<MainArticleVO> getJoinMainArticleByEmailOrderByDate(
 			MemberVO memberVO);
+	public void articleReport(MainArticleVO mainArticleVO,
+			SubArticleVO subArticleVO, MemberVO memberVO);
 	
 }

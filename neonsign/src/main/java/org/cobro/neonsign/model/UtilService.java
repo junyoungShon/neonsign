@@ -3,7 +3,9 @@ package org.cobro.neonsign.model;
 import java.util.List;
 
 import org.cobro.neonsign.vo.MainArticleVO;
+import org.cobro.neonsign.vo.MemberVO;
 import org.cobro.neonsign.vo.ReportVO;
+import org.cobro.neonsign.vo.SubArticleVO;
 
 public interface UtilService {
 	public List<MainArticleVO> searchByKeyword(String tag);
@@ -26,4 +28,11 @@ public interface UtilService {
 
 
 	public void stagesOfProcess(int reportNumber);
+
+
+	public void articleReport(MainArticleVO mainArticleVO,
+			SubArticleVO subArticleVO, MemberVO memberVO);
+
+
+	int articleBlock(SubArticleVO subArticleVO);
 }

@@ -462,5 +462,15 @@ public class BoardServiceImpl implements BoardService{
 		// TODO Auto-generated method stub
 		utilService.memberPointUpdate(reportNumber);
 	}
+	/**
+	 * 신고에 관한 서비스를 담당하는 메서드
+	 * 게시물을 신고처리하고 
+	 * @param miArticleVO
+	 * @param subArticleVO
+	 */
+	public void articleReport(MainArticleVO mainArticleVO , SubArticleVO subArticleVO , MemberVO memberVO){
+		utilService.articleReport(mainArticleVO, subArticleVO, memberVO);
+	
+	}
 
 }

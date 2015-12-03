@@ -182,7 +182,7 @@
                   <span class="writersNickName">- ${newMainArticle.memberVO.memberNickName} -</span>
                </a>
                   <input type="hidden"   class="mainArticleTitleNO" value="${newMainArticle.mainArticleNo}">
-                  
+                  <input type="hidden" class="loginMemberEmail" value="${sessionScope.memberVO.memberEmail}">
                   <div class="actions">
                      <button class="btn btn-round btn-fill btn-neutral btn-modern"
                         data-toggle="modal" data-target="#cardDetailView">Read

@@ -449,5 +449,20 @@ public class BoardController {
 		mav.setViewName("mypage");
 		return mav;
 	}
-	
+	/**
+	 * 회원이 게시물을 신고할때 사용 하는 컨트롤러
+	 * @param mainArticleVO
+	 * @param subArticleVO
+	 * @param memberVO
+	 * @return
+	 * @author 윤택
+	 */
+	@RequestMapping("ArticleReport.neon")
+	@ResponseBody
+	public Map<String,Object> ArticleReport(MainArticleVO mainArticleVO, SubArticleVO subArticleVO , MemberVO memberVO){
+		Map<String, Object> map=new HashMap<String, Object>();
+		boardService.articleReport(mainArticleVO, subArticleVO, memberVO);
+		return map;
+		
+	}
 }

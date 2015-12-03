@@ -30,7 +30,7 @@
          			 </form>
          		 -->
     		<ul class="nav navbar-nav navbar-right">
-		 <c:choose>
+		  <c:choose>
 			<c:when test="${sessionScope.memberVO==null}">
     			<li><a href="#" class="memberLogin"> 로그인</a></li>
     			<li><a href="#" class="memberJoinByEmailBtn"> 가입</a></li>
@@ -46,14 +46,12 @@
   	 	 		<li><a href="#" class="">${sessionScope.memberVO.memberNickName} 님</a></li>	 	 	
   	 	 		<li><a href="#" class="memberupdate"> 회원정보수정</a></li>
   	 	 		<li><a href="${initParam.root}memberLogout.neon" id="logout">로그아웃</a></li>
-    			  <li><a href="#" class="openModalInsertArticleForm">글쓰기</a></li>
+  	 	 		<span><input type="hidden" id="memberUserEmail" value="${sessionScope.memberVO.memberEmail}"></span>
     			  </c:otherwise>		  
     			  </c:choose>
   	 	 	</c:otherwise>
   	 	 </c:choose>
-    		
     			  <!-- 완결글 보기를 누르면 추천순으로 정렬된다. -대협 -->
-    			  <li><a href="${initParam.root}selectListCompleteMainArticleOrderByTotalLike.neon">완결 글 보기</a></li>
     			  <li><a href="${initParam.root}selectListCompleteMainArticle.neon">완결 글 보기</a></li>
     			  <li><a href="#" class="openModalInsertArticleForm">글쓰기</a></li>
      		</ul>

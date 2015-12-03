@@ -398,6 +398,9 @@ $(document).ready(function(){ //DOM이 준비되고
 					$('.mainCardDetailViewContentNo').text(0);
 					$('.mainCardDetailViewContent').text(data.mainArticle.mainArticleContent);
 					$('.mainWritersNickNameAtDetail').text(data.mainArticle.memberVO.memberNickName);
+					$('.reportIt').html("<button class='articleReport'><span><i class='fa fa-ban'></i></span></button>" +
+							"<form id='subArticleInfo'><input type='hidden' name='mainArticleNo' value="
+							+data.mainArticle.mainArticleNo+"></form>");
 					var mainLikeItHTML = "";
 					//이어진 글들은 작성자가 쓴 주제글 밑에 넘어간다
 				for(var i=0; i<data.likingSubArticle.length;i++){
@@ -472,14 +475,59 @@ $(document).ready(function(){ //DOM이 준비되고
 						data.subArticleVO[i].subArticleContent+"</td><td>"+
 						data.subArticleVO[i].memberVO.memberNickName+"</td><td>"+
 						mainLikeItHTML+"<br>"+
-						"</td><td>신고</td></tr>";
+						"</td><td><button class='articleReport'><span><i class='fa fa-ban'></i></span></button>"+
+						"<form id='subArticleInfo'>"
+						+"<input type='hidden' id='sub123' name='subArticleNo' value="+data.subArticleVO[i].subArticleNo
+						+"><input type='hidden' name='mainArticleNo' value="+data.mainArticle.mainArticleNo
+						+"></form></td></tr>";
 					}
 					$('#subTable').html(subAtricleOrder);
 				}
 			}
 		});
 	}
-	
+	//끝
+	// 잇는글 신고 버튼 클릭시 실행되는 스크립트
+	$('#subTable').on('click','.articleReport',function(){
+		var email=$('#memberUserEmail').val();
+		var subArticleNo=$('#sub123').val();
+		if(confirm("해당글을 신고 하시겠습니까?")){
+		if(email==null){
+			alert("로그인을 하셔야 신고가 가능합니다 !")
+		}else{
+		var formData = $('#subArticleInfo').serialize()+'&memberEmail='+email+'&subArticleNo='+subArticleNo;
+	$.ajax({
+			type : "POST",
+			url : "ArticleReport.neon",
+			data : formData,
+			success : function(){
+				alert("신고를 완료하였습니다.");
+
+			}
+		});
+		}
+		}
+	});
+	// 주제글 신고 버튼 클릭시 실행되는 스크립트
+	$('.reportIt').on('click','.articleReport',function(){
+		var email=$('#memberUserEmail').val();
+		if(confirm("해당글을 신고 하시겠습니까?")){
+			
+		if(email==null){
+			alert("로그인을 하셔야 신고가 가능합니다 !")
+		}else{
+		var formData = $('#subArticleInfo').serialize()+'&memberEmail='+email;
+	$.ajax({
+			type : "POST",
+			url : "ArticleReport.neon",
+			data : formData,
+			success : function(){
+				alert("신고를 완료 했습니다")
+			}
+		});
+		}
+		}
+	});
 	//잇는글 작성 제한을 위한 keyUp 이벤트 - 글자수를 제한해준다.
 	$('form[action="auth_writeSubArticle.neon"]').on('keyup',$('textarea[name="subArticleContent"]'),function(){
 		function korTextCheck($str){
