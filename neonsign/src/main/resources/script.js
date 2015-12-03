@@ -573,6 +573,7 @@ $(document).ready(function(){ //DOM이 준비되고
 	});
 	//모달 창에서 아직 안이어진 잇는글들 클릭시 발동하는 잇자 버튼
 	$('#subTable').on('click','.itja',function(){
+		alert($(this).html());
 		var formData =  $($(this).next()).serialize();
 		//var formData =  $('form[name="itJaInfo"]').serialize();
 		var itjaCountSpan = $(this).children('.itjaCount');

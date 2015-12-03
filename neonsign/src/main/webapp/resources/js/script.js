@@ -521,6 +521,7 @@ $(document).ready(function(){ //DOM이 준비되고
 	
 	// 모달 창에서 주제글  잇자 클릭 시 발동하기
 	$('.utilInDetailModal').on('click','.itja',function(){
+		alert('1');
 		var formData =  $($(this).next()).serialize();
 		var itjaCountSpan = $(this).children('.itjaCount');
 		$.ajax({
@@ -538,6 +539,7 @@ $(document).ready(function(){ //DOM이 준비되고
 	});
 	// 모달창에서 주제글 잇자 버튼
 	$('.mainLikeIt').on('click','.itja',function(){
+		alert('2');
 		var formData =  $($(this).next()).serialize();
 		var itjaCountSpan = $(this).children('.itjaCount');
 		$.ajax({
@@ -555,6 +557,7 @@ $(document).ready(function(){ //DOM이 준비되고
 	});
 	//모달 창에서 이어진 잇는글 클릭시 발동하는 잇자 버튼
 	$('#mainSubArticle').on('click','.itja',function(){
+		alert('3');
 		var formData =  $($(this).next()).serialize();
 		var itjaCountSpan = $(this).children('.itjaCount');
 		$.ajax({
@@ -572,6 +575,8 @@ $(document).ready(function(){ //DOM이 준비되고
 	});
 	//모달 창에서 아직 안이어진 잇는글들 클릭시 발동하는 잇자 버튼
 	$('#subTable').on('click','.itja',function(){
+		alert('4');
+		alert($(this).html());
 		var formData =  $($(this).next()).serialize();
 		//var formData =  $('form[name="itJaInfo"]').serialize();
 		var itjaCountSpan = $(this).children('.itjaCount');
