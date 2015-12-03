@@ -1,14 +1,14 @@
 package org.cobro.neonsign.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.cobro.neonsign.vo.ItjaMemberVO;
 import org.cobro.neonsign.vo.MainArticleVO;
+import org.cobro.neonsign.vo.MemberVO;
+import org.cobro.neonsign.vo.RankingVO;
 import org.cobro.neonsign.vo.SubArticleVO;
 import org.cobro.neonsign.vo.TagBoardVO;
 import org.cobro.neonsign.vo.TagVO;
@@ -105,13 +105,7 @@ public class BoardDAOImpl implements BoardDAO{
 		List<MainArticleVO> mainArticleList = sqlSessionTemplate.selectList("board.selectListCompleteMainArticleOrderByTag", map);
 		return mainArticleList;
 	}
-	/**
-	 * @author jeseongLee
-	 */
-	@Override
-	public List<TagBoardVO> selectTagList() {
-		return sqlSessionTemplate.selectList("board.selectTagList");
-	}
+	
 	/**
 	 * 새로운주제글 글쓴순
 	 * @author daehyeop
@@ -217,32 +211,93 @@ public class BoardDAOImpl implements BoardDAO{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	/**
+	 * Main best잇는글 최신순 조회
+	 * @author JeSeong Lee
+	 */
 	@Override
 	public List<MainArticleVO> getBestMainArticleVOListOrderByDate() {
-		List<MainArticleVO> list=null;
-		try{
-			list=sqlSessionTemplate.selectList("board.getBestMainArticleVOListOrderByDate");
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return list;
+		return sqlSessionTemplate.selectList("board.getBestMainArticleVOListOrderByDate");
 	}
-
+	
+	/**
+	 * Main화면 가운데에 전체 Tag 불러옴
+	 * @author JeSeong Lee
+	 */
 	@Override
 	public List<TagVO> getTagVOList() {
 		return sqlSessionTemplate.selectList("board.getTagVOList");
 	}
-
+	
+	/**
+	 * Email로 멤버의 랭킹 정보 조회
+	 * @author JeSeong Lee 
+	 */
 	@Override
-	public ArrayList<TagBoardVO> getMainArticleTagList(int mainArticleNo) {
-		List<TagBoardVO> list =null;
-		try{
-			list =sqlSessionTemplate.selectList("board.getMainArticleTagList", mainArticleNo);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return (ArrayList<TagBoardVO>) list;
+	public RankingVO getMemberRankingByMemberEmail(MemberVO memberVO) {
+		return sqlSessionTemplate.selectOne("board.getMemberRankingByMemberEmail", memberVO);
 	}
+	
+	/**
+	 * Email로 멤버 닉네임, email 등 불러옴
+	 * 닉네임 눌러서 마이페이지 넘어갈 때 사용
+	 * @author JeSeong Lee 
+	 */
+	@Override
+	public MemberVO getMemberNickNameByEmail(MemberVO memberVO) {
+		return sqlSessionTemplate.selectOne("board.getMemberNickNameByEmail", memberVO);
+	}
+	
+	/**
+	 * 그냥 랭킹리스트 불러옴
+	 * @author JeSeong Lee
+	 */
+	@Override
+	public List<RankingVO> getRankingList() {
+		return sqlSessionTemplate.selectList("board.getRankingList");
+	}
+	
+	/**
+	 * Email로 참여한 MainArticle No 불러옴
+	 * @author JeSeong Lee 
+	 */
+	@Override
+	public List<Integer> getJoinMainArticleNoByEmail(
+			MemberVO memberVO) {
+		return sqlSessionTemplate.selectList("board.getJoinMainArticleNoByEmail", memberVO);
+	}
+	
+	/**
+	 * 불러온 MainArticle No로
+	 * 주제글 정보 최신순 불러옴
+	 * @author JeSeong Lee 
+	 */
+	@Override
+	public MainArticleVO getMainArticleByMainArticleNoOrderByDate(
+			Integer mainArticleNo) {
+		return sqlSessionTemplate.selectOne("board.getMainArticleByMainArticleNoOrderByDate", mainArticleNo);
+	}
+	
+	/**
+	 * eMail로 찜한주제글 번호 불러옴
+	 * @author JeSeong Lee 
+	 */
+	@Override
+	public List<Integer> getPickedMainArticleNoByEmail(MemberVO memberVO) {
+		return sqlSessionTemplate.selectList("board.getPickedMainArticleNoByEmail", memberVO);
+	}
+	
+	/**
+	 * eMail로 작성한주제글 번호 불러옴
+	 * @author JeSeong Lee 
+	 */
+	@Override
+	public List<Integer> getWriteMainArticleNoByEmail(MemberVO memberVO) {
+		return sqlSessionTemplate.selectList("board.getWriteMainArticleNoByEmail", memberVO);
+	}
+	
+	
 	/**
 	 * 주제글에대한 잇자 클릭과 회원의 관계 정보를 가진 테이블에 정보를  삽입한다. 
 	 * @author junyoung

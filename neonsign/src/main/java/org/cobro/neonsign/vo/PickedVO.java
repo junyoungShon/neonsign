@@ -3,17 +3,15 @@ package org.cobro.neonsign.vo;
 public class PickedVO {
 	private String memberEmail;
 	private int mainArticleNo;
-	private MemberVO memberVO;
 	private MainArticleVO mainArticleVO;
 	public PickedVO() {
 		super();
 	}
-	public PickedVO(String memberEmail, int mainArticleNo, MemberVO memberVO,
+	public PickedVO(String memberEmail, int mainArticleNo,
 			MainArticleVO mainArticleVO) {
 		super();
 		this.memberEmail = memberEmail;
 		this.mainArticleNo = mainArticleNo;
-		this.memberVO = memberVO;
 		this.mainArticleVO = mainArticleVO;
 	}
 	public String getMemberEmail() {
@@ -28,12 +26,6 @@ public class PickedVO {
 	public void setMainArticleNo(int mainArticleNo) {
 		this.mainArticleNo = mainArticleNo;
 	}
-	public MemberVO getMemberVO() {
-		return memberVO;
-	}
-	public void setMemberVO(MemberVO memberVO) {
-		this.memberVO = memberVO;
-	}
 	public MainArticleVO getMainArticleVO() {
 		return mainArticleVO;
 	}
@@ -43,8 +35,7 @@ public class PickedVO {
 	@Override
 	public String toString() {
 		return "PickedVO [memberEmail=" + memberEmail + ", mainArticleNo="
-				+ mainArticleNo + ", memberVO=" + memberVO + ", mainArticleVO="
-				+ mainArticleVO + "]";
+				+ mainArticleNo + ", mainArticleVO=" + mainArticleVO + "]";
 	}
 	
 }

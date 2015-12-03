@@ -16,15 +16,23 @@
 					<div class="card card-with-border" data-background="image"
 						data-src="${initParam.root}resources/img/snow.jpg">
 						<div class="content">
-							<h6 class="category">${bestMainArticle.tagName}</h6>
+							<h6 class="category">
+							<c:forEach var="tagList" items="${bestMainArticle.tagBoardVOList}">
+                       			#${tagList.tagName}
+                        	</c:forEach>
+							</h6>
 							<br>
 							<h4 class="title">${bestMainArticle.mainArticleTitle}</h4>
 							<p class="description">${bestMainArticle.mainArticleContent}
 							</p>
-							<span class="writersNickName">-
-								${bestMainArticle.memberVO.memberNickName} -</span> <input
-								type="hidden" class="mainArticleTitleNO"
-								value="${bestMainArticle.mainArticleNo}">
+							<a href="mypage.neon?memberEmail=${bestMainArticle.memberVO.memberEmail}" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" 
+							data-toggle="popover" 
+							title="${bestMainArticle.memberVO.memberNickName}님, ${bestMainArticle.memberVO.rankingVO.memberGrade} PTS(${bestMainArticle.memberVO.memberPoint} / ${bestMainArticle.memberVO.rankingVO. maxPoint})" 
+							data-content="${bestMainArticle.memberVO.memberNickName}님 Click하여 페이지 보기" >
+							<span class="writersNickName">- ${bestMainArticle.memberVO.memberNickName} -</span>
+							</a>
+							<input type="hidden" class="mainArticleTitleNO" value="${bestMainArticle.mainArticleNo}">
+							<input type="hidden" class="loginMemberEmail" value="${sessionScope.memberVO.memberEmail}">
 							<div class="actions">
 								<button class="btn btn-round btn-fill btn-neutral btn-modern"
 									data-toggle="modal" data-target="#cardDetailView">
@@ -71,9 +79,28 @@
                             <%--
                             	잇자 버튼 클릭시 전달 할 정보를 위한 히든 폼 끝
                              --%>
-							<button class="btn btn-social btn-google">
-								<i class="fa fa-heart-o"></i><br> 찜하자!
-							</button>
+                             
+							<button class="btn btn-social btn-google pickBtn">
+	                        <c:set var="breakCheck" value="false"/>
+							<c:forEach var="pickCheck" items="${sessionScope.memberVO.pickedVOList}">
+							<c:choose>
+								<c:when test="${pickCheck.mainArticleNo == bestMainArticle.mainArticleNo}">
+		                        	<c:set var="breakCheck" value="true"/>
+		                      	</c:when>
+		                      	<c:otherwise>
+		                      	</c:otherwise>
+							</c:choose>
+	                      	</c:forEach>
+	                      	<c:choose>
+		                      	<c:when test="${breakCheck == true}">
+		                      		<i class="fa fa-heart"></i><br>찜!
+		                      	</c:when>
+		                      	<c:otherwise>
+		                      		<i class="fa fa-heart-o"></i><br>찜하자!
+		                      	</c:otherwise>
+	                      	</c:choose>
+                        	</button>
+                        
 							<button class="btn btn-social btn-facebook">
 								<i class="fa fa-facebook-official"></i><br> 공유하자!
 							</button>
@@ -95,13 +122,13 @@
 
 <!-- 끝!! el 문 및 ajax로 베스트글이 표시되는 슬라이드 지역 -->
 
-<!-- 태그 소트 버튼 부분 -->
-<div class="container tags-container">
-	<c:forEach items="${requestScope.tagVOList}" var="tagList">
-		<span>#${tagList.tagName}</span>
-	</c:forEach>
-</div>
-<!--  태그 소트 버튼 끝 -->
+	<!-- 태그 소트 버튼 부분 -->
+	   <div class="container tags-container">
+	   <c:forEach items="${requestScope.tagVOList}" var="tagList">
+	      <span><a href="arrayNewMainArticle.do?tagName=${tagList.tagName}">#${tagList.tagName}</a></span>
+	   </c:forEach>
+	   </div>
+   <!--  태그 소트 버튼 끝 -->   
 
 <div class="container">
 	<!-- script.js에서 게시판 종류를 구분하기위한 hidden -대협- -->
@@ -120,12 +147,14 @@
 				<div class="card card-with-border" data-background="image"
 					data-src="${initParam.root}resources/img/fashion-1.jpg">
 					<div class="content">
-						<h6 class="category">${newMainArticle.tagName}</h6>
+						<h6 class="category">
+							<c:forEach var="tagList" items="${newMainArticle.tagBoardVOList}">
+                       			#${tagList.tagName}
+                        	</c:forEach>
+						</h6>
 						<br>
-						<c:set var="mainArticleContentTitle"
-							value="${newMainArticle.mainArticleTitle}" />
+						<c:set var="mainArticleContentTitle" value="${newMainArticle.mainArticleTitle}" />
 						<h5 class="title">
-							[미완]
 							<!-- 카드 간격을 맞추기위해 제목을 보여주는 글자수 제한 -대협- -->
 							<c:choose>
 								<c:when test="${fn:length(mainArticleContentTitle)>12}">
@@ -147,10 +176,14 @@
 								${newMainArticle.mainArticleContent}
 							</c:otherwise>
 							</c:choose></p>
-						<span class="writersNickName">-
-							${newMainArticle.memberVO.memberNickName} -</span> <input type="hidden"
-							class="mainArticleTitleNO"
-							value="${newMainArticle.mainArticleNo}">
+				 	<a href="mypage.neon?memberEmail=${newMainArticle.memberVO.memberEmail}" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" 
+					data-toggle="popover" 
+					title="${newMainArticle.memberVO.memberNickName}님, ${newMainArticle.memberVO.rankingVO.memberGrade} PTS(${newMainArticle.memberVO.memberPoint} / ${newMainArticle.memberVO.rankingVO. maxPoint})" 
+					data-content="${newMainArticle.memberVO.memberNickName}님 Click하여 페이지 보기" >
+						<span class="writersNickName">- ${newMainArticle.memberVO.memberNickName} -</span>
+					</a>
+						<input type="hidden"	class="mainArticleTitleNO" value="${newMainArticle.mainArticleNo}">
+						
 						<div class="actions">
 							<button class="btn btn-round btn-fill btn-neutral btn-modern"
 								data-toggle="modal" data-target="#cardDetailView">Read
@@ -195,9 +228,28 @@
                             <%--
                             	잇자 버튼 클릭시 전달 할 정보를 위한 히든 폼 끝
                              --%>
-						<button class="btn btn-social btn-google">
-							<i class="fa fa-heart-o"></i><br> 찜하자!
-						</button>
+                             
+						<button class="btn btn-social btn-google pickBtn">
+	                        <c:set var="breakCheck" value="false"/>
+							<c:forEach var="pickCheck" items="${sessionScope.memberVO.pickedVOList}">
+							<c:choose>
+								<c:when test="${pickCheck.mainArticleNo == newMainArticle.mainArticleNo}">
+		                        	<c:set var="breakCheck" value="true"/>
+		                      	</c:when>
+		                      	<c:otherwise>
+		                      	</c:otherwise>
+							</c:choose>
+	                      	</c:forEach>
+	                      	<c:choose>
+		                      	<c:when test="${breakCheck == true}">
+		                      		<i class="fa fa-heart"></i><br>찜!
+		                      	</c:when>
+		                      	<c:otherwise>
+		                      		<i class="fa fa-heart-o"></i><br>찜하자!
+		                      	</c:otherwise>
+	                      	</c:choose>
+                        </button>
+                        
 						<button class="btn btn-social btn-facebook">
 							<i class="fa fa-facebook-official"></i><br> 공유하자!
 						</button>

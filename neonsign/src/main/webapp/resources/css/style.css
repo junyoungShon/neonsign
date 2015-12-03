@@ -230,3 +230,51 @@ body {
  text-align:center;   
   }
 }
+
+/**
+* @author JeSeong Lee
+* 닉네임 호버부분
+*/
+.myPage{
+	width:25%;
+	margin-top: 52px;
+	height:40px;
+    color: #000000;
+    text-align: center;
+    font-family: 'Nanum Pen Script', serif;
+    line-height: 50px;
+    /* text-indent: 20px;  들여쓰기*/
+    padding-top: 0px;
+}
+.gradeImg{
+	width: 45px;
+	height: 35px;
+}
+a.myProfileDetail{
+	font-size: 25px;
+    font-weight: 600;
+}
+
+a.myProfileDetail.data-content{
+	color: #000000;	
+}
+
+a.myProfileDetail:hover{
+	color: #000000;
+	/* color: #FFA07A; */
+}
+
+.popover-title {
+    color: #000000;
+    font-size: 15px;
+}
+
+.popover-content {
+    color: #23aedc;
+    font-size: 12px;
+}
+a.myNickDetail{
+	font-size:15px;
+	padding: 0px;
+	border: 0px;
+}

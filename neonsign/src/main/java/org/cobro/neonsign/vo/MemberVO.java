@@ -11,7 +11,28 @@ public class MemberVO {
 	private int memberReportAmount;
 	private String memberCategory;
 	private RankingVO rankingVO;
+	private List<PickedVO> pickedVOList; // 2015.11.28 추가함
 	private List<ItjaMemberVO> itjaMemberList;
+	public MemberVO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public MemberVO(String memberEmail, String memberNickName,
+			String memberPassword, String memberJoinDate, int memberPoint,
+			int memberReportAmount, String memberCategory, RankingVO rankingVO,
+			List<PickedVO> pickedVOList, List<ItjaMemberVO> itjaMemberList) {
+		super();
+		this.memberEmail = memberEmail;
+		this.memberNickName = memberNickName;
+		this.memberPassword = memberPassword;
+		this.memberJoinDate = memberJoinDate;
+		this.memberPoint = memberPoint;
+		this.memberReportAmount = memberReportAmount;
+		this.memberCategory = memberCategory;
+		this.rankingVO = rankingVO;
+		this.pickedVOList = pickedVOList;
+		this.itjaMemberList = itjaMemberList;
+	}
 	public String getMemberEmail() {
 		return memberEmail;
 	}
@@ -42,10 +63,10 @@ public class MemberVO {
 	public void setMemberPoint(int memberPoint) {
 		this.memberPoint = memberPoint;
 	}
-	public int getmemberReportAmount() {
+	public int getMemberReportAmount() {
 		return memberReportAmount;
 	}
-	public void setmemberReportAmount(int memberReportAmount) {
+	public void setMemberReportAmount(int memberReportAmount) {
 		this.memberReportAmount = memberReportAmount;
 	}
 	public String getMemberCategory() {
@@ -60,41 +81,27 @@ public class MemberVO {
 	public void setRankingVO(RankingVO rankingVO) {
 		this.rankingVO = rankingVO;
 	}
+	public List<PickedVO> getPickedVOList() {
+		return pickedVOList;
+	}
+	public void setPickedVOList(List<PickedVO> pickedVOList) {
+		this.pickedVOList = pickedVOList;
+	}
 	public List<ItjaMemberVO> getItjaMemberList() {
 		return itjaMemberList;
 	}
-	public void setItjaMemberList(List<ItjaMemberVO> list) {
-		this.itjaMemberList = list;
-	}
-	public MemberVO(String memberEmail, String memberNickName,
-			String memberPassword, String memberJoinDate, int memberPoint,
-			int memberReportAmount, String memberCategory,
-			RankingVO rankingVO, List<ItjaMemberVO> itjaMemberList) {
-		super();
-		this.memberEmail = memberEmail;
-		this.memberNickName = memberNickName;
-		this.memberPassword = memberPassword;
-		this.memberJoinDate = memberJoinDate;
-		this.memberPoint = memberPoint;
-		this.memberReportAmount = memberReportAmount;
-		this.memberCategory = memberCategory;
-		this.rankingVO = rankingVO;
+	public void setItjaMemberList(List<ItjaMemberVO> itjaMemberList) {
 		this.itjaMemberList = itjaMemberList;
-	}
-	public MemberVO() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 	@Override
 	public String toString() {
 		return "MemberVO [memberEmail=" + memberEmail + ", memberNickName="
 				+ memberNickName + ", memberPassword=" + memberPassword
 				+ ", memberJoinDate=" + memberJoinDate + ", memberPoint="
-				+ memberPoint + ", memberReportAmount="
-				+ memberReportAmount + ", memberCategory=" + memberCategory
-				+ ", rankingVO=" + rankingVO + ", itjaMemberList="
-				+ itjaMemberList + "]";
+				+ memberPoint + ", memberReportAmount=" + memberReportAmount
+				+ ", memberCategory=" + memberCategory + ", rankingVO="
+				+ rankingVO + ", pickedVOList=" + pickedVOList
+				+ ", itjaMemberList=" + itjaMemberList + "]";
 	}
-	
 
 }

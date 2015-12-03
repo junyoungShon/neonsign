@@ -20,7 +20,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			$('#time_area').text('00:'+remind_seconds+'<br>빨리!');
 		}
 		if(remind_minutes<0){
-			alert('투표 마감되었습니다.');
+			// alert('투표 마감되었습니다.');
 		}
 	}, 1000);
 	
@@ -974,5 +974,67 @@ $(document).ready(function(){ //DOM이 준비되고
 			"&command=cancle";
 		}
 	});
+	
+	/**
+	 * @author JeSeong Lee
+	 * 찜 수정
+	 * */
+	// alert("파워ON!!!@@@@@");
+	$(".pickBtn").on('click',function(){
+		// alert(memberEmail);
+		var mainArticleNo = $(this).parent().siblings().eq(0).children().eq(5).val();
+		var memberEmail = $(this).parent().siblings().eq(0).children().eq(6).val();
+		var pickBtn = $(this);
+		// alert(pickBtn);
+		// alert(mainArticleNo + ", " + memberEmail);
+		$.ajax({
+			type:"post",
+			url:"auth_updatePickedVO.neon",
+			data:"mainArticleNo="+mainArticleNo+"&memberEmail=" + memberEmail,
+			success:function(data){
+				// alert(data);
+				// alert("data : " + pickBtn.html());
+				if(data=="insert"){
+					// alert("인서트했다");
+					pickBtn.html("<i class='fa fa-heart'></i><br>찜!");
+				}else{
+					// alert("delete 햇다");
+					pickBtn.html("<i class='fa fa-heart-o'></i><br>찜하자!");
+				}
+			}
+		}); // ajax
+	}); // pickBtn click
+	
+	/**
+	 * @author JeSeong Lee
+	 * 닉네임 팝오버 - 호버
+	 */
+	
+	/*$('[data-toggle="popover"]').popover({
+        placement : 'bottom',
+	});*/
+	
+	var popOverSettings = {
+			trigger:'hover',
+			placement: 'bottom',
+		    container: 'body',
+		    html: false,
+		    selector: '[data-toggle="popover"]', //Sepcify the selector here
+		    content: function () {
+		        return $('#popover-content').html();
+		    }
+		}
+		$('body').popover(popOverSettings);
+		/*$(".writersNickName").on('click', function(){
+			$('body').popover(popOverSettings);
+		});*/
+		/*$('[data-toggle="popover"]').popover();
+		$('body').on('click', function (e) {
+		    //did not click a popover toggle or popover
+		    if ($(e.target).data('toggle') !== 'popover'
+		        && $(e.target).parents('.popover.in').length === 0) { 
+		        $('[data-toggle="popover"]').popover('hide');
+		    }
+		});*/
 });//document.ready
 	

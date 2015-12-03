@@ -1,3 +1,48 @@
+select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
+ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY/MM/DD HH24:MI:SS') as ma_date, 
+ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME, tb.TAG_NAME, bm.MEMBER_EMAIL
+from main_article ma, brain_member bm, tag_board tb 
+where bm.MEMBER_EMAIL = ma.MAIN_ARTICLE_EMAIL and ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO and 
+ma.MAIN_ARTICLE_COMPLETE=0 and ma.MAIN_ARTICLE_TOTAL_LIKE<10 order by ma_date desc;
+
+select bm.MEMBER_NICKNAME, ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
+ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY/MM/DD HH24:MI:SS') as ma_date, 
+ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE
+from main_article ma, picked_article pa, brain_member bm
+where pa.MEMBER_EMAIL = bm.MEMBER_EMAIL and pa.MAIN_ARTICLE_NO = ma.MAIN_ARTICLE_NO and 
+pa.MEMBER_EMAIL = 'a@naver.com' order by ma_date desc;
+
+-- 마이페이지 찜한글
+select bm.MEMBER_NICKNAME, ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
+ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY/MM/DD HH24:MI:SS') as ma_date, 
+ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_EMAIL, tb.TAG_NAME
+from main_article ma, picked_article pa, brain_member bm, tag_board tb
+where pa.MEMBER_EMAIL = bm.MEMBER_EMAIL and pa.MAIN_ARTICLE_NO = ma.MAIN_ARTICLE_NO and 
+ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO and pa.MEMBER_EMAIL = 'a@naver.com' order by ma_date desc
+
+select * from  picked_article where MEMBER_EMAIL = 'a@naver.com';
+
+-- 마이페이지 작성한 글
+select bm.MEMBER_NICKNAME, ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
+ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY/MM/DD HH24:MI:SS') as ma_date, 
+ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_EMAIL, tb.TAG_NAME
+from main_article ma, brain_member bm, tag_board tb
+where bm.MEMBER_EMAIL = ma.MAIN_ARTICLE_EMAIL and ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO and 
+bm.MEMBER_EMAIL = 'a@naver.com' order by ma_date desc
+
+
+/**
+ * 잇자 table
+ */
+create table ITJA_MEMBER(
+MAIN_ARTICLE_NO number not null,
+SUB_ARTICLE_NO number default 0,
+MEMBER_EMAIL varchar(50) not null,
+constraint fk_itJa_Main_Article_NO foreign key(MAIN_ARTICLE_NO) references main_article(MAIN_ARTICLE_NO),
+constraint fk_itJa_MEMBER_EMAIL foreign key(MEMBER_EMAIL) references brain_member(MEMBER_EMAIL),
+constraint pk_tag_ITJA_MEMBER primary key(MAIN_ARTICLE_NO,SUB_ARTICLE_NO,MEMBER_EMAIL)
+)
+
 /**
  * constraint 제약조건명 foreign key(참조정보저장컬럼명) 
     references 부모테이블(컬럼)
@@ -11,6 +56,7 @@ drop sequence sub_article_seq
 -- report의 REPORT_NO를 자동 생성해주기 위한 시퀀스
 create sequence report_seq
 
+select
 --**회원 데이터 베이스**
 create table brain_member(
 MEMBER_EMAIL varchar2(50) primary key,
@@ -18,7 +64,7 @@ MEMBER_NICKNAME varchar2(20) not null,
 MEMBER_PASSWORD varchar2(16) not null,
 MEMBER_JOIN_DATE date not null,
 MEMBER_POINT number default 0,
-MEMBER_NOTIFIED_AMOUNT number default 0,
+MEMBER_REPORT_AMOUNT number default 0,
 MEMBER_CATEGORY varchar2(30) not null
 )
 drop table brain_member;
@@ -29,6 +75,8 @@ drop table brain_member;
  * 이메일 : rpd0127@naver.com , 닉네임 : 탑파 , 패스워드 : 1234 ,
  * 가입 날짜 : 현재 날짜 , 포인트 : 0 , 신고수 : 0 , 회원 등급 : 돌
  */
+update brain_member set MEMBER_POINT = 330 where MEMBER_EMAIL='a@naver.com';
+
 insert into brain_member(MEMBER_EMAIL,MEMBER_NICKNAME,MEMBER_PASSWORD,MEMBER_JOIN_DATE,MEMBER_CATEGORY) 
 values('a631258@gmail.com','코브라','aaaa',sysdate,'관리자');
 insert into brain_member(MEMBER_EMAIL,MEMBER_NICKNAME,MEMBER_PASSWORD,MEMBER_JOIN_DATE,MEMBER_CATEGORY) 
@@ -48,7 +96,7 @@ values('g@naver.com','g맨','aaaa',sysdate,'일반회원');
 insert into brain_member(MEMBER_EMAIL,MEMBER_NICKNAME,MEMBER_PASSWORD,MEMBER_JOIN_DATE,MEMBER_CATEGORY) 
 values('h@naver.com','f맨','aaaa',sysdate,'일반회원');
 -- ygoyo@naver.com 회원의 가입 정보 출격
-select * from BRAIN_MEMBER;
+select * from BRAIN_MEMBER where MEMBER_EMAIL='a@naver.com';
 
 
 drop table main_article
@@ -67,6 +115,19 @@ MAIN_ARTICLE_COMPLETE number default 0, -- 0미완, 1완
 constraint fk_brain_member foreign key(MAIN_ARTICLE_EMAIL) references brain_member(MEMBER_EMAIL)
 )
 drop table main_article
+
+select * from main_article;
+-- 작성한 주제글 번호 불러오기 email로
+select MAIN_ARTICLE_NO from main_article where MAIN_ARTICLE_EMAIL = 'a@naver.com'
+
+
+select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_EMAIL, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
+ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY/MM/DD HH24:MI:SS') as ma_date, 
+ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME, tb.TAG_NAME
+from main_article ma, brain_member bm, tag_board tb
+where bm.MEMBER_EMAIL = ma.MAIN_ARTICLE_EMAIL and ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO and 
+ma.MAIN_ARTICLE_EMAIL = 'a@naver.com' order by ma_date desc;
+
 
 /* 글번호 : 현재 시퀀스 넘버 ,
  * ygoyo@naver.com 회원이 글작성
@@ -132,6 +193,39 @@ SUB_ARTICLE_DATE date not null,
 constraint fk_main_article foreign key(MAIN_ARTICLE_NO) references main_article(MAIN_ARTICLE_NO),
 constraint fk_sub_article foreign key(MEMBER_EMAIL) references brain_member(MEMBER_EMAIL)
 )
+select MAIN_ARTICLE_NO from sub_article where MEMBER_EMAIL = 'a@naver.com'
+
+to_char(ma.MAIN_ARTICLE_DATE, 'YYYY/MM/DD HH24:MI:SS') as ma_date
+order by ma_date desc
+
+select MAIN_ARTICLE_NO from MAIN_ARTICLE where MAIN_ARTICLE_EMAIL='a@naver.com'
+select MAIN_ARTICLE_NO, MEMBER_EMAIL from sub_article where MEMBER_EMAIL = 'a@naver.com'
+
+select ma.MAIN_ARTICLE_NO
+from main_article ma, sub_article sa
+where sa.MAIN_ARTICLE_NO = ma.MAIN_ARTICLE_NO and sa.MEMBER_EMAIL ='e@naver.com'
+
+select bm.MEMBER_NICKNAME, ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
+ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY/MM/DD HH24:MI:SS') as ma_date, 
+ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_EMAIL, tb.TAG_NAME
+from main_article ma, brain_member bm, tag_board tb
+where bm.MEMBER_EMAIL = ma.MAIN_ARTICLE_EMAIL and ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO and 
+ma.MAIN_ARTICLE_NO=2 order by ma_date desc
+
+
+
+select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_EMAIL, ma.MAIN_ARTICLE_TITLE, 
+ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
+to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_date, 
+ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, 
+bm.MEMBER_NICKNAME, tb.TAG_NAME, bm.MEMBER_EMAIL
+from main_article ma, brain_member bm, tag_board tb, sub_article sa
+where sa.MAIN_ARTICLE_NO = ma.MAIN_ARTICLE_NO and sa.MEMBER_EMAIL = bm.MEMBER_EMAIL and 
+tb.MAIN_ARTICLE_NO = ma.MAIN_ARTICLE_NO and bm.MEMBER_EMAIL = 'e@naver.com'
+order by ma_date desc
+
+select * from sub_article where MEMBER_EMAIL='a@naver.com'
+
 /*
  * ygoyo@naver.com 회원의 1번 게시물에 잇는글을 작성
  * 잇자글 번호 : 현재 시퀀스 넘버 ,
@@ -202,13 +296,45 @@ constraint fk_brain_member_pricked foreign key(MEMBER_EMAIL) references brain_me
 constraint fk_main_article_pricked foreign key(MAIN_ARTICLE_NO) references main_article(MAIN_ARTICLE_NO),
 constraint pk_picked primary key(MEMBER_EMAIL,MAIN_ARTICLE_NO)
 )
+select * from MAIN_ARTICLE
+select * from picked_article
+
+-- 찜한 주제글 번호 불러옴
+select MAIN_ARTICLE_NO from picked_article where MEMBER_EMAIL = 'a@naver.com'
+
+-- 찜한 주제글 번호로 주제글 불러옴
+select bm.MEMBER_NICKNAME, ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
+ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY/MM/DD HH24:MI:SS') as ma_date, 
+ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_EMAIL, tb.TAG_NAME
+from main_article ma, picked_article pa, brain_member bm, tag_board tb
+where pa.MEMBER_EMAIL = bm.MEMBER_EMAIL and pa.MAIN_ARTICLE_NO = ma.MAIN_ARTICLE_NO and 
+ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO and pa.MEMBER_EMAIL = #{memberEmail} order by ma_date desc
+
+
 
 /*
- * ygoyo@naver.com 회원이 2번 게시물을 찜하였다
+ * 로그인시에 찜목록을 불러옴
  */
-insert into picked_article(MEMBER_EMAIL,MAIN_ARTICLE_NO) values('ygoyo@naver.com',2)
+select bm.MEMBER_NICKNAME, pa.MAIN_ARTICLE_NO
+from BRAIN_MEMBER bm, picked_article pa
+where bm.MEMBER_EMAIL=pa.MEMBER_EMAIL and 
+bm.MEMBER_EMAIL='a@naver.com' and bm.MEMBER_PASSWORD='aaaa';
 
+/*
+ * a@naver.com 회원이 2, 4, 5번 게시물을 찜하였다
+ */
+insert into picked_article(MEMBER_EMAIL,MAIN_ARTICLE_NO) values('a@naver.com',2);
+insert into picked_article(MEMBER_EMAIL,MAIN_ARTICLE_NO) values('a@naver.com',4);
+insert into picked_article(MEMBER_EMAIL,MAIN_ARTICLE_NO) values('a@naver.com',5);
+insert into picked_article(MEMBER_EMAIL,MAIN_ARTICLE_NO) values('a@naver.com',6);
+select MEMBER_EMAIL,MAIN_ARTICLE_NO from PICKED_ARTICLE 
+where MEMBER_EMAIL = 'a@naver.com' and MAIN_ARTICLE_NO='9';
+insert into picked_article(MEMBER_EMAIL,MAIN_ARTICLE_NO) values('a@naver.com',6);
+delete picked_article where MEMBER_EMAIL = 'a@naver.com' and MAIN_ARTICLE_NO='6';
 select * from PICKED_ARTICLE
+select MEMBER_EMAIL,MAIN_ARTICLE_NO from PICKED_ARTICLE where MEMBER_EMAIL = 'a@naver.com';
+select MAIN_ARTICLE_NO from PICKED_ARTICLE where MEMBER_EMAIL = 'a@naver.com'
+
 
 --ygoyo@naver.com 회원의 찜한 게시물 타이틀
 select m.MAIN_ARTICLE_TITLE from picked_article p, main_article m  where p.MEMBER_EMAIL='ygoyo@naver.com' 
@@ -308,10 +434,33 @@ constraint fk_main_article foreign key(MEMBER_EMAIL) references main_article(MEM
 constraint pk_reporter primary key(REPORT_NO,MEMBER_EMAIL)
 )
 drop table reporter
+
+select MEMBER_GRADE from ranking
 --**랭킹 데이터 베이스**
 create table ranking(
 MEMBER_GRADE varchar2(30) primary key,
 MIN_POINT number not null,
 MAX_POINT number not null
 )
+insert into ranking(MEMBER_GRADE, MIN_POINT, MAX_POINT) values('UNRANKED', 0, 49);
+insert into ranking(MEMBER_GRADE, MIN_POINT, MAX_POINT) values('BRONZE', 50, 149);
+insert into ranking(MEMBER_GRADE, MIN_POINT, MAX_POINT) values('SILVER', 150, 349);
+insert into ranking(MEMBER_GRADE, MIN_POINT, MAX_POINT) values('GOLD', 350, 749);
+insert into ranking(MEMBER_GRADE, MIN_POINT, MAX_POINT) values('PLATINUM', 750, 1550);
+-- DIAMOND 나중에 추가
+select * from ranking
+
+select rk.MEMBER_GRADE
+from brain_member bm, ranking rk
+where bm.MEMBER_POINT >= rk.MIN_POINT and bm.MEMBER_POINT <= rk.MAX_POINT
+
+select rk.MEMBER_GRADE, rk.MAX_POINT+1 as MAX_POINT
+from brain_member bm, ranking rk
+where bm.MEMBER_POINT >= rk.MIN_POINT and bm.MEMBER_POINT <= rk.MAX_POINT 
+and bm.MEMBER_EMAIL = 'a@naver.com'
+
+select MEMBER_EMAIL, MEMBER_NICKNAME from brain_member
+where MEMBER_EMAIL = 'a@naver.com'
+
+
 drop table ranking

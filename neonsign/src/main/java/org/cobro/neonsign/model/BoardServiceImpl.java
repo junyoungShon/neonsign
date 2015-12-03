@@ -2,6 +2,7 @@ package org.cobro.neonsign.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,8 @@ import javax.annotation.Resource;
 
 import org.cobro.neonsign.vo.ItjaMemberVO;
 import org.cobro.neonsign.vo.MainArticleVO;
+import org.cobro.neonsign.vo.MemberVO;
+import org.cobro.neonsign.vo.RankingVO;
 import org.cobro.neonsign.vo.ReportVO;
 import org.cobro.neonsign.vo.SubArticleVO;
 import org.cobro.neonsign.vo.TagBoardVO;
@@ -94,21 +97,11 @@ public class BoardServiceImpl implements BoardService{
 			completeMainArticleList = boardDAO
 					.selectListCompleteMainArticleOrderByTag(pageNo, getTagName);
 		}
-		//System.out.println("service " + completeMainArticleList);
-		String tagName = "";
-		ArrayList<TagBoardVO> list = new ArrayList<TagBoardVO>();
-		for (int i = 0; i < completeMainArticleList.size(); i++) {
-			list = boardDAO.getMainArticleTagList(completeMainArticleList
-					.get(i).getMainArticleNo());
-			for (int j = 0; j < list.size(); j++) {
-				if (j == list.size() - 1) {
-					tagName += "#" + list.get(j).getTagName();
-				} else {
-					tagName += "#" + list.get(j).getTagName() + ", ";
-				}
-				completeMainArticleList.get(i).setTagName(tagName);
-			}
-			tagName = "";
+		ArrayList<RankingVO> rankingVOList = new ArrayList<RankingVO>();
+		for(int i = 0 ; i<completeMainArticleList.size() ; i++){
+			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(completeMainArticleList.get(i).getMemberVO()));
+			System.out.println(rankingVOList);
+			completeMainArticleList.get(i).getMemberVO().setRankingVO(rankingVOList.get(i));
 		}
 		return completeMainArticleList;
 	}
@@ -128,32 +121,23 @@ public class BoardServiceImpl implements BoardService{
 	 */
 	public List<MainArticleVO> selectListNotCompleteMainArticle(int pageNo,
 			String orderBy, String getTagName) {
-		List<MainArticleVO> newMainArticleVOList = null;
+		List<MainArticleVO> newMainArticleList = null;
 		if (orderBy.equals("date")) {
-			newMainArticleVOList = boardDAO
-					.selectListNotCompleteMainArticleOrderByDate(pageNo);
+			newMainArticleList
+				= boardDAO.selectListNotCompleteMainArticleOrderByDate(pageNo);
 		} else if (orderBy.equals("tag")) {
-			newMainArticleVOList = boardDAO
-					.selectListNotCompleteMainArticleOrderByTag(pageNo,
-							getTagName);
+			newMainArticleList
+				= boardDAO.selectListNotCompleteMainArticleOrderByTag(pageNo, getTagName);
 		}
-		String tagName = "";
-		ArrayList<TagBoardVO> list = new ArrayList<TagBoardVO>();
-		for (int i = 0; i < newMainArticleVOList.size(); i++) {
-			list = boardDAO.getMainArticleTagList(newMainArticleVOList.get(i)
-					.getMainArticleNo());
-			for (int j = 0; j < list.size(); j++) {
-				if (j == list.size() - 1) {
-					tagName += "#" + list.get(j).getTagName();
-				} else {
-					tagName += "#" + list.get(j).getTagName() + ", ";
-				}
-				newMainArticleVOList.get(i).setTagName(tagName);
-			}
-			tagName = "";
+		ArrayList<RankingVO> rankingVOList = new ArrayList<RankingVO>();
+		for(int i = 0 ; i<newMainArticleList.size() ; i++){
+			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(newMainArticleList.get(i).getMemberVO()));
+			System.out.println(rankingVOList);
+			newMainArticleList.get(i).getMemberVO().setRankingVO(rankingVOList.get(i));
 		}
-		return newMainArticleVOList;
+		return newMainArticleList;
 	}
+	
 	
 	@Override
 	/**
@@ -161,24 +145,16 @@ public class BoardServiceImpl implements BoardService{
 	 * @author JeSeong Lee 
 	 */
 	public List<MainArticleVO> getBestMainArticleVOListOrderByDate() {
-		List<MainArticleVO> bestMainArticleVOList
-			= boardDAO.getBestMainArticleVOListOrderByDate();
-		String tagName = "";
-		ArrayList<TagBoardVO> list = new ArrayList<TagBoardVO>();
-		for(int i = 0 ; i<bestMainArticleVOList.size() ; i++){
-			list = boardDAO.getMainArticleTagList(bestMainArticleVOList.get(i).getMainArticleNo());
-			for(int j = 0 ; j<list.size() ; j++){
-				if(j == list.size()-1){
-					tagName += "#" + list.get(j).getTagName();
-				}else{
-					tagName += "#" + list.get(j).getTagName() + ", ";
-				}
-				bestMainArticleVOList.get(i).setTagName(tagName);
-			}
-			tagName = "";
+		List<MainArticleVO> bestMainArticleList = boardDAO.getBestMainArticleVOListOrderByDate();
+		ArrayList<RankingVO> rankingVOList = new ArrayList<RankingVO>();
+		for(int i = 0 ; i<bestMainArticleList.size() ; i++){
+			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(bestMainArticleList.get(i).getMemberVO()));
+			System.out.println(rankingVOList);
+			bestMainArticleList.get(i).getMemberVO().setRankingVO(rankingVOList.get(i));
 		}
-		return bestMainArticleVOList;
+		return bestMainArticleList;
 	}
+	
 	
 	@Override
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByTotalLike() {
@@ -351,11 +327,105 @@ public class BoardServiceImpl implements BoardService{
 	public List<TagVO> getTagVOList() {
 		return boardDAO.getTagVOList();
 	}
+	
+
+	/**
+	 * @author JeSeong Lee
+	 * 마이페이지 찜 주제글 받기
+	 * email로 리스트 받아서 MainArticleNo 받고
+	 * 그것으로 해당 주제글들 조회해서
+	 * MemberVO Grade정보도 넣어서 줌
+	 */
 	@Override
-	public List<TagBoardVO> selectTagList() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<MainArticleVO> getPickedMainArticleByMemberEmailOrderByDate(
+			MemberVO memberVO) {
+		List<Integer> pickedMainArticleNoList = boardDAO.getPickedMainArticleNoByEmail(memberVO);
+		ArrayList<MainArticleVO> pickedMainArticleVOList = new ArrayList<MainArticleVO>();
+		for(int i = 0 ; i<pickedMainArticleNoList.size() ; i++){
+			pickedMainArticleVOList.add(boardDAO.getMainArticleByMainArticleNoOrderByDate(pickedMainArticleNoList.get(i)));
+		}
+		ArrayList<RankingVO> rankingVOList = new ArrayList<RankingVO>();
+		for(int j = 0 ; j<pickedMainArticleVOList.size() ; j++){
+			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(pickedMainArticleVOList.get(j).getMemberVO())); 
+			pickedMainArticleVOList.get(j).getMemberVO().setRankingVO(rankingVOList.get(j));
+		}
+		return pickedMainArticleVOList;
 	}
+	/**
+	 * @author JeSeong Lee
+	 * NickName의 마이페이지 상단부 Ranking정보
+	 * email로 받아와서 memberVO에 set
+	 */
+	@Override
+	public MemberVO getMemberRankingByMemberEmail(MemberVO memberVO) {
+		memberVO = boardDAO.getMemberNickNameByEmail(memberVO);
+		RankingVO rankingVO = boardDAO.getMemberRankingByMemberEmail(memberVO);
+		memberVO.setRankingVO(rankingVO);
+		return memberVO;
+	}
+	
+	/**
+	 * @author JeSeong Lee
+	 * 마이페이지 작성한 주제글 받기
+	 * email로 리스트 받아서 MainArticleNo 받고
+	 * 그것으로 해당 주제글들 조회해서
+	 * MemberVO Grade정보도 넣어서 줌
+	 */
+	@Override
+	public List<MainArticleVO> getWriteMainArticleByEmailOrderByDate(
+			MemberVO memberVO) {
+		List<Integer> writeMainArticleNoList = boardDAO.getWriteMainArticleNoByEmail(memberVO);
+		ArrayList<MainArticleVO> writeMainArticleVOList = new ArrayList<MainArticleVO>();
+		for(int i = 0 ; i<writeMainArticleNoList.size() ; i++){
+			writeMainArticleVOList.add(boardDAO.getMainArticleByMainArticleNoOrderByDate(writeMainArticleNoList.get(i)));
+		}
+		ArrayList<RankingVO> rankingVOList = new ArrayList<RankingVO>();
+		for(int j = 0 ; j<writeMainArticleVOList.size() ; j++){
+			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(writeMainArticleVOList.get(j).getMemberVO())); 
+			writeMainArticleVOList.get(j).getMemberVO().setRankingVO(rankingVOList.get(j));
+		}
+		return writeMainArticleVOList;
+	}
+	
+	/**
+	 * @author JeSeong Lee
+	 * 참여한 주제글 얻어오기
+	 * email로 리스트 받아서 MainArticleNo 받고
+	 * 2개 이상 잇는글이 선정 됐을 경우 방지하기 위해
+	 * 중복된 No 제거(HashSet 활용)
+	 * 그것으로 해당 주제글들 조회해서
+	 * MemberVO Grade정보도 넣어서 줌
+	 */
+	@Override
+	public List<MainArticleVO> getJoinMainArticleByEmailOrderByDate(
+			MemberVO memberVO) {
+		ArrayList<Integer> joinMainArticleNoList = (ArrayList<Integer>) boardDAO.getJoinMainArticleNoByEmail(memberVO);
+		HashSet hs = new HashSet(joinMainArticleNoList);
+		ArrayList<Integer> nonDupJoinMainArticleNoList = new ArrayList<Integer>(hs);
+		ArrayList<MainArticleVO> joinMainArticleVOList = new ArrayList<MainArticleVO>();
+		for(int i = 0 ; i<nonDupJoinMainArticleNoList.size() ; i++){
+			joinMainArticleVOList.add(boardDAO.getMainArticleByMainArticleNoOrderByDate(nonDupJoinMainArticleNoList.get(i)));
+		}
+		ArrayList<RankingVO> rankingVOList = new ArrayList<RankingVO>();
+		for(int j = 0 ; j<joinMainArticleVOList.size() ; j++){
+			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(joinMainArticleVOList.get(j).getMemberVO())); 
+			joinMainArticleVOList.get(j).getMemberVO().setRankingVO(rankingVOList.get(j));
+		}
+		return joinMainArticleVOList; 
+	}
+	/**
+	 * @author JeSeong Lee
+	 * 기본 랭킹 정보를 받아옴
+	 * 이것과 해당자의 그레이드 비교해서
+	 * 랭킹 이미지 불러옴 
+	 */
+	@Override
+	public List<RankingVO> getRankingList() {
+		return boardDAO.getRankingList();
+	}
+	
+	
+	
 	/**
 	 * 해당 글의 itja 수와, 요청한 아이디가 itja를 눌렀는지 여부를 판단해준다.
 	 * 1. itjaMemberBean에 잇자 체크를 요청하고
@@ -391,21 +461,6 @@ public class BoardServiceImpl implements BoardService{
 	public void memberPointUpdate(int reportNumber) {
 		// TODO Auto-generated method stub
 		utilService.memberPointUpdate(reportNumber);
-	}
-	@Override
-	public List<MainArticleVO> selectListCompleteMainArticleOrderByTotalLike() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public List<MainArticleVO> selectListCompleteMainArticleOrderByDate() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

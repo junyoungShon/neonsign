@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.cobro.neonsign.vo.ItjaMemberVO;
 import org.cobro.neonsign.vo.MainArticleVO;
+import org.cobro.neonsign.vo.MemberVO;
+import org.cobro.neonsign.vo.RankingVO;
 import org.cobro.neonsign.vo.SubArticleVO;
 import org.cobro.neonsign.vo.TagBoardVO;
 import org.cobro.neonsign.vo.TagVO;
@@ -22,8 +24,6 @@ public interface BoardDAO {
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate(int pageNo);
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByTag(int pageNo, String getTagName);
 	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO);
-	public List<TagBoardVO> selectTagList();
-	public ArrayList<TagBoardVO> getMainArticleTagList(int mainArticleNo);
 	public List<TagVO> getTagVOList();
 	public List<MainArticleVO> getBestMainArticleVOListOrderByDate();
 	public void insertTagBoardVO(TagBoardVO tagBoardVO);
@@ -65,4 +65,12 @@ public interface BoardDAO {
 	public int alreadyWriteSubArticleInThisGrade(SubArticleVO subArticleVO);
 	public void updateDateForMainArticle(int mainArticleNo);
 	public void moveToBest(int mainArticleNo);
+	public RankingVO getMemberRankingByMemberEmail(MemberVO memberVO);
+	public List<Integer> getPickedMainArticleNoByEmail(MemberVO memberVO);
+	public MainArticleVO getMainArticleByMainArticleNoOrderByDate(
+			Integer integer);
+	public MemberVO getMemberNickNameByEmail(MemberVO memberVO);
+	public List<Integer> getWriteMainArticleNoByEmail(MemberVO memberVO);
+	public List<Integer> getJoinMainArticleNoByEmail(MemberVO memberVO);
+	public List<RankingVO> getRankingList();
 }

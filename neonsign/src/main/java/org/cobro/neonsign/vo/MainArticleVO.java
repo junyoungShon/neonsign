@@ -17,7 +17,7 @@ public class MainArticleVO {
 	//MainArticleVO는 MemberVO와 SubArticleVO를 가진다.
 	private MemberVO memberVO;
 	private List<SubArticleVO> subArticleList;
-	private ArrayList<ArrayList<TagBoardVO>> tagBoardVOList;
+	private List<TagBoardVO> tagBoardVOList;;
 	private String tagName;
 	public MainArticleVO() {
 		super();
@@ -28,8 +28,8 @@ public class MainArticleVO {
 			int mainArticleHIt, int mainArticleLike, int mainArticleTotalLike,
 			String mainArticleDate, String mainArticleUpdateDate,
 			String mainArticleComplete, MemberVO memberVO,
-			List<SubArticleVO> subArticleList,
-			ArrayList<ArrayList<TagBoardVO>> tagBoardVOList, String tagName) {
+			List<SubArticleVO> subArticleList, List<TagBoardVO> tagBoardVOList,
+			String tagName) {
 		super();
 		this.mainArticleNo = mainArticleNo;
 		this.memberEmail = memberEmail;
@@ -118,10 +118,10 @@ public class MainArticleVO {
 	public void setSubArticleList(List<SubArticleVO> subArticleList) {
 		this.subArticleList = subArticleList;
 	}
-	public ArrayList<ArrayList<TagBoardVO>> getTagBoardVOList() {
+	public List<TagBoardVO> getTagBoardVOList() {
 		return tagBoardVOList;
 	}
-	public void setTagBoardVOList(ArrayList<ArrayList<TagBoardVO>> tagBoardVOList) {
+	public void setTagBoardVOList(List<TagBoardVO> tagBoardVOList) {
 		this.tagBoardVOList = tagBoardVOList;
 	}
 	public String getTagName() {

@@ -15,9 +15,15 @@
 		<put-attribute name="footer"  value="/WEB-INF/views/templates/footer.jsp"  />
 		<put-attribute name="main"  value="/WEB-INF/views/main.jsp"  />
 	</definition>
+	
 	<definition name="completeMainArticleView" extends="home">
 		<put-attribute name="main"  value="/WEB-INF/views/completeMainArticleView.jsp" />
 	</definition>	
+	
+	<definition name="mypage" extends="home">
+		<put-attribute name="main"  value="/WEB-INF/views/mypage.jsp" />
+	</definition>	
+	
 	<definition name="adminPageView" template="/WEB-INF/views/templates/adminLayout.jsp">
 		<put-attribute name="header"  value="/WEB-INF/views/templates/header.jsp"  />
 		<put-attribute name="footer"  value="/WEB-INF/views/templates/footer.jsp"  />

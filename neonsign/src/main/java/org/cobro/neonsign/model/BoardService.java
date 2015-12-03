@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.cobro.neonsign.vo.ItjaMemberVO;
 import org.cobro.neonsign.vo.MainArticleVO;
+import org.cobro.neonsign.vo.MemberVO;
+import org.cobro.neonsign.vo.RankingVO;
 import org.cobro.neonsign.vo.ReportVO;
 import org.cobro.neonsign.vo.SubArticleVO;
 import org.cobro.neonsign.vo.TagBoardVO;
@@ -19,11 +21,8 @@ public interface BoardService {
 	public int updateMainArticle(MainArticleVO mainArticleVO);
 	public void deleteMainArticle(MainArticleVO mainArticleVO);
 	public MainArticleVO selectOneCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO);
-	public List<MainArticleVO> selectListCompleteMainArticleOrderByTotalLike();
-	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate();
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByTotalLike();
 	public Map<String, Object> selectOneNotCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO);
-	public List<MainArticleVO> selectListCompleteMainArticleOrderByDate();
 	public List<MainArticleVO> selectListCompleteMainArticle(int pageNo,String orderBy, String getTagName);
 	public List<MainArticleVO> selectListNotCompleteMainArticle(int pageNo,	String orderBy, String getTagName);
 	public List<MainArticleVO> getBestMainArticleVOListOrderByDate();
@@ -44,7 +43,6 @@ public interface BoardService {
 	public Map<String, Object> boardStatistics();
 	public List<MainArticleVO> articleSort(String sort);
 	public void articleNotify(MainArticleVO mainArticleVO);
-	public List<TagBoardVO> selectTagList();
 	List<ReportVO> mainArticleReportList();
 	List<ReportVO> subArticleReportList();
 	HashMap<String, Object> selectItjaState(ItjaMemberVO itjaMemberVO);
@@ -52,5 +50,15 @@ public interface BoardService {
 	void reportListDelete(ReportVO nvo);
 	public void subArticleBlock(int subArticleNumber, int articleNumber, int reportNumber);
 	public void memberPointUpdate(int reportNumber);
+	
+	// MyPage 요소들
+	public MemberVO getMemberRankingByMemberEmail(MemberVO memberVO);
+	public List<RankingVO> getRankingList();
+	public List<MainArticleVO> getPickedMainArticleByMemberEmailOrderByDate(
+			MemberVO memberVO);
+	public List<MainArticleVO> getWriteMainArticleByEmailOrderByDate(
+			MemberVO memberVO);
+	public List<MainArticleVO> getJoinMainArticleByEmailOrderByDate(
+			MemberVO memberVO);
 	
 }

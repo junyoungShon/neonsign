@@ -15,6 +15,7 @@ import org.cobro.neonsign.model.BoardService;
 import org.cobro.neonsign.vo.ItjaMemberVO;
 import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.MemberVO;
+import org.cobro.neonsign.vo.RankingVO;
 import org.cobro.neonsign.vo.ReportVO;
 import org.cobro.neonsign.vo.ReporterVO;
 import org.cobro.neonsign.vo.SubArticleVO;
@@ -417,4 +418,36 @@ public class BoardController {
 		}
 		return map;
 	}
+	
+	/**
+	 * myPage요소들 불러옴
+	 * @author JeSeong Lee
+	 */
+	@RequestMapping("mypage.neon")
+	public ModelAndView myPage(MemberVO memberVO){
+		System.out.println("넘어온 email : " + memberVO);
+		ModelAndView mav = new ModelAndView();
+		// email주소로 랭킹 받아서 memberVO에 set
+		memberVO = boardService.getMemberRankingByMemberEmail(memberVO);
+		// System.out.println("con : " + memberVO);
+		mav.addObject("rankMemberVO", memberVO);
+		// Rank에 따른 image 따오기 위한것
+		List<RankingVO> rankingVOList = boardService.getRankingList();
+		mav.addObject("rankingVOList", rankingVOList);
+		// email주소로 찜한글 받아오기
+		List<MainArticleVO> pickedMainArticleList
+			= boardService.getPickedMainArticleByMemberEmailOrderByDate(memberVO);
+		mav.addObject("pickedMainArticleList", pickedMainArticleList);
+		// email주소로 작성한 글 받아오기
+		List<MainArticleVO> writeMainArticleList
+			= boardService.getWriteMainArticleByEmailOrderByDate(memberVO);
+		mav.addObject("writeMainArticleList", writeMainArticleList);
+		// email 주소로 참여한 글 받아오기
+		List<MainArticleVO> joinMainArticleList
+			= boardService.getJoinMainArticleByEmailOrderByDate(memberVO);
+		mav.addObject("joinMainArticleList", joinMainArticleList);
+		mav.setViewName("mypage");
+		return mav;
+	}
+	
 }
