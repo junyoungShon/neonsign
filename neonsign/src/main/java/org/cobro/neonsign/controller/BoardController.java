@@ -123,7 +123,7 @@ public class BoardController {
 	 */
 	@RequestMapping("auth_itjaClick.neon")
 	@ResponseBody
-	public HashMap<String,Integer> itjaClick(HttpServletRequest request,ItjaMemberVO itjaMemberVO){
+	public HashMap<String,Object> itjaClick(HttpServletRequest request,ItjaMemberVO itjaMemberVO){
 		HttpSession session = request.getSession(false);
 		if(session!=null){
 			MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
@@ -152,8 +152,7 @@ public class BoardController {
 			}
 			session.setAttribute("memberVO",memberVO);
 		}
-		HashMap<String, Integer> map = boardService.selectItjaState(itjaMemberVO);
-		System.out.println(map);
+		HashMap<String, Object> map = boardService.selectItjaState(itjaMemberVO);
 		return map;
 	}
 	/**Controller2

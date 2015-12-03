@@ -31,9 +31,11 @@
 									Read Article</button>
 							</div>
 						</div>
+						${bestMainArticle.mainArticleUpdateDate}
+						<input type="hidden" value="${bestMainArticle.mainArticleUpdateDate}" name="card${bestMainArticle}">
 						<div class="social-line social-line-visible" data-buttons="4">
 							<button class="btn btn-social btn-pinterest">
-								05:22<br> 빨리!
+								<span class="time_area"></span>
 							</button>
 							<button class="btn btn-social btn-twitter itja">
                                 <c:set var="count" value="false" />

@@ -47,7 +47,7 @@ public interface BoardService {
 	public List<TagBoardVO> selectTagList();
 	List<ReportVO> mainArticleReportList();
 	List<ReportVO> subArticleReportList();
-	HashMap<String, Integer> selectItjaState(ItjaMemberVO itjaMemberVO);
+	HashMap<String, Object> selectItjaState(ItjaMemberVO itjaMemberVO);
 	void articleBlock(MainArticleVO mavo, int reportNumber);
 	void reportListDelete(ReportVO nvo);
 	public void subArticleBlock(int subArticleNumber, int articleNumber, int reportNumber);

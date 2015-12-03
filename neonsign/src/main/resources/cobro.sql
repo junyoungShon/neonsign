@@ -61,7 +61,7 @@ values('h@naver.com','f맨','aaaa',sysdate,'일반회원');
 -- ygoyo@naver.com 회원의 가입 정보 출격
 select * from BRAIN_MEMBER;
 
-selec
+select * from main_article
 drop table main_article
 --**주제글 데이터베이스**
 --블록여부 컬럼 추가 1이면 블록상태--

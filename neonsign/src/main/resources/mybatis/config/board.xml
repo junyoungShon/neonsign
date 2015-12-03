@@ -133,8 +133,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<selectKey keyProperty="mainArticleNo" resultType="int" order="BEFORE">
 			select main_article_seq.nextval from dual
 		</selectKey>
-		insert into main_article(MAIN_ARTICLE_NO,MAIN_ARTICLE_EMAIL,MAIN_ARTICLE_TITLE,MAIN_ARTICLE_CONTENT,MAIN_ARTICLE_DATE)
-		values(#{mainArticleNo},#{memberEmail},#{mainArticleTitle},#{mainArticleContent},sysdate)
+		insert into main_article(MAIN_ARTICLE_NO,MAIN_ARTICLE_EMAIL,MAIN_ARTICLE_TITLE,MAIN_ARTICLE_CONTENT,MAIN_ARTICLE_DATE,MAIN_ARTICLE_UPDATE_DATE)
+		values(#{mainArticleNo},#{memberEmail},#{mainArticleTitle},#{mainArticleContent},sysdate,to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'))
 	</insert>
 	<insert id="insertTagBoardVO" parameterType="tagBoardVO">
 		insert into tag_board (tag_name,main_article_no) values (#{tagName},#{mainArticleNo})
@@ -152,6 +152,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into sub_article (MAIN_ARTICLE_NO, SUB_ARTICLE_NO, MEMBER_EMAIL,SUB_ARTICLE_CONTENT,IS_CONNECT,SUB_ARTICLE_DATE,SUB_ARTICLE_GRADE) 
 		values(#{mainArticleNo},sub_article_seq.nextval,#{memberEmail},#{subArticleContent}, 0 , sysdate,#{subAtricleGrade})
 	</insert>
+	
+	<!-- 메인 아티클의 현재 update_date를 출력해준다. -->
+	<select id="selectOneMainArticleUpdateDate" resultType="string">
+		select to_char(main_article_update_date,'yyyymmddhh24miss') as MAIN_ARTICLE_UPDATE_DATE from MAIN_ARTICLE where MAIN_ARTICLE_NO = #{value}
+	</select>
+	<!-- 메인 아티클의 현재 update_date를 sysdate로 고쳐준다. -->
+	<update id="updateDateForMainArticle">
+		update main_article set main_article_update_date = sysdate where  MAIN_ARTICLE_NO = #{value}
+	</update>
+	<!-- 메인 아티클의 현재 update_date를 sysdate로 고쳐준다. -->
+	<update id="moveToBest">
+		update main_article set main_article_complete = -1 where  MAIN_ARTICLE_NO = #{value}
+	</update>
+	
+	
+	
 	<!-- 윤택 -->
 
 	<!-- 주제글의 정보-->
@@ -299,7 +315,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		resultMap="mainArticleResultMap">
 		select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
 	ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_date, 
-	to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_MAIN_ARTICLE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME
+	to_char(ma.MAIN_ARTICLE_UPDATE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME
 	from main_article ma, brain_member bm
 	where bm.MEMBER_EMAIL = ma.MAIN_ARTICLE_EMAIL and ma.MAIN_ARTICLE_COMPLETE=-1 order by ma_date desc
 	</select>

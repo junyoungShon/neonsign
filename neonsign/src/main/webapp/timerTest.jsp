@@ -37,36 +37,28 @@
 	<script>
 
 $(document).ready(function() {
-
-
-
-
-window.setInterval(function(){
-	//현재 시간	
-	var currunt_date = new Date();
-	var currunt_timestamp = Math.floor(currunt_date.getTime()/1000)
-	//완결 시간(서버에서 ajax로 완결시간을 받아와야함)
-	var complete_date = new Date(2015, 11-1, 25, 16, 43, 00);
-	var complete_timestamp = Math.floor(complete_date.getTime()/1000);
-	//투표 마감 시간
-	var close_timestamp = complete_timestamp+600;
-	//
-	var remind_timestamp = close_timestamp-currunt_timestamp
-	var remind_minutes = Math.floor(remind_timestamp/60);
-	var remind_seconds = remind_timestamp%60;
-	if(remind_minutes >= 1) {
-		$('#time_area').text(remind_minutes+'분'+remind_seconds+'초 남았음');
-	} else {
-		$('#time_area').text(remind_seconds+'초 남았음');
-	}
-	if(remind_minutes<0){
-		alert('투표 마감되었습니다.');
-	}
-
-
-
-
-}, 1000);
+	window.setInterval(function(){
+		//현재 시간	
+		var currunt_date = new Date();
+		var currunt_timestamp = Math.floor(currunt_date.getTime()/1000)
+		//완결 시간(서버에서 ajax로 완결시간을 받아와야함)
+		var complete_date = new Date(2015, 11-1, 25, 16, 43, 00);
+		var complete_timestamp = Math.floor(complete_date.getTime()/1000);
+		//투표 마감 시간
+		var close_timestamp = complete_timestamp+600;
+		//
+		var remind_timestamp = close_timestamp-currunt_timestamp
+		var remind_minutes = Math.floor(remind_timestamp/60);
+		var remind_seconds = remind_timestamp%60;
+		if(remind_minutes >= 1) {
+			$('.time_area').html(remind_minutes+'분'+remind_seconds+'초 남았음');
+		} else {
+			$('.time_area').html(remind_seconds+'초 남았음');
+		}
+		if(remind_minutes<0){
+			//alert('투표 마감되었습니다.');
+		}
+	}, 1000);
 
 });
 </script>

@@ -10,6 +10,7 @@ import org.cobro.neonsign.vo.TagBoardVO;
 import org.cobro.neonsign.vo.TagVO;
 
 public interface BoardDAO {
+	public String selectOneMainArticleUpdateDate (int mainArticleNo);
 	//main article 관련 메서드
 	public void insertMainArticle(MainArticleVO mainArticleVO);
 	public void updateMainArticle(MainArticleVO mainArticleVO);
@@ -62,4 +63,6 @@ public interface BoardDAO {
 			SubArticleVO subArticleVO);
 	public void itjaCountDefault(ItjaMemberVO itjaMemberVO);
 	public int alreadyWriteSubArticleInThisGrade(SubArticleVO subArticleVO);
+	public void updateDateForMainArticle(int mainArticleNo);
+	public void moveToBest(int mainArticleNo);
 }

@@ -360,14 +360,26 @@ public class BoardServiceImpl implements BoardService{
 	 * 해당 글의 itja 수와, 요청한 아이디가 itja를 눌렀는지 여부를 판단해준다.
 	 * 1. itjaMemberBean에 잇자 체크를 요청하고
 	 * 2. Map을 통해 itja수 와 잇자를 한 것인지 취소한 것인지를 리턴한다.
+	 * 3. 총 잇자수가 10을 넘는 순간 주제글의 업데이트 데이트가 null이 아닐 경우(10이 되었다 취소되는 경우 다시 업데이트 갱신되는 것을 방지)
+	 * 4. 주제글의 업데이트 데이트를 sysdate로 수정해준다.
 	 * @author junyoung
 	 */
 	@Override
-	public HashMap<String, Integer> selectItjaState(ItjaMemberVO itjaMemberVO) {
-		HashMap<String,Integer> map = new HashMap<String, Integer>();
+	public HashMap<String, Object> selectItjaState(ItjaMemberVO itjaMemberVO) {
+		HashMap<String,Object> map = new HashMap<String, Object>();
 		map.put("itjaSuccess",itjaMemberBean.checkItja(itjaMemberVO));
 		map.put("itjaCount",itjaMemberBean.itjaCount(itjaMemberVO));
-		map.put("itjaTotalCount",itjaMemberBean.itjaTotalCount(itjaMemberVO));
+		int totalCount = itjaMemberBean.itjaTotalCount(itjaMemberVO);
+		map.put("itjaTotalCount",totalCount);
+		if(totalCount>9){
+			String defaultUpdateDate = boardDAO.selectOneMainArticleUpdateDate(itjaMemberVO.getMainArticleNo());
+			if(defaultUpdateDate.equals("19700101000000")){
+				boardDAO.updateDateForMainArticle(itjaMemberVO.getMainArticleNo());
+				map.put("mainArticleUpdateDate",boardDAO.selectOneMainArticleUpdateDate(itjaMemberVO.getMainArticleNo()));
+				boardDAO.moveToBest(itjaMemberVO.getMainArticleNo());
+				map.put("moveToBest", 1);
+			}
+		}
 		return map;
 	}
 	

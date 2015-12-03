@@ -436,5 +436,30 @@ public class BoardDAOImpl implements BoardDAO{
 		System.out.println("alreadyWriteSubArticleInThisGrade : "+result);
 		return  result;
 	}
+	/**
+	 * 메인 아티클의 현재 update_date를 출력해주는 메서드
+	 * 기본 값은 19700101000000
+	 * @author junyoung
+	 */
+	@Override
+	public String selectOneMainArticleUpdateDate(int mainArticleNo) {
+		return sqlSessionTemplate.selectOne("board.selectOneMainArticleUpdateDate",mainArticleNo);
+	}
+	/**
+	 * 메인 아티클의 현재 update_date를 sysdate로 업데이트 해주는 메서드
+	 * @author junyoung
+	 */
+	@Override
+	public void updateDateForMainArticle(int mainArticleNo) {
+		sqlSessionTemplate.update("board.updateDateForMainArticle", mainArticleNo);
+	}
+	/**
+	 * 새로운 메인아티클의 토탈 잇자 수가 10이 되는 순간 best로 옮겨준다.
+	 * @author junyoung
+	 */
+	@Override
+	public void moveToBest(int mainArticleNo) {
+		sqlSessionTemplate.update("board.moveToBest", mainArticleNo);
+	}
 
 }
