@@ -985,12 +985,12 @@ $(document).ready(function(){ //DOM이 준비되고
 	 * */
 	// alert("파워ON!!!@@@@@");
 	$(".pickBtn").on('click',function(){
-		// alert(memberEmail);
+		// alert($(this).parent().siblings().eq(0).children().eq(5).val());
 		var mainArticleNo = $(this).parent().siblings().eq(0).children().eq(5).val();
 		var memberEmail = $(this).parent().siblings().eq(0).children().eq(6).val();
 		var pickBtn = $(this);
 		// alert(pickBtn);
-		// alert(mainArticleNo + ", " + memberEmail);
+		alert(mainArticleNo + ", " + memberEmail);
 		$.ajax({
 			type:"post",
 			url:"auth_updatePickedVO.neon",

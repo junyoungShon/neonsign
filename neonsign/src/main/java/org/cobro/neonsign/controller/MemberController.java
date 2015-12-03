@@ -13,8 +13,10 @@ import org.cobro.neonsign.model.ItjaMemberBean;
 import org.cobro.neonsign.model.MemberService;
 import org.cobro.neonsign.vo.ItjaMemberVO;
 import org.cobro.neonsign.vo.MemberVO;
+import org.cobro.neonsign.vo.PickedVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -146,5 +148,25 @@ public class MemberController {
 		String memberEmail=request.getParameter("memberEmail");
 		memberService.memberBlockRelease(memberEmail);
 		return new ModelAndView("redirect:getMemberList.neon");
+	}
+	
+	/**
+	 * 찜목록 수정(로그인된 세션도 수정)
+	 * @author JeSeong Lee
+	 */
+	@RequestMapping(value="auth_updatePickedVO.neon", method=RequestMethod.POST)
+	@ResponseBody
+	public String updatePickedVO(PickedVO pvo, HttpServletRequest request){
+		System.out.println("넘어오는 찜 정보 : " + pvo);
+		String updateMsg = memberService.updatePickedVO(pvo);
+		// System.out.println(updateMsg);
+		HttpSession session = request.getSession();
+		List<PickedVO> pickList = memberService.getPickListByMemberEmail(pvo.getMemberEmail());
+		// System.out.println("cont pickList : " + pickList);
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		memberVO.setPickedVOList(pickList);
+		//System.out.println(memberVO);
+		session.setAttribute("memberVO", memberVO);
+		return updateMsg;
 	}
 }

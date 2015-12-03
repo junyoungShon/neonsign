@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.cobro.neonsign.vo.MemberVO;
+import org.cobro.neonsign.vo.PickedVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 @Repository
@@ -93,6 +94,8 @@ public class MemberDAOImpl implements MemberDAO{
 		System.out.println(memberEmail);
 		sqlSessionTemplate.update("member.memberBlockRelease",memberEmail);
 	}
+
+
 	/**
 	 * pickedVO가 없는 초기 회원의 로그인을 위한 디폴트 로그인
 	 * @author junyoung
@@ -103,4 +106,37 @@ public class MemberDAOImpl implements MemberDAO{
 		return sqlSessionTemplate.selectOne("member.defaultMemberLogin", memberVO);
 	}
 	
+	/**
+	 * 찜 여부 확인
+	 * @author JeSeong Lee
+	 */
+	@Override
+	public PickedVO selectPickedVO(PickedVO pvo) {
+		return sqlSessionTemplate.selectOne("member.selectPickedVO", pvo);
+	}
+	
+	/**
+	 * 찜 여부 확인 후 찜 등록
+	 * @author JeSeong Lee
+	 */
+	@Override
+	public int insertPickedVO(PickedVO pvo) {
+		return sqlSessionTemplate.insert("member.insertPickedVO", pvo);
+	}
+	/**
+	 * 찜 여부 확인 후 찜 삭제
+	 * @author JeSeong Lee
+	 */
+	@Override
+	public int deletePickedVO(PickedVO pvo) {
+		return sqlSessionTemplate.delete("member.deletePickedVO", pvo);
+	}
+	/**
+	 * email로 찜리스트 받아옴
+	 * @author JeSeong Lee
+	 */
+	@Override
+	public List<PickedVO> getPickListByMemberEmail(String memberEmail) {
+		return sqlSessionTemplate.selectList("member.getPickListByMemberEmail", memberEmail);
+	}
 }
