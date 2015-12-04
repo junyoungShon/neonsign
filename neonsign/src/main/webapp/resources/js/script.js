@@ -43,11 +43,14 @@ $(document).ready(function(){ //DOM이 준비되고
 					          "<center><button class='closeToast' "+
 					          "onclick='detailItjaView(mainArticleNO"+bestMainArticleNo+");'>Ok</button> "+
 					          "<button class='closeToast'>Cancel</button>";
+							$('.time_area').eq(i).html('새로고침<br>필요');
 						}else if(data.result="continue"){
 							"번 주제글에 새로운 잇자 타임이 시작되었습니다. 바로 참여 하실래요?<br/><br/>"+
 					          "<center><button class='closeToast' "+
 					          "onclick='detailItjaView(mainArticleNO"+bestMainArticleNo+");'>Ok</button> "+
 					          "<button class='closeToast'>Cancel</button>";
+							alert( $('.updateDate').val());
+							$('.time_area').eq(i).html('새로고침<br>필요');
 						}
 						$().toasty({
 						    autoHide: 2000,

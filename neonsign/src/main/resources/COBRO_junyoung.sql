@@ -11,9 +11,9 @@ select MAIN_ARTICLE_NO, MAIN_ARTICLE_EMAIL,
 		MAIN_ARTICLE_LIKE, MAIN_ARTICLE_TOTAL_LIKE, MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE) 
 		values(main_article_seq.nextval,'e@naver.com','화장실에서 벌어진 일','손을 씻지 않고 나왔다',0, 0, 0, 
 		sysdate, to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'),0);
-		
-		select main_article_no,to_char(main_article_update_date,'yyyymmddhh24miss') as MAIN_ARTICLE_UPDATE_DATE from MAIN_ARTICLE where MAIN_ARTICLE_NO = #{value}
-		
+		select max(SUB_ARTICLE_GRADE)+1 as SUB_ARTICLE_GRADE from sub_article where MAIN_ARTICLE_NO=39 and IS_CONNECT=1
+		select main_article_no,to_char(main_article_update_date,'yyyymmddhh24miss') as MAIN_ARTICLE_UPDATE_DATE from MAIN_ARTICLE where MAIN_ARTICLE_NO = 37
+		update main_article set main_article_update_date = sysdate where  MAIN_ARTICLE_NO = 36
 		selectListHigherLikeSubArticle
 		
 		select sub_article_no,sub_article_grade,is_end,to_char(sub_article_date,'yyyymmddhh24miss')
@@ -72,7 +72,19 @@ select bm.MEMBER_EMAIL, bm.member_Category,bm.MEMBER_NICKNAME, pa.MAIN_ARTICLE_N
 		select * from MAIN_ARTICLE
 		select * from ITJA_MEMBER
 		select * from sub_article
+		
+		select main_article_no,sub_article_no,sub_article_grade,is_end,to_char(sub_article_date,'yyyymmddhh24miss') as subarticle_date from sub_article
+			where subarticle_like=(select max(subarticle_like) from sub_article where main_article_no = 39 and sub_article_grade=0
+			and main_article_no = #{mainArticleNo} and sub_article_grade=#{subAtricleGrade} order by subarticle_date desc
+			
+			
+				select sub_article_no,sub_article_grade,is_end,to_char(sub_article_date,'yyyymmddhh24miss') as subarticle_date from sub_article
+			where subarticle_like=(select max(subarticle_like) from sub_article where main_article_no =40 and sub_article_grade=0)
+			and main_article_no = 40 and sub_article_grade=0 order by subarticle_date desc
+			
+		
 		select max(SUB_ARTICLE_GRADE)+1 as SUB_ARTICLE_GRADE from sub_article where MAIN_ARTICLE_NO=46 and IS_CONNECT=1
+		
 		select count(*) from sub_article where member_email = 'qqqq@qqqq.eee' and SUB_ARTICLE_GRADE =4 and main_article_no = 46
 		
 		

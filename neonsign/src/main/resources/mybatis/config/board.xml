@@ -194,9 +194,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	<!-- 가장 잇자수가 높은 글들을 불러옵니다.  -->
 	<select id="selectListHigherLikeSubArticle" parameterType="subArticleVO" resultMap="subArticleResultMap">
-			select sub_article_no,sub_article_grade,is_end,to_char(sub_article_date,'yyyymmddhh24miss') as subarticle_date from sub_article
+			select sub_article_no,sub_article_grade,is_end,to_char(sub_article_date,'yyyymmddhh24miss') as sub_article_date from sub_article
 			where subarticle_like=(select max(subarticle_like) from sub_article where main_article_no = #{mainArticleNo} and sub_article_grade=#{subAtricleGrade})
-			and main_article_no = #{mainArticleNo} and sub_article_grade=#{subAtricleGrade} order by subarticle_date desc
+			and main_article_no = #{mainArticleNo} and sub_article_grade=#{subAtricleGrade} order by sub_article_date desc
 	</select>
 	
 	

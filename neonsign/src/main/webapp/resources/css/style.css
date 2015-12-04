@@ -1,4 +1,4 @@
-@CHARSET "UTF-8";
+ @CHARSET "UTF-8";
 
 
 /* Links */
@@ -27,7 +27,6 @@ a:hover {
 html,
 body {
   height: 100%;
-  
 }
 body {
   color: #fff;
