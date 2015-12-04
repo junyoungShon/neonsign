@@ -11,7 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="memberPassword" column="MEMBER_PASSWORD" />
 		<result property="memberJoinDate" column="MEMBER_JOIN_DATE" />
 		<result property="memberPoint" column="MEMBER_POINT" />
-		<result property="memberNotifiedAmount" column="MEMBER_NOTIFIED_AMOUNT" />
+      	<result property="memberReportAmount" column="MEMBER_REPORT_AMOUNT" />
 		<result property="memberCategory" column="MEMBER_CATEGORY"/>
 		<collection property="pickedVOList" column="MEMBER_EMAIL"
 			ofType="pickedVO" javaType="ArrayList" resultMap ="pickedResultMap"/>
