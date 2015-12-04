@@ -124,7 +124,8 @@ public class ReportDAOImpl implements ReportDAO{
 	 */
 	@Override
 	public void subArticleReport(SubArticleVO subArticleVO) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub\
+		System.out.println("잇는글 신고 : "+subArticleVO);
 		sqlSessionTemplate.insert("report.subArticleReport",subArticleVO);
 		//int reportNo=sqlSessionTemplate.selectOne("report.nowReportNumber");
 		
@@ -137,6 +138,7 @@ public class ReportDAOImpl implements ReportDAO{
 	public int nowReportNumber() {
 		// TODO Auto-generated method stub
 		ReportVO rvo=sqlSessionTemplate.selectOne("report.nowReportNumber");
+		System.out.println(rvo);
 		int reportNo=rvo.getReportNo();
 		return reportNo;
 	}
@@ -158,6 +160,7 @@ public class ReportDAOImpl implements ReportDAO{
 	@Override
 	public int updateSubArticleReport(SubArticleVO subArticleVO) {
 		// TODO Auto-generated method stub
+		System.out.println("잇는글 신고 업데이트");
 		return sqlSessionTemplate.update("report.updateSubArticleReport",subArticleVO);
 	}
 	/**
@@ -167,6 +170,7 @@ public class ReportDAOImpl implements ReportDAO{
 	@Override
 	public int updateMainArticleReport(MainArticleVO mainArticleVO) {
 		// TODO Auto-generated method stub
+		System.out.println("주제글 신고 업데이트");
 		return sqlSessionTemplate.update("report.updateMainArticleReport",mainArticleVO);
 	}
 	/**

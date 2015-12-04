@@ -73,4 +73,8 @@ public interface BoardDAO {
 	public List<Integer> getWriteMainArticleNoByEmail(MemberVO memberVO);
 	public List<Integer> getJoinMainArticleNoByEmail(MemberVO memberVO);
 	public List<RankingVO> getRankingList();
+	public List<SubArticleVO> selectListHigherLikeSubArticle(
+			SubArticleVO subArticleVO);
+	public void updateBestToCompletArticle(int mainArticleNo);
+	public void updateIsConnect(SubArticleVO subArticleVO);
 }

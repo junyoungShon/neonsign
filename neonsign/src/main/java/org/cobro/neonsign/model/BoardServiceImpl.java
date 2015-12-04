@@ -53,6 +53,73 @@ public class BoardServiceImpl implements BoardService{
 	public List<TagVO> selectListTagNameOrderBySearchCount(){
 		return boardDAO.selectListTagNameOrderBySearchCount();
 	}
+	/**
+	 * 
+	 * @author junyoung
+	 */
+	public HashMap<String,Object> storyLinking(SubArticleVO subArticleVO){
+		System.out.println("스토리링킨 서비스"+subArticleVO);
+		int curruntGrade = boardDAO.selectSubArticleCurruntGrade(subArticleVO);
+		System.out.println("스토리링킨 서비스 현재 스토리 단계"+curruntGrade);
+		List<SubArticleVO> list = boardDAO.selectListHigherLikeSubArticle(subArticleVO);
+		HashMap<String,Object> map = new HashMap<String, Object>();
+		subArticleVO.setSubAtricleGrade(curruntGrade);
+		System.out.println("스토리링킨 서비스 관련 글 몇개 출력?"+list.size());
+		//댓글이 없는 경우 자동 완결 처리 한다.
+		if(list.size()==0){
+			//메인 아티클의 컴플리트 여부를 수정해준다.
+			boardDAO.updateBestToCompletArticle(subArticleVO.getMainArticleNo());
+			map.put("result","complete");
+		}else if(list.size()==1){
+			if(list.get(0).getIsEnd()==0){
+				//최고 잇자 수 득표한 댓글이 계속 잇는 글일 경우 최종 수정일을 고쳐준다.
+				boardDAO.updateDateForMainArticle(list.get(0).getMainArticleNo());
+				//우선 연결을 해준다.
+				System.out.println("여기로 오지 ?");
+				subArticleVO.setSubArticleNo(list.get(0).getSubArticleNo());
+				boardDAO.updateIsConnect(subArticleVO);
+				map.put("result","continue");
+			}else{
+				//최고 잇자 수 득표한 댓글이 그만하자는 글일 경우
+				//우선 연결을 해준다.
+				subArticleVO.setSubArticleNo(list.get(0).getSubArticleNo());
+				boardDAO.updateIsConnect(subArticleVO);
+				//메인 아티클의 컴플리트 여부를 수정해준다.
+				boardDAO.updateBestToCompletArticle(subArticleVO.getMainArticleNo());
+				map.put("result","complete");
+			}
+		//동점 댓글이 여러개일 경우
+		}else{
+			int j = 0;
+			int max = 0;
+			//동점 댓글들 중 가장 최근의 댓글들을 찾는다.
+			for(int i=0;i<list.size();i++){
+				if(max<Integer.parseInt(list.get(i).getSubArticleDate())){
+					max=Integer.parseInt(list.get(i).getSubArticleDate());
+					j=i;
+				}
+			}
+			
+			if(list.get(j).getIsEnd()==0){
+				//최고 잇자 수 득표한 댓글이 계속 잇는 글일 경우 최종 수정일을 고쳐준다.
+				boardDAO.updateDateForMainArticle(subArticleVO.getMainArticleNo());
+				//우선 연결을 해준다.
+				subArticleVO.setSubArticleNo(list.get(j).getSubArticleNo());
+				boardDAO.updateIsConnect(subArticleVO);
+				map.put("result","continue");
+			}else{
+				//최고 잇자 수 득표한 댓글이 그만하자는 글일 경우
+				//우선 연결을 해준다.
+				subArticleVO.setSubArticleNo(list.get(j).getSubArticleNo());
+				boardDAO.updateIsConnect(subArticleVO);
+				//메인 아티클의 컴플리트 여부를 수정해준다.
+				boardDAO.updateBestToCompletArticle(subArticleVO.getMainArticleNo());
+				map.put("result","complete");
+			}
+		}
+		return map;
+		
+	}
 	@Override
 	public int updateMainArticle(MainArticleVO mainArticleVO) {
 		// TODO Auto-generated method stub
@@ -198,19 +265,15 @@ public class BoardServiceImpl implements BoardService{
 	public boolean insertSubArticle(SubArticleVO subArticleVO) {
 		boolean flag =false;
 		//현재 진행되는 이야기 단계를 반환
-		System.out.println("aa2"+subArticleVO.getSubAtricleGrade());
 		int subArticleCurruntGrade = boardDAO.selectSubArticleCurruntGrade(subArticleVO);
 		subArticleVO.setSubAtricleGrade(subArticleCurruntGrade);
-		System.out.println("aa4"+subArticleVO.getSubAtricleGrade());
 		//현재 진행되는 이야기에 이미 사용자가 글을 썻는지 반환 썻으면 1 안썼으면 0
 		int alreadyWriteSubArticleInThisGrade = boardDAO.alreadyWriteSubArticleInThisGrade(subArticleVO);
 		System.out.println(alreadyWriteSubArticleInThisGrade);
 		if(alreadyWriteSubArticleInThisGrade==0){
 			flag=true;
-			System.out.println("aa7"+subArticleVO.getSubAtricleGrade());
 			boardDAO.insertSubArticle(subArticleVO);
 		}
-		System.out.println("aa8"+subArticleVO.getSubAtricleGrade());
 		return flag;
 	}
 	@Override

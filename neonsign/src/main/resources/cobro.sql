@@ -307,12 +307,12 @@ SEARCH_COUNT number not null
 )
 
 --**신고 데이터 베이스**
-
+drop table reporter
 create table report(
 REPORT_NO varchar2(30) primary key,
 REPORT_DATE date not null,
 MAIN_ARTICLE_NO number not null,
-SUB_ARTICLE_NO number not null,
+SUB_ARTICLE_NO number,
 REPORT_AMOUNT number default 0,
 STAGES_OF_PROCESS varchar2(20), 
 constraint fk_report_main_article_no foreign key(MAIN_ARTICLE_NO) references main_article(MAIN_ARTICLE_NO),
@@ -321,7 +321,7 @@ constraint fk_report_sub_article_no foreign key(SUB_ARTICLE_NO) references sub_a
 --21 22 
 select * from report
 insert into report (REPORT_NO,REPORT_DATE,MAIN_ARTICLE_NO,SUB_ARTICLE_NO,STAGES_OF_PROCESS)
-values(report_seq.nextval,sysdate,1,22,'대기')
+values(report_seq.nextval,sysdate,18,18,'대기')
 select * from report
 --**신고자 데이터 베이스( 복합키 적용)**
 create table reporter(
@@ -333,8 +333,8 @@ constraint pk_reporter_no primary key(REPORT_NO,MEMBER_EMAIL)
 )
 
 select * from brain_member WHERE MEMBER_EMAIL='a@naver.com' 
-insert into reporter(REPORT_NO,MEMBER_EMAIL) values(6,'a@naver.com');
-insert into reporter(REPORT_NO,MEMBER_EMAIL) values(6,'b@naver.com');
+insert into reporter(REPORT_NO,MEMBER_EMAIL) values(18,'a@naver.com');
+insert into reporter(REPORT_NO,MEMBER_EMAIL) values(18,'b@naver.com');
 insert into reporter(REPORT_NO,MEMBER_EMAIL) values(6,'c@naver.com');
 insert into  reporter(REPORT_NO,MEMBER_EMAIL) values(7,'a@naver.com');
 insert into  reporter(REPORT_NO,MEMBER_EMAIL) values(7,'c@naver.com');

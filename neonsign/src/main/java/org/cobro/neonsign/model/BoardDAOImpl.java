@@ -516,5 +516,28 @@ public class BoardDAOImpl implements BoardDAO{
 	public void moveToBest(int mainArticleNo) {
 		sqlSessionTemplate.update("board.moveToBest", mainArticleNo);
 	}
+	/**
+	 * 가장 높은 잇자를 받은 서브 아티클을 불러온다.
+	 * @author junyoung
+	 */
+	@Override
+	public List<SubArticleVO> selectListHigherLikeSubArticle(
+			SubArticleVO subArticleVO) {
+		return sqlSessionTemplate.selectList("board.selectListHigherLikeSubArticle", subArticleVO);
+	}
+	/**
+	 * 베스트 글을 완결글로 옮겨 줍니다.
+	 */
+	@Override
+	public void updateBestToCompletArticle(int mainArticleNo) {
+		sqlSessionTemplate.update("board.updateBestToCompletArticle", mainArticleNo);
+	}
+	/**
+	 * 가장 많은 잇자 글이 continue일 경우 isConnect를 수정해줍니다.
+	 */
+	@Override
+	public void updateIsConnect(SubArticleVO subArticleVO) {
+		sqlSessionTemplate.update("board.updateIsConnect", subArticleVO);
+	}
 
 }

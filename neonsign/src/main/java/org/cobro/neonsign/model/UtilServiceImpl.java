@@ -118,6 +118,7 @@ public class UtilServiceImpl implements UtilService{
 			//주제글 신고를 업데이트
 			//주제글 신고 업데이트 후 업데이트가 실패했다면 신고하는메서드 실행 (실패시 result에 0이 할당된다)
 			result=reportDAO.updateMainArticleReport(mainArticleVO);
+			System.out.println("reulst : "+result);
 			if(result==0){
 			//주제글 신고하는 메서드
 				System.out.println("주제글 신고 생성");
@@ -127,9 +128,10 @@ public class UtilServiceImpl implements UtilService{
 			//잇는글 신고를 업데이트
 			//잇는글 업데이트 후 업데이트가 실패했다면 신고하는메서드 실행 (실패시 result에 0이 할당된다)
 			result=reportDAO.updateSubArticleReport(subArticleVO);
+			System.out.println("reulst : "+result);
 			if(result==0){
 			//잇는글 신고 수행하는 메서드
-				reportDAO.updateSubArticleReport(subArticleVO);
+				reportDAO.subArticleReport(subArticleVO);
 			}
 		}
 		//현재 ReportNumber를 받아오는 메서드
