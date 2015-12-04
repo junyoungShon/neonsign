@@ -126,7 +126,7 @@
                         <p class="description">
 		                    ${writeMainArticle.mainArticleContent}
                   		</p>
-                  	<a href="mypage.neon?memberEmail=${pickMainArticle.memberVO.memberEmail}" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" 
+                  	<a href="mypage.neon?memberEmail=${writeMainArticle.memberVO.memberEmail}" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" 
 					data-toggle="popover" 
 					title="${writeMainArticle.memberVO.memberNickName}님, ${writeMainArticle.memberVO.rankingVO.memberGrade} PTS(${writeMainArticle.memberVO.memberPoint} / ${writeMainArticle.memberVO.rankingVO. maxPoint})" 
 					data-content="${writeMainArticle.memberVO.memberNickName}님 Click하여 페이지 보기" >

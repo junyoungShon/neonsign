@@ -257,7 +257,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          to_char(ma.MAIN_ARTICLE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
          to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
          ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME, tb.TAG_NAME as TAG_NAME,
-         bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT,   ceil(rownum/9) as page 
+         bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT, ceil(rownum/9) as page 
          from main_article ma, brain_member bm, tag_board tb
          where ma.MAIN_ARTICLE_EMAIL = bm.MEMBER_EMAIL and ma.MAIN_ARTICLE_COMPLETE = 1
          order by ma.MAIN_ARTICLE_UPDATE_DATE desc
@@ -276,7 +276,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          to_char(ma.MAIN_ARTICLE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
          to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
          ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME, tb.TAG_NAME as TAG_NAME,
-         bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT,   ceil(rownum/9) as page 
+         bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT, ceil(rownum/9) as page 
          from main_article ma, brain_member bm, tag_board tb
          where ma.MAIN_ARTICLE_EMAIL = bm.MEMBER_EMAIL and ma.MAIN_ARTICLE_COMPLETE = 1
          order by ma.MAIN_ARTICLE_TOTAL_LIKE desc
@@ -294,7 +294,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          to_char(ma.MAIN_ARTICLE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
          to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
          ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME, tb.TAG_NAME as TAG_NAME,
-         bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT,   ceil(rownum/9) as page 
+         bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT, ceil(rownum/9) as page 
          from main_article ma, brain_member bm, tag_board tb
          where ma.MAIN_ARTICLE_EMAIL = bm.MEMBER_EMAIL and ma.MAIN_ARTICLE_COMPLETE = 1
             and ma.MAIN_ARTICLE_NO=tb.MAIN_ARTICLE_NO and tb.TAG_NAME=#{tagName}
