@@ -89,8 +89,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select MEMBER_EMAIL,MAIN_ARTICLE_NO from PICKED_ARTICLE 
 		where MEMBER_EMAIL = #{memberEmail}
 	</select>
-    
-    
+ <!-- 한솔 비밀번호 재확인 -->
+	 <select id="findByPassword" resultMap="memberResultMap" parameterType="string" resultType="memberVO">
+	 select MEMBER_PASSWORD from brain_member where  MEMBER_EMAIL=#{MEMBER_EMAIL}
+	 </select>
+	 <!-- 한솔 회원탈퇴 -->
+    <delete id="memberDelete" parameterType="memberVO" >
+	 delete from brain_member where MEMBER_EMAIL=#{memberEmail}
+    </delete>   
+       <!-- 회원정보수정 -->
+    <update id="memberUpdate" parameterType="memberVO">
+    update brain_member
+    set MEMBER_PASSWORD=#{memberPassword} , MEMBER_NICKNAME=#{memberNickName}
+    where MEMBER_EMAIL=#{memberEmail} 
+    </update>
+      
     
     
 </mapper> 		

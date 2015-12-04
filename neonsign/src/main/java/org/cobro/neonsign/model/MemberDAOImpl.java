@@ -32,9 +32,10 @@ public class MemberDAOImpl implements MemberDAO{
 	}
 
 	@Override
-	public int memberUpdate(MemberVO mvo) {
+	public int memberUpdate(MemberVO memberVO) {
 		// TODO Auto-generated method stub
-		return 0;
+		System.out.println(memberVO.getMemberPassword());
+		return sqlSessionTemplate.update("member.memberUpdate",memberVO);
 	}
 
 	@Override
@@ -44,10 +45,11 @@ public class MemberDAOImpl implements MemberDAO{
 
 
 
+
 	@Override
-	public MemberVO memberDelete(MemberVO mvo) {
+	public String memberDelete(MemberVO memberVO) {
 		// TODO Auto-generated method stub
-		return null;
+		return sqlSessionTemplate.selectOne("member.memberDelete",memberVO);
 	}
 
 	@Override
@@ -138,5 +140,11 @@ public class MemberDAOImpl implements MemberDAO{
 	@Override
 	public List<PickedVO> getPickListByMemberEmail(String memberEmail) {
 		return sqlSessionTemplate.selectList("member.getPickListByMemberEmail", memberEmail);
+	}
+
+	@Override
+	public MemberVO findByPassword(String checkPassComp) {
+		
+		return sqlSessionTemplate.selectOne("member.findByPassword",checkPassComp);
 	}
 }

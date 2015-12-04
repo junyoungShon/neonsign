@@ -10,9 +10,9 @@ public interface MemberDAO {
 	public MemberVO findMemberByEmail(String emailComp);
 	public MemberVO findMemberByNickName(String nameComp);
 	public int memberRegister(MemberVO mvo);
-	public int memberUpdate(MemberVO mvo);
+	public int memberUpdate(MemberVO memberVO);
 	public MemberVO memberLogin(MemberVO mvo);
-	public MemberVO memberDelete(MemberVO mvo);
+	public String memberDelete(MemberVO memberVO);
 	public ArrayList<MemberVO> getNotifyMemberList(MemberVO mvo);
 	public List<MemberVO> getMemberList();
 	public void memberBlock(String memberEmail);
@@ -23,4 +23,5 @@ public interface MemberDAO {
 	public int deletePickedVO(PickedVO pvo);
 	public List<PickedVO> getPickListByMemberEmail(String memberEmail);
 	public MemberVO defaultMemberLogin(MemberVO memberVO);
+	public MemberVO findByPassword(String checkPassComp);
 }

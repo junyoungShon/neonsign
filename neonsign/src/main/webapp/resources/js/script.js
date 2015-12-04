@@ -1165,5 +1165,223 @@ $(document).ready(function(){ //DOM이 준비되고
 		        $('[data-toggle="popover"]').popover('hide');
 		    }
 		});*/
+	
+	/*<!--업데이트 모달창 --!>*/
+	$('.memberUpate').click(function(){
+		$("#memberUpateModal").modal({
+			//취소버튼으로만 창을 끌 수 있도록 지정
+			backdrop: 'static',
+			keyboard: false
+		});
+	});
+
+	$("#memberUpateModal").on('show.bs.modal', function () {
+		//암호 공란 검사 및 암호 길이 검사
+		var userCheckFlag= false;
+		var userPassFlag = false;
+		var userRePassFlag = false;
+		var userNameFlag = false;
+		
+		
+		
+		$("#membercheckpassword").keyup(function () {
+			var checkPassComp = $(this).val();
+			var mailComp=$('#memberJoinupdateEmail').val();
+		
+			if(checkPassComp==""){
+				userCheckFlag = false;
+				$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-error');
+				$('.checkpassInput > .control-label').html('현재비밀번호를 입력해 주세요');
+				$('.checkpassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+			}else if(checkPassComp.length<8 || checkPassComp.length>19){
+				userPassFlag = false;
+				$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-error');
+				$('.checkpassInput > .control-label').html('비밀번호 확인중 입니다');
+				$('.checkpassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+			}else{					
+				$.ajax({
+					type:"post",
+					url:"findByPassword.neon",				
+					data:"mailComp="+mailComp,	
+					success:function(result){
+						if(result.memberPassword!=checkPassComp){
+							userCheckFlag = false;
+							$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-error');
+							$('.checkpassInput > .control-label').html("현재 비밀번호 오류");
+							$('.checkpassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+							  
+						}else{
+							userCheckFlag = true;
+							$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-success');
+							$('.checkpassInput > .control-label').html("확인 되었습니다");	
+							$('.checkpassInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
+							   
+						}//else2			
+					}//success			
+				});//ajax
+			
+			}//else1
+		});
+		
+
+		$("#memberupdateInputName").keyup(function(){
+			var nameComp = $(this).val();
+			
+			if(nameComp==""){
+				userNameFlag = false;
+				$('.nameInput').attr('class','form-group has-feedback nameInput has-error');
+				$('.nameInput > .control-label').html('닉네임을 입력해주세요');
+				$('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+			}else if(nameComp.length<2 || nameComp.length>8){
+				userNameFlag = false;
+				$('.nameInput').attr('class','form-group has-feedback nameInput has-error');
+				$('.nameInput > .control-label').html('닉네임은 1글자 이상 ~7글자 이하로 입력해주세요');
+				$('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+			}else{					
+				$.ajax({
+					type:"post",
+					url:"findMemberByNickName.neon",				
+					data:"nameComp="+nameComp,	
+					success:function(result){
+						if(result==false){
+							 userNameFlag = false;
+							$('.nameInput').attr('class','form-group has-feedback nameInput has-error');
+							$('.nameInput > .control-label').html(nameComp+"사용할수 없는 닉네임 입니다.");
+							$('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+							  
+						}else{
+							 userNameFlag = true;
+							$('.nameInput').attr('class','form-group has-feedback nameInput has-success');
+							$('.nameInput > .control-label').html(nameComp+"사용 가능한 닉네임 입니다");	
+							$('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
+							   
+						}//else2			
+					}//success			
+				});//ajax
+			
+			}//else1
+		
+		});//keyup
+		$("#memberupdatepassword").keyup(function(){
+			var passwordComp = $(this).val();
+			if(passwordComp==""){
+				userPassFlag = false;
+				$('.passInput').attr('class','form-group has-feedback passInput has-error');
+				$('.passInput > .control-label').html('암호를 입력해주세요');
+				$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+			}else if(passwordComp.length<8 || passwordComp.length>19){
+				userPassFlag = false;
+				$('.passInput').attr('class','form-group has-feedback passInput has-error');
+				$('.passInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
+				$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+			}else{
+				userPassFlag = true;
+				$('.passInput').attr('class','form-group has-feedback passInput has-success');
+				$('.passInput > .control-label').html('압호가 입력되었습니다.');
+				$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
+			}
+		});
+		//암호확인 공란 검사 및 암호확인 길이 검사 및 암호와 암호확인 값 비교
+		$("#memberupdateRepassword").keyup(function(){
+			var passComp = $('#memberupdatepassword').val();
+			var rePasswordComp = $(this).val();
+			if(rePasswordComp==""){
+				userRePassFlag = false;
+				$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
+				$('.rePassInput > .control-label').html('암호를 확인해주세요');
+				$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+			}else if(rePasswordComp.length<8 || rePasswordComp.length>19){
+				userRePassFlag = false;
+				$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
+				$('.rePassInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
+				$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+			}else if(passComp!=rePasswordComp){
+				userRePassFlag = false;
+				$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
+				$('.rePassInput > .control-label').html('암호확인이 제대로 이루어지지 않았습니다.');
+				$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+			}else{
+				userRePassFlag = true;
+				$('.rePassInput').attr('class','form-group has-feedback rePassInput has-success');
+				$('.rePassInput > .control-label').html('압호가 입력되었습니다.');
+				$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
+			}
+		});
+		$("#memberUpdateSubmit").click(function(){
+			
+			if(userPassFlag&&userRePassFlag&&userNameFlag){
+			$("#memberUpdate").submit();
+			alert("변경처리되었습니다");
+			}
+	});
+		});
+
+
+
+
+
+	//<!--회원탈퇴모달--!>
+	$('.memberDelete').click(function(){
+		$("#memberDeleteModal").modal({
+			//취소버튼으로만 창을 끌 수 있도록 지정
+			backdrop: 'static',
+			keyboard: false
+		});
+	});
+
+	var userCheckFlag=false;
+	$("#memberDeleteModal").on('show.bs.modal', function () {
+		 
+	 
+	$("#password").keyup(function () {
+		var PassComp = $(this).val();
+		var mailComp=$('#memberDeleteEmail').val();
+
+		if(PassComp==""){
+			userCheckFlag = false;
+			$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-error');
+			$('.checkpassInput > .control-label').html('현재비밀번호를 입력해 주세요');
+			$('.checkpassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+		}else if(PassComp.length<8 || PassComp.length>19){
+			userPassFlag = false;
+			$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-error');
+			$('.checkpassInput > .control-label').html('비밀번호 확인중 입니다');
+			$('.checkpassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+		}else{					
+			$.ajax({
+				type:"post",
+				url:"findByPassword.neon",				
+				data:"mailComp="+mailComp,	
+				success:function(result){
+					if(result.memberPassword!=PassComp){
+						userCheckFlag = false;
+						$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-error');
+						$('.checkpassInput > .control-label').html("현재 비밀번호 오류");
+						$('.checkpassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+						  
+					}else{
+						userCheckFlag = true;
+						$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-success');
+						$('.checkpassInput > .control-label').html("확인 되었습니다");	
+						$('.checkpassInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
+						   
+					}//else2			
+				}//success			
+			});//ajax
+		
+		}//else1
+
+
+	});
+	});
+
+	$("#memberDeleteSubmit").click(function(){		
+		alert(userCheckFlag);
+			if(userCheckFlag==true){
+				alert("회원탈퇴 되었습니다");
+				$("#memberDelete").submit();
+
+			}
+	});
 });//document.ready
 	

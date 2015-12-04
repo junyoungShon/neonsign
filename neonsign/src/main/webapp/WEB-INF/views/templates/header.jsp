@@ -44,7 +44,9 @@
   	 	 		</c:when>
   	 	 		<c:otherwise>
   	 	 		<li><a href="#" class="">${sessionScope.memberVO.memberNickName} 님</a></li>	 	 	
-  	 	 		<li><a href="#" class="memberupdate"> 회원정보수정</a></li>
+  	 	 		
+  	 	 		<li><a href="#" class="memberUpate">회원정보수정</a></li>
+                <li><a href="#" class="memberDelete">회원탈퇴</a></li>
   	 	 		<li><a href="${initParam.root}memberLogout.neon" id="logout">로그아웃</a></li>
   	 	 		<span><input type="hidden" id="memberUserEmail" value="${sessionScope.memberVO.memberEmail}"></span>
     			  </c:otherwise>		  
