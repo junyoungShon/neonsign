@@ -138,6 +138,7 @@
    <!-- Example row of columns -->
    <div class="row newItjaList">
       <!-- *** new Main 카드 1개 -->
+      
       <c:forEach var="newMainArticle"
          items="${requestScope.newMainArticleVOList}">
          <!-- name은 script.js에서 카드 현재 카드의 수를 구하기 위해 사용 -대협- -->

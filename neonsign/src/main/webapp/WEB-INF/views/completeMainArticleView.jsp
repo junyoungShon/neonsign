@@ -63,8 +63,8 @@
                      data-content="${completeMainArticle.memberVO.memberNickName}님 Click하여 페이지 보기" >
                   <span class="writersNickName">- ${completeMainArticle.memberVO.memberNickName} -</span>
                </a>
-                  <input type="hidden" name=""> <input type="hidden"
-                     class="mainArticleTitleNO" value="${completeMainArticle.mainArticleNo}">
+                 <input type="hidden" class="mainArticleTitleNO" value="${completeMainArticle.mainArticleNo}">
+                 <input type="hidden" name="memberEmail" value="${sessionScope.memberVO.memberEmail}">
                   <div class="actions">
                      <button class="btn btn-round btn-fill btn-neutral btn-modern"
                         data-toggle="modal" data-target="#cardDetailView">Read
