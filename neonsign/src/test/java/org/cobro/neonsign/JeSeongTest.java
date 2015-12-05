@@ -243,10 +243,4 @@ public class JeSeongTest {
 		}
 		// System.out.println(pickList);*/
 	}
-
-	private String removeDuplicateStringToken(
-			List<Integer> joinMainArticleNoList, String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
