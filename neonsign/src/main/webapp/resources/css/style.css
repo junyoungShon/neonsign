@@ -5,11 +5,7 @@
 @import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css); 
 
-a,
-a:focus,
-a:hover {
-  color: #fff;
-}
+
 
 /* Custom default button */
 .btn-default,
@@ -147,6 +143,7 @@ body {
 .modal-body{
 	color: black;
 	font-weight: bold;
+	text-align: left;
 }
 .modal-footer{
 	color: white;
@@ -229,15 +226,14 @@ body {
  text-align:center;   
   }
 }
-
 /**
 * @author JeSeong Lee
 * 닉네임 호버부분
 */
 .myPage{
-	width:25%;
-	margin-top: 52px;
-	height:40px;
+   width:25%;
+   margin-top: 52px;
+   height:40px;
     color: #000000;
     text-align: center;
     font-family: 'Nanum Pen Script', serif;
@@ -246,21 +242,21 @@ body {
     padding-top: 0px;
 }
 .gradeImg{
-	width: 45px;
-	height: 35px;
+   width: 45px;
+   height: 35px;
 }
 a.myProfileDetail{
-	font-size: 25px;
+   font-size: 25px;
     font-weight: 600;
 }
 
 a.myProfileDetail.data-content{
-	color: #000000;	
+   color: #000000;   
 }
 
 a.myProfileDetail:hover{
-	color: #000000;
-	/* color: #FFA07A; */
+   color: #000000;
+   /* color: #FFA07A; */
 }
 
 .popover-title {
@@ -273,7 +269,154 @@ a.myProfileDetail:hover{
     font-size: 12px;
 }
 a.myNickDetail{
-	font-size:15px;
+   font-size:15px;
+   padding: 0px;
+   border: 0px;
+}
+/* end */
+
+/**
+* @author JeSeong Lee
+* Img(로고, 등급), 팝오버, 마이페이지
+*/
+.gradeImg{
+   width: 75px;
+   height: 50px;
+}
+.logoImg{
+	margin-top : -10px;
+	margin-left: 1px;
 	padding: 0px;
-	border: 0px;
+	height: 40px;
+}
+.popover-title {
+    color: #000000;
+    font-size: 15px;
+}
+
+.popover-content {
+    color: #23aedc;
+    font-size: 12px;
+}
+a.myNickDetail{
+   font-size:15px;
+   padding: 0px;
+   border: 0px;
+}
+/**
+* 마이페이지 프로필 수정 css
+* @author JeSeong Lee
+*/
+.myprofile{
+   margin: 0px;
+   padding: 0px;
+}
+ .profileCard {
+    margin-top: 60px;
+    padding: 30px;
+     background-color: rgba(214, 224, 226, 0.2);
+   -webkit-border-top-left-radius:5px;
+    -moz-border-top-left-radius:5px;
+    border-top-left-radius:5px;
+    -webkit-border-top-right-radius:5px;
+    -moz-border-top-right-radius:5px;
+    border-top-right-radius:5px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+/* 마이페이지 사진이 들어가는 네모칸 */
+.profileCard.hovercard {
+    position: relative;
+    padding-top: 0;
+    overflow: hidden;
+    text-align: center;
+    background-color: #fff;
+    background-color: rgba(255, 255, 255, 1);
+    height: 240px;
+}
+.profileCard.hovercard .profileCard-background {
+    height: 130px;
+}
+.profileCard-background img {
+    -webkit-filter: blur(25px);
+    -moz-filter: blur(25px);
+    -o-filter: blur(25px);
+    -ms-filter: blur(25px);
+    filter: blur(25px);
+    margin-left: -100px;
+    margin-top: -200px;
+    min-width: 130%;
+}
+/* 마이페이지 사진 위치*/
+.profileCard.hovercard .useravatar {
+	margin-top:5px;
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+}
+/* 마이페이지 사진 사이즈*/
+.profileCard.hovercard .useravatar img {
+    width: 150px;
+    height: 150px;
+    max-width: 150px;
+    max-height: 150px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    border: 5px solid rgba(255, 255, 255, 0.5);
+}
+/* 마이페이지 사진 아래 간단한 내용 */
+.profileCard.hovercard .profileCard-info {
+	font-family: 'Jeju Gothic', sans-serif;
+    margin-bottom:15px;
+    position: absolute;
+    bottom: 14px;
+    left: 0;
+    right: 0;
+}
+.profileCard.hovercard .profileCard-info .profileCard-title {
+    padding:0 5px;
+    font-size: 20px;
+    font-weight:bold;
+    line-height: 1;
+    color: #262626;
+    background-color: rgba(255, 255, 255, 0.1);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+/*등급은 따로 css줌*/
+.profileCard.hovercard .profileCard-titleGrade{
+	font-family: 'Jeju Gothic', sans-serif;
+	text-align: left;
+	margin-bottom:5px;
+	margin-left:90px;
+    position: absolute;
+    bottom: 14px;
+    left: 0;
+    right: 0;
+	color:black;
+}
+.profileCard.hovercard .profileCard-titleGrade .gradePoint{
+	font-size: 16px;
+	background-color: rgba(255, 255, 255, 0.1);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+.profileCard.hovercard .profileCard-info {
+    overflow: hidden;
+    font-size: 12px;
+    line-height: 20px;
+    color: #737373;
+    text-overflow: ellipsis;
+}
+.profileCard.hovercard .bottom {
+    padding: 0 20px;
+    margin-bottom: 17px;
+}
+.btn-pref .btn {
+    -webkit-border-radius:0 !important;
 }

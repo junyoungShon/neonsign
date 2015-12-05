@@ -29,12 +29,13 @@ a:hover {
 html,
 body {
   height: 100%;
+ 
   
 }
 body {
   color: #fff;
   text-align: center;
-  
+  margin-top: 50px;
 }
 
 /* Extra markup and styles for table-esque vertical and horizontal centering */
@@ -220,4 +221,8 @@ body {
   .cover-container {
     width: 700px;
   }
+}
+
+.top-menu{
+	color : black;
 }

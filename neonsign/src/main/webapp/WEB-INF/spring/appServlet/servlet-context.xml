@@ -13,12 +13,15 @@
 	</bean>
 	<mvc:annotation-driven />
 	<context:component-scan base-package="org.cobro.neonsign.controller" />
-	<!-- intercepter -->
 	<!-- Handler Interceptor 설정 -->
-	<!-- <mvc:interceptors> <mvc:interceptor> <mvc:mapping path="/updateView.do"/> 
-		<mvc:mapping path="/updateMemberInfo.do"/> <mvc:mapping path="/auth_*.do"/> 
-		<bean class=""></bean> </mvc:interceptor> </mvc:interceptors> -->
-	<!-- Tile Framework 연동 설정 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<!-- <mvc:mapping path="/updateView.do"/>
+			<mvc:mapping path="/updateMemberInfo.do"/> -->
+			<mvc:mapping path="/auth_*.neon"/>
+			<bean class="org.cobro.neonsign.controller.NeonInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
 	<bean id="tilesConfig" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
 		<property name="definitions">
 			<list>
@@ -33,5 +36,5 @@
 			value="org.springframework.web.servlet.view.tiles2.TilesView" />
 		<property name="order" value="0" />
 	</bean>
-
+	
 </beans>

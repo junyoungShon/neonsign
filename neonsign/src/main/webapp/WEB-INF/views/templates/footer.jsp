@@ -199,7 +199,7 @@
 				      <input type="checkbox"> 입력을 기억합니다
 				    </label>
 				  </div>
-				    비밀번호를 잊어버렸습니까?<input type="submit" value="비밀번호찾기" class="memberPasswordfind">
+				    비밀번호를 잊어버렸습니까?&nbsp;&nbsp;<a href="#">비밀번호 찾기</a>
 	
 				  <button type="submit" class="btn btn-primary">제출</button>
 				</form>

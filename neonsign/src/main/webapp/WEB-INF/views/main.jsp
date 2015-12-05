@@ -17,9 +17,7 @@
                   data-src="${initParam.root}resources/img/snow.jpg">
                   <div class="content">
                      <h6 class="category">
-                     <c:forEach var="tagList" items="${bestMainArticle.tagBoardVOList}">
-                                #${tagList.tagName}
-                           </c:forEach>
+                         ${bestMainArticle.tagName}
                      </h6>
                      <br>
                      <h4 class="title">${bestMainArticle.mainArticleTitle}</h4>
@@ -138,8 +136,8 @@
    <!-- Example row of columns -->
    <div class="row newItjaList">
       <!-- *** new Main 카드 1개 -->
-      <c:forEach var="newMainArticle"
-         items="${requestScope.newMainArticleVOList}">
+      
+      <c:forEach var="newMainArticle" items="${requestScope.newMainArticleVOList}">
          <!-- name은 script.js에서 카드 현재 카드의 수를 구하기 위해 사용 -대협- -->
          <div class="card-box col-md-4" name="newCardBox">
             <input type="hidden" id="orderBy" value="date">
@@ -147,9 +145,7 @@
                data-src="${initParam.root}resources/img/fashion-1.jpg">
                <div class="content">
                   <h6 class="category">
-                     <c:forEach var="tagList" items="${newMainArticle.tagBoardVOList}">
-                                #${tagList.tagName}
-                           </c:forEach>
+                      ${newMainArticle.tagName}
                   </h6>
                   <br>
                   <c:set var="mainArticleContentTitle" value="${newMainArticle.mainArticleTitle}" />

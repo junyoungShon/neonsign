@@ -11,7 +11,7 @@
 <title>부트스트랩 101 템플릿</title>
 
 <!-- 부트스트랩 -->
-<link href="${initParam.root}resources/css/bootstrap.min.css" rel="stylesheet">
+<link href="${initParam.root}resources/css/bootstrap.css" rel="stylesheet">
 <script src="${initParam.root}resources/js/ie-emulation-modes-warning.js"></script>
  <!-- 슬라이드 쇼를 위한 flickity api -->
 <script src="${initParam.root}resources/js/flickity.pkgd.min.js"></script>

@@ -539,5 +539,13 @@ public class BoardDAOImpl implements BoardDAO{
 	public void updateIsConnect(SubArticleVO subArticleVO) {
 		sqlSessionTemplate.update("board.updateIsConnect", subArticleVO);
 	}
-
+	
+	/**
+	 * MainArticleNo로 해당 글 태그 불러옴
+	 * @author JeSeong Lee
+	 */
+	@Override
+	public List<TagBoardVO> getMainArticleTagList(int mainArticleNo) {
+		return sqlSessionTemplate.selectList("board.getMainArticleTagList", mainArticleNo);
+	}
 }
