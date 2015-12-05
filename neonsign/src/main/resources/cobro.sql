@@ -6,10 +6,10 @@ drop table SEARCH_BOARD;
 drop table TAG_BOARD;
 drop table TAG;
 drop table PICKED_ARTICLE;
-drop table SUB_ARTICLE;
-drop table MAIN_ARTICLE:
-drop table BRAIN_MEMBER;
 drop table ITJA_MEMBER;
+drop table SUB_ARTICLE;
+drop table MAIN_ARTICLE;
+drop table BRAIN_MEMBER;
 drop sequence main_article_seq;
 drop sequence sub_article_seq;
 drop sequence report_seq;
@@ -241,47 +241,47 @@ insert into tag(TAG_NAME) values('기타');
 -- ** 주제글 등록 ** ---------------------------------------------------------------------
 -- 신규 insert : 21개    (     주제글번호        | 작성자이메일    |          주제글 제목       |          주제글 내용           |     주제글  작성 날짜    |  주제글 완결,신규,베스트 여부)
 insert into main_article(MAIN_ARTICLE_NO, MEMBER_EMAIL, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE) 
-values(main_article_seq.nextval,'a@gmail.com','신규글1 제목','신규글1 내용',sysdate, 0);
+values(main_article_seq.nextval,'a@gmail.com','신규글1 제목','신규글1 내용',to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'), 0);
 insert into main_article(MAIN_ARTICLE_NO, MEMBER_EMAIL, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE) 
-values(main_article_seq.nextval,'b@gmail.com','신규글2 제목','신규글2 내용',sysdate, 0);
+values(main_article_seq.nextval,'b@gmail.com','신규글2 제목','신규글2 내용',to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'), 0);
 insert into main_article(MAIN_ARTICLE_NO, MEMBER_EMAIL, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE) 
-values(main_article_seq.nextval,'c@gmail.com','신규글3 제목','신규글3 내용',sysdate, 0);
+values(main_article_seq.nextval,'c@gmail.com','신규글3 제목','신규글3 내용',to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'), 0);
 insert into main_article(MAIN_ARTICLE_NO, MEMBER_EMAIL, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE) 
-values(main_article_seq.nextval,'d@gmail.com','신규글4 제목','신규글4 내용',sysdate, 0);
+values(main_article_seq.nextval,'d@gmail.com','신규글4 제목','신규글4 내용',to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'), 0);
 insert into main_article(MAIN_ARTICLE_NO, MEMBER_EMAIL, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE) 
-values(main_article_seq.nextval,'e@gmail.com','신규글5 제목','신규글5 내용',sysdate, 0);
+values(main_article_seq.nextval,'e@gmail.com','신규글5 제목','신규글5 내용',to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'), 0);
 insert into main_article(MAIN_ARTICLE_NO, MEMBER_EMAIL, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE) 
-values(main_article_seq.nextval,'f@gmail.com','신규글6 제목','신규글6 내용',sysdate, 0);
+values(main_article_seq.nextval,'f@gmail.com','신규글6 제목','신규글6 내용',to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'), 0);
 insert into main_article(MAIN_ARTICLE_NO, MEMBER_EMAIL, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE) 
-values(main_article_seq.nextval,'g@gmail.com','신규글7 제목','신규글7 내용',sysdate, 0);
+values(main_article_seq.nextval,'g@gmail.com','신규글7 제목','신규글7 내용',to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'), 0);
 insert into main_article(MAIN_ARTICLE_NO, MEMBER_EMAIL, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE) 
-values(main_article_seq.nextval,'h@gmail.com','신규글8 제목','신규글8 내용',sysdate, 0);
+values(main_article_seq.nextval,'h@gmail.com','신규글8 제목','신규글8 내용',to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'), 0);
 insert into main_article(MAIN_ARTICLE_NO, MEMBER_EMAIL, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE) 
-values(main_article_seq.nextval,'i@gmail.com','신규글9 제목','신규글9 내용',sysdate, 0);
+values(main_article_seq.nextval,'i@gmail.com','신규글9 제목','신규글9 내용',to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'), 0);
 insert into main_article(MAIN_ARTICLE_NO, MEMBER_EMAIL, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE) 
-values(main_article_seq.nextval,'j@gmail.com','신규글10 제목','신규글10 내용',sysdate, 0);
+values(main_article_seq.nextval,'j@gmail.com','신규글10 제목','신규글10 내용',to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'), 0);
 insert into main_article(MAIN_ARTICLE_NO, MEMBER_EMAIL, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE) 
-values(main_article_seq.nextval,'k@gmail.com','신규글11 제목','신규글11 내용',sysdate, 0);
+values(main_article_seq.nextval,'k@gmail.com','신규글11 제목','신규글11 내용',to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'), 0);
 insert into main_article(MAIN_ARTICLE_NO, MEMBER_EMAIL, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE) 
-values(main_article_seq.nextval,'l@gmail.com','신규글12 제목','신규글12 내용',sysdate, 0);
+values(main_article_seq.nextval,'l@gmail.com','신규글12 제목','신규글12 내용',to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'), 0);
 insert into main_article(MAIN_ARTICLE_NO, MEMBER_EMAIL, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE) 
-values(main_article_seq.nextval,'m@gmail.com','신규글13 제목','신규글13 내용',sysdate, 0);
+values(main_article_seq.nextval,'m@gmail.com','신규글13 제목','신규글13 내용',to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'), 0);
 insert into main_article(MAIN_ARTICLE_NO, MEMBER_EMAIL, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE) 
-values(main_article_seq.nextval,'n@gmail.com','신규글14 제목','신규글14 내용',sysdate, 0);
+values(main_article_seq.nextval,'n@gmail.com','신규글14 제목','신규글14 내용',to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'), 0);
 insert into main_article(MAIN_ARTICLE_NO, MEMBER_EMAIL, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE) 
-values(main_article_seq.nextval,'o@gmail.com','신규글15 제목','신규글15 내용',sysdate, 0);
+values(main_article_seq.nextval,'o@gmail.com','신규글15 제목','신규글15 내용',to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'), 0);
 insert into main_article(MAIN_ARTICLE_NO, MEMBER_EMAIL, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE) 
-values(main_article_seq.nextval,'p@gmail.com','신규글16 제목','신규글16 내용',sysdate, 0);
+values(main_article_seq.nextval,'p@gmail.com','신규글16 제목','신규글16 내용',to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'), 0);
 insert into main_article(MAIN_ARTICLE_NO, MEMBER_EMAIL, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE) 
-values(main_article_seq.nextval,'q@gmail.com','신규글17 제목','신규글17 내용',sysdate, 0);
+values(main_article_seq.nextval,'q@gmail.com','신규글17 제목','신규글17 내용',to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'), 0);
 insert into main_article(MAIN_ARTICLE_NO, MEMBER_EMAIL, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE) 
-values(main_article_seq.nextval,'e@gmail.com','신규글18 제목','신규글18 내용',sysdate, 0);
+values(main_article_seq.nextval,'e@gmail.com','신규글18 제목','신규글18 내용',to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'), 0);
 insert into main_article(MAIN_ARTICLE_NO, MEMBER_EMAIL, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE) 
-values(main_article_seq.nextval,'a@gmail.com','신규글19 제목','신규글19 내용',sysdate, 0);
+values(main_article_seq.nextval,'a@gmail.com','신규글19 제목','신규글19 내용',to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'), 0);
 insert into main_article(MAIN_ARTICLE_NO, MEMBER_EMAIL, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE) 
-values(main_article_seq.nextval,'h@gmail.com','신규글20 제목','신규글20 내용',sysdate, 0);
+values(main_article_seq.nextval,'h@gmail.com','신규글20 제목','신규글20 내용',to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'), 0);
 insert into main_article(MAIN_ARTICLE_NO, MEMBER_EMAIL, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE) 
-values(main_article_seq.nextval,'j@gmail.com','신규글21 제목','신규글21 내용',sysdate, 0);
+values(main_article_seq.nextval,'j@gmail.com','신규글21 제목','신규글21 내용',to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'), 0);
 
 -- 베스트 insert : 11개 (     주제글번호        | 작성자이메일    |          주제글 제목       |          주제글 내용           |      주제글 조회수      |   주제글  잇자수       |         주제글 통합 잇자수        |       주제글 작성일시    | 주제글 완결,신규,베스트 여부)
 insert into main_article(MAIN_ARTICLE_NO, MEMBER_EMAIL, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_HIT, MAIN_ARTICLE_LIKE, MAIN_ARTICLE_TOTAL_LIKE, MAIN_ARTICLE_DATE, MAIN_ARTICLE_COMPLETE) 

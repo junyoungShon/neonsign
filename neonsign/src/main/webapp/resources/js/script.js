@@ -1386,5 +1386,22 @@ $(document).ready(function(){ //DOM이 준비되고
 
 			}
 	});
+	
+	//검색 창 드롭다운 메뉴
+    $('.search-panel .dropdown-menu').find('a').click(function(e) {
+		e.preventDefault();
+		var param = $(this).attr("href").replace("#","");
+		var concept = $(this).text();
+		$('.search-panel span#search_concept').text(concept);
+		$('.input-group #search_param').val(param);
+	});
+    
+    // 마이페이지
+    $(".btn-pref .btn").click(function () {
+        $(".btn-pref .btn").removeClass("btn-primary").addClass("btn-default");
+        // $(".tab").addClass("active"); // instead of this do the below 
+        $(this).removeClass("btn-default").addClass("btn-primary");   
+    });
 });//document.ready
 	
+
