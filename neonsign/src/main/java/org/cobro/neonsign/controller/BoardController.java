@@ -300,9 +300,10 @@ public class BoardController {
 		 */
 	@RequestMapping("auth_writeSubArticle.neon")
 	@ResponseBody
-	public HashMap<String, Object> insertSubArticle(HttpServletRequest request,SubArticleVO subArticleVO){
+	public HashMap<String, Object> insertSubArticle(SubArticleVO subArticleVO){
 		HashMap<String, Object> map = new HashMap<String, Object>();	
 		//memberBoardInfo(request);
+		System.out.println(subArticleVO);
 		boolean result = boardService.insertSubArticle(subArticleVO);
 		map.put("result",result);
 		map.put("subArticleVO",subArticleVO);

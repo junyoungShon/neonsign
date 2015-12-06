@@ -310,7 +310,7 @@ public class BoardServiceImpl implements BoardService{
 		subArticleVO.setSubAtricleGrade(subArticleCurruntGrade);
 		//현재 진행되는 이야기에 이미 사용자가 글을 썻는지 반환 썻으면 1 안썼으면 0
 		int alreadyWriteSubArticleInThisGrade = boardDAO.alreadyWriteSubArticleInThisGrade(subArticleVO);
-		System.out.println(alreadyWriteSubArticleInThisGrade);
+		System.out.println("출력안되냐:"+alreadyWriteSubArticleInThisGrade);
 		if(alreadyWriteSubArticleInThisGrade==0){
 			flag=true;
 			boardDAO.insertSubArticle(subArticleVO);

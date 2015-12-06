@@ -102,7 +102,7 @@
 							<tbody id="mainSubArticle" >
 								
 							</tbody>
-							
+								
 							<thead>
 							<tr class="success">
 								<td colspan="5">잇는글</td>

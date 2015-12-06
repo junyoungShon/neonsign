@@ -491,12 +491,12 @@ $(document).ready(function(){ //DOM이 준비되고
 							
 							subArticleWriteFormHTML
 							='<span class=limitLength>잇자를 누르셨기 때문에 잇는글을 작성하실 수 있습니다! 사용자님의 잇는글 이후로 글을 이어갈지 결말 지을지 정해주세요!</span><br>'
+							+'<textarea class="form-control" name="subArticleContent" rows="5" placeholder="잇는글을 입력해주세요 ! (200자로 제한됩니다.)"></textarea>'
 							+'<input type="radio" id="radio1" name="isEnd" value="0" checked><label for="radio1">ing</label>'
 							+'<input type="radio" id="radio2" name="isEnd" value="1"><label for="radio2">end</label>'
 							+'<input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail+'">'
-							+'<input type="button" value="잇는글 쓰기" class="btn btn-warning subArticleSubmit">'
+							+'<input type="button" value="잇는글 쓰기" class="subArticleSubmit">'
 							+'<input type="hidden" name="mainArticleNo" value="'+data.mainArticle.mainArticleNo+'">'
-							+'<textarea class="form-control" name="subArticleContent" rows="5" placeholder="잇는글을 입력해주세요 ! (200자로 제한됩니다.)"></textarea>'
 							+'<div class="limitLength">작성 후 잇자 10개시 베스트로 이동되며,타임체크가 발동됩니다!<span class="userLength"></span>Byte/400Byte</div>'
 							flag=false;
 							break;
@@ -644,7 +644,7 @@ $(document).ready(function(){ //DOM이 준비되고
 		if(confirm("해당글을 신고 하시겠습니까?")){
 		
 		var formData = $('#subArticleInfo').serialize()+'&memberEmail='+email+'&subArticleNo='+subArticleNo;
-	$.ajax({
+		$.ajax({
 			beforeSend : function(xmlHttpRequest){
 		           xmlHttpRequest.setRequestHeader("AJAX", "true");
 		
@@ -721,18 +721,22 @@ $(document).ready(function(){ //DOM이 준비되고
 		$('.userLength').text(wrtingByte);
 	});
 	//잇는글 작성 시 공란체크
-	$('form[action="auth_writeSubArticle.neon"]').on('click',function(){
+	//auth_writeSubArticle.neon
+	$('form[action="auth_writeSubArticle.neon"]').on('click','.subArticleSubmit',function(){
 			if($('textarea[name="subArticleContent"]').val()==''){
 				alert('잇고자하는 내용을 입력해주세요');
 				$('textarea[name="subArticleContent"]').focus();
 				return false;
 			}
-			var formData = $(this).serialize();
+			var formData = $('form[action="auth_writeSubArticle.neon"]').serialize();
 			$.ajax({
 				beforeSend : function(xmlHttpRequest){
 			           xmlHttpRequest.setRequestHeader("AJAX", "true");
 			
 				},
+				type : "POST",
+				url : "auth_writeSubArticle.neon",
+				data : formData,
 				error:function(xhr, textStatus, error){
 					if(xhr.status=="901"){
 						if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
@@ -758,235 +762,50 @@ $(document).ready(function(){ //DOM이 준비되고
 	$('.utilInDetailModal').on('click','.itja',function(){
 		var formData =  $($(this).next()).serialize();
 		var itjaCountSpan = $(this).children('.itjaCount');
-		$.ajax({
-			type : "POST",
-			url : "auth_itjaClick.neon",
-			data : formData,
-			success : function(data){
-				if(data.itjaSuccess==1){
-					itjaCountSpan.html('<i class="fa fa-chain-broken"></i><br>'+data.itjaTotalCount+'it');
-				}else{
-					itjaCountSpan.html('<i class="fa fa-link"></i><br>'+data.itjaTotalCount+'it');
-				}
-				if(data.itjaTotalCount==10){
-					var msg="새 베스트 잇자 타임이 시작되었습니다. 바로 참여 하실래요?<br/><br/>"+
-				          "<center><button class='closeToast' "+
-				          "onclick='detailItjaView(mainArticleNO"+bestMainArticleNo+");'>Ok</button> "+
-				          "<button class='closeToast'>Cancel</button>";
-					$().toasty({
-					    autoHide: 2000,
-					    message: msg,
-					    modal: false
-					});
-				}
-			},
-			beforeSend : function(xmlHttpRequest){
-		           xmlHttpRequest.setRequestHeader("AJAX", "true");
-		
-			},
-			error:function(xhr, textStatus, error){
-				if(xhr.status=="901"){
-					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
-						location.href="loginPage.neon"
-					}
-				}
-			}
-		});
+		itjaClick(formData,itjaCountSpan);
 	});
 	// 모달창에서 주제글 잇자 버튼
 	$('.mainLikeIt').on('click','.itja',function(){
 		var formData =  $($(this).next()).serialize();
 		var itjaCountSpan = $(this).children('.itjaCount');
-		$.ajax({
-			type : "POST",
-			url : "auth_itjaClick.neon",
-			data : formData,
-			success : function(data){
-				if(data.itjaSuccess==1){
-					itjaCountSpan.html('<i class="fa fa-chain-broken"></i><br>'+data.itjaCount+'it');
-				}else{
-					itjaCountSpan.html('<i class="fa fa-link"></i><br>'+data.itjaCount+'it');
-				}
-				if(data.itjaTotalCount==10){
-					var msg="새 베스트 잇자 타임이 시작되었습니다. 바로 참여 하실래요?<br/><br/>"+
-				          "<center><button class='closeToast' "+
-				          "onclick='detailItjaView(mainArticleNO"+bestMainArticleNo+");'>Ok</button> "+
-				          "<button class='closeToast'>Cancel</button>";
-					$().toasty({
-					    autoHide: 2000,
-					    message: msg,
-					    modal: false
-					});
-				}
-			},
-			beforeSend : function(xmlHttpRequest){
-		           xmlHttpRequest.setRequestHeader("AJAX", "true");
-		
-			},
-			error:function(xhr, textStatus, error){
-				if(xhr.status=="901"){
-					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
-						location.href="loginPage.neon"
-					}
-				}
-			}
-		});
+		itjaClick(formData,itjaCountSpan);
 	});
 	//모달 창에서 이어진 잇는글 클릭시 발동하는 잇자 버튼
 	$('#mainSubArticle').on('click','.itja',function(){
 		var formData =  $($(this).next()).serialize();
 		var itjaCountSpan = $(this).children('.itjaCount');
-		$.ajax({
-			type : "POST",
-			url : "auth_itjaClick.neon",
-			data : formData,
-			success : function(data){
-				if(data.itjaSuccess==1){
-					itjaCountSpan.html('<i class="fa fa-chain-broken"></i><br>'+data.itjaCount+'it');
-				}else{
-					itjaCountSpan.html('<i class="fa fa-link"></i><br>'+data.itjaCount+'it');
-				}
-				if(data.itjaTotalCount==10){
-					var msg="새 베스트 잇자 타임이 시작되었습니다. 바로 참여 하실래요?<br/><br/>"+
-				          "<center><button class='closeToast' "+
-				          "onclick='detailItjaView(mainArticleNO"+bestMainArticleNo+");'>Ok</button> "+
-				          "<button class='closeToast'>Cancel</button>";
-					$().toasty({
-					    autoHide: 2000,
-					    message: msg,
-					    modal: false
-					});
-				}
-			},
-			beforeSend : function(xmlHttpRequest){
-		           xmlHttpRequest.setRequestHeader("AJAX", "true");
-		
-			},
-			error:function(xhr, textStatus, error){
-				if(xhr.status=="901"){
-					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
-						location.href="loginPage.neon"
-					}
-				}
-			}
-		});
+		itjaClick(formData,itjaCountSpan);
 	});
 	//모달 창에서 아직 안이어진 잇는글들 클릭시 발동하는 잇자 버튼
 	$('#subTable').on('click','.itja',function(){
 		var formData =  $($(this).next()).serialize();
 		var itjaCountSpan = $(this).children('.itjaCount');
-		$.ajax({
-			type : "POST",
- 			url : "auth_itjaClick.neon",
-			data : formData,
-			success : function(data){
-				if(data.itjaSuccess==1){
-					itjaCountSpan.html('<i class="fa fa-chain-broken"></i><br>'+data.itjaCount+'it');
-				}else{
-					itjaCountSpan.html('<i class="fa fa-link"></i><br>'+data.itjaCount+'it');
-				}
-				if(data.itjaTotalCount==10){
-					var msg="새 베스트 잇자 타임이 시작되었습니다. 바로 참여 하실래요?<br/><br/>"+
-				          "<center><button class='closeToast' "+
-				          "onclick='detailItjaView(mainArticleNO"+bestMainArticleNo+");'>Ok</button> "+
-				          "<button class='closeToast'>Cancel</button>";
-					$().toasty({
-					    autoHide: 2000,
-					    message: msg,
-					    modal: false
-					});
-				}
-			},
-			beforeSend : function(xmlHttpRequest){
-		           xmlHttpRequest.setRequestHeader("AJAX", "true");
-		
-			},
-			error:function(xhr, textStatus, error){
-				if(xhr.status=="901"){
-					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
-						location.href="loginPage.neon"
-					}
-				}
-			}
-		});
+		itjaClick(formData,itjaCountSpan);
 	});
-/*	// 메인 페이지에서  잇자 클릭 시 발동하기
-	$('.itja').on('click',function(){
-	alert(	$($(this).next()).html());
+	// 메인 페이지에서  잇자 클릭 시 발동하기
+	$('.bestItja').on('click',function(){
 		var formData = $($(this).next()).serialize();
 		var itjaCountSpan = $(this).children('.itjaCount');
-		$.ajax({
-			type : "POST",
-			url : "auth_itjaClick.neon",
-			data : formData,
-			success : function(data){
-				if(data.itjaSuccess==1){
-					itjaCountSpan.html('<i class="fa fa-chain-broken"></i><br>'+data.itjaTotalCount+'it');
-				}else{
-					itjaCountSpan.html('<i class="fa fa-link"></i><br>'+data.itjaTotalCount+'it');
-				}
-				if(data.itjaTotalCount==10){
-					var msg="새 베스트 잇자 타임이 시작되었습니다. 바로 참여 하실래요?<br/><br/>"+
-				          "<center><button class='closeToast' "+
-				          "onclick='detailItjaView(mainArticleNO"+bestMainArticleNo+");'>Ok</button> "+
-				          "<button class='closeToast'>Cancel</button>";
-					$().toasty({
-					    autoHide: 2000,
-					    message: msg,
-					    modal: false
-					});
-				}
-			}
-		});
+		itjaClick(formData,itjaCountSpan);
 		
-	});*/
+	});
 	
 	// 완결 글 페이지 동적으로 생성된 카드  잇자 클릭 시 발동하기
 	$('.completeItjaList').on('click','.itja',function(){
-		alert(	$($(this).next()).html());
 		var formData = $($(this).next()).serialize();
 		var itjaCountSpan = $(this).children('.itjaCount');
-		$.ajax({
-			type : "POST",
-			url : "auth_itjaClick.neon",
-			data : formData,
-			success : function(data){
-				if(data.itjaSuccess==1){
-					itjaCountSpan.html('<i class="fa fa-chain-broken"></i><br>'+data.itjaTotalCount+'it');
-				}else{
-					itjaCountSpan.html('<i class="fa fa-link"></i><br>'+data.itjaTotalCount+'it');
-				}
-				if(data.itjaTotalCount==10){
-					var msg="새 베스트 잇자 타임이 시작되었습니다. 바로 참여 하실래요?<br/><br/>"+
-					"<center><button class='closeToast' "+
-					"onclick='detailItjaView(mainArticleNO"+bestMainArticleNo+");'>Ok</button> "+
-					"<button class='closeToast'>Cancel</button>";
-					$().toasty({
-						autoHide: 2000,
-						message: msg,
-						modal: false
-					});
-				}
-			},
-			beforeSend : function(xmlHttpRequest){
-		           xmlHttpRequest.setRequestHeader("AJAX", "true");
-		
-			},
-			error:function(xhr, textStatus, error){
-				if(xhr.status=="901"){
-					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
-						location.href="loginPage.neon"
-					}
-				}
-			}
-		});
+		itjaClick(formData,itjaCountSpan);
 		
 	});
 	// 메인 페이지 동적으로 생성된 카드  잇자 클릭 시 발동하기
 	$('.newItjaList').on('click','.itja',function(){
-		alert(	$($(this).next()).html());
 		var formData = $($(this).next()).serialize();
 		var itjaCountSpan = $(this).children('.itjaCount');
+		itjaClick(formData,itjaCountSpan);
+	});
+	
+	//잇자 클릭 ajax 메서드 통합
+	function itjaClick(formData,itjaCountSpan){
 		$.ajax({
 			type : "POST",
 			url : "auth_itjaClick.neon",
@@ -1021,8 +840,7 @@ $(document).ready(function(){ //DOM이 준비되고
 				}
 			}
 		});
-		
-	});
+	}
 	
 	$('.memberLogin').click(function(){
 		$('#loginModal').modal({
