@@ -1,6 +1,5 @@
 package org.cobro.neonsign.controller;
 
-import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,11 +20,10 @@ public class NeonInterceptor extends HandlerInterceptorAdapter{
 				HttpServletResponse response, Object handler) throws Exception {
 			System.out.println("interceptor 실행");
 			HttpSession session = request.getSession(false);
-			if(session==null || session.getAttribute("loginInfo")==null){
+			if(session==null || session.getAttribute("memberVO")==null){
 				String ajaxCall = (String) request.getHeader("AJAX");
 				if(ajaxCall.equals("true")){
 					 response.sendError(901);
-
 				}else{
 					response.sendRedirect("index.neon");
 				}

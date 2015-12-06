@@ -42,7 +42,7 @@
                      <button class="btn btn-social btn-pinterest">
                         <span class="time_area"></span>
                      </button>
-                     <button class="btn btn-social btn-twitter itja">
+                     <button class="btn btn-social btn-twitter bestItja">
                                 <c:set var="count" value="false" />
                         <c:forEach var="itjaList" items="${sessionScope.memberVO.itjaMemberList}">
                            <c:choose>
