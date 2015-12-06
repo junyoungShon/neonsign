@@ -77,4 +77,5 @@ public interface BoardDAO {
 			SubArticleVO subArticleVO);
 	public void updateBestToCompletArticle(int mainArticleNo);
 	public void updateIsConnect(SubArticleVO subArticleVO);
+	public List<TagBoardVO> getMainArticleTagList(int mainArticleNo);
 }

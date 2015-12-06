@@ -12,7 +12,9 @@
           
          
           
-         <a class="navbar-brand top-menu" href="#">뇌  On Sign</a>
+         <a class="navbar-brand top-menu" href="#">
+        <img class="logoImg" src="${initParam.root}resources/img/width_logo_BrainOnSign.png">
+		</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse top-menu">
        		<div class="col-xs-4 ">

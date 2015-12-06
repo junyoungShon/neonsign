@@ -31,35 +31,39 @@
             <!-- http://lorempixel.com/850/280/people/9/ -->
         </div>
         <div class="useravatar">
-        <c:forEach var="rankingList" items="${requestScope.rankingVOList}">
-         <c:if test="${rankingList.memberGrade == requestScope.rankMemberVO.rankingVO.memberGrade}">
-            <img src="${initParam.root}resources/img/GRADE_${requestScope.rankMemberVO.rankingVO.memberGrade}.png">
-         </c:if>
-      </c:forEach>
-         <br>
-         ${requestScope.rankMemberVO.rankingVO.memberGrade} 
-         PTS(${requestScope.rankMemberVO.memberPoint} / ${requestScope.rankMemberVO.rankingVO.maxPoint})
+       		<img src="http://vignette1.wikia.nocookie.net/pokemon/images/b/b4/%EB%A1%9C%EC%82%AC%EC%9D%98_%EC%95%84%EB%B3%B4%ED%81%AC.png/revision/latest?cb=20110121121520&path-prefix=ko" >
         </div>
-        <br>
         <div class="profileCard-info">
          <span class="profileCard-title">
          ${requestScope.rankMemberVO.memberNickName}님 [${requestScope.rankMemberVO.memberEmail}]
          </span>
-        </div>
+         </div>
+         <div class="profileCard-titleGrade">
+         <span class="profileCard-gradePoint">
+         <c:forEach var="rankingList" items="${requestScope.rankingVOList}">
+         <c:if test="${rankingList.memberGrade == requestScope.rankMemberVO.rankingVO.memberGrade}">
+            <img class="gradeImg" src="${initParam.root}resources/img/GRADE_${requestScope.rankMemberVO.rankingVO.memberGrade}.png">
+         </c:if>
+      </c:forEach>
+      ${requestScope.rankMemberVO.rankingVO.memberGrade} 
+         PTS(${requestScope.rankMemberVO.memberPoint} / ${requestScope.rankMemberVO.rankingVO.maxPoint})
+         </span>
+         </div>
+        
     </div>
     <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
         <div class="btn-group" role="group">
-            <button type="button" id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                <div class="hidden-xs">Stars</div>
+            <button type="button" id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab"><i class="fa fa-th-large"></i>
+                <div class="hidden-xs">잇자! Action Info</div>
             </button>
         </div>
         <div class="btn-group" role="group">
-            <button type="button" id="favorites" class="btn btn-default" href="#tab2" data-toggle="tab"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-                <div class="hidden-xs">Favorites</div>
+            <button type="button" id="favorites" class="btn btn-default" href="#tab2" data-toggle="tab"><i class="fa fa-child"></i>
+                <div class="hidden-xs">Profile</div>
             </button>
         </div>
         <div class="btn-group" role="group">
-            <button type="button" id="following" class="btn btn-default" href="#tab3" data-toggle="tab"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+            <button type="button" id="following" class="btn btn-default" href="#tab3" data-toggle="tab"><i class="fa fa-users"></i>
                 <div class="hidden-xs">Following</div>
             </button>
         </div>
@@ -80,14 +84,12 @@
                 <div class="card card-with-border" data-background="image" data-src="${initParam.root}resources/img/snow.jpg">    
                     <div class="content">
                         <h6 class="category">
-                           <c:forEach var="tagList" items="${pickMainArticle.tagBoardVOList}">
-                                 #${tagList.tagName}
-                           </c:forEach>
+                            ${pickMainArticle.tagName}
                         </h6>
                         <br>
                         <h4 class="title">${pickMainArticle.mainArticleTitle}</h4>
                         <p class="description">
-                          ${pickMainArticle.mainArticleContent}
+                          	${pickMainArticle.mainArticleContent}
                         </p>
                    <a href="mypage.neon?memberEmail=${pickMainArticle.memberVO.memberEmail}" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" 
                data-toggle="popover" 
@@ -150,11 +152,8 @@
       </div><!-- end container -->
     </div><!-- end jumbotron itjaSlide -->
     <!-- 끝!! 찜한 주제글 --> 
-        </div>
-        
-        <!-- 작성한 주제글 -->
-        <div class="tab-pane fade in" id="tab2">
-          <!-- Main jumbotron for a primary marketing message or call to action -->
+    
+    <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="itjaSlide">
       <h2 class="itjaMainTitle">${requestScope.rankMemberVO.memberNickName}이 작성한 주제글!<br></h2>
         <div class="container-fluid">
@@ -166,9 +165,7 @@
                 <div class="card card-with-border" data-background="image" data-src="${initParam.root}resources/img/snow.jpg">    
                     <div class="content">
                         <h6 class="category">
-                           <c:forEach var="tagList" items="${writeMainArticle.tagBoardVOList}">
-                                 #${tagList.tagName}
-                           </c:forEach>
+                            ${writeMainArticle.tagName}
                         </h6>
                         <br>
                         <h4 class="title">${writeMainArticle.mainArticleTitle}</h4>
@@ -235,10 +232,9 @@
       </div><!--  end gallery js-flickity -->
       </div><!-- end container -->
     </div><!-- end jumbotron itjaSlide -->
-        </div>
-        
-        <div class="tab-pane fade in" id="tab3">
-        <!-- 이은 주제글 -->
+    <!-- 끝 작성한 주제글 -->
+    
+    <!-- 참여, 이은 주제글 -->
           <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="itjaSlide">
       <h2 class="itjaMainTitle">${requestScope.rankMemberVO.memberNickName}이 이은 주제글!<br></h2>
@@ -246,14 +242,12 @@
         <div class="gallery js-flickity" data-flickity-options='{ "freeScroll": true, "wrapAround": true ,"pageDots": false}'>
             <!-- el 문 및 ajax로 베스트글이 표시되는 슬라이드 지역 --> 
             <!-- 카드 1개 -->
-               <c:forEach var="joinMainArticle" items="${requestScope.joinMainArticleList}">
+            <c:forEach var="joinMainArticle" items="${requestScope.joinMainArticleList}">
             <div class="card-box col-lg-2">  
                 <div class="card card-with-border" data-background="image" data-src="${initParam.root}resources/img/snow.jpg">    
                     <div class="content">
                         <h6 class="category">
-                           <c:forEach var="tagList" items="${joinMainArticle.tagBoardVOList}">
-                                 #${tagList.tagName}
-                           </c:forEach>
+                            ${joinMainArticle.tagName}
                         </h6>
                         <br>
                         <h4 class="title">${joinMainArticle.mainArticleTitle}</h4>
@@ -321,7 +315,18 @@
       </div><!--  end gallery js-flickity -->
       </div><!-- end container -->
     </div><!-- end jumbotron itjaSlide -->
-        </div>
+    <!-- 끝 참여주제글 -->
+        </div> <!-- Tab1 끝 -->
+        
+      <!-- Tab2 개인정보 시작 -->
+      <div class="tab-pane fade in" id="tab2">
+
+      </div> <!-- Tab2 끝 -->
+        
+       <!-- Tab3 구독 정보 시작 -->
+        <div class="tab-pane fade in" id="tab3">
+        
+        </div> <!-- Tab3 끝 -->
       </div>
     </div>
     

@@ -166,6 +166,19 @@ public class BoardServiceImpl implements BoardService{
 			completeMainArticleList = boardDAO
 					.selectListCompleteMainArticleOrderByTag(pageNo, getTagName);
 		}
+		String tagName = "";
+		for(int i = 0 ; i<completeMainArticleList.size() ; i++){
+			List<TagBoardVO> tagBoardList = boardDAO.getMainArticleTagList(completeMainArticleList.get(i).getMainArticleNo());
+			for(int j = 0 ; j<tagBoardList.size() ; j++){
+				if(j == tagBoardList.size()-1){
+					tagName += "#" + tagBoardList.get(j).getTagName();
+				}else{
+					tagName += "#" +  tagBoardList.get(j).getTagName() + " ";
+				}
+				completeMainArticleList.get(i).setTagName(tagName);
+			}
+			tagName = "";
+		}
 		ArrayList<RankingVO> rankingVOList = new ArrayList<RankingVO>();
 		for(int i = 0 ; i<completeMainArticleList.size() ; i++){
 			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(completeMainArticleList.get(i).getMemberVO()));
@@ -198,6 +211,19 @@ public class BoardServiceImpl implements BoardService{
 			newMainArticleList
 				= boardDAO.selectListNotCompleteMainArticleOrderByTag(pageNo, getTagName);
 		}
+		String tagName = "";
+		for(int i = 0 ; i<newMainArticleList.size() ; i++){
+			List<TagBoardVO> tagBoardList = boardDAO.getMainArticleTagList(newMainArticleList.get(i).getMainArticleNo());
+			for(int j = 0 ; j<tagBoardList.size() ; j++){
+				if(j == tagBoardList.size()-1){
+					tagName += "#" + tagBoardList.get(j).getTagName();
+				}else{
+					tagName += "#" +  tagBoardList.get(j).getTagName() + " ";
+				}
+				newMainArticleList.get(i).setTagName(tagName);
+			}
+			tagName = "";
+		}
 		ArrayList<RankingVO> rankingVOList = new ArrayList<RankingVO>();
 		for(int i = 0 ; i<newMainArticleList.size() ; i++){
 			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(newMainArticleList.get(i).getMemberVO()));
@@ -215,6 +241,19 @@ public class BoardServiceImpl implements BoardService{
 	 */
 	public List<MainArticleVO> getBestMainArticleVOListOrderByDate() {
 		List<MainArticleVO> bestMainArticleList = boardDAO.getBestMainArticleVOListOrderByDate();
+		String tagName = "";
+		for(int i = 0 ; i<bestMainArticleList.size() ; i++){
+			List<TagBoardVO> tagBoardList = boardDAO.getMainArticleTagList(bestMainArticleList.get(i).getMainArticleNo());
+			for(int j = 0 ; j<tagBoardList.size() ; j++){
+				if(j == tagBoardList.size()-1){
+					tagName += "#" + tagBoardList.get(j).getTagName();
+				}else{
+					tagName += "#" +  tagBoardList.get(j).getTagName() + " ";
+				}
+				bestMainArticleList.get(i).setTagName(tagName);
+			}
+			tagName = "";
+		}
 		ArrayList<RankingVO> rankingVOList = new ArrayList<RankingVO>();
 		for(int i = 0 ; i<bestMainArticleList.size() ; i++){
 			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(bestMainArticleList.get(i).getMemberVO()));
@@ -409,10 +448,23 @@ public class BoardServiceImpl implements BoardService{
 		for(int i = 0 ; i<pickedMainArticleNoList.size() ; i++){
 			pickedMainArticleVOList.add(boardDAO.getMainArticleByMainArticleNoOrderByDate(pickedMainArticleNoList.get(i)));
 		}
+		String tagName = "";
+		for(int j = 0 ; j<pickedMainArticleNoList.size() ; j++){
+			List<TagBoardVO> tagBoardList = boardDAO.getMainArticleTagList(pickedMainArticleVOList.get(j).getMainArticleNo());
+			for(int k = 0 ; k<tagBoardList.size() ; k++){
+				if(k == tagBoardList.size()-1){
+					tagName += "#" + tagBoardList.get(k).getTagName();
+				}else{
+					tagName += "#" +  tagBoardList.get(k).getTagName() + " ";
+				}
+				pickedMainArticleVOList.get(j).setTagName(tagName);
+			}
+			tagName = "";
+		}
 		ArrayList<RankingVO> rankingVOList = new ArrayList<RankingVO>();
-		for(int j = 0 ; j<pickedMainArticleVOList.size() ; j++){
-			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(pickedMainArticleVOList.get(j).getMemberVO())); 
-			pickedMainArticleVOList.get(j).getMemberVO().setRankingVO(rankingVOList.get(j));
+		for(int l = 0 ; l<pickedMainArticleVOList.size() ; l++){
+			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(pickedMainArticleVOList.get(l).getMemberVO())); 
+			pickedMainArticleVOList.get(l).getMemberVO().setRankingVO(rankingVOList.get(l));
 		}
 		return pickedMainArticleVOList;
 	}
@@ -444,10 +496,23 @@ public class BoardServiceImpl implements BoardService{
 		for(int i = 0 ; i<writeMainArticleNoList.size() ; i++){
 			writeMainArticleVOList.add(boardDAO.getMainArticleByMainArticleNoOrderByDate(writeMainArticleNoList.get(i)));
 		}
+		String tagName = "";
+		for(int j = 0 ; j<writeMainArticleNoList.size() ; j++){
+			List<TagBoardVO> tagBoardList = boardDAO.getMainArticleTagList(writeMainArticleVOList.get(j).getMainArticleNo());
+			for(int k = 0 ; k<tagBoardList.size() ; k++){
+				if(k == tagBoardList.size()-1){
+					tagName += "#" + tagBoardList.get(k).getTagName();
+				}else{
+					tagName += "#" +  tagBoardList.get(k).getTagName() + " ";
+				}
+				writeMainArticleVOList.get(j).setTagName(tagName);
+			}
+			tagName = "";
+		}
 		ArrayList<RankingVO> rankingVOList = new ArrayList<RankingVO>();
-		for(int j = 0 ; j<writeMainArticleVOList.size() ; j++){
-			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(writeMainArticleVOList.get(j).getMemberVO())); 
-			writeMainArticleVOList.get(j).getMemberVO().setRankingVO(rankingVOList.get(j));
+		for(int l = 0 ; l<writeMainArticleVOList.size() ; l++){
+			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(writeMainArticleVOList.get(l).getMemberVO())); 
+			writeMainArticleVOList.get(l).getMemberVO().setRankingVO(rankingVOList.get(l));
 		}
 		return writeMainArticleVOList;
 	}
@@ -471,10 +536,23 @@ public class BoardServiceImpl implements BoardService{
 		for(int i = 0 ; i<nonDupJoinMainArticleNoList.size() ; i++){
 			joinMainArticleVOList.add(boardDAO.getMainArticleByMainArticleNoOrderByDate(nonDupJoinMainArticleNoList.get(i)));
 		}
+		String tagName = "";
+		for(int j = 0 ; j<joinMainArticleNoList.size() ; j++){
+			List<TagBoardVO> tagBoardList = boardDAO.getMainArticleTagList(joinMainArticleVOList.get(j).getMainArticleNo());
+			for(int k = 0 ; k<tagBoardList.size() ; k++){
+				if(k == tagBoardList.size()-1){
+					tagName += "#" + tagBoardList.get(k).getTagName();
+				}else{
+					tagName += "#" +  tagBoardList.get(k).getTagName() + " ";
+				}
+				joinMainArticleVOList.get(j).setTagName(tagName);
+			}
+			tagName = "";
+		}
 		ArrayList<RankingVO> rankingVOList = new ArrayList<RankingVO>();
-		for(int j = 0 ; j<joinMainArticleVOList.size() ; j++){
-			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(joinMainArticleVOList.get(j).getMemberVO())); 
-			joinMainArticleVOList.get(j).getMemberVO().setRankingVO(rankingVOList.get(j));
+		for(int l = 0 ; l<joinMainArticleVOList.size() ; l++){
+			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(joinMainArticleVOList.get(l).getMemberVO())); 
+			joinMainArticleVOList.get(l).getMemberVO().setRankingVO(rankingVOList.get(l));
 		}
 		return joinMainArticleVOList; 
 	}

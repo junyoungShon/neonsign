@@ -25,9 +25,7 @@
                data-src="${initParam.root}resources/img/fashion-1.jpg">
                <div class="content">
                   <h6 class="category">
-                  <c:forEach var="tagList" items="${completeMainArticle.tagBoardVOList}">
-                                #${tagList.tagName}
-                        </c:forEach>
+                      ${completeMainArticle.tagName}
                   </h6>
                   <br>
                   <c:set var="mainArticleContentTitle"
