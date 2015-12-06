@@ -24,13 +24,17 @@ $(document).ready(function(){ //DOM이 준비되고
 			var remind_timestamp = close_timestamp-currunt_timestamp
 			var remind_minutes = Math.floor(remind_timestamp/60);
 			var remind_seconds = remind_timestamp%60;
-			if(remind_minutes >= 1) {
+			if(remind_minutes >= 1 && remind_seconds>=10) {
 				$('.time_area').eq(i).html(remind_minutes+':'+remind_seconds+'<br>빨리!');
-			} else {
+			} else if(remind_minutes == 0 && remind_seconds<=9){
+				$('.time_area').eq(i).html('00:0'+remind_seconds+'<br>빨리!');
+			} else if(remind_minutes == 0 && remind_seconds>=10){
 				$('.time_area').eq(i).html('00:'+remind_seconds+'<br>빨리!');
 			}
 			var bestMainArticleNo = $('.bestMainArticleNo').eq(i).val();
 			if(remind_seconds==0){
+				$('.updateDate').eq(i).parent().attr('class','hide-card-box')
+				
 				/*$.ajax({
 					type : "POST",
 					url : "storyLinking.neon",
@@ -168,7 +172,7 @@ $(document).ready(function(){ //DOM이 준비되고
 					}
 					$('.ajaxLoader').fadeOut(300);
 					$('.completeItjaList').append(infinityScrollTestSource);
-				}
+				},
 			});
 		}else if($("#articleType").val()=='mainArticle'){ 
 			var cardBox=$(".card-box[name=newCardBox]").length;
@@ -638,20 +642,28 @@ $(document).ready(function(){ //DOM이 준비되고
 		var email=$('#memberUserEmail').val();
 		var subArticleNo=$('#sub123').val();
 		if(confirm("해당글을 신고 하시겠습니까?")){
-		if(email==null){
-			alert("로그인을 하셔야 신고가 가능합니다 !")
-		}else{
+		
 		var formData = $('#subArticleInfo').serialize()+'&memberEmail='+email+'&subArticleNo='+subArticleNo;
 	$.ajax({
+			beforeSend : function(xmlHttpRequest){
+		           xmlHttpRequest.setRequestHeader("AJAX", "true");
+		
+			},
 			type : "POST",
 			url : "ArticleReport.neon",
 			data : formData,
 			success : function(){
 				alert("신고를 완료하였습니다.");
 
+			},
+			error:function(xhr, textStatus, error){
+				if(xhr.status=="901"){
+					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
+						location.href="loginPage.neon"
+					}
+				}
 			}
 		});
-		}
 		}
 	});
 	// 주제글 신고 버튼 클릭시 실행되는 스크립트
@@ -659,20 +671,29 @@ $(document).ready(function(){ //DOM이 준비되고
 		var email=$('#memberUserEmail').val();
 		if(confirm("해당글을 신고 하시겠습니까?")){
 			
-		if(email==null){
-			alert("로그인을 하셔야 신고가 가능합니다 !")
-		}else{
 		var formData = $('#subArticleInfo').serialize()+'&memberEmail='+email;
-	$.ajax({
+		$.ajax({
+			beforeSend : function(xmlHttpRequest){
+		           xmlHttpRequest.setRequestHeader("AJAX", "true");
+		
+			},
 			type : "POST",
 			url : "ArticleReport.neon",
 			data : formData,
 			success : function(){
-				alert("신고를 완료 했습니다")
+				alert("신고를 완료하였습니다.");
+	
+			},
+			error:function(xhr, textStatus, error){
+				if(xhr.status=="901"){
+					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
+						location.href="loginPage.neon"
+					}
+				}
 			}
 		});
 		}
-		}
+		
 	});
 	//잇는글 작성 제한을 위한 keyUp 이벤트 - 글자수를 제한해준다.
 	$('form[action="auth_writeSubArticle.neon"]').on('keyup',$('textarea[name="subArticleContent"]'),function(){
@@ -708,10 +729,17 @@ $(document).ready(function(){ //DOM이 준비되고
 			}
 			var formData = $(this).serialize();
 			$.ajax({
-				type:"post",
-				url:"auth_writeSubArticle.neon",
-				data:formData,
-				dataType:"json",
+				beforeSend : function(xmlHttpRequest){
+			           xmlHttpRequest.setRequestHeader("AJAX", "true");
+			
+				},
+				error:function(xhr, textStatus, error){
+					if(xhr.status=="901"){
+						if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
+							location.href="loginPage.neon"
+						}
+					}
+				},
 				success:function(data){
 					if(data.result){
 						 detailItjaView(data.subArticleVO.mainArticleNo);
@@ -751,6 +779,17 @@ $(document).ready(function(){ //DOM이 준비되고
 					    modal: false
 					});
 				}
+			},
+			beforeSend : function(xmlHttpRequest){
+		           xmlHttpRequest.setRequestHeader("AJAX", "true");
+		
+			},
+			error:function(xhr, textStatus, error){
+				if(xhr.status=="901"){
+					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
+						location.href="loginPage.neon"
+					}
+				}
 			}
 		});
 	});
@@ -778,6 +817,17 @@ $(document).ready(function(){ //DOM이 준비되고
 					    message: msg,
 					    modal: false
 					});
+				}
+			},
+			beforeSend : function(xmlHttpRequest){
+		           xmlHttpRequest.setRequestHeader("AJAX", "true");
+		
+			},
+			error:function(xhr, textStatus, error){
+				if(xhr.status=="901"){
+					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
+						location.href="loginPage.neon"
+					}
 				}
 			}
 		});
@@ -807,6 +857,17 @@ $(document).ready(function(){ //DOM이 준비되고
 					    modal: false
 					});
 				}
+			},
+			beforeSend : function(xmlHttpRequest){
+		           xmlHttpRequest.setRequestHeader("AJAX", "true");
+		
+			},
+			error:function(xhr, textStatus, error){
+				if(xhr.status=="901"){
+					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
+						location.href="loginPage.neon"
+					}
+				}
 			}
 		});
 	});
@@ -834,6 +895,17 @@ $(document).ready(function(){ //DOM이 준비되고
 					    message: msg,
 					    modal: false
 					});
+				}
+			},
+			beforeSend : function(xmlHttpRequest){
+		           xmlHttpRequest.setRequestHeader("AJAX", "true");
+		
+			},
+			error:function(xhr, textStatus, error){
+				if(xhr.status=="901"){
+					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
+						location.href="loginPage.neon"
+					}
 				}
 			}
 		});
@@ -895,6 +967,17 @@ $(document).ready(function(){ //DOM이 준비되고
 						modal: false
 					});
 				}
+			},
+			beforeSend : function(xmlHttpRequest){
+		           xmlHttpRequest.setRequestHeader("AJAX", "true");
+		
+			},
+			error:function(xhr, textStatus, error){
+				if(xhr.status=="901"){
+					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
+						location.href="loginPage.neon"
+					}
+				}
 			}
 		});
 		
@@ -924,6 +1007,17 @@ $(document).ready(function(){ //DOM이 준비되고
 						message: msg,
 						modal: false
 					});
+				}
+			},
+			beforeSend : function(xmlHttpRequest){
+		           xmlHttpRequest.setRequestHeader("AJAX", "true");
+		
+			},
+			error:function(xhr, textStatus, error){
+				if(xhr.status=="901"){
+					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
+						location.href="loginPage.neon"
+					}
 				}
 			}
 		});
@@ -1021,6 +1115,17 @@ $(document).ready(function(){ //DOM이 준비되고
 					});
 					
 				});
+			},
+			beforeSend : function(xmlHttpRequest){
+		           xmlHttpRequest.setRequestHeader("AJAX", "true");
+		
+			},
+			error:function(xhr, textStatus, error){
+				if(xhr.status=="901"){
+					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
+						location.href="loginPage.neon"
+					}
+				}
 			}
 		});
 		

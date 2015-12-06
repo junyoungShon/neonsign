@@ -22,7 +22,14 @@ public class NeonInterceptor extends HandlerInterceptorAdapter{
 			System.out.println("interceptor 실행");
 			HttpSession session = request.getSession(false);
 			if(session==null || session.getAttribute("loginInfo")==null){
-				return true;  // 컨트롤러 메서드 수행하지 않게 한다.
+				String ajaxCall = (String) request.getHeader("AJAX");
+				if(ajaxCall.equals("true")){
+					 response.sendError(901);
+
+				}else{
+					response.sendRedirect("index.neon");
+				}
+				return false;  // 컨트롤러 메서드 수행하지 않게 한다.
 			}
 			return true;
 		}

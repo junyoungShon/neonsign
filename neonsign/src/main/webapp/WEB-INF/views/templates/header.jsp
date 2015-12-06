@@ -41,7 +41,7 @@
     			 <!-- 완결글 보기를 누르면 추천순으로 정렬된다. -대협 -->
     			  <li><a href="${initParam.root}getMainList.neon" class="top-menu">Main</a></li>
     			  <li><a href="${initParam.root}selectListCompleteMainArticle.neon" class="top-menu">완결 글 보기</a></li>
-    			  <li><a href="#" class="openModalInsertArticleForm" class="top-menu">글쓰기</a></li>
+    			  <li><a href="#" class="openModalInsertArticleForm top-menu">글쓰기</a></li>
 		  <c:choose>
 			<c:when test="${sessionScope.memberVO==null}">
     			<li><a href="#" class="memberLogin top-menu"> <i class="fa fa-sign-in"></i>로그인</a></li>

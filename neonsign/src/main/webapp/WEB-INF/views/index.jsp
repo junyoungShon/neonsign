@@ -46,7 +46,7 @@
           	</div>
             <h1 class="cover-heading">잊지말고 ! 잇자! <br> 이야기를 잇자!</h1>
             <p class="lead indexInstruction"><strong><span class="blliInst">뇌온사인</span>은 공동창작 플랫폼으로서 <br>같은 이야기를 함께 만들고 나누는 공간입니다.</strong></p>
-            <p class="indexLogin">이미 회원이시라면? <a href="#" class="memberLogin" >로그인</a></p>
+            <p class="indexLogin">이미 회원이시라면? <a href="${initParam.root}loginPage.neon" class="" >로그인</a></p>
             <p class="lead">
               <a href="${initParam.root}getMainList.neon" class="btn btn-lg btn-warning">비회원으로 둘러보기</a><br>
               <button type="button" class="btn btn-primary btn-lg memberJoinByEmailBtn" >
