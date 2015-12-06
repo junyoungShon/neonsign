@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.cobro.neonsign.thread.StoryLinker;
 import org.cobro.neonsign.vo.ItjaMemberVO;
 import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.MemberVO;
@@ -68,7 +69,7 @@ public class BoardServiceImpl implements BoardService{
 		System.out.println("스토리링킨 서비스 관련 글 몇개 출력?"+list.size());
 		//댓글이 없는 경우 자동 완결 처리 한다.
 		if(list.size()==0){
-			//메인 아티클의 컴플리트 여부를 수정해준다.
+			//메인 아티클의 컴플리트 여부를 수정해준다.insertMainArticle
 			boardDAO.updateBestToCompletArticle(subArticleVO.getMainArticleNo());
 			map.put("result","complete");
 		}else if(list.size()==1){
@@ -499,7 +500,7 @@ public class BoardServiceImpl implements BoardService{
 	 * @author junyoung
 	 */
 	@Override
-	public HashMap<String, Object> selectItjaState(ItjaMemberVO itjaMemberVO) {
+	public HashMap<String, Object> selectItjaState(ItjaMemberVO itjaMemberVO,SubArticleVO subArticleVO) {
 		HashMap<String,Object> map = new HashMap<String, Object>();
 		map.put("itjaSuccess",itjaMemberBean.checkItja(itjaMemberVO));
 		map.put("itjaCount",itjaMemberBean.itjaCount(itjaMemberVO));
@@ -512,6 +513,9 @@ public class BoardServiceImpl implements BoardService{
 				map.put("mainArticleUpdateDate",boardDAO.selectOneMainArticleUpdateDate(itjaMemberVO.getMainArticleNo()));
 				boardDAO.moveToBest(itjaMemberVO.getMainArticleNo());
 				map.put("moveToBest", 1);
+				// Thread 적용 ?
+				StoryLinker storyLinker = new StoryLinker(boardDAO,subArticleVO);
+				storyLinker.start();
 			}
 		}
 		return map;

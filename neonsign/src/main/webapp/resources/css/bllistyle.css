@@ -1,5 +1,7 @@
 @CHARSET "UTF-8";
 
+/*에러 페이지*/
+ .center {text-align: center; margin-left: auto; margin-right: auto; margin-bottom: auto; margin-top: auto;}
 
 /* Links */
 @import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);

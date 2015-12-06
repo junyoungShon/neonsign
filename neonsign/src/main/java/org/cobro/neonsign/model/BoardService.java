@@ -45,7 +45,7 @@ public interface BoardService {
 	public void articleNotify(MainArticleVO mainArticleVO);
 	List<ReportVO> mainArticleReportList();
 	List<ReportVO> subArticleReportList();
-	HashMap<String, Object> selectItjaState(ItjaMemberVO itjaMemberVO);
+	HashMap<String, Object> selectItjaState(ItjaMemberVO itjaMemberVO, SubArticleVO subArticleVO);
 	void articleBlock(MainArticleVO mavo, int reportNumber);
 	void reportListDelete(ReportVO nvo);
 	public void subArticleBlock(int subArticleNumber, int articleNumber, int reportNumber);

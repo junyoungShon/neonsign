@@ -11,6 +11,8 @@ select MAIN_ARTICLE_NO, MAIN_ARTICLE_EMAIL,
 		MAIN_ARTICLE_LIKE, MAIN_ARTICLE_TOTAL_LIKE, MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE) 
 		values(main_article_seq.nextval,'e@naver.com','화장실에서 벌어진 일','손을 씻지 않고 나왔다',0, 0, 0, 
 		sysdate, to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'),0);
+		
+		
 		select max(SUB_ARTICLE_GRADE)+1 as SUB_ARTICLE_GRADE from sub_article where MAIN_ARTICLE_NO=39 and IS_CONNECT=1
 		select main_article_no,to_char(main_article_update_date,'yyyymmddhh24miss') as MAIN_ARTICLE_UPDATE_DATE from MAIN_ARTICLE where MAIN_ARTICLE_NO = 37
 		update main_article set main_article_update_date = sysdate where  MAIN_ARTICLE_NO = 36
@@ -100,4 +102,6 @@ select bm.MEMBER_EMAIL, bm.member_Category,bm.MEMBER_NICKNAME, pa.MAIN_ARTICLE_N
 	from 
 	where
 	
+	
+	select max(SUB_ARTICLE_GRADE)+1 as SUB_ARTICLE_GRADE from sub_article where MAIN_ARTICLE_NO=10 and IS_CONNECT=1
 	

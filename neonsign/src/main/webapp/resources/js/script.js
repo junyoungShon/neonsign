@@ -31,7 +31,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			}
 			var bestMainArticleNo = $('.bestMainArticleNo').eq(i).val();
 			if(remind_seconds==0){
-				$.ajax({
+				/*$.ajax({
 					type : "POST",
 					url : "storyLinking.neon",
 					data : "mainArticleNo="+bestMainArticleNo,
@@ -58,7 +58,7 @@ $(document).ready(function(){ //DOM이 준비되고
 						    modal: false
 						});
 					}
-				});
+				});*/
 				
 			}
 		}
