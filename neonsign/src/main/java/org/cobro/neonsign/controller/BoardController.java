@@ -79,8 +79,9 @@ public class BoardController {
 	@RequestMapping("getNewMainArticle.neon")
 	@ResponseBody
 	public HashMap<String, Object> getNewMainArticle(HttpServletRequest request, 
-			int pageNo, String orderBy,String tagName) {
+		int pageNo, String orderBy,String tagName) {
 		HashMap<String, Object> map = memberBoardInfo(request);
+		System.out.println(pageNo+orderBy+tagName+"여기 오냐");
 		if (orderBy == null||orderBy.equals("")||orderBy.equals("undefined")) {
 			orderBy = "date";
 		}
@@ -371,19 +372,25 @@ public class BoardController {
 	@RequestMapping("getCompleteMainArticle.neon")
 	@ResponseBody
 	public HashMap<String, Object> getCompleteMainArticle(HttpServletRequest request, int pageNo, String tagName, String orderBy){
-		//System.out.println("getCompleteMainArticle.neon orderBy : " + orderBy);
-		//System.out.println("getCompleteMainArticle.neon tagName : " + tagName);
-		if(orderBy==null||orderBy.equals("")||orderBy.equals("undefined")){
-			orderBy="like";
-		}
-		if(tagName==null||tagName.equals("undefined")){
-			tagName="";
-		}
+		System.out.println("getCompleteMainArticle.neon orderBy : " + orderBy);
+		System.out.println("getCompleteMainArticle.neon tagName : " + tagName);
 		HashMap<String, Object> map= memberBoardInfo(request);
-		List<MainArticleVO> mainArticleList = boardService.selectListCompleteMainArticle(pageNo, orderBy, tagName);
-		System.out.println("getCompleteMainArticle.neon mainArticleList : " + mainArticleList.size());
-		ArrayList<MainArticleVO> completeMainArticleArrayList = (ArrayList<MainArticleVO>) mainArticleList;
-		map.put("completeMainArticleArrayList", completeMainArticleArrayList);
+		try {
+			if(orderBy==null||orderBy.equals("")||orderBy.equals("undefined")){
+				orderBy="like";
+			}
+			if(tagName==null||tagName.equals("undefined")){
+				tagName="";
+			}
+			
+			List<MainArticleVO> mainArticleList = boardService.selectListCompleteMainArticle(pageNo, orderBy, tagName);
+			System.out.println("getCompleteMainArticle.neon mainArticleList : " + mainArticleList.size());
+			ArrayList<MainArticleVO> completeMainArticleArrayList = (ArrayList<MainArticleVO>) mainArticleList;
+			map.put("completeMainArticleArrayList", completeMainArticleArrayList);
+		} catch (Exception e) {
+			e.getStackTrace();
+		}
+		
  		return map;
 	}
 	/**Cotroller9
@@ -490,7 +497,7 @@ public class BoardController {
 	 * @return
 	 * @author 윤택
 	 */
-	@RequestMapping("ArticleReport.neon")
+	@RequestMapping("auth_ArticleReport.neon")
 	@ResponseBody
 	public Map<String,Object> ArticleReport(MainArticleVO mainArticleVO, SubArticleVO subArticleVO , MemberVO memberVO){
 		Map<String, Object> map=new HashMap<String, Object>();

@@ -95,7 +95,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			var orderByComp = $("#orderBy").val();
 			var tagName = $("#tagName").val();
 			$.ajax({
-				type:"post",
+				type:"get",
 				url:"getCompleteMainArticle.neon?pageNo="+pageNo+"&tagName="+tagName+"&orderBy="+orderByComp,
 				dataType:"json",
 				success:function(data){
@@ -172,7 +172,7 @@ $(document).ready(function(){ //DOM이 준비되고
 					}
 					$('.ajaxLoader').fadeOut(300);
 					$('.completeItjaList').append(infinityScrollTestSource);
-				},
+				}
 			});
 		}else if($("#articleType").val()=='mainArticle'){ 
 			var cardBox=$(".card-box[name=newCardBox]").length;
@@ -448,17 +448,18 @@ $(document).ready(function(){ //DOM이 준비되고
 		detailItjaView(mainArticleNO);
 	});
 	//무한 스크롤에 의해 새로 로딩된 카드 디테일 뷰
-	$('.newItjaList').on('mousemove',$('.actions :button'),function(){
+/*	$('.newItjaList').on('mousemove',$('.actions :button'),function(){
 		$('.actions :button').click(function(){
 			var mainArticleNO =$(this).parent().siblings().eq(5).val();
 			detailItjaView(mainArticleNO);
 		});
-	});
+	});*/
 	
 	//디테일 뷰 함수 정의
 	function detailItjaView(mainArticleNO){
-		var mainArticleTitleNO=$(":input[name=mainArticleNo1234]").val();
+		//var mainArticleTitleNO=$(".mainArticleTitleNO").val();
 		var subAtricleOrder="";
+		var ItjaMemberForm='<form name="itJaInfo">';
 		$.ajax({
 			type:"post",
 			url:"selectOneNotCompleteMainArticleByMainArticleNo.neon",
@@ -472,12 +473,11 @@ $(document).ready(function(){ //DOM이 준비되고
 					var flag=true;
 					for(var i=0;i<data.itjaMemberList.length;i++){
 						if(data.itjaMemberList[i].mainArticleNo == mainArticleNO){
+							
 							mainLikeItHTML 
 							='<button class="btn btn-social btn-twitter itja">'
 							+'<span class="itjaCount"><i class="fa fa-link"></i><br>'+data.mainArticle.mainArticleLike+'it</span></button>'
-							+'<form name="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
-							+'"><input type="hidden" name="mainArticleNo" value="'+data.mainArticle.mainArticleNo
-							+'"><input type="hidden" name="subArticleNo" value=0></form>'
+							
 							
 							modalFooterLikeHTML 
 							='<div class="social-line social-line-visible" data-buttons="4"><button class="btn btn-social btn-pinterest">05:22<br>빨리!</button>'
@@ -498,17 +498,20 @@ $(document).ready(function(){ //DOM이 준비되고
 							+'<input type="button" value="잇는글 쓰기" class="subArticleSubmit">'
 							+'<input type="hidden" name="mainArticleNo" value="'+data.mainArticle.mainArticleNo+'">'
 							+'<div class="limitLength">작성 후 잇자 10개시 베스트로 이동되며,타임체크가 발동됩니다!<span class="userLength"></span>Byte/400Byte</div>'
+							
 							flag=false;
 							break;
 						}	
 					}
 					if(flag){
+						
 						mainLikeItHTML 
 						='<button class="btn btn-social btn-twitter itja">'+
 						'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.mainArticle.mainArticleLike+'it</span></button>'+
 						'<form name="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
 						+'"><input type="hidden" name="mainArticleNo" value="'+data.mainArticle.mainArticleNo
 						+'"><input type="hidden" name="subArticleNo" value=0></form>'
+						
 						modalFooterLikeHTML 
 						='<div class="social-line social-line-visible" data-buttons="4"><button class="btn btn-social btn-pinterest">05:22<br>빨리!</button><button class="btn btn-social btn-twitter itja">'+
 						'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.mainArticle.mainArticleTotalLike+'it</span></button>'+
@@ -650,7 +653,7 @@ $(document).ready(function(){ //DOM이 준비되고
 		
 			},
 			type : "POST",
-			url : "ArticleReport.neon",
+			url : "auth_ArticleReport.neon",
 			data : formData,
 			success : function(){
 				alert("신고를 완료하였습니다.");
@@ -678,7 +681,7 @@ $(document).ready(function(){ //DOM이 준비되고
 		
 			},
 			type : "POST",
-			url : "ArticleReport.neon",
+			url : "auth_ArticleReport.neon",
 			data : formData,
 			success : function(){
 				alert("신고를 완료하였습니다.");
@@ -1170,56 +1173,7 @@ $(document).ready(function(){ //DOM이 준비되고
 		  $(this).tab('show')
 		})
 
-    /**
-     * 관리자가 회원리스트에서 해당 회원을
-     * Block 하는 스크립트
-     */
-    $('.memberBlock').click(function () {
-    	var memberEmail=$(this).parent().parent().children().eq(0).text();
-    	var falg=confirm("해당 회원을 Block 하시겠습니까?");
-    	if(falg){
-    		document.location.href = "memberBlock.neon?memberEmail="+memberEmail;
-    	}
-		return false;
-	});
-    /**
-    * 관리자가 회원리스트에서 해당 회원을
-    * Block해제 하는 스크립트
-    */
-   $('.memberService').click(function () {
-   	var memberEmail=$(this).parent().parent().children().eq(0).text();
-   	var falg=confirm("해당 회원을 Block해제 하시겠습니까?");
-   	if(falg){
-   		document.location.href = "memberBlockRelease.neon?memberEmail="+memberEmail;
-   	}
-		return false;
-	});
-    /**
-	 * 관리자가 신고리스트에서 
-	 * 신고처리를 하는 스크립트
-	 */
-	$('.boardReport').click(function () {
-		var subArticleNO=$(this).parent().parent().children().eq(4).text();
-		var articleNO=$(this).parent().parent().children().eq(2).text();
-		var reportNO=$(this).parent().parent().children().eq(1).text();
-		if(confirm("신고처리 하시겠습니까?")){
-			location.href="adminPageDeleteArticle.neon?reportNO="+reportNO+"&articleNO="+articleNO+"&subArticleNO="+subArticleNO+
-			"&command=report";
-		}
-	});
-	/**
-	 * 관리자가 신고리스트에서 
-	 * 반려처리를 하는 스크립트
-	 */
-	$('.ReportCancle').click(function () {
-		var subArticleNO=$(this).parent().parent().children().eq(4).text();
-		var articleNO=$(this).parent().parent().children().eq(2).text();
-		var reportNO=$(this).parent().parent().children().eq(1).text();
-		if(confirm("반려처리 하시겠습니까?")){
-			location.href="adminPageDeleteArticle.neon?reportNO="+reportNO+"&articleNO="+articleNO+"&subArticleNO="+subArticleNO+
-			"&command=cancle";
-		}
-	});
+
 	
 	/**
 	 * @author JeSeong Lee
