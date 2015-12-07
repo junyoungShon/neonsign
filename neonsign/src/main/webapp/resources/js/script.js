@@ -1101,5 +1101,144 @@ $(document).ready(function(){ //DOM이 준비되고
 		        $('[data-toggle="popover"]').popover('hide');
 		    }
 		});*/
+	/**
+     * 관리자가 회원리스트에서 해당 회원을
+     * Block 하는 스크립트
+     */
+    $('#memberReportList').on('click','.memberBlock',function () {
+    	var memberEmail=$(this).parent().parent().children().eq(0).text();
+    	if(confirm("해당 회원을 Block 하시겠습니까?")){
+    		document.location.href = "memberBlock.neon?memberEmail="+memberEmail;
+    	}
+		return false;
+	});
+    /**
+     * 관리자가 회원리스트에서 해당 회원을
+     * Block 해제 하는 스크립트
+     */
+	$('#blockMemberReportList').on('click','.memberService',function () {
+   	var memberEmail=$(this).parent().parent().children().eq(0).text();
+   	if(confirm("해당 회원을 Block해제 하시겠습니까?")){
+   		document.location.href = "memberBlockRelease.neon?memberEmail="+memberEmail;
+   	}
+		return false;
+	});
+
+	$('#mainReportList').on('click','.boardReport',function () {
+		var subArticleNO=$(this).parent().parent().children().eq(4).text();
+		var articleNO=$(this).parent().parent().children().eq(2).text();
+		var reportNO=$(this).parent().parent().children().eq(1).text();
+		if(confirm("신고처리 하시겠습니까?")){
+			location.href="adminPageDeleteArticle.neon?reportNO="+reportNO+"&articleNO="+articleNO+"&subArticleNO="+subArticleNO+
+			"&command=report";
+		}
+	});
+	
+	$('#mainReportList').on('click','.ReportCancle',function () {
+		var subArticleNO=$(this).parent().parent().children().eq(4).text();
+		var articleNO=$(this).parent().parent().children().eq(2).text();
+		var reportNO=$(this).parent().parent().children().eq(1).text();
+		if(confirm("반려처리 하시겠습니까?")){
+			location.href="adminPageDeleteArticle.neon?reportNO="+reportNO+"&articleNO="+articleNO+"&subArticleNO="+subArticleNO+
+			"&command=cancle";
+		}
+	});
+   
+	$('#subReportList').on('click','.boardReport',function () {
+		var subArticleNO=$(this).parent().parent().children().eq(4).text();
+		var articleNO=$(this).parent().parent().children().eq(2).text();
+		var reportNO=$(this).parent().parent().children().eq(1).text();
+		if(confirm("신고처리 하시겠습니까?")){
+			location.href="adminPageDeleteArticle.neon?reportNO="+reportNO+"&articleNO="+articleNO+"&subArticleNO="+subArticleNO+
+			"&command=report";
+		}
+	});
+
+	$('#subReportList').on('click','.ReportCancle',function () {
+		var subArticleNO=$(this).parent().parent().children().eq(4).text();
+		var articleNO=$(this).parent().parent().children().eq(2).text();
+		var reportNO=$(this).parent().parent().children().eq(1).text();
+		if(confirm("반려처리 하시겠습니까?")){
+			location.href="adminPageDeleteArticle.neon?reportNO="+reportNO+"&articleNO="+articleNO+"&subArticleNO="+subArticleNO+
+			"&command=cancle";
+		}
+	});
+	
+	$('.articleReportPaging').click(function () {
+		var articleReportList="";
+		var pageNo=$($(this).next().children()).val();
+		var pageType=$($(this).next().children().eq(1)).val();
+		var reportIndex=(pageNo-1)*13;
+		alert("type : "+pageType);
+		$.ajax({
+			type:"post",
+			url:"mainreportListPaging.neon",
+			data:"pageNo="+pageNo+"&pageType="+pageType,
+			dataType:"json",
+			success:function(data){ 
+				if(pageType=="mainArticleList"){
+					alert("주제글");
+					for(var i=0; i<data.list.length;i++){
+						articleReportList=articleReportList+"<tr><td>"+(reportIndex+i)+"</td><td>"+
+						data.list[i].reportNo+"</td><td>"+data.list[i].mainArticleNo+"</td><td>"+
+						data.list[i].mainArticleVO[0].mainArticleTitle+"</td><td>"+
+						data.list[i].mainArticleVO[0].memberVO.memberNickName+"</td><td>"+
+						data.list[i].reportDate+"</td><td>"+data.list[i].reportAmount+"</td><td>"+
+						data.list[i].stagesOfProcess+"</td><td><input type='button' value='신고처리' class='boardReport'></td>"+
+						"<td><input type='button' value='반려처리' class='ReportCancle'></td></tr>"
+					}
+					$('#mainReportList').html(articleReportList);
+				}else{
+					alert("잇는글");
+					for(var i=0; i<data.list.length;i++){
+						articleReportList=articleReportList+"<tr><td>"+(reportIndex+i)+"</td><td>"+
+						data.list[i].reportNo+"</td><td>"+data.list[i].mainArticleNo+"</td><td>"+
+						data.list[i].mainArticleVO[0].mainArticleTitle+"</td><td>"+
+						data.list[i].mainArticleVO[0].subArticle[0].subArticleNo+"</td><td>"+
+						data.list[i].mainArticleVO[0].subArticle[0].subArticleContent+"</td><td>"+
+						data.list[i].mainArticleVO[0].subArticle[0].memberVO.memberNickName+"</td><td>"+
+						data.list[i].reportDate+"</td><td>"+data.list[i].reportAmount+"</td><td>"+
+						data.list[i].stagesOfProcess+"</td><td><input type='button' value='신고처리' class='boardReport'></td>"+
+						"<td><input type='button' value='반려처리' class='ReportCancle'></td></tr>"
+					}
+					$('#subReportList').html(articleReportList);
+				}
+			}
+		});
+	});
+	$('.memberReportPaging').click(function () {
+		var memberReportList="";
+		var pageNo=$($(this).next().children()).val();
+		var pageType=$($(this).next().children().eq(1)).val();
+		$.ajax({
+			type:"post",
+			url:"memberReportListPaging.neon",
+			data:"pageNo="+pageNo+"&pageType="+pageType,
+			dataType:"json",
+			success:function(data){ 
+				if(pageType=="memberList"){
+					for(var i=0; i<data.list.length; i++){
+						memberReportList=memberReportList+"<tr><td>"+
+						data.list[i].memberEmail+"</td><td>"+data.list[i].memberNickName+"</td><td>"+
+						data.list[i].memberJoinDate+"</td><td>"+data.list[i].memberPoint+"</td><td>"+
+						data.list[i].memberReportAmount+"</td><td>"+
+						"<input type='button' value='서비스정지' class='memberBlock'></td>";	
+					}
+					$('#memberReportList').html(memberReportList);
+					
+				}else{
+					for(var i=0;i<data.list.length;i++){
+						memberReportList=memberReportList+"<tr><td>"+
+						data.list[i].memberEmail+"</td><td>"+data.list[i].memberNickName+"</td><td>"+
+						data.list[i].memberJoinDate+"</td><td>"+data.list[i].memberPoint+"</td><td>"+
+						data.list[i].memberReportAmount+"</td><td>"+
+						"<input type='button' value='서비스시작' class='memberService'></td>";	
+					}
+					$('#blockMemberReportList').html(memberReportList);
+					
+				}
+			}
+		});
+	});
 });//document.ready
 	

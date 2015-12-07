@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.cobro.neonsign.vo.MemberListVO;
 import org.cobro.neonsign.vo.MemberVO;
 import org.cobro.neonsign.vo.PickedVO;
 
@@ -15,10 +16,11 @@ public interface MemberService {
 	public MemberVO memberLogin(MemberVO mvo);
 	public MemberVO memberDelete(MemberVO mvo);
 	public ArrayList<MemberVO> getNotifyMemberList(MemberVO mvo);
-	public Map<String, ArrayList<MemberVO>> getMemberList();
 	public void memberBlock(String memberEmail);
 	public void memberBlockRelease(String memberEmail);
 	public String updatePickedVO(PickedVO pvo);
 	public List<PickedVO> getPickListByMemberEmail(String memberEmail);
 	public MemberVO defaultMemberLogin(MemberVO memberVO);
+	public MemberListVO getBlockMemberList(int i);
+	public MemberListVO getMemberList(int i);
 }

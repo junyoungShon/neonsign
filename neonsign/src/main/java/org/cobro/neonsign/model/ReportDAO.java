@@ -11,15 +11,13 @@ public interface ReportDAO {
 
 	public void deleteByNotify(ReportVO notifyVO);
 
-	public int notifyCount();
-
 	public void articleNotifyCount(MainArticleVO mainArticleVO);
 
 	public ReportVO notifyByNo(MainArticleVO mainArticleVO);
 
-	List<ReportVO> mainArticleReportList();
+	List<ReportVO> mainArticleReportList(int pageNo);
 
-	List<ReportVO> subArticleReportList();
+	List<ReportVO> subArticleReportList(int pageNo);
 
 	public List<String> reporterNames(int reportNumber);
 
@@ -46,4 +44,8 @@ public interface ReportDAO {
 	public int subArticleBlock(SubArticleVO subArticleVO);
 
 	void subArticleReport(SubArticleVO subArticleVO);
+
+	public int allMianReports();
+
+	public int allSubReports();
 }

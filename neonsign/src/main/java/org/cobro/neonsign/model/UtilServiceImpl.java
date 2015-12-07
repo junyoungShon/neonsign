@@ -1,11 +1,14 @@
 package org.cobro.neonsign.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.MemberVO;
+import org.cobro.neonsign.vo.PagingBean;
+import org.cobro.neonsign.vo.ReportListVO;
 import org.cobro.neonsign.vo.ReportVO;
 import org.cobro.neonsign.vo.SubArticleVO;
 import org.springframework.stereotype.Service;
@@ -47,16 +50,59 @@ public class UtilServiceImpl implements UtilService{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	@Override
-	public List<ReportVO> mainArticleReportList() {
+	/**
+	 * 주제글의 신고리스트를 페이징하여 ReportListVO에
+	 * pagingBean과 신고리스트로 주입하여 생성한다
+	 * @param pageNo
+	 * @return
+	 */
+	public ReportListVO mainArticleReportList(int pageNo) {
 		// TODO Auto-generated method stub
-		return reportDAO.mainArticleReportList();
+		PagingBean pb=null;
+		ArrayList<ReportVO> list=(ArrayList<ReportVO>)reportDAO.mainArticleReportList(pageNo);
+		int totalReports=reportDAO.allMianReports();
+		System.out.println("totalContenrs : "+totalReports);
+		if(pageNo!=0){
+		pb= new PagingBean(totalReports, pageNo);
+		}else{
+			pb= new PagingBean(totalReports);
+		}
+		ReportListVO lvo=new ReportListVO(list,pb);
+		/*페이징 적용****** 페이지에 맞는 게시물 리스트를 Dao 로부터 반환 
+		전체 게시물 수를 Dao 로부터 반환 
+		PagingBean 을 생성 --> 페이지 넘버가 없으면 totalContents 만 setting 
+		---> 페이지 넘버가 존재하면 totalContents 및 nowPage 정보 setting
+		ListVO 를 생성 ( list , pagingBean 을 setting) 
+		ListController에 반환*/
+		return lvo;
 	}
 
 	@Override
-	public List<ReportVO> subArticleReportList() {
+	/**
+	 *잇는글의 신고리스트를 페이징하여 ReportListVO에
+	 * pagingBean과 신고리스트로 주입하여 생성한다
+	 * @param pageNo
+	 * @return
+	 */
+	public ReportListVO subArticleReportList(int pageNo) {
 		// TODO Auto-generated method stub
-		return reportDAO.subArticleReportList();
+		PagingBean pb=null;
+		ArrayList<ReportVO> list=(ArrayList<ReportVO>)reportDAO.subArticleReportList(pageNo);
+		int totalReports=reportDAO.allSubReports();
+		System.out.println("totalContenrs : "+totalReports);
+		if(pageNo!=0){
+		pb= new PagingBean(totalReports, pageNo);
+		}else{
+			pb= new PagingBean(totalReports);
+		}
+		ReportListVO lvo=new ReportListVO(list,pb);
+		/*페이징 적용****** 페이지에 맞는 게시물 리스트를 Dao 로부터 반환 
+		전체 게시물 수를 Dao 로부터 반환 
+		PagingBean 을 생성 --> 페이지 넘버가 없으면 totalContents 만 setting 
+		---> 페이지 넘버가 존재하면 totalContents 및 nowPage 정보 setting
+		ListVO 를 생성 ( list , pagingBean 을 setting) 
+		ListController에 반환*/
+		return lvo;
 	}
 
 	@Override

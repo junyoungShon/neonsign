@@ -14,10 +14,11 @@ public class MainArticleVO {
 	private String mainArticleDate;
 	private String mainArticleUpdateDate;
 	private String mainArticleComplete;
+	private int mainArticleBlock;//Block여부 
 	//MainArticleVO는 MemberVO와 SubArticleVO를 가진다.
 	private MemberVO memberVO;
 	private List<SubArticleVO> subArticleList;
-	private List<TagBoardVO> tagBoardVOList;;
+	private ArrayList<ArrayList<TagBoardVO>> tagBoardVOList;
 	private String tagName;
 	public MainArticleVO() {
 		super();
@@ -27,9 +28,9 @@ public class MainArticleVO {
 			String mainArticleTitle, String mainArticleContent,
 			int mainArticleHIt, int mainArticleLike, int mainArticleTotalLike,
 			String mainArticleDate, String mainArticleUpdateDate,
-			String mainArticleComplete, MemberVO memberVO,
-			List<SubArticleVO> subArticleList, List<TagBoardVO> tagBoardVOList,
-			String tagName) {
+			String mainArticleComplete, int mainArticleBlock,
+			MemberVO memberVO, List<SubArticleVO> subArticleList,
+			ArrayList<ArrayList<TagBoardVO>> tagBoardVOList, String tagName) {
 		super();
 		this.mainArticleNo = mainArticleNo;
 		this.memberEmail = memberEmail;
@@ -41,6 +42,7 @@ public class MainArticleVO {
 		this.mainArticleDate = mainArticleDate;
 		this.mainArticleUpdateDate = mainArticleUpdateDate;
 		this.mainArticleComplete = mainArticleComplete;
+		this.mainArticleBlock = mainArticleBlock;
 		this.memberVO = memberVO;
 		this.subArticleList = subArticleList;
 		this.tagBoardVOList = tagBoardVOList;
@@ -100,11 +102,17 @@ public class MainArticleVO {
 	public void setMainArticleUpdateDate(String mainArticleUpdateDate) {
 		this.mainArticleUpdateDate = mainArticleUpdateDate;
 	}
-	public String getMainArticleComplete() {
+	public String getmainArticleComplete() {
 		return mainArticleComplete;
 	}
-	public void setMainArticleComplete(String mainArticleComplete) {
+	public void setmainArticleComplete(String mainArticleComplete) {
 		this.mainArticleComplete = mainArticleComplete;
+	}
+	public int getMainArticleBlock() {
+		return mainArticleBlock;
+	}
+	public void setMainArticleBlock(int mainArticleBlock) {
+		this.mainArticleBlock = mainArticleBlock;
 	}
 	public MemberVO getMemberVO() {
 		return memberVO;
@@ -118,10 +126,10 @@ public class MainArticleVO {
 	public void setSubArticleList(List<SubArticleVO> subArticleList) {
 		this.subArticleList = subArticleList;
 	}
-	public List<TagBoardVO> getTagBoardVOList() {
+	public ArrayList<ArrayList<TagBoardVO>> getTagBoardVOList() {
 		return tagBoardVOList;
 	}
-	public void setTagBoardVOList(List<TagBoardVO> tagBoardVOList) {
+	public void setTagBoardVOList(ArrayList<ArrayList<TagBoardVO>> tagBoardVOList) {
 		this.tagBoardVOList = tagBoardVOList;
 	}
 	public String getTagName() {
@@ -141,9 +149,10 @@ public class MainArticleVO {
 				+ ", mainArticleDate=" + mainArticleDate
 				+ ", mainArticleUpdateDate=" + mainArticleUpdateDate
 				+ ", mainArticleComplete=" + mainArticleComplete
-				+ ", memberVO=" + memberVO + ", subArticleList="
-				+ subArticleList + ", tagBoardVOList=" + tagBoardVOList
-				+ ", tagName=" + tagName + "]";
+				+ ", mainArticleBlock=" + mainArticleBlock + ", memberVO="
+				+ memberVO + ", subArticleList=" + subArticleList
+				+ ", tagBoardVOList=" + tagBoardVOList + ", tagName=" + tagName
+				+ "]";
 	}
-	
+
 }

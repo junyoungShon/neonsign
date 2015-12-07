@@ -14,8 +14,10 @@ import javax.servlet.http.HttpSession;
 import org.cobro.neonsign.model.BoardService;
 import org.cobro.neonsign.vo.ItjaMemberVO;
 import org.cobro.neonsign.vo.MainArticleVO;
+import org.cobro.neonsign.vo.MemberListVO;
 import org.cobro.neonsign.vo.MemberVO;
 import org.cobro.neonsign.vo.RankingVO;
+import org.cobro.neonsign.vo.ReportListVO;
 import org.cobro.neonsign.vo.ReportVO;
 import org.cobro.neonsign.vo.ReporterVO;
 import org.cobro.neonsign.vo.SubArticleVO;
@@ -182,13 +184,34 @@ public class BoardController {
 	 */
 	@RequestMapping("adminPageView.neon")
 	public ModelAndView adminPageNotifyArticleList(HttpServletRequest request){
-		Map<String, ArrayList<MemberVO>> memberMap=(Map<String, ArrayList<MemberVO>>)request.getAttribute("memberMap");
-		List<ReportVO> mainReportList=boardService.mainArticleReportList();//주제글 신고 리스트를 받아온다
-		List<ReportVO> subReportList=boardService.subArticleReportList();//잇는글 신고 리스트를 받아온다
+		Map<String,MemberListVO> memberMap=(Map<String,MemberListVO>)request.getAttribute("memberMap");
+		ReportListVO mainReportList=boardService.mainArticleReportList(1);//주제글 신고 리스트를 받아온다
+		ReportListVO subReportList=boardService.subArticleReportList(1);//잇는글 신고 리스트를 받아온다
 		HashMap<String,Object> map=new HashMap<String, Object>();//회원관리 리스트, 게시물 신고 리스트 를 map에 put 해준다
 		map.put("mainReportList", mainReportList); map.put("subReportList", subReportList);
-		 map.put("memberList",(ArrayList<MemberVO>)memberMap.get("memberList"));  map.put("blokcMemberList",(ArrayList<MemberVO>)memberMap.get("blokcMemberList"));
+		 map.put("memberList",memberMap.get("memberList"));  map.put("blokcMemberList",memberMap.get("blokcMemberList"));
 		return new ModelAndView("adminPageView","adminList",map);
+	}
+	/**
+	 * 관리자 페이지에서 type을 받아 그 type에 맞게
+	 * Article 신고 리스트를 페이징 해주는 컨트롤러
+	 * @author 윤택
+	 */
+	@RequestMapping("mainreportListPaging.neon")
+	@ResponseBody
+	public ReportListVO articleReportListPaging(String pageNo, String pageType){
+		System.out.println("AJax 연동 페이징 넘버 "+pageNo);
+		System.out.println("Ajax 연동 페이징 타입 "+pageType);
+		ReportListVO articlereportList=null;
+			int pageNumber=Integer.parseInt(pageNo);
+			if(pageType.equals("mainArticleList")){
+				System.out.println("mainArticle 신고 리스트");
+				articlereportList=boardService.mainArticleReportList(pageNumber);
+			}else{
+				System.out.println("subArticle 신고 리스트");
+				articlereportList=boardService.subArticleReportList(pageNumber);
+			}
+			return articlereportList;
 	}
 	/**Controller5
 	 * 관리자 페이지에서 신고글을 블락하거나 블락을 반력하는 메서드로서 신고 성공이므로 신고자들에게 포인트를 적립해준다.

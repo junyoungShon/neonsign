@@ -9,6 +9,7 @@ import org.cobro.neonsign.vo.ItjaMemberVO;
 import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.MemberVO;
 import org.cobro.neonsign.vo.RankingVO;
+import org.cobro.neonsign.vo.ReportListVO;
 import org.cobro.neonsign.vo.ReportVO;
 import org.cobro.neonsign.vo.SubArticleVO;
 import org.cobro.neonsign.vo.TagBoardVO;
@@ -43,8 +44,8 @@ public interface BoardService {
 	public Map<String, Object> boardStatistics();
 	public List<MainArticleVO> articleSort(String sort);
 	public void articleNotify(MainArticleVO mainArticleVO);
-	List<ReportVO> mainArticleReportList();
-	List<ReportVO> subArticleReportList();
+	ReportListVO mainArticleReportList(int pageNumber);
+	ReportListVO subArticleReportList(int pageNumber);
 	HashMap<String, Object> selectItjaState(ItjaMemberVO itjaMemberVO);
 	void articleBlock(MainArticleVO mavo, int reportNumber);
 	void reportListDelete(ReportVO nvo);

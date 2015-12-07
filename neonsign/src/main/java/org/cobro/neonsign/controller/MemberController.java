@@ -1,9 +1,8 @@
 package org.cobro.neonsign.controller;
 
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.cobro.neonsign.model.ItjaMemberBean;
 import org.cobro.neonsign.model.MemberService;
 import org.cobro.neonsign.vo.ItjaMemberVO;
+import org.cobro.neonsign.vo.MemberListVO;
 import org.cobro.neonsign.vo.MemberVO;
 import org.cobro.neonsign.vo.PickedVO;
 import org.springframework.stereotype.Controller;
@@ -71,6 +71,7 @@ public class MemberController {
 	public ModelAndView memberLogin(HttpServletRequest request, MemberVO memberVO){
 		MemberVO memberVO1 = memberVO;
 		memberVO=memberService.memberLogin(memberVO);
+
 		if(memberVO==null){
 			memberVO=memberService.defaultMemberLogin(memberVO1);
 		}
@@ -124,11 +125,36 @@ public class MemberController {
 	@RequestMapping("getMemberList.neon")
 	public ModelAndView getMemberList(HttpServletRequest request,MemberVO mvo){
 		ModelAndView mv = new ModelAndView();
-		Map<String, ArrayList<MemberVO>> memberMap=memberService.getMemberList();//일반회원 리스트를 받아온다
+		 MemberListVO memberList=memberService.getMemberList(1);//회원 리스트를 받아온다
+		 MemberListVO blockMemberList=memberService.getBlockMemberList(1);//회원 리스트를 받아온다
+		 HashMap<String, MemberListVO> memberMap=new HashMap<String, MemberListVO>();
+		 memberMap.put("memberList",memberList); memberMap.put("blokcMemberList", blockMemberList);
 		mv.addObject("memberMap", memberMap);
 		mv.setViewName("forward:adminPageView.neon");
 		return mv;
 	}
+	/**
+	 * 관리자 페이지에서 type을 받아 그 type에 맞게
+	 * Article 신고 리스트를 페이징 해주는 컨트롤러
+	 * @author 윤택
+	 */
+	@RequestMapping("memberReportListPaging.neon")
+	@ResponseBody
+	public MemberListVO articleReportListPaging(String pageNo, String pageType){
+		System.out.println("AJax 연동 페이징 넘버 "+pageNo);
+		System.out.println("Ajax 연동 페이징 타입 "+pageType);
+		MemberListVO memberReportList=null;
+			int pageNumber=Integer.parseInt(pageNo);
+			if(pageType.equals("memberList")){
+				System.out.println("memberList");
+				memberReportList=memberService.getMemberList(pageNumber);
+			}else{
+				System.out.println("blockMemberList ");
+				memberReportList=memberService.getBlockMemberList(pageNumber);
+			}
+			return memberReportList;
+	}
+
 	/**
 	 * 회원 이메일을 받아 그 회원을 블락 시키는 메서드
 	 * @author 윤택

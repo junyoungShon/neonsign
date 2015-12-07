@@ -12,6 +12,7 @@ import org.cobro.neonsign.vo.ItjaMemberVO;
 import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.MemberVO;
 import org.cobro.neonsign.vo.RankingVO;
+import org.cobro.neonsign.vo.ReportListVO;
 import org.cobro.neonsign.vo.ReportVO;
 import org.cobro.neonsign.vo.SubArticleVO;
 import org.cobro.neonsign.vo.TagBoardVO;
@@ -251,9 +252,9 @@ public class BoardServiceImpl implements BoardService{
 	 * @author 윤택
 	 */
 	@Override
-	public List<ReportVO> mainArticleReportList() {
+	public ReportListVO mainArticleReportList(int pageNo) {
 		// TODO Auto-generated method stub
-		return utilService.mainArticleReportList();
+		return utilService.mainArticleReportList(pageNo);
 		
 	}
 	@Override
@@ -261,9 +262,9 @@ public class BoardServiceImpl implements BoardService{
 	 * 잇는글의 신고리스트를 받아오는 메서드
 	 * @author 윤택
 	 */
-	public List<ReportVO> subArticleReportList() {
+	public ReportListVO subArticleReportList(int pageNo) {
 		// TODO Auto-generated method stub
-		return utilService.subArticleReportList();
+		return utilService.subArticleReportList(pageNo);
 	}
 	@Override
 	/**

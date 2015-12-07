@@ -10,6 +10,7 @@ public class SubArticleVO {
 	private int subArticleLike;
 	private int isConnect;
 	private String subArticleDate;
+	private int subArticleBlock;//Block여부
 	private MemberVO memberVO;
 	public SubArticleVO() {
 		super();

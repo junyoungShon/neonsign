@@ -22,7 +22,7 @@
 		--신고리스트에서 해당 신고글 삭제
 		delete tablename where condition
 		--신고한 회원 목록
-		select MEMBER_EMAIL from reporter where REPORT_NO=6
+		select * from reporter where REPORT_NO=6
 		
 		--신고한 회원에게 10 포인트 지급
 		update BRAIN_MEMBER SET MEMBER_POINT=MEMBER_POINT+10 

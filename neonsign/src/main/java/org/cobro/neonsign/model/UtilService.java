@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.MemberVO;
+import org.cobro.neonsign.vo.ReportListVO;
 import org.cobro.neonsign.vo.ReportVO;
 import org.cobro.neonsign.vo.SubArticleVO;
 
@@ -19,9 +20,9 @@ public interface UtilService {
 
 	public ReportVO articleNotify(MainArticleVO mainArticleVO);
 
-	public List<ReportVO> mainArticleReportList();
+	public ReportListVO mainArticleReportList(int pageNo);
 
-	public List<ReportVO> subArticleReportList();
+	public ReportListVO subArticleReportList(int pageNo);
 
 
 	public void memberPointUpdate(int reportNumber);

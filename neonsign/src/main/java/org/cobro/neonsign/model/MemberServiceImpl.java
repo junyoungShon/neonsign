@@ -7,7 +7,9 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.cobro.neonsign.vo.MemberListVO;
 import org.cobro.neonsign.vo.MemberVO;
+import org.cobro.neonsign.vo.PagingBean;
 import org.cobro.neonsign.vo.PickedVO;
 import org.springframework.stereotype.Service;
 
@@ -56,13 +58,35 @@ public class MemberServiceImpl implements MemberService{
 	 * 회원 리스트를 받아오는 메서드
 	 * @author 장1솔
 	 */
-	public Map<String, ArrayList<MemberVO>> getMemberList() {
+	public MemberListVO getMemberList(int pageNo) {
 		// TODO Auto-generated method stub
-		ArrayList<MemberVO> memberList=(ArrayList<MemberVO>)memberDAO.getMemberList();
-		ArrayList<MemberVO> blokcMemberList=(ArrayList<MemberVO>)memberDAO.getBlockMemberList();
-		Map<String,ArrayList<MemberVO>> map= new HashMap<String, ArrayList<MemberVO>>();
-		map.put("memberList", memberList); map.put("blokcMemberList", blokcMemberList);
-		return map;
+		PagingBean pb=null;
+		ArrayList<MemberVO> members=(ArrayList<MemberVO>)memberDAO.getMemberList(pageNo);
+		int totalReports=memberDAO.allMembers();
+		if(pageNo!=0){
+		pb= new PagingBean(totalReports, pageNo);
+		}else{
+			pb= new PagingBean(totalReports);
+		}
+		MemberListVO memberList=new MemberListVO(members,pb);
+		return memberList;
+	}
+
+	/**
+	 * 불량 회원 리스트를 받아오는 메서드
+	 * @author 장1솔
+	 */
+	public MemberListVO getBlockMemberList(int pageNo){
+		PagingBean pb=null;
+		ArrayList<MemberVO> blokcMembers=(ArrayList<MemberVO>)memberDAO.getBlockMemberList(pageNo);
+		int totalReports=memberDAO.allBlockMembers();
+		if(pageNo!=0){
+		pb= new PagingBean(totalReports, pageNo);
+		}else{
+			pb= new PagingBean(totalReports);
+		}
+		MemberListVO blockMemberList=new MemberListVO(blokcMembers,pb);
+		return blockMemberList;
 	}
 	@Override
 	/**

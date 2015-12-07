@@ -152,7 +152,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<selectKey keyProperty="mainArticleNo" resultType="int" order="BEFORE">
 			select main_article_seq.nextval from dual
 		</selectKey>
-		insert into main_article(MAIN_ARTICLE_NO,MAIN_ARTICLE_EMAIL,MAIN_ARTICLE_TITLE,MAIN_ARTICLE_CONTENT,MAIN_ARTICLE_DATE,MAIN_ARTICLE_UPDATE_DATE)
+		insert into main_article(MAIN_ARTICLE_NO,MEMBER_EMAIL,MAIN_ARTICLE_TITLE,MAIN_ARTICLE_CONTENT,MAIN_ARTICLE_DATE,MAIN_ARTICLE_UPDATE_DATE)
 		values(#{mainArticleNo},#{memberEmail},#{mainArticleTitle},#{mainArticleContent},sysdate,to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'))
 	</insert>
 	<insert id="insertTagBoardVO" parameterType="tagBoardVO">
@@ -194,7 +194,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	parameterType="mainArticleVO" resultType="mainArticleVO">
 		select * from main_article m,  brain_member b   where
 		 m.MAIN_ARTICLE_NO=#{mainArticleNo} 
-		and b.MEMBER_EMAIL=m.MAIN_ARTICLE_EMAIL
+		and b.MEMBER_EMAIL=m.MEMBER_EMAIL
 	</select>
 	<!-- 이어진 SubArticle을 select해줍니다 -->
 	<select id="likingSubArticleFindByMainArticleNo" resultType="subArticleVO" parameterType="subArticleVO" resultMap="subArticleResultMap">
@@ -231,115 +231,118 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="completeMainArticleByMainArticleNo" resultType="mainArticleVO"
 		resultMap="mainArticleResultMap">
 	</select>
-	<!-- 완결주제글 최신순 -->
-	<select id="completeMainArticleOrderByDate" resultType="mainArticleVO"
-		resultMap="mainArticleResultMap">
-		select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
-			MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME 
-		from(
-			select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
-			ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
-			to_char(ma.MAIN_ARTICLE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
-			to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
-			ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME, 
-			ceil(rownum/9) as page 
-			from main_article ma, brain_member bm, tag_board tb
-			where ma.MAIN_ARTICLE_EMAIL = bm.MEMBER_EMAIL and ma.MAIN_ARTICLE_COMPLETE = 1
-			order by ma.MAIN_ARTICLE_UPDATE_DATE desc
-		)
-		where page=#{value}
-	</select>
-	<!-- 완결주제글 총잇자순 -->
-	<select id="completeMainArticleOrderByTotalLike"
-		resultMap="mainArticleResultMap">
-		select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
-			MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME 
-		from(
-			select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
-			ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
-			to_char(ma.MAIN_ARTICLE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
-			to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
-			ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME, 
-			ceil(rownum/9) as page 
-			from main_article ma, brain_member bm, tag_board tb
-			where ma.MAIN_ARTICLE_EMAIL = bm.MEMBER_EMAIL and ma.MAIN_ARTICLE_COMPLETE = 1
-			order by ma.MAIN_ARTICLE_TOTAL_LIKE desc
-		)
-		where page=#{value}
-	</select>
-	<!-- 완결주제글 태그순 List-->
-	<select id="selectListCompleteMainArticleOrderByTag" resultMap="mainArticleResultMap" parameterType="map">
-		select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
-			MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME 
-		from(
-			select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
-			ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
-			to_char(ma.MAIN_ARTICLE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
-			to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
-			ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME, 
-			ceil(rownum/9) as page 
-			from main_article ma, brain_member bm, tag_board tb
-			where ma.MAIN_ARTICLE_EMAIL = bm.MEMBER_EMAIL and ma.MAIN_ARTICLE_COMPLETE = 1
-				and ma.MAIN_ARTICLE_NO=tb.MAIN_ARTICLE_NO and tb.TAG_NAME=#{tagName}
-			order by ma.MAIN_ARTICLE_TOTAL_LIKE desc
-		)
-		where page=#{pageNo}
-	</select>
-	<!-- 메인 새로운 주제글 최신순 List-->
-	<select id="selectListNotCompleteMainArticleOrderByDate"
-		resultMap="mainArticleResultMap">
-		select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
-		MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME,
-		TAG_NAME, MEMBER_EMAIL
-		from(
-			select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
-			ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
-			to_char(ma.MAIN_ARTICLE_DATE,'YYYY/MM/DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
-			to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
-			ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME, tb.TAG_NAME as TAG_NAME,
-			bm.MEMBER_EMAIL as MEMBER_EMAIL, ceil(rownum/9) as page
-			from main_article ma, brain_member bm, tag_board tb
-			where ma.MAIN_ARTICLE_EMAIL = bm.MEMBER_EMAIL and ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO 
-			and ma.MAIN_ARTICLE_COMPLETE = 0
-			order by ma.MAIN_ARTICLE_DATE desc
-		)
-		where page=#{pageNo}
-	</select>
-	
-	<!-- 메인 새로운 주제글 태그 정렬 -->
-	<select id="selectListNotCompleteMainArticleOrderByTag" resultMap="mainArticleResultMap" parameterType="map">
-	select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
-	MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME,
-	TAG_NAME, MEMBER_EMAIL
-	from(
-		select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
-		ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
-		to_char(ma.MAIN_ARTICLE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
-		to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
-		ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME,  tb.TAG_NAME as TAG_NAME,
-		bm.MEMBER_EMAIL as MEMBER_EMAIL, ceil(rownum/9) as page 
-		from main_article ma, brain_member bm, tag_board tb
-		where ma.MAIN_ARTICLE_EMAIL = bm.MEMBER_EMAIL and ma.MAIN_ARTICLE_COMPLETE = 0
-			and ma.MAIN_ARTICLE_NO=tb.MAIN_ARTICLE_NO and tb.TAG_NAME=#{tagName}
-		order by ma.MAIN_ARTICLE_DATE desc
-	)
-	where page=#{pageNo}
-	</select>
-	
-	
-	<!-- 제성 -->
-	
-	<!-- 메인 베스트 주제글 최신순 List-->	
-	<select id="getBestMainArticleVOListOrderByDate"
-		resultMap="mainArticleResultMap">
-		select to_char(ma.MAIN_ARTICLE_UPDATE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_MAIN_ARTICLE_UPDATE_DATE,
-		ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, bm.MEMBER_POINT,
-		ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_date, 
-		ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME, tb.TAG_NAME, bm.MEMBER_EMAIL 
-		from main_article ma, brain_member bm, tag_board tb 
-		where bm.MEMBER_EMAIL = ma.MAIN_ARTICLE_EMAIL and ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO and
-		ma.MAIN_ARTICLE_COMPLETE=-1 order by ma_date desc
-	</select>
+	   <!-- 완결주제글 최신순 -->
+   <select id="completeMainArticleOrderByDate" resultType="mainArticleVO"
+      resultMap="mainArticleResultMap">
+      select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+         MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME, 
+         TAG_NAME, MEMBER_EMAIL, MEMBER_POINT
+      from(
+         select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
+         ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
+         to_char(ma.MAIN_ARTICLE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
+         to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
+         ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME, tb.TAG_NAME as TAG_NAME,
+         bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT,   ceil(rownum/9) as page 
+         from main_article ma, brain_member bm, tag_board tb
+         where ma.MEMBER_EMAIL = bm.MEMBER_EMAIL and ma.MAIN_ARTICLE_COMPLETE = 1
+         order by ma.MAIN_ARTICLE_UPDATE_DATE desc
+      )
+      where page=#{value}
+   </select>
+   <!-- 완결주제글 총잇자순 -->
+   <select id="completeMainArticleOrderByTotalLike"
+      resultMap="mainArticleResultMap">
+      select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+         MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME, 
+         TAG_NAME, MEMBER_EMAIL, MEMBER_POINT
+      from(
+         select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
+         ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
+         to_char(ma.MAIN_ARTICLE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
+         to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
+         ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME, tb.TAG_NAME as TAG_NAME,
+         bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT,   ceil(rownum/9) as page 
+         from main_article ma, brain_member bm, tag_board tb
+         where ma.MEMBER_EMAIL = bm.MEMBER_EMAIL and ma.MAIN_ARTICLE_COMPLETE = 1
+         order by ma.MAIN_ARTICLE_TOTAL_LIKE desc
+      )
+      where page=#{value}
+   </select>
+   <!-- 완결주제글 태그순 List-->
+   <select id="selectListCompleteMainArticleOrderByTag" resultMap="mainArticleResultMap" parameterType="map">
+      select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+         MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME,
+         TAG_NAME, MEMBER_EMAIL, MEMBER_POINT
+      from(
+         select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
+         ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
+         to_char(ma.MAIN_ARTICLE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
+         to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
+         ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME, tb.TAG_NAME as TAG_NAME,
+         bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT,   ceil(rownum/9) as page 
+         from main_article ma, brain_member bm, tag_board tb
+         where ma.MEMBER_EMAIL = bm.MEMBER_EMAIL and ma.MAIN_ARTICLE_COMPLETE = 1
+            and ma.MAIN_ARTICLE_NO=tb.MAIN_ARTICLE_NO and tb.TAG_NAME=#{tagName}
+         order by ma.MAIN_ARTICLE_TOTAL_LIKE desc
+      )
+      where page=#{pageNo}
+   </select>
+   <!-- 메인 새로운 주제글 최신순 List-->
+   <select id="selectListNotCompleteMainArticleOrderByDate"
+      resultMap="mainArticleResultMap">
+      select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+      MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME,
+      TAG_NAME, MEMBER_EMAIL, MEMBER_POINT
+      from(
+         select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
+         ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
+         to_char(ma.MAIN_ARTICLE_DATE,'YYYY/MM/DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
+         to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
+         ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME, tb.TAG_NAME as TAG_NAME,
+         bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT, ceil(rownum/9) as page
+         from main_article ma, brain_member bm, tag_board tb
+         where ma.MEMBER_EMAIL = bm.MEMBER_EMAIL and ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO 
+         and ma.MAIN_ARTICLE_COMPLETE = 0
+         order by ma.MAIN_ARTICLE_DATE desc
+      )
+      where page=#{pageNo}
+   </select>
+   
+   <!-- 메인 새로운 주제글 태그 정렬 -->
+   <select id="selectListNotCompleteMainArticleOrderByTag" resultMap="mainArticleResultMap" parameterType="map">
+   select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+   MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME,
+   TAG_NAME, MEMBER_EMAIL, MEMBER_POINT
+   from(
+      select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
+      ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
+      to_char(ma.MAIN_ARTICLE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
+      to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
+      ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME,  tb.TAG_NAME as TAG_NAME,
+      bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT, ceil(rownum/9) as page 
+      from main_article ma, brain_member bm, tag_board tb
+      where ma.MEMBER_EMAIL = bm.MEMBER_EMAIL and ma.MAIN_ARTICLE_COMPLETE = 0
+         and ma.MAIN_ARTICLE_NO=tb.MAIN_ARTICLE_NO and tb.TAG_NAME=#{tagName}
+      order by ma.MAIN_ARTICLE_DATE desc
+   )
+   where page=#{pageNo}
+   </select>
+   
+   
+   <!-- 제성 -->
+   
+   <!-- 메인 베스트 주제글 최신순 List-->   
+   <select id="getBestMainArticleVOListOrderByDate"
+      resultMap="mainArticleResultMap">
+      select to_char(ma.MAIN_ARTICLE_UPDATE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_MAIN_ARTICLE_UPDATE_DATE,
+      ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, bm.MEMBER_POINT,
+      ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_date, 
+      ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME, tb.TAG_NAME, bm.MEMBER_EMAIL 
+      from main_article ma, brain_member bm, tag_board tb 
+      where bm.MEMBER_EMAIL = ma.MEMBER_EMAIL and ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO and
+      ma.MAIN_ARTICLE_COMPLETE=-1 order by ma_date desc
+   </select>
 	
 	<!-- 전체 태그 불러오기 -->
 	<select id="getTagVOList" resultMap="tagResultMap">
@@ -353,7 +356,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_date, 
 		ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_EMAIL, tb.TAG_NAME, bm.MEMBER_POINT
 		from main_article ma, brain_member bm, tag_board tb
-		where bm.MEMBER_EMAIL = ma.MAIN_ARTICLE_EMAIL and ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO and 
+		where bm.MEMBER_EMAIL = ma.MEMBER_EMAIL and ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO and 
 		ma.MAIN_ARTICLE_NO=#{mainArticleNo} order by ma_date desc
 	</select>
 	
@@ -380,7 +383,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 마이페이지 작성주제글 번호 불러오기 by email -->
 	<select id="getWriteMainArticleNoByEmail" resultType="int">
-		select MAIN_ARTICLE_NO from main_article where MAIN_ARTICLE_EMAIL = #{memberEmail}
+		select MAIN_ARTICLE_NO from main_article where MEMBER_EMAIL = #{memberEmail}
 	</select>
 	
 	<!-- 마이페이지 참여한 주제글 번호 불러오기 by email -->

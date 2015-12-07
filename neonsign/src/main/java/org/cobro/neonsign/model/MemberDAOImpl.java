@@ -57,11 +57,11 @@ public class MemberDAOImpl implements MemberDAO{
 	}
 
 	@Override
-	public List<MemberVO> getMemberList() {
+	public List<MemberVO> getMemberList(int pageNo) {
 		System.out.println("getMemberList 실행");
 		List<MemberVO> list=null;
 		try{
-		list=sqlSessionTemplate.selectList("member.RegisterMemberList");
+		list=sqlSessionTemplate.selectList("member.RegisterMemberList",pageNo);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -83,9 +83,9 @@ public class MemberDAOImpl implements MemberDAO{
 	/**
 	 * 불량회원 리스트를 받아오는 메서드
 	 */
-	public List<MemberVO> getBlockMemberList() {
+	public List<MemberVO> getBlockMemberList(int pageNo) {
 		// TODO Auto-generated method stub
-		return sqlSessionTemplate.selectList("member.blockMemberList");
+		return sqlSessionTemplate.selectList("member.blockMemberList",pageNo);
 	}
 
 	@Override
@@ -138,5 +138,22 @@ public class MemberDAOImpl implements MemberDAO{
 	@Override
 	public List<PickedVO> getPickListByMemberEmail(String memberEmail) {
 		return sqlSessionTemplate.selectList("member.getPickListByMemberEmail", memberEmail);
+	}
+	@Override
+	/**
+	 * 일반회원 수
+	 */
+	public int allMembers() {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectOne("member.allMembers");
+	}
+
+	@Override
+	/**
+	 * 불량회원 수
+	 */
+	public int allBlockMembers() {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectOne("member.allBlockMembers");
 	}
 }

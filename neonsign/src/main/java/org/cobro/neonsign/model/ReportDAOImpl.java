@@ -18,11 +18,10 @@ public class ReportDAOImpl implements ReportDAO{
 	private SqlSessionTemplate sqlSessionTemplate;
 
 	@Override
-	public List<ReportVO> mainArticleReportList() {
+	public List<ReportVO> mainArticleReportList(int pageNo) {
 		List<ReportVO> list=null;
 		try{
-		 list=sqlSessionTemplate.selectList("report.mainArticleReportList");
-		 System.out.println(list.toString());
+		 list=sqlSessionTemplate.selectList("report.mainArticleReportList",pageNo);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -30,8 +29,8 @@ public class ReportDAOImpl implements ReportDAO{
 	}
 
 	@Override
-	public List<ReportVO> subArticleReportList() {
-		List<ReportVO> list=sqlSessionTemplate.selectList("report.subArticleReportList");
+	public List<ReportVO> subArticleReportList(int pageNo) {
+		List<ReportVO> list=sqlSessionTemplate.selectList("report.subArticleReportList",pageNo);
 		System.out.println(list);
 		return list;
 	}
@@ -47,9 +46,14 @@ public class ReportDAOImpl implements ReportDAO{
 	}
 
 	@Override
-	public int notifyCount() {
+	/**
+	 * 현재 Report의 reportAount를 받아오는 메서드
+	 */
+	public int reportCount(int reportNo){
 		// TODO Auto-generated method stub
-		return 0;
+		ReportVO rvo=sqlSessionTemplate.selectOne("report.reportCount",reportNo);
+		int reportAount=rvo.getReportAmount();
+		return  reportAount;
 	}
 
 	@Override
@@ -104,7 +108,6 @@ public class ReportDAOImpl implements ReportDAO{
 		// TODO Auto-generated method stub
 		 sqlSessionTemplate.update("report.stagesOfProcess",reportNumber);
 	}
-
 	/**
 	 * 주제글을 신고하는 메서드
 	 * @author 윤택
@@ -187,17 +190,24 @@ public class ReportDAOImpl implements ReportDAO{
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.update("report.subArticleBlock",subArticleVO);
 	}
+	/**
+	 * 주제글의 총 신고수를 찾는 메서드
+	 */
+	@Override
+	public int allMianReports() {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectOne("report.allMianReports");
+	}
 
 	@Override
 	/**
-	 * 현재 Report의 reportAount를 받아오는 메서드
+	 * 잇는글의 총 신고수를 찾는 메서드
 	 */
-	public int reportCount(int reportNo){
+	public int allSubReports() {
 		// TODO Auto-generated method stub
-		ReportVO rvo=sqlSessionTemplate.selectOne("report.reportCount",reportNo);
-		int reportAount=rvo.getReportAmount();
-		return  reportAount;
+		return sqlSessionTemplate.selectOne("report.allSubReports");
 	}
+
 
 
 
