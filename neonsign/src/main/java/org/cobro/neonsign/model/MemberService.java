@@ -12,9 +12,9 @@ public interface MemberService {
 	public MemberVO findMemberByEmail(String emailComp);
 	public MemberVO findMemberByNickName(String nameComp);
 	public int memberRegister(MemberVO mvo);
-	public int memberUpdate(MemberVO mvo);
+	public int memberUpdate(MemberVO memberVO);
 	public MemberVO memberLogin(MemberVO mvo);
-	public MemberVO memberDelete(MemberVO mvo);
+	public String memberDelete(MemberVO mvo);
 	public ArrayList<MemberVO> getNotifyMemberList(MemberVO mvo);
 	public void memberBlock(String memberEmail);
 	public void memberBlockRelease(String memberEmail);
@@ -23,4 +23,6 @@ public interface MemberService {
 	public MemberVO defaultMemberLogin(MemberVO memberVO);
 	public MemberListVO getBlockMemberList(int i);
 	public MemberListVO getMemberList(int i);
+	public MemberVO findByPassword(String mailComp);
+
 }

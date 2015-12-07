@@ -46,11 +46,7 @@ public class YunTaekTest {
 	@Test
 	public void test(){
 		ReportVO nvo=new ReportVO();
-		nvo.setReportNo(7);
-		utilService.deleteByNotify(nvo);
-			/*ArrayList<String> list= (ArrayList<String>)reportDAO.reporterNames(7);
-			for(int i=0; i<list.size();i++){
-				System.out.println(list.get(i));
-			}*/
+		int pageNo=reportDAO.nowReportNumber();
+		System.out.println(pageNo);
 	}
 }

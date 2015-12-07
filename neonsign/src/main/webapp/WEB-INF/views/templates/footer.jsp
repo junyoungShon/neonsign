@@ -102,7 +102,7 @@
 							<tbody id="mainSubArticle" >
 								
 							</tbody>
-							
+								
 							<thead>
 							<tr class="success">
 								<td colspan="5">잇는글</td>
@@ -199,7 +199,7 @@
 				      <input type="checkbox"> 입력을 기억합니다
 				    </label>
 				  </div>
-				    비밀번호를 잊어버렸습니까?<input type="submit" value="비밀번호찾기" class="memberPasswordfind">
+				    비밀번호를 잊어버렸습니까?&nbsp;&nbsp;<a href="#">비밀번호 찾기</a>
 	
 				  <button type="submit" class="btn btn-primary">제출</button>
 				</form>
@@ -211,3 +211,106 @@
 		</div>
 	</div>
 	<!--로그인모달창 끝 -->
+	
+	<!-- 업데이트 모달 만들기 -->
+<div class="modal fade" id="memberUpateModal" tabindex="-1" role="dialog"
+		aria-labelledby="memberUpateLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						 <span aria-hidden="true">&times;</span> 
+					</button>
+					<h4 class="modal-title" id="memberUpateLabel">뇌 On Sign 회원 정보 수정</h4>
+				</div>
+				<div class="modal-body">
+				<form action="memberUpate.neon" method="post" name="memberUpdate" id="memberUpdate">
+				<div class="form-group has-feedback emailInput">
+						  	<label class="control-label" for="inputSuccess2">이메일</label>
+							<input type="email" class="form-control" id="memberJoinupdateEmail" name="memberEmail"
+							  		value="${sessionScope.memberVO.memberEmail}" readonly>
+							<span class="glyphicon form-control-feedback" aria-hidden="ture"></span>
+							  	<!-- 이름 입력 양식 /nameInputSuccess,nameInputFail 클래스 성공 실패의 경우를 나눠준다 -->
+						</div>
+					   <div class="form-group has-feedback checkpassInput">	
+						    	<label class="control-label" for="inputSuccess2">현재비밀번호</label>
+						    	<input type="password" class="form-control" id="membercheckpassword" placeholder="암호" >
+						    	<span class="glyphicon form-control-feedback" aria-hidden="ture"></span>
+						    	
+					    </div>    
+			        	<div class="form-group has-feedback nameInput">
+						  	<label class="control-label" for="inputSuccess2">닉네임</label>
+					    	<input type="text" class="form-control" id="memberupdateInputName" 
+					    	placeholder="${sessionScope.memberVO.memberNickName}" name="memberNickName" >
+					    	<span class="glyphicon form-control-feedback" aria-hidden="ture"></span>
+						</div>
+						 
+						<div class="form-group has-feedback passInput">	
+						    	<label class="control-label" for="inputSuccess2">암호</label>
+						    	<input type="password" class="form-control" id="memberupdatepassword" placeholder="암호" name="memberPassword">
+						    	<span class="glyphicon form-control-feedback" aria-hidden="ture"></span>
+						    	
+					    	</div>
+					
+					   		<div class="form-group has-feedback rePassInput">	
+						    	<label class="control-label" for="memberJoinInputpassword">암호 확인</label>
+						    	<input type="password" class="form-control" id="memberupdateRepassword" placeholder="암호를 한번 더 입력해주세요!">
+						    	<span class="glyphicon form-control-feedback" aria-hidden="ture"></span>
+					    	</div>
+					
+					
+					
+				</form>
+				</div>
+				
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="memberUpdateSubmit">회원정보수정</button>
+				</div>
+				
+			</div>
+		</div>
+	</div> 
+	
+<!-- 업데이트 모달 만들기 -->
+<div class="modal fade" id="memberDeleteModal" tabindex="-1" role="dialog"
+		aria-labelledby="memberDeleteLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						 <span aria-hidden="true">&times;</span> 
+					</button>
+					<h4 class="modal-title" id="memberDeleteLabel">뇌 On Sign 회원 정보 탈퇴</h4>
+				</div>
+				<div class="modal-body">
+				<form action="memberDelete.neon" method="post" name="memberDelete" id="memberDelete">
+			           <div class="form-group has-feedback emailInput">
+						  	<label class="control-label" for="inputSuccess2">이메일</label>
+							<input type="email" class="form-control" id="memberDeleteEmail" name="memberEmail"
+							  		value="${sessionScope.memberVO.memberEmail}" readonly>
+							<span class="glyphicon form-control-feedback" aria-hidden="ture"></span>
+							  	<!-- 이름 입력 양식 /nameInputSuccess,nameInputFail 클래스 성공 실패의 경우를 나눠준다 -->
+						</div>
+						
+					   <div class="form-group has-feedback checkpassInput">	
+						    	<label class="control-label" for="inputSuccess2">현재비밀번호</label>
+						    	<input type="password" class="form-control" id="password" placeholder="비밀번호를 입력해 주세요" >
+						    	<span class="glyphicon form-control-feedback" aria-hidden="ture"></span>
+						    	
+					    </div>    
+			        	
+				</form>
+				</div>
+				
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="memberDeleteSubmit">회원탈퇴</button>
+				</div>
+				
+			</div>
+		</div>
+	</div> 
+	

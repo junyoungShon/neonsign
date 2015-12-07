@@ -1,5 +1,7 @@
 @CHARSET "UTF-8";
 
+/*에러 페이지*/
+ .center {text-align: center; margin-left: auto; margin-right: auto; margin-bottom: auto; margin-top: auto;}
 
 /* Links */
 @import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
@@ -29,12 +31,13 @@ a:hover {
 html,
 body {
   height: 100%;
+ 
   
 }
 body {
   color: #fff;
   text-align: center;
-  
+  margin-top: 50px;
 }
 
 /* Extra markup and styles for table-esque vertical and horizontal centering */
@@ -220,4 +223,8 @@ body {
   .cover-container {
     width: 700px;
   }
+}
+
+.top-menu{
+	color : black;
 }

@@ -1,59 +1,83 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div class="container header">
-        <div class="navbar-header">
+<div class="container-fluid header">
+        <div class="navbar-header"> top-menu
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-         <a class="navbar-brand" href="#">뇌  On Sign</a>
+          
+         
+          
+         <a class="navbar-brand top-menu" href="#">
+        <img class="logoImg" src="${initParam.root}resources/img/width_logo_BrainOnSign.png">
+		</a>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-       			 <form class="navbar-form navbar-left" role="search" >
-			        <div class="form-group" >
-			          <input type="text" class="form-control" placeholder="Search" style="width:500px;">
-			        </div>
-			        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-    			  </form>
+        <div id="navbar" class="navbar-collapse collapse top-menu">
+       		<div class="col-xs-4 ">
+		    <div class="input-group top-menu"  style="margin-top: 10px;">
+                <div class="input-group-btn search-panel">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    	<span id="search_concept">제목</span> <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="#its_equal">내용</a></li>
+                      <li><a href="#greather_than">작성자</a></li>
+                    </ul>
+         </div>
+                <input type="hidden" name="search_param" value="all" id="search_param">         
+                <input type="text" class="form-control" name="x" placeholder="Search term...">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button"><span class="fa fa-search"></span></button>
+                </span>
+            </div>
+        </div>
     			  
-			<!-- 	<form class="navbar-form navbar-center">
-           			 <div class="form-group">
-             		 	<input type="text" placeholder="Email" class="form-control">
-           			 </div>
-          			  <div class="form-group">
-             			 <input type="password" placeholder="Password" class="form-control">
-           			 </div>
-           			 <button type="submit" class="btn btn-success">Sign in</button>
-         			 </form>
-         		 -->
+			
     		<ul class="nav navbar-nav navbar-right">
+    			 <!-- 완결글 보기를 누르면 추천순으로 정렬된다. -대협 -->
+    			  <li><a href="${initParam.root}getMainList.neon" class="top-menu">Main</a></li>
+    			  <li><a href="${initParam.root}selectListCompleteMainArticle.neon" class="top-menu">완결 글 보기</a></li>
+    			  <li><a href="#" class="openModalInsertArticleForm top-menu">글쓰기</a></li>
 		  <c:choose>
 			<c:when test="${sessionScope.memberVO==null}">
-    			<li><a href="#" class="memberLogin"> 로그인</a></li>
-    			<li><a href="#" class="memberJoinByEmailBtn"> 가입</a></li>
+    			<li><a href="#" class="memberLogin top-menu"> <i class="fa fa-sign-in"></i>로그인</a></li>
+    			<li><a href="#" class="memberJoinByEmailBtn top-menu"> <i class="fa fa-user-plus"></i>가입</a></li>
     		</c:when>
   	 	 	<c:otherwise>		
   	 	 		<c:choose>
   	 	 		<c:when test="${sessionScope.memberVO.memberCategory eq 'MASTER'}">
   	 	 			<li><a href="#" class="">${sessionScope.memberVO.memberNickName} 님</a></li>
+
      			  	<li><a href="${initParam.root}getMemberList.neon" >관리자 페이지</a></li>
-     			  	<li><a href="${initParam.root}memberLogout.neon" id="logout">로그아웃</a></li> 	 	 		
   	 	 		</c:when>
   	 	 		<c:otherwise>
   	 	 		<li><a href="#" class="">${sessionScope.memberVO.memberNickName} 님</a></li>	 	 	
   	 	 		<li><a href="#" class="memberupdate"> 회원정보수정</a></li>
   	 	 		<li><a href="${initParam.root}memberLogout.neon" id="logout">로그아웃</a></li>
+  	 	 		<li><a href="mypage.neon?memberEmail=${sessionScope.memberVO.memberEmail}" class="top-menu">마이페이지</a></li>
+  	 	 		<li class="dropdown">
+		          <a href="#" class="dropdown-toggle top-menu" data-toggle="dropdown"><i class="fa fa-user"></i>&nbsp;&nbsp;${sessionScope.memberVO.memberNickName} 님 
+		         &nbsp; [ ${sessionScope.memberVO.memberEmail} ] </a>
+		          <ul class="dropdown-menu">
+		            <li><a href="#" class="memberUpate top-munu"> 회원 정보 수정</a></li>
+		            <li class="divider"></li>
+		            <li><a href="mypage.neon?memberEmail=${sessionScope.memberVO.memberEmail}" class="top-menu">회원 정보 보기</a></li>
+		            <li class="divider"></li>
+		            <li><a href="${initParam.root}memberLogout.neon" id="logout" class="top-menu">로그아웃</a></li>
+		          </ul>
+		        </li>
+  	 	 		<span><input type="hidden" id="memberUserEmail" value="${sessionScope.memberVO.memberEmail}"></span>
+              <!--   <li><a href="#" class="memberDelete">회원탈퇴</a></li> -->
     			  </c:otherwise>		  
     			  </c:choose>
   	 	 	</c:otherwise>
   	 	 </c:choose>
     			  <!-- 완결글 보기를 누르면 추천순으로 정렬된다. -대협 -->
     			  <span><input type="hidden" id="memberUserEmail" value="${sessionScope.memberVO.memberEmail}"></span>
-    			  <li><a href="${initParam.root}selectListCompleteMainArticle.neon">완결 글 보기</a></li>
-    			  <li><a href="#" class="openModalInsertArticleForm">글쓰기</a></li>
      		</ul>
         </div><!--/.navbar-collapse -->
       </div>

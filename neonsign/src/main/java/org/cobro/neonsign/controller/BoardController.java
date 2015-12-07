@@ -119,6 +119,15 @@ public class BoardController {
 		return list;
 	}
 	/**
+	 * 사용자가 주제글 작성을 위해 모달창을 열 때 태그들을 불러오는 메서드
+	 */
+	@RequestMapping("storyLinking.neon")
+	@ResponseBody
+	public HashMap<String, Object> storyLinking(SubArticleVO subArticleVO){
+		System.out.println("스토리링킨 컨트롤러");
+		return boardService.storyLinking(subArticleVO);
+	}
+	/**
 	 * 해당 글의 itja 수와, 요청한 아이디가 itja를 눌렀는지 여부를 판단해준다.
 	 * 이미 itjaClick했다면 세션과 DB에서 삭제
 	 * 새로 itjaClick한것이라 세션과 db에 삽입
@@ -126,7 +135,7 @@ public class BoardController {
 	 */
 	@RequestMapping("auth_itjaClick.neon")
 	@ResponseBody
-	public HashMap<String,Object> itjaClick(HttpServletRequest request,ItjaMemberVO itjaMemberVO){
+	public HashMap<String,Object> itjaClick(HttpServletRequest request,ItjaMemberVO itjaMemberVO,SubArticleVO subArticleVO){
 		HttpSession session = request.getSession(false);
 		if(session!=null){
 			MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
@@ -155,7 +164,7 @@ public class BoardController {
 			}
 			session.setAttribute("memberVO",memberVO);
 		}
-		HashMap<String, Object> map = boardService.selectItjaState(itjaMemberVO);
+		HashMap<String, Object> map = boardService.selectItjaState(itjaMemberVO,subArticleVO);
 		return map;
 	}
 	/**Controller2
@@ -314,9 +323,10 @@ public class BoardController {
 		 */
 	@RequestMapping("auth_writeSubArticle.neon")
 	@ResponseBody
-	public HashMap<String, Object> insertSubArticle(HttpServletRequest request,SubArticleVO subArticleVO){
+	public HashMap<String, Object> insertSubArticle(SubArticleVO subArticleVO){
 		HashMap<String, Object> map = new HashMap<String, Object>();	
 		//memberBoardInfo(request);
+		System.out.println(subArticleVO);
 		boolean result = boardService.insertSubArticle(subArticleVO);
 		map.put("result",result);
 		map.put("subArticleVO",subArticleVO);

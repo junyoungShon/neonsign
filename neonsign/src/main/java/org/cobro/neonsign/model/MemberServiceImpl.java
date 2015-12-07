@@ -34,20 +34,12 @@ public class MemberServiceImpl implements MemberService{
 	public int memberRegister(MemberVO memberVO) {
 		return memberDAO.memberRegister(memberVO);
 	}
-	@Override
-	public int memberUpdate(MemberVO mvo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 	@Override
 	public MemberVO memberLogin(MemberVO memberVO) {
 		return memberDAO.memberLogin(memberVO);
 	}
-	@Override
-	public MemberVO memberDelete(MemberVO mvo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 	@Override
 	public ArrayList<MemberVO> getNotifyMemberList(MemberVO mvo) {
 		// TODO Auto-generated method stub
@@ -140,5 +132,23 @@ public class MemberServiceImpl implements MemberService{
 		return memberDAO.getPickListByMemberEmail(memberEmail);
 	}
 	
+	@Override
+	public MemberVO findByPassword(String checkPassComp) {
+		// TODO Auto-generated method stub
+		//System.out.println("Service:"+checkPassComp);
+		return memberDAO.findByPassword(checkPassComp);
+	}
+	
+	@Override
+	public int memberUpdate(MemberVO memberVO) {
+		
+		return memberDAO.memberUpdate(memberVO);
+	} 
+	
+	@Override
+	public String memberDelete(MemberVO memberVO) {
+		// TODO Auto-generated method stub
+		return memberDAO.memberDelete(memberVO);
+	}
 	
 }

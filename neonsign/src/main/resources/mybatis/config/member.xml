@@ -3,16 +3,26 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member">
-<!-- 3.memberVO resultMap -->
-   <resultMap type="memberVO" id="memberResultMap">
-      <result property="memberEmail" column="MEMBER_EMAIL" />
-      <result property="memberNickName" column="MEMBER_NICKNAME" />
-      <result property="memberPassword" column="MEMBER_PASSWORD" />
-      <result property="memberJoinDate" column="MEMBER_JOIN_DATE" />
-      <result property="memberPoint" column="MEMBER_POINT" />
-      <result property="memberReportAmount" column="MEMBER_REPORT_AMOUNT" />
-      <result property="memberCategory" column="MEMBER_CATEGORY" />
-   </resultMap>
+
+	<!-- 3.memberVO resultMap -->
+	<resultMap type="memberVO" id="memberResultMap">
+		<result property="memberEmail" column="MEMBER_EMAIL" />
+		<result property="memberNickName" column="MEMBER_NICKNAME" />
+		<result property="memberPassword" column="MEMBER_PASSWORD" />
+		<result property="memberJoinDate" column="MEMBER_JOIN_DATE" />
+		<result property="memberPoint" column="MEMBER_POINT" />
+      	<result property="memberReportAmount" column="MEMBER_REPORT_AMOUNT" />
+		<result property="memberCategory" column="MEMBER_CATEGORY"/>
+		<collection property="pickedVOList" column="MEMBER_EMAIL"
+			ofType="pickedVO" javaType="ArrayList" resultMap ="pickedResultMap"/>
+	</resultMap>
+	
+	<!-- pickedVO resultMap -->
+	<resultMap type="pickedVO" id="pickedResultMap">
+		<result property="memberEmail" column="MEMBER_EMAIL"/>
+		<result property="mainArticleNo" column="MAIN_ARTICLE_NO"/>
+	</resultMap>
+   
 	<!-- 한솔 회원가입 -->
 	<insert id="memberRegister" parameterType="memberVO">
 		insert into
@@ -68,6 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	update brain_member set MEMBER_CATEGORY='NORMAL' where MEMBER_EMAIL=#{value}
     </update>
     
+
     <select id="allMembers" resultType="int">
     	select count(MEMBER_EMAIL) from BRAIN_MEMBER where MEMBER_CATEGORY ='NORMAL'
     </select>
@@ -75,7 +86,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="allBlockMembers" resultType="int">
     	select count(MEMBER_EMAIL) from BRAIN_MEMBER where MEMBER_CATEGORY ='BLACK'
     </select>
-    <!-- 여기까지 -->
+
+
+    	<!-- 찜여부 확인 -->
+	<select id="selectPickedVO" resultMap ="pickedResultMap">
+		select MEMBER_EMAIL,MAIN_ARTICLE_NO from PICKED_ARTICLE 
+		where MEMBER_EMAIL = #{memberEmail} and MAIN_ARTICLE_NO=#{mainArticleNo}
+	</select>
+	<!-- 찜추가 -->
+	<insert id="insertPickedVO" parameterType="pickedVO">
+		insert into picked_article(MEMBER_EMAIL,MAIN_ARTICLE_NO) values(#{memberEmail},#{mainArticleNo})
+	</insert>
+	<!-- 찜 삭제 -->
+	<delete id="deletePickedVO" parameterType="pickedVO">
+		delete picked_article where MEMBER_EMAIL = #{memberEmail} and MAIN_ARTICLE_NO = #{mainArticleNo}
+	</delete>
+	<!-- session에 있는 login정보에 pickedVO를 update 해주기 위해 조회 -->
+	<select id="getPickListByMemberEmail" resultMap="pickedResultMap">
+		select MEMBER_EMAIL,MAIN_ARTICLE_NO from PICKED_ARTICLE 
+		where MEMBER_EMAIL = #{memberEmail}
+	</select>
+ <!-- 한솔 비밀번호 재확인 -->
+	 <select id="findByPassword" resultMap="memberResultMap" parameterType="string" resultType="memberVO">
+	 select MEMBER_PASSWORD from brain_member where  MEMBER_EMAIL=#{MEMBER_EMAIL}
+	 </select>
+	 <!-- 한솔 회원탈퇴 -->
+    <delete id="memberDelete" parameterType="memberVO" >
+	 delete from brain_member where MEMBER_EMAIL=#{memberEmail}
+    </delete>   
+       <!-- 회원정보수정 -->
+    <update id="memberUpdate" parameterType="memberVO">
+    update brain_member
+    set MEMBER_PASSWORD=#{memberPassword} , MEMBER_NICKNAME=#{memberNickName}
+    where MEMBER_EMAIL=#{memberEmail} 
+    </update>
+      
+    
+    
 </mapper> 		
  
  

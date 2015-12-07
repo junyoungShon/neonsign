@@ -37,16 +37,18 @@ public interface BoardService {
 	public List<SubArticleVO> selectListSubArticleByMainArticleNo(SubArticleVO subArticleVO);
 	public List<SubArticleVO> selectListSubArticleByIsConnect(SubArticleVO subArticleVO);
 	public List<SubArticleVO> selectListSubArticleBySubArticleGrade(SubArticleVO subArticleVO);
-	
+	public HashMap<String, Object> storyLinking(SubArticleVO subArticleVO);
 	//윤택
 
 	public List<MainArticleVO> searchByKeyWord(String keyword);
 	public Map<String, Object> boardStatistics();
 	public List<MainArticleVO> articleSort(String sort);
 	public void articleNotify(MainArticleVO mainArticleVO);
+
 	ReportListVO mainArticleReportList(int pageNumber);
 	ReportListVO subArticleReportList(int pageNumber);
 	HashMap<String, Object> selectItjaState(ItjaMemberVO itjaMemberVO);
+	HashMap<String, Object> selectItjaState(ItjaMemberVO itjaMemberVO, SubArticleVO subArticleVO);
 	void articleBlock(MainArticleVO mavo, int reportNumber);
 	void reportListDelete(ReportVO nvo);
 	public void subArticleBlock(int subArticleNumber, int articleNumber, int reportNumber);
@@ -63,5 +65,6 @@ public interface BoardService {
 			MemberVO memberVO);
 	public void articleReport(MainArticleVO mainArticleVO,
 			SubArticleVO subArticleVO, MemberVO memberVO);
+	
 	
 }

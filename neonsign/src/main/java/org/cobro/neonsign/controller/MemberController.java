@@ -110,13 +110,7 @@ public class MemberController {
 	
 	}*/
 	
-	public ModelAndView memberDelete(MemberVO mvo){
-		memberService.memberDelete(mvo);
-		/**
-		 * 		회원탈퇴 메소드
-		 */
-		return null;
-	}
+	
 	
 	/**
 	 * 관리자 페이지에서 일반&블락 회원멤버들 리스트를 출력
@@ -195,4 +189,51 @@ public class MemberController {
 		session.setAttribute("memberVO", memberVO);
 		return updateMsg;
 	}
+	
+	/**
+	 * 현재 내 비밀번호가 맞는지 확인
+	 * @author 한솔
+	 */
+	@RequestMapping("findByPassword.neon")
+	@ResponseBody
+	public MemberVO findByPassword(String mailComp){
+		//System.out.println(mailComp);
+		MemberVO memberVO= memberService.findByPassword(mailComp);
+		//System.out.println("member:"+memberVO);
+	
+		return memberVO;	
+	}
+	
+	/**
+	 * 회원정보수정
+	 * 1.현재비번확인
+	 * 2.닉네임변경
+	 * 3.비밀번호 변경
+	 * 4.변경 비밀번호 재확인
+	 * @author 한솔
+	 */
+	@RequestMapping("memberUpate.neon")
+	public String memberUpdate(HttpServletRequest request,MemberVO memberVO){
+		//System.out.println("업데이트비번 :"+memberVO.getMemberPassword());
+		HttpSession session = request.getSession(false);
+		String path="redirect:memberLogin.neon";
+		if(session!=null){
+			memberService.memberUpdate(memberVO);
+			session.setAttribute("memberVO", memberVO);
+			path="redirect:getMainList.neon";
+		}
+		return path;
+	}
+	/**
+	 * 회원가입멤버가 탈퇴를 할때
+	 * @author 한솔
+	 */
+	@RequestMapping("memberDelete.neon")
+	public String memberDelete(MemberVO memberVO){
+		//System.out.println("탈퇴회원정보:"+memberVO);
+		memberService.memberDelete(memberVO);
+		String path="redirect:memberLogout.neon";
+    	return path;
+	}
+	
 }

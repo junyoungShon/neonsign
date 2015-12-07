@@ -26,7 +26,11 @@
 			<arguments>
 				<dictionary>
 					<key>LaunchConfigHandle</key>
+<<<<<<< HEAD
 					<value>&lt;project&gt;/.externalToolBuilders/org.eclipse.wst.jsdt.core.javascriptValidator (1).launch</value>
+=======
+					<value>&lt;project&gt;/.externalToolBuilders/org.eclipse.wst.jsdt.core.javascriptValidator.launch</value>
+>>>>>>> branch 'master' of https://github.com/junyoungShon/neonsign.git
 				</dictionary>
 			</arguments>
 		</buildCommand>

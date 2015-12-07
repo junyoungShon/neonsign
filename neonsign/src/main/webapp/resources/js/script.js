@@ -4,6 +4,7 @@ $(document).ready(function(){ //DOM이 준비되고
 		//날짜 형식
 		// 2015-12-03 13:05:17
 		var updateDates = $('.updateDate');
+		var bestMainArticleSNo = $('.bestMainArticleNo'); 
 		for(var i=0;i<updateDates.length;i++){
 			//현재 시간	
 			var currunt_date = new Date();
@@ -18,33 +19,54 @@ $(document).ready(function(){ //DOM이 준비되고
 			var update_date = new Date(updateYear, (updateMonth-1), updateDay, updateHour, updateMinute, second);
 			var update_date_timestamp = Math.floor(update_date.getTime()/1000);
 			//투표 마감 시간(10분)
-			var close_timestamp = update_date_timestamp+20;
+			var close_timestamp = update_date_timestamp+60;
 			//
 			var remind_timestamp = close_timestamp-currunt_timestamp
 			var remind_minutes = Math.floor(remind_timestamp/60);
 			var remind_seconds = remind_timestamp%60;
-			if(remind_minutes >= 1) {
+			if(remind_minutes >= 1 && remind_seconds>=10) {
 				$('.time_area').eq(i).html(remind_minutes+':'+remind_seconds+'<br>빨리!');
-			} else {
+			} else if(remind_minutes == 0 && remind_seconds<=9){
+				$('.time_area').eq(i).html('00:0'+remind_seconds+'<br>빨리!');
+			} else if(remind_minutes == 0 && remind_seconds>=10){
 				$('.time_area').eq(i).html('00:'+remind_seconds+'<br>빨리!');
 			}
-			if(remind_minutes<0){
-				$().toasty("I am just a message..");
-				var msg = "You are about to do the Harlem Shake. "+
-		          "Do you want to continue?<br/><br/>"+
-		          "<center><button class='closeToast' "+
-		          "onclick='doTheHarlemShake();'>Ok</button> "+
-		          "<button class='closeToast'>Cancel</button>";
-				$().toasty({
-				    autoHide: 3000,
-				    message: msg,
-				    modal: true
-				});
+			var bestMainArticleNo = $('.bestMainArticleNo').eq(i).val();
+			if(remind_seconds==0){
+				$('.updateDate').eq(i).parent().attr('class','hide-card-box')
+				
+				/*$.ajax({
+					type : "POST",
+					url : "storyLinking.neon",
+					data : "mainArticleNo="+bestMainArticleNo,
+					dataType:"json",
+					success : function(data){
+						if(data.result=="complete"){
+							var msg = bestMainArticleNo+
+					          "번이 완결되었습니다. 바로 확인 하실래요?<br/><br/>"+
+					          "<center><button class='closeToast' "+
+					          "onclick='detailItjaView(mainArticleNO"+bestMainArticleNo+");'>Ok</button> "+
+					          "<button class='closeToast'>Cancel</button>";
+							$('.time_area').eq(i).html('새로고침<br>필요');
+						}else if(data.result="continue"){
+							"번 주제글에 새로운 잇자 타임이 시작되었습니다. 바로 참여 하실래요?<br/><br/>"+
+					          "<center><button class='closeToast' "+
+					          "onclick='detailItjaView(mainArticleNO"+bestMainArticleNo+");'>Ok</button> "+
+					          "<button class='closeToast'>Cancel</button>";
+							alert( $('.updateDate').val());
+							$('.time_area').eq(i).html('새로고침<br>필요');
+						}
+						$().toasty({
+						    autoHide: 2000,
+						    message: msg,
+						    modal: false
+						});
+					}
+				});*/
+				
 			}
 		}
 	}, 1000);
-	
-	
 	//main 부분
 	//무한 스크롤 (테스트 완료 ajax와 연동 필요)
 	// hipster 카드에서 동적으로 style을 입혀주지 못하는 문제점이 있어서 반드시 소스를 넣을 때 style을 수기로 기록해줘야함
@@ -91,6 +113,37 @@ $(document).ready(function(){ //DOM이 준비되고
 						}else{
 							mainArticleContent = data.completeMainArticleArrayList[i].mainArticleContent;
 						}
+						//잇자버튼을 위한 조건문
+						var mainLikeItHTML="";
+						  if(data.itjaMemberList!=null){
+              					var flag=true;
+              					for(var j=0;j<data.itjaMemberList.length;j++){
+              						if(data.itjaMemberList[j].mainArticleNo == data.completeMainArticleArrayList[i].mainArticleNo){
+              							mainLikeItHTML 
+              							='<button class="btn btn-social btn-twitter itja">'
+              							+'<span class="itjaCount"><i class="fa fa-link"></i><br>'+data.completeMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'
+              							+'<form name="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
+              							+'"><input type="hidden" name="mainArticleNo" value="'+data.completeMainArticleArrayList[i].mainArticleNo
+              							+'"><input type="hidden" name="subArticleNo" value=0></form></button>'
+              							flag=false;
+              							break;
+              						}	
+              					}
+              					if(flag){
+              						mainLikeItHTML 
+              						='<button class="btn btn-social btn-twitter itja">'+
+              						'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.completeMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'+
+              						'<form name="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
+              						+'"><input type="hidden" name="mainArticleNo" value="'+data.completeMainArticleArrayList[i].mainArticleNo
+              						+'"><input type="hidden" name="subArticleNo" value=0></form></button>'
+              					}
+              				}
+              				if(mainLikeItHTML==""){
+              					mainLikeItHTML = 
+              						'<button class="btn btn-social btn-twitter itja">'+
+              						'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.completeMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'
+              				}
+              				//잇자버튼 조건 문 끝
 						//추가될 카드 html문
 						infinityScrollTestSource +=
 							'<div class="card-box col-md-4" name="completeCardBox">' 
@@ -107,7 +160,7 @@ $(document).ready(function(){ //DOM이 준비되고
 							+ '</div>' 
 							+ '<div class="social-line social-line-visible" data-buttons="4">' 
 							+ '<button class="btn btn-social btn-pinterest">완결된<br>잇자!</button>' 
-							+ '<button class="btn btn-social btn-twitter">' + data.completeMainArticleArrayList[i].mainArticleTotalLike + '<br>잇자!</button>' 
+							+  mainLikeItHTML
 							+ '<button class="btn btn-social btn-google"><i class="fa fa-heart-o"></i><br>찜하자!</button>' 
 							+ '<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button>' 
 							+ '</div>  <!-- end social-line social-line-visible --></div></div> <!-- end card --></div><!-- card-box col-md-4 -->'
@@ -119,7 +172,7 @@ $(document).ready(function(){ //DOM이 준비되고
 					}
 					$('.ajaxLoader').fadeOut(300);
 					$('.completeItjaList').append(infinityScrollTestSource);
-				}
+				},
 			});
 		}else if($("#articleType").val()=='mainArticle'){ 
 			var cardBox=$(".card-box[name=newCardBox]").length;
@@ -146,6 +199,38 @@ $(document).ready(function(){ //DOM이 준비되고
 							}else{
 								mainArticleContent = data.newMainArticleArrayList[i].mainArticleContent;
 							}
+							//잇자버튼을 위한 조건문
+							var mainLikeItHTML="";
+							if(data.itjaMemberList!=null){
+								var flag=true;
+	              			for(var j=0;j<data.itjaMemberList.length;j++){
+	              				if(data.itjaMemberList[j].mainArticleNo == data.newMainArticleArrayList[i].mainArticleNo){
+	              					mainLikeItHTML 
+	              					='<button class="btn btn-social btn-twitter itja">'
+	              					+'<span class="itjaCount"><i class="fa fa-link"></i><br>'+data.newMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'
+	              					+'<form name="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
+	              					+'"><input type="hidden" name="mainArticleNo" value="'+data.newMainArticleArrayList[i].mainArticleNo
+	           						+'"><input type="hidden" name="subArticleNo" value=0></form></button>'
+	      							flag=false;
+	       							break;
+	      						}	
+	       					}
+	        				if(flag){
+	           					mainLikeItHTML 
+	           					='<button class="btn btn-social btn-twitter itja">'+
+	           					'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.newMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'+
+	          					'<form name="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
+	           					+'"><input type="hidden" name="mainArticleNo" value="'+data.newMainArticleArrayList[i].mainArticleNo
+	           					+'"><input type="hidden" name="subArticleNo" value=0></form></button>'
+	           					}
+	           				}
+	            			if(mainLikeItHTML==""){
+	            				mainLikeItHTML = 
+	          					'<button class="btn btn-social btn-twitter itja">'+
+	           					'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.newMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'
+	             			}
+							
+							
 							//추가될 카드 html문
 							infinityScrollTestSource +=
 								'<div class="card-box col-md-4" name="newCardBox">' 
@@ -161,7 +246,7 @@ $(document).ready(function(){ //DOM이 준비되고
 								+ '</div>' 
 								+ '<div class="social-line social-line-visible" data-buttons="4">' 
 								+ '<button class="btn btn-social btn-pinterest">05:22<br> 빨리!</button>' 
-								+ '<button class="btn btn-social btn-twitter">' + data.newMainArticleArrayList[i].mainArticleTotalLike + '<br>잇자!</button>' 
+								+  mainLikeItHTML
 								+ '<button class="btn btn-social btn-google"><i class="fa fa-heart-o"></i><br>찜하자!</button>' 
 								+ '<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button>' 
 								+ '</div>  <!-- end social-line social-line-visible --></div></div> <!-- end card --></div><!-- card-box col-md-4 -->'
@@ -216,6 +301,38 @@ $(document).ready(function(){ //DOM이 준비되고
 						}else{
 							mainArticleContent = data.completeMainArticleArrayList[i].mainArticleContent;
 						}
+						//잇자버튼을 위한 조건문
+						var mainLikeItHTML="";
+						  if(data.itjaMemberList!=null){
+              					var flag=true;
+              					for(var j=0;i<data.itjaMemberList.length;j++){
+              						if(data.itjaMemberList[j].mainArticleNo == data.completeMainArticleArrayList[i].mainArticleNo){
+              							mainLikeItHTML 
+              							='<button class="btn btn-social btn-twitter itja">'
+              							+'<span class="itjaCount"><i class="fa fa-link"></i><br>'+data.completeMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'
+              							+'<form name="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
+              							+'"><input type="hidden" name="mainArticleNo" value="'+data.completeMainArticleArrayList[i].mainArticleNo
+              							+'"><input type="hidden" name="subArticleNo" value=0></form></button>'
+              							flag=false;
+              							break;
+              						}	
+              					}
+              					if(flag){
+              						mainLikeItHTML 
+              						='<button class="btn btn-social btn-twitter itja">'
+              						+'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.completeMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'
+              						+'<form name="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
+              						+'"><input type="hidden" name="mainArticleNo" value="'+data.completeMainArticleArrayList[i].mainArticleNo
+              						+'"><input type="hidden" name="subArticleNo" value=0></form></button>'
+              					}
+              				}
+              				if(mainLikeItHTML==""){
+              					mainLikeItHTML = 
+              						'<button class="btn btn-social btn-twitter itja">'+
+              						'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.completeMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'
+              				}
+              				//잇자버튼 조건 문 끝
+						
 						//추가될 카드 html문
 						infinityScrollTestSource +=
 							'<div class="card-box col-md-4" name="completeCardBox">'
@@ -230,7 +347,8 @@ $(document).ready(function(){ //DOM이 준비되고
 							+ '<button class="btn btn-round btn-fill btn-neutral btn-modern" data-toggle="modal" data-target="#cardDetailView">Read Article</button>' 
 							+ '</div>' 
 							+ '<div class="social-line social-line-visible" data-buttons="4">' 
-							+ '<button class="btn btn-social btn-pinterest">완결된<br>잇자!</button><input type="hidden" name="">' 
+							+ '<button class="btn btn-social btn-pinterest">05:22<br> 빨리!</button>' 
+							+  mainLikeItHTML 
 							+ '<button class="btn btn-social btn-twitter">' + data.completeMainArticleArrayList[i].mainArticleTotalLike + '<br>잇자!</button>' 
 							+ '<button class="btn btn-social btn-google"><i class="fa fa-heart-o"></i><br>찜하자!</button>' 
 							+ '<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button>' 
@@ -261,6 +379,37 @@ $(document).ready(function(){ //DOM이 준비되고
 						}else{
 							mainArticleContent = data.newMainArticleArrayList[i].mainArticleContent;
 						}
+						//잇자버튼을 위한 조건문
+						var mainLikeItHTML="";
+						  if(data.itjaMemberList!=null){
+              					var flag=true;
+              					for(var j=0;i<data.itjaMemberList.length;j++){
+              						if(data.itjaMemberList[j].mainArticleNo == data.newMainArticleArrayList[i].mainArticleNo){
+              							mainLikeItHTML 
+              							='<button class="btn btn-social btn-twitter itja">'
+              							+'<span class="itjaCount"><i class="fa fa-link"></i><br>'+data.newMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'
+              							+'<form name="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
+              							+'"><input type="hidden" name="mainArticleNo" value="'+data.newMainArticleArrayList[i].mainArticleNo
+              							+'"><input type="hidden" name="subArticleNo" value=0></form></button>'
+              							flag=false;
+              							break;
+              						}	
+              					}
+              					if(flag){
+              						mainLikeItHTML 
+              						='<button class="btn btn-social btn-twitter itja">'
+              						+'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.newMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'
+              						+'<form name="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
+              						+'"><input type="hidden" name="mainArticleNo" value="'+data.newMainArticleArrayList[i].mainArticleNo
+              						+'"><input type="hidden" name="subArticleNo" value=0></form></button>'
+              					}
+              				}
+              				if(mainLikeItHTML==""){
+              					mainLikeItHTML = 
+              						'<button class="btn btn-social btn-twitter itja">'+
+              						'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.newMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'
+              				}
+              				//잇자버튼 조건 문 끝
 						//추가될 카드 html문
 						infinityScrollTestSource +=
 							'<div class="card-box col-md-4" name="newCardBox">' 
@@ -276,7 +425,7 @@ $(document).ready(function(){ //DOM이 준비되고
 							+ '</div>' 
 							+ '<div class="social-line social-line-visible" data-buttons="4">' 
 							+ '<button class="btn btn-social btn-pinterest">05:22<br> 빨리!</button>' 
-							+ '<button class="btn btn-social btn-twitter">' + data.newMainArticleArrayList[i].mainArticleTotalLike + '<br>잇자!</button>' 
+							+  mainLikeItHTML
 							+ '<button class="btn btn-social btn-google"><i class="fa fa-heart-o"></i><br>찜하자!</button>' 
 							+ '<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button>' 
 							+ '</div>  <!-- end social-line social-line-visible --></div></div> <!-- end card --></div><!-- card-box col-md-4 -->'
@@ -342,12 +491,12 @@ $(document).ready(function(){ //DOM이 준비되고
 							
 							subArticleWriteFormHTML
 							='<span class=limitLength>잇자를 누르셨기 때문에 잇는글을 작성하실 수 있습니다! 사용자님의 잇는글 이후로 글을 이어갈지 결말 지을지 정해주세요!</span><br>'
+							+'<textarea class="form-control" name="subArticleContent" rows="5" placeholder="잇는글을 입력해주세요 ! (200자로 제한됩니다.)"></textarea>'
 							+'<input type="radio" id="radio1" name="isEnd" value="0" checked><label for="radio1">ing</label>'
 							+'<input type="radio" id="radio2" name="isEnd" value="1"><label for="radio2">end</label>'
 							+'<input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail+'">'
-							+'<input type="button" value="잇는글 쓰기" class="btn btn-warning subArticleSubmit">'
+							+'<input type="button" value="잇는글 쓰기" class="subArticleSubmit">'
 							+'<input type="hidden" name="mainArticleNo" value="'+data.mainArticle.mainArticleNo+'">'
-							+'<textarea class="form-control" name="subArticleContent" rows="5" placeholder="잇는글을 입력해주세요 ! (200자로 제한됩니다.)"></textarea>'
 							+'<div class="limitLength">작성 후 잇자 10개시 베스트로 이동되며,타임체크가 발동됩니다!<span class="userLength"></span>Byte/400Byte</div>'
 							flag=false;
 							break;
@@ -444,6 +593,7 @@ $(document).ready(function(){ //DOM이 준비되고
 					$('#subTable').html("<tr><td colspan='5'>작성한 잇는글이 없습니다</td></tr>");
 				}else{
 					for(var i=0; i<data.subArticleVO.length;i++){
+						var flag = true;
 						if(data.itjaMemberList!=null){
 							for(var j=0;j<data.itjaMemberList.length;j++){
 								if(data.itjaMemberList[j].subArticleNo == data.subArticleVO[i].subArticleNo){
@@ -492,20 +642,28 @@ $(document).ready(function(){ //DOM이 준비되고
 		var email=$('#memberUserEmail').val();
 		var subArticleNo=$('#sub123').val();
 		if(confirm("해당글을 신고 하시겠습니까?")){
-		if(email==null){
-			alert("로그인을 하셔야 신고가 가능합니다 !")
-		}else{
+		
 		var formData = $('#subArticleInfo').serialize()+'&memberEmail='+email+'&subArticleNo='+subArticleNo;
-	$.ajax({
+		$.ajax({
+			beforeSend : function(xmlHttpRequest){
+		           xmlHttpRequest.setRequestHeader("AJAX", "true");
+		
+			},
 			type : "POST",
 			url : "ArticleReport.neon",
 			data : formData,
 			success : function(){
 				alert("신고를 완료하였습니다.");
 
+			},
+			error:function(xhr, textStatus, error){
+				if(xhr.status=="901"){
+					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
+						location.href="loginPage.neon"
+					}
+				}
 			}
 		});
-		}
 		}
 	});
 	// 주제글 신고 버튼 클릭시 실행되는 스크립트
@@ -513,20 +671,29 @@ $(document).ready(function(){ //DOM이 준비되고
 		var email=$('#memberUserEmail').val();
 		if(confirm("해당글을 신고 하시겠습니까?")){
 			
-		if(email==null){
-			alert("로그인을 하셔야 신고가 가능합니다 !")
-		}else{
 		var formData = $('#subArticleInfo').serialize()+'&memberEmail='+email;
-	$.ajax({
+		$.ajax({
+			beforeSend : function(xmlHttpRequest){
+		           xmlHttpRequest.setRequestHeader("AJAX", "true");
+		
+			},
 			type : "POST",
 			url : "ArticleReport.neon",
 			data : formData,
 			success : function(){
-				alert("신고를 완료 했습니다")
+				alert("신고를 완료하였습니다.");
+	
+			},
+			error:function(xhr, textStatus, error){
+				if(xhr.status=="901"){
+					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
+						location.href="loginPage.neon"
+					}
+				}
 			}
 		});
 		}
-		}
+		
 	});
 	//잇는글 작성 제한을 위한 keyUp 이벤트 - 글자수를 제한해준다.
 	$('form[action="auth_writeSubArticle.neon"]').on('keyup',$('textarea[name="subArticleContent"]'),function(){
@@ -554,18 +721,29 @@ $(document).ready(function(){ //DOM이 준비되고
 		$('.userLength').text(wrtingByte);
 	});
 	//잇는글 작성 시 공란체크
-	$('form[action="auth_writeSubArticle.neon"]').on('click',function(){
+	//auth_writeSubArticle.neon
+	$('form[action="auth_writeSubArticle.neon"]').on('click','.subArticleSubmit',function(){
 			if($('textarea[name="subArticleContent"]').val()==''){
 				alert('잇고자하는 내용을 입력해주세요');
 				$('textarea[name="subArticleContent"]').focus();
 				return false;
 			}
-			var formData = $(this).serialize();
+			var formData = $('form[action="auth_writeSubArticle.neon"]').serialize();
 			$.ajax({
-				type:"post",
-				url:"auth_writeSubArticle.neon",
-				data:formData,
-				dataType:"json",
+				beforeSend : function(xmlHttpRequest){
+			           xmlHttpRequest.setRequestHeader("AJAX", "true");
+			
+				},
+				type : "POST",
+				url : "auth_writeSubArticle.neon",
+				data : formData,
+				error:function(xhr, textStatus, error){
+					if(xhr.status=="901"){
+						if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
+							location.href="loginPage.neon"
+						}
+					}
+				},
 				success:function(data){
 					if(data.result){
 						 detailItjaView(data.subArticleVO.mainArticleNo);
@@ -582,83 +760,52 @@ $(document).ready(function(){ //DOM이 준비되고
 	
 	// 모달 창에서 주제글  잇자 클릭 시 발동하기
 	$('.utilInDetailModal').on('click','.itja',function(){
-		alert('1');
 		var formData =  $($(this).next()).serialize();
 		var itjaCountSpan = $(this).children('.itjaCount');
-		$.ajax({
-			type : "POST",
-			url : "auth_itjaClick.neon",
-			data : formData,
-			success : function(data){
-				if(data.itjaSuccess==1){
-					itjaCountSpan.html('<i class="fa fa-chain-broken"></i><br>'+data.itjaTotalCount+'it');
-				}else{
-					itjaCountSpan.html('<i class="fa fa-link"></i><br>'+data.itjaTotalCount+'it');
-				}
-			}
-		});
+		itjaClick(formData,itjaCountSpan);
 	});
 	// 모달창에서 주제글 잇자 버튼
 	$('.mainLikeIt').on('click','.itja',function(){
-		alert('2');
 		var formData =  $($(this).next()).serialize();
 		var itjaCountSpan = $(this).children('.itjaCount');
-		$.ajax({
-			type : "POST",
-			url : "auth_itjaClick.neon",
-			data : formData,
-			success : function(data){
-				if(data.itjaSuccess==1){
-					itjaCountSpan.html('<i class="fa fa-chain-broken"></i><br>'+data.itjaCount+'it');
-				}else{
-					itjaCountSpan.html('<i class="fa fa-link"></i><br>'+data.itjaCount+'it');
-				}
-			}
-		});
+		itjaClick(formData,itjaCountSpan);
 	});
 	//모달 창에서 이어진 잇는글 클릭시 발동하는 잇자 버튼
 	$('#mainSubArticle').on('click','.itja',function(){
-		alert('3');
 		var formData =  $($(this).next()).serialize();
 		var itjaCountSpan = $(this).children('.itjaCount');
-		$.ajax({
-			type : "POST",
-			url : "auth_itjaClick.neon",
-			data : formData,
-			success : function(data){
-				if(data.itjaSuccess==1){
-					itjaCountSpan.html('<i class="fa fa-chain-broken"></i><br>'+data.itjaCount+'it');
-				}else{
-					itjaCountSpan.html('<i class="fa fa-link"></i><br>'+data.itjaCount+'it');
-				}
-			}
-		});
+		itjaClick(formData,itjaCountSpan);
 	});
 	//모달 창에서 아직 안이어진 잇는글들 클릭시 발동하는 잇자 버튼
 	$('#subTable').on('click','.itja',function(){
-		alert('4');
-		alert($(this).html());
-		var formData =  $(this).next().serialize();
-		//var formData =  $('form[name="itJaInfo"]').serialize();
+		var formData =  $($(this).next()).serialize();
 		var itjaCountSpan = $(this).children('.itjaCount');
-		$.ajax({
-			type : "POST",
-			url : "auth_itjaClick.neon",
-			data : formData,
-			success : function(data){
-				if(data.itjaSuccess==1){
-					itjaCountSpan.html('<i class="fa fa-chain-broken"></i><br>'+data.itjaCount+'it');
-				}else{
-					itjaCountSpan.html('<i class="fa fa-link"></i><br>'+data.itjaCount+'it');
-				}
-			}
-		});
+		itjaClick(formData,itjaCountSpan);
 	});
 	// 메인 페이지에서  잇자 클릭 시 발동하기
-	$('.itja').on('click',function(){
-		alert('5');
+	$('.bestItja').on('click',function(){
 		var formData = $($(this).next()).serialize();
 		var itjaCountSpan = $(this).children('.itjaCount');
+		itjaClick(formData,itjaCountSpan);
+		
+	});
+	
+	// 완결 글 페이지 동적으로 생성된 카드  잇자 클릭 시 발동하기
+	$('.completeItjaList').on('click','.itja',function(){
+		var formData = $($(this).next()).serialize();
+		var itjaCountSpan = $(this).children('.itjaCount');
+		itjaClick(formData,itjaCountSpan);
+		
+	});
+	// 메인 페이지 동적으로 생성된 카드  잇자 클릭 시 발동하기
+	$('.newItjaList').on('click','.itja',function(){
+		var formData = $($(this).next()).serialize();
+		var itjaCountSpan = $(this).children('.itjaCount');
+		itjaClick(formData,itjaCountSpan);
+	});
+	
+	//잇자 클릭 ajax 메서드 통합
+	function itjaClick(formData,itjaCountSpan){
 		$.ajax({
 			type : "POST",
 			url : "auth_itjaClick.neon",
@@ -669,9 +816,32 @@ $(document).ready(function(){ //DOM이 준비되고
 				}else{
 					itjaCountSpan.html('<i class="fa fa-link"></i><br>'+data.itjaTotalCount+'it');
 				}
+				if(data.itjaTotalCount==10){
+					var msg="새 베스트 잇자 타임이 시작되었습니다. 바로 참여 하실래요?<br/><br/>"+
+					"<center><button class='closeToast' "+
+					"onclick='detailItjaView(mainArticleNO"+bestMainArticleNo+");'>Ok</button> "+
+					"<button class='closeToast'>Cancel</button>";
+					$().toasty({
+						autoHide: 2000,
+						message: msg,
+						modal: false
+					});
+				}
+			},
+			beforeSend : function(xmlHttpRequest){
+		           xmlHttpRequest.setRequestHeader("AJAX", "true");
+		
+			},
+			error:function(xhr, textStatus, error){
+				if(xhr.status=="901"){
+					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
+						location.href="loginPage.neon"
+					}
+				}
 			}
 		});
-	});
+	}
+	
 	$('.memberLogin').click(function(){
 		$('#loginModal').modal({
 			//취소버튼으로만 창을 끌 수 있도록 지정
@@ -763,6 +933,17 @@ $(document).ready(function(){ //DOM이 준비되고
 					});
 					
 				});
+			},
+			beforeSend : function(xmlHttpRequest){
+		           xmlHttpRequest.setRequestHeader("AJAX", "true");
+		
+			},
+			error:function(xhr, textStatus, error){
+				if(xhr.status=="901"){
+					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
+						location.href="loginPage.neon"
+					}
+				}
 			}
 		});
 		
@@ -1240,5 +1421,249 @@ $(document).ready(function(){ //DOM이 준비되고
 			}
 		});
 	});
+	
+	/*<!--업데이트 모달창 --!>*/
+	$('.memberUpate').click(function(){
+		$("#memberUpateModal").modal({
+			//취소버튼으로만 창을 끌 수 있도록 지정
+			backdrop: 'static',
+			keyboard: false
+		});
+	});
+
+	$("#memberUpateModal").on('show.bs.modal', function () {
+		//암호 공란 검사 및 암호 길이 검사
+		var userCheckFlag= false;
+		var userPassFlag = false;
+		var userRePassFlag = false;
+		var userNameFlag = false;
+		
+		
+		
+		$("#membercheckpassword").keyup(function () {
+			var checkPassComp = $(this).val();
+			var mailComp=$('#memberJoinupdateEmail').val();
+		
+			if(checkPassComp==""){
+				userCheckFlag = false;
+				$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-error');
+				$('.checkpassInput > .control-label').html('현재비밀번호를 입력해 주세요');
+				$('.checkpassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+			}else if(checkPassComp.length<8 || checkPassComp.length>19){
+				userPassFlag = false;
+				$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-error');
+				$('.checkpassInput > .control-label').html('비밀번호 확인중 입니다');
+				$('.checkpassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+			}else{					
+				$.ajax({
+					type:"post",
+					url:"findByPassword.neon",				
+					data:"mailComp="+mailComp,	
+					success:function(result){
+						if(result.memberPassword!=checkPassComp){
+							userCheckFlag = false;
+							$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-error');
+							$('.checkpassInput > .control-label').html("현재 비밀번호 오류");
+							$('.checkpassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+							  
+						}else{
+							userCheckFlag = true;
+							$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-success');
+							$('.checkpassInput > .control-label').html("확인 되었습니다");	
+							$('.checkpassInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
+							   
+						}//else2			
+					}//success			
+				});//ajax
+			
+			}//else1
+		});
+		
+
+		$("#memberupdateInputName").keyup(function(){
+			var nameComp = $(this).val();
+			
+			if(nameComp==""){
+				userNameFlag = false;
+				$('.nameInput').attr('class','form-group has-feedback nameInput has-error');
+				$('.nameInput > .control-label').html('닉네임을 입력해주세요');
+				$('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+			}else if(nameComp.length<2 || nameComp.length>8){
+				userNameFlag = false;
+				$('.nameInput').attr('class','form-group has-feedback nameInput has-error');
+				$('.nameInput > .control-label').html('닉네임은 1글자 이상 ~7글자 이하로 입력해주세요');
+				$('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+			}else{					
+				$.ajax({
+					type:"post",
+					url:"findMemberByNickName.neon",				
+					data:"nameComp="+nameComp,	
+					success:function(result){
+						if(result==false){
+							 userNameFlag = false;
+							$('.nameInput').attr('class','form-group has-feedback nameInput has-error');
+							$('.nameInput > .control-label').html(nameComp+"사용할수 없는 닉네임 입니다.");
+							$('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+							  
+						}else{
+							 userNameFlag = true;
+							$('.nameInput').attr('class','form-group has-feedback nameInput has-success');
+							$('.nameInput > .control-label').html(nameComp+"사용 가능한 닉네임 입니다");	
+							$('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
+							   
+						}//else2			
+					}//success			
+				});//ajax
+			
+			}//else1
+		
+		});//keyup
+		$("#memberupdatepassword").keyup(function(){
+			var passwordComp = $(this).val();
+			if(passwordComp==""){
+				userPassFlag = false;
+				$('.passInput').attr('class','form-group has-feedback passInput has-error');
+				$('.passInput > .control-label').html('암호를 입력해주세요');
+				$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+			}else if(passwordComp.length<8 || passwordComp.length>19){
+				userPassFlag = false;
+				$('.passInput').attr('class','form-group has-feedback passInput has-error');
+				$('.passInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
+				$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+			}else{
+				userPassFlag = true;
+				$('.passInput').attr('class','form-group has-feedback passInput has-success');
+				$('.passInput > .control-label').html('압호가 입력되었습니다.');
+				$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
+			}
+		});
+		//암호확인 공란 검사 및 암호확인 길이 검사 및 암호와 암호확인 값 비교
+		$("#memberupdateRepassword").keyup(function(){
+			var passComp = $('#memberupdatepassword').val();
+			var rePasswordComp = $(this).val();
+			if(rePasswordComp==""){
+				userRePassFlag = false;
+				$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
+				$('.rePassInput > .control-label').html('암호를 확인해주세요');
+				$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+			}else if(rePasswordComp.length<8 || rePasswordComp.length>19){
+				userRePassFlag = false;
+				$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
+				$('.rePassInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
+				$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+			}else if(passComp!=rePasswordComp){
+				userRePassFlag = false;
+				$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
+				$('.rePassInput > .control-label').html('암호확인이 제대로 이루어지지 않았습니다.');
+				$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+			}else{
+				userRePassFlag = true;
+				$('.rePassInput').attr('class','form-group has-feedback rePassInput has-success');
+				$('.rePassInput > .control-label').html('압호가 입력되었습니다.');
+				$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
+			}
+		});
+		$("#memberUpdateSubmit").click(function(){
+			
+			if(userPassFlag&&userRePassFlag&&userNameFlag){
+			$("#memberUpdate").submit();
+			alert("변경처리되었습니다");
+			}
+	});
+		});
+
+
+
+
+
+	//<!--회원탈퇴모달--!>
+	$('.memberDelete').click(function(){
+		$("#memberDeleteModal").modal({
+			//취소버튼으로만 창을 끌 수 있도록 지정
+			backdrop: 'static',
+			keyboard: false
+		});
+	});
+
+	var userCheckFlag=false;
+	$("#memberDeleteModal").on('show.bs.modal', function () {
+		 
+	 
+	$("#password").keyup(function () {
+		var PassComp = $(this).val();
+		var mailComp=$('#memberDeleteEmail').val();
+
+		if(PassComp==""){
+			userCheckFlag = false;
+			$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-error');
+			$('.checkpassInput > .control-label').html('현재비밀번호를 입력해 주세요');
+			$('.checkpassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+		}else if(PassComp.length<8 || PassComp.length>19){
+			userPassFlag = false;
+			$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-error');
+			$('.checkpassInput > .control-label').html('비밀번호 확인중 입니다');
+			$('.checkpassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+		}else{					
+			$.ajax({
+				type:"post",
+				url:"findByPassword.neon",				
+				data:"mailComp="+mailComp,	
+				success:function(result){
+					if(result.memberPassword!=PassComp){
+						userCheckFlag = false;
+						$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-error');
+						$('.checkpassInput > .control-label').html("현재 비밀번호 오류");
+						$('.checkpassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+						  
+					}else{
+						userCheckFlag = true;
+						$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-success');
+						$('.checkpassInput > .control-label').html("확인 되었습니다");	
+						$('.checkpassInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
+						   
+					}//else2			
+				}//success			
+			});//ajax
+		
+		}//else1
+
+
+	});
+	});
+
+	$("#memberDeleteSubmit").click(function(){		
+		alert(userCheckFlag);
+			if(userCheckFlag==true){
+				alert("회원탈퇴 되었습니다");
+				$("#memberDelete").submit();
+
+			}
+	});
+	
+	//검색 창 드롭다운 메뉴
+    $('.search-panel .dropdown-menu').find('a').click(function(e) {
+		e.preventDefault();
+		var param = $(this).attr("href").replace("#","");
+		var concept = $(this).text();
+		$('.search-panel span#search_concept').text(concept);
+		$('.input-group #search_param').val(param);
+	});
+    
+    // 마이페이지
+    $(".btn-pref .btn").click(function () {
+        $(".btn-pref .btn").removeClass("btn-primary").addClass("btn-default");
+        // $(".tab").addClass("active"); // instead of this do the below 
+        $(this).removeClass("btn-default").addClass("btn-primary");   
+    });
+    
+    //로그인 및 가입 요청창
+    function confirmLogin(){
+    	if(confirm('로그인이 필요합니다. 가입하실래요?')){
+    		redirect:memberLogin;
+    	}else{return;
+    	}
+    }
+
 });//document.ready
 	
+
