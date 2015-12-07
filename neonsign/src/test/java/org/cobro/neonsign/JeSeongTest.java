@@ -15,6 +15,7 @@ import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.MemberVO;
 import org.cobro.neonsign.vo.PickedVO;
 import org.cobro.neonsign.vo.RankingVO;
+import org.cobro.neonsign.vo.TagBoardVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -48,35 +49,43 @@ public class JeSeongTest {
 	
 	@Test
 	public void test(){
-		PickedVO pvo = new PickedVO();
-		String memberEmail = "a@naver.com";
-		int mainArticleNo = 3;
-		pvo.setMainArticleNo(mainArticleNo);
-		pvo.setMemberEmail(memberEmail);
-		System.out.println("넘어오는 찜 정보 : " + pvo);
-		System.out.println("2 : " + memberDAO.selectPickedVO(pvo));
-		
-		
-		/*String updateMsg = memberService.updatePickedVO(pvo);
-		System.out.println(updateMsg);*/
-		/*List<PickedVO> pickList = memberService.getPickListByMemberEmail(pvo.getMemberEmail());
-		System.out.println("2. pickList : " + pickList);*/
-		// memberDAO.pickCount(pvo);
-		/*PickedVO
-		String updateMsg = memberService.updatePickedVO(pvo);
-		// System.out.println(updateMsg);
-		HttpSession session = request.getSession();
-		List<PickedVO> pickList = memberService.getPickListByMemberEmail(pvo.getMemberEmail());
-		// System.out.println("cont pickList : " + pickList);
-		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
-		memberVO.setPickedVOList(pickList);
-		//System.out.println(memberVO);
-		session.setAttribute("memberVO", memberVO);
-		System.out.println(updateMsg);*/ 
-		
-		/*String memberEmail = "a@naver.com";
+		String memberEmail = "d@gmail.com";
 		MemberVO memberVO = new MemberVO();
-		memberVO.setMemberEmail(memberEmail);*/
+		memberVO.setMemberEmail(memberEmail);
+		System.out.println("넘어온 이메일 : " + memberVO);
+		ArrayList<Integer> joinMainArticleNoList = (ArrayList<Integer>) boardDAO.getJoinMainArticleNoByEmail(memberVO);
+		System.out.println("joinMainArticleNoList : " + joinMainArticleNoList);
+		HashSet hs = new HashSet(joinMainArticleNoList);
+		ArrayList<Integer> nonDupJoinMainArticleNoList = new ArrayList<Integer>(hs);
+		System.out.println("nonDupJoinMainArticleNoList : " + nonDupJoinMainArticleNoList);
+		ArrayList<MainArticleVO> joinMainArticleVOList = new ArrayList<MainArticleVO>();
+		for(int i = 0 ; i<nonDupJoinMainArticleNoList.size() ; i++){
+			joinMainArticleVOList.add(boardDAO.getMainArticleByMainArticleNoOrderByDate(nonDupJoinMainArticleNoList.get(i)));
+		}
+		System.out.println("joinMainArticleVOList : " + joinMainArticleVOList);
+		String tagName = "";
+		for(int j = 0 ; j<joinMainArticleVOList.size() ; j++){
+			List<TagBoardVO> tagBoardList = boardDAO.getMainArticleTagList(joinMainArticleVOList.get(j).getMainArticleNo());
+			for(int k = 0 ; k<tagBoardList.size() ; k++){
+				if(k == tagBoardList.size()-1){
+					tagName += "#" + tagBoardList.get(k).getTagName();
+				}else{
+					tagName += "#" +  tagBoardList.get(k).getTagName() + " ";
+				}
+				joinMainArticleVOList.get(j).setTagName(tagName);
+			}
+			tagName = "";
+		}
+		System.out.println("* joinMainArticleVOList : " + joinMainArticleVOList);
+		ArrayList<RankingVO> rankingVOList = new ArrayList<RankingVO>();
+		for(int l = 0 ; l<joinMainArticleVOList.size() ; l++){
+			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(joinMainArticleVOList.get(l).getMemberVO())); 
+			joinMainArticleVOList.get(l).getMemberVO().setRankingVO(rankingVOList.get(l));
+		}
+		System.out.println(joinMainArticleVOList);  
+		
+		
+		
 		// List<MainArticleVO> mainArticleVOList = boardDAO.getJoinMainArticleNoByEmail(memberVO);
 		// System.out.println(memberVO);
 		

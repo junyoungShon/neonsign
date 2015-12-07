@@ -449,7 +449,7 @@ public class BoardServiceImpl implements BoardService{
 			pickedMainArticleVOList.add(boardDAO.getMainArticleByMainArticleNoOrderByDate(pickedMainArticleNoList.get(i)));
 		}
 		String tagName = "";
-		for(int j = 0 ; j<pickedMainArticleNoList.size() ; j++){
+		for(int j = 0 ; j<pickedMainArticleVOList.size() ; j++){
 			List<TagBoardVO> tagBoardList = boardDAO.getMainArticleTagList(pickedMainArticleVOList.get(j).getMainArticleNo());
 			for(int k = 0 ; k<tagBoardList.size() ; k++){
 				if(k == tagBoardList.size()-1){
@@ -497,7 +497,7 @@ public class BoardServiceImpl implements BoardService{
 			writeMainArticleVOList.add(boardDAO.getMainArticleByMainArticleNoOrderByDate(writeMainArticleNoList.get(i)));
 		}
 		String tagName = "";
-		for(int j = 0 ; j<writeMainArticleNoList.size() ; j++){
+		for(int j = 0 ; j<writeMainArticleVOList.size() ; j++){
 			List<TagBoardVO> tagBoardList = boardDAO.getMainArticleTagList(writeMainArticleVOList.get(j).getMainArticleNo());
 			for(int k = 0 ; k<tagBoardList.size() ; k++){
 				if(k == tagBoardList.size()-1){
@@ -529,15 +529,19 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public List<MainArticleVO> getJoinMainArticleByEmailOrderByDate(
 			MemberVO memberVO) {
+		System.out.println("넘어온 이메일 : " + memberVO);
 		ArrayList<Integer> joinMainArticleNoList = (ArrayList<Integer>) boardDAO.getJoinMainArticleNoByEmail(memberVO);
+		System.out.println("joinMainArticleNoList : " + joinMainArticleNoList);
 		HashSet hs = new HashSet(joinMainArticleNoList);
 		ArrayList<Integer> nonDupJoinMainArticleNoList = new ArrayList<Integer>(hs);
+		System.out.println("nonDupJoinMainArticleNoList : " + nonDupJoinMainArticleNoList);
 		ArrayList<MainArticleVO> joinMainArticleVOList = new ArrayList<MainArticleVO>();
 		for(int i = 0 ; i<nonDupJoinMainArticleNoList.size() ; i++){
 			joinMainArticleVOList.add(boardDAO.getMainArticleByMainArticleNoOrderByDate(nonDupJoinMainArticleNoList.get(i)));
 		}
+		System.out.println("joinMainArticleVOList : " + joinMainArticleVOList);
 		String tagName = "";
-		for(int j = 0 ; j<joinMainArticleNoList.size() ; j++){
+		for(int j = 0 ; j<joinMainArticleVOList.size() ; j++){
 			List<TagBoardVO> tagBoardList = boardDAO.getMainArticleTagList(joinMainArticleVOList.get(j).getMainArticleNo());
 			for(int k = 0 ; k<tagBoardList.size() ; k++){
 				if(k == tagBoardList.size()-1){
@@ -549,11 +553,13 @@ public class BoardServiceImpl implements BoardService{
 			}
 			tagName = "";
 		}
+		System.out.println("* joinMainArticleVOList : " + joinMainArticleVOList);
 		ArrayList<RankingVO> rankingVOList = new ArrayList<RankingVO>();
 		for(int l = 0 ; l<joinMainArticleVOList.size() ; l++){
 			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(joinMainArticleVOList.get(l).getMemberVO())); 
 			joinMainArticleVOList.get(l).getMemberVO().setRankingVO(rankingVOList.get(l));
 		}
+		System.out.println("최종 : " + joinMainArticleVOList);
 		return joinMainArticleVOList; 
 	}
 	/**
